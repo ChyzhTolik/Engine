@@ -5,8 +5,8 @@ namespace Engine
     TestPlayer::TestPlayer() : ActionTarget(Configuration::tetris_inputs)
     {
         m_circle.setFillColor(sf::Color::Red);
-        m_circle.setRadius(40.f);
-        m_circle.setOrigin({50.f, 50.f});
+        m_circle.setRadius(10.f);
+        m_circle.setPosition({50.f, 50.f});
     }
     
     TestPlayer::~TestPlayer()

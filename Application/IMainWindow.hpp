@@ -20,4 +20,3 @@ namespace Engine
 		void virtual render() = 0;
 	};
 }
-

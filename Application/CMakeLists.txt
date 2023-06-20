@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 project(Engine)
 
-set (SOURCE_FILES
+set (SOURCES_FILES
     main.cpp
     Test/testing.cpp
     Action/Action.cpp
@@ -13,7 +13,7 @@ set (SOURCE_FILES
     TestPlayer.cpp
 )
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+add_executable(${PROJECT_NAME} ${SOURCES_FILES})
 
 set (INCLUDES ${CMAKE_SOURCE_DIR}/external/include)
 

@@ -4,9 +4,8 @@
 
 #include "IMainWindow.hpp"
 #include "TestPlayer.hpp"
-// #include "Heap.h"
-// #include "Stats.h"
-// #include "ActionTarget.h"
+#include <SFGUI/SFGUI.hpp>
+#include <SFGUI/Desktop.hpp>
 
 namespace Engine
 {
@@ -27,6 +26,7 @@ namespace Engine
         virtual void process_events() override;
         virtual void update(sf::Time delta_time) override;
         virtual void render() override;
+        void init_gui();
 
         std::unique_ptr<sf::RenderWindow> m_window;
 
@@ -37,6 +37,9 @@ namespace Engine
         uint16_t m_width{ 320u }, m_heigth{ 480u };
 
         sf::Sprite m_back;
+        sf::Texture m_texture;
+        sfg::SFGUI _sfgui;
+        sfg::Desktop _sfgDesktop;
 
         std::unique_ptr<TestPlayer> m_player;
     };
