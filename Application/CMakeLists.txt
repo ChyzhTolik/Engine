@@ -7,6 +7,10 @@ project(Engine)
 set (SOURCE_FILES
     main.cpp
     Test/testing.cpp
+    Action/Action.cpp
+    Configuration/Configuration.cpp
+    MainWindow.cpp
+    TestPlayer.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
@@ -28,5 +32,7 @@ if(UNIX)
 endif(UNIX)
 
 target_include_directories(${PROJECT_NAME} PRIVATE Test)
+target_include_directories(${PROJECT_NAME} PRIVATE Action)
+target_include_directories(${PROJECT_NAME} PRIVATE Configuration)
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDES})
 
