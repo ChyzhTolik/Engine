@@ -19,12 +19,12 @@ namespace Engine
         Animation(TexturePtr texture = nullptr);
         ~Animation();
 
-        void setTexture(TexturePtr texture);
-        TexturePtr getTexture() const;
-        Animation& addFrame(const sf::IntRect& rect);
-        Animation& addFramesLine(int number_x,int number_y,int line);
-        Animation& addFramesColumn(int number_x,int number_y,int column);
+        void set_texture(TexturePtr texture);
+        TexturePtr get_texture() const;
+        Animation& add_frame(const sf::IntRect& rect);
+        Animation& add_frames_line(int number_x,int number_y,int line);
+        Animation& add_frames_column(int number_x,int number_y,int column);
         size_t size()const;
-        const sf::IntRect& getRect(size_t index)const;
+        const sf::IntRect& get_rect(size_t index)const;
     };
 } // namespace Engine

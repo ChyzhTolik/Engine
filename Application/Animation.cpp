@@ -10,12 +10,12 @@ namespace Engine
     {
     }
 
-    void Animation::setTexture(TexturePtr texture)
+    void Animation::set_texture(TexturePtr texture)
     {
         m_texture = texture;
     }
 
-    TexturePtr Animation::getTexture() const
+    TexturePtr Animation::get_texture() const
     {
         return m_texture;
     }
@@ -25,13 +25,13 @@ namespace Engine
         return m_frames.size();
     }
 
-    Animation& Animation::addFrame(const sf::IntRect& rect)
+    Animation& Animation::add_frame(const sf::IntRect& rect)
     {
         m_frames.emplace_back(rect);
         return *this;
     }
 
-    Animation& Animation::addFramesLine(int number_x,int number_y,int line)
+    Animation& Animation::add_frames_line(int number_x,int number_y,int line)
     {
         const sf::Vector2u size = m_texture->getSize();
         const float delta_x = size.x / float(number_x);
@@ -39,13 +39,13 @@ namespace Engine
 
         for(int i = 0;i<number_x;++i)
         {
-            addFrame(sf::IntRect(i*delta_x,line*delta_y,delta_x,delta_y));
+            add_frame(sf::IntRect({i*delta_x,line*delta_y},{delta_x,delta_y}));
         }
-        
+
         return *this;
     }
 
-    Animation& Animation::addFramesColumn(int number_x,int number_y,int column)
+    Animation& Animation::add_frames_column(int number_x,int number_y,int column)
     {
         const sf::Vector2u size = m_texture->getSize();
         const float delta_x = size.x / float(number_x);
@@ -53,9 +53,14 @@ namespace Engine
         
         for(int i = 0;i<number_y;++i)
         {
-            addFrame(sf::IntRect(column*delta_x,i*delta_y,delta_x,delta_y));
+            add_frame(sf::IntRect({column*delta_x,i*delta_y},{delta_x,delta_y}));
         }
 
         return *this;
+    }
+
+    const sf::IntRect& Animation::get_rect(size_t index) const
+    {
+        return m_frames.at(index);
     }
 } // namespace Engine

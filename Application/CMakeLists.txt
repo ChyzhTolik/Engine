@@ -11,6 +11,8 @@ set (SOURCES_FILES
     Configuration/Configuration.cpp
     MainWindow.cpp
     TestPlayer.cpp
+    Animation.cpp
+    AnimatedSprite.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})
