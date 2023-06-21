@@ -2,6 +2,8 @@
 
 namespace Engine
 {
+    AnimatedSprite::FuncType AnimatedSprite::defaultFunc = []()->void{};
+
     AnimatedSprite::AnimatedSprite(
             AnimationPtr animation,
             Status status,
@@ -13,7 +15,8 @@ namespace Engine
         m_status(status),
         m_delta(deltaTime),
         m_loop(loop),
-        m_repeat(repeat)
+        m_repeat(repeat),
+        m_current_frame(0)
     {
         set_animation(animation);
     }
@@ -26,6 +29,7 @@ namespace Engine
             m_elapsed = sf::Time::Zero;
             m_current_frame = 0;
             set_frame(0,true);
+            setTexture(*(animation->get_texture()));
         }
     }
 
@@ -105,7 +109,7 @@ namespace Engine
     {
         if (m_status == Status::Playing && m_animation)
         {
-            m_elapsed = deltaTime;
+            m_elapsed += deltaTime;
 
             if (m_elapsed > m_delta)
             {
@@ -138,27 +142,13 @@ namespace Engine
 
     void AnimatedSprite::set_frame(size_t index,bool resetTime)
     {
-        if (m_animation)
+        if(m_animation)
         {
             sf::IntRect rect = m_animation->get_rect(index);
-
-            m_vertices[0].position={0.f,0.f};
-            m_vertices[1].position={0.f,static_cast<float>(rect.height)};
-            m_vertices[1].position={static_cast<float>(rect.width),static_cast<float>(rect.height)};
-            m_vertices[1].position={static_cast<float>(rect.width),0.f};
-
-            float left = static_cast<float>(rect.left);
-            float right = left + static_cast<float>(rect.width);
-            float top = static_cast<float>(rect.top);
-            float bottom = top + static_cast<float>(rect.height);
-
-            m_vertices[0].texCoords =sf::Vector2f(left, top);
-            m_vertices[1].texCoords =sf::Vector2f(left, bottom);
-            m_vertices[2].texCoords =sf::Vector2f(right, bottom);
-            m_vertices[3].texCoords =sf::Vector2f(right, top);
+            setTextureRect(rect);
         }
 
-        if (resetTime)
+        if(resetTime)
         {
             m_elapsed = sf::Time::Zero;
         }
