@@ -3,8 +3,8 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-#include "../Animation.hpp"
-#include "../AnimatedSprite.hpp"
+#include "Animation.hpp"
+#include "AnimatedSprite.hpp"
 #include "ResourceManager.hpp"
 
 namespace Test

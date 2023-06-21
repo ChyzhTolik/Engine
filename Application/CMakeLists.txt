@@ -11,8 +11,9 @@ set (SOURCES_FILES
     Configuration/Configuration.cpp
     MainWindow.cpp
     TestPlayer.cpp
-    Animation.cpp
-    AnimatedSprite.cpp
+    Animations/Animation.cpp
+    Animations/AnimatedSprite.cpp
+    Utility/Window.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})
@@ -36,5 +37,7 @@ endif(UNIX)
 target_include_directories(${PROJECT_NAME} PRIVATE Test)
 target_include_directories(${PROJECT_NAME} PRIVATE Action)
 target_include_directories(${PROJECT_NAME} PRIVATE Configuration)
+target_include_directories(${PROJECT_NAME} PRIVATE Animations)
+target_include_directories(${PROJECT_NAME} PRIVATE Utility)
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDES})
 
