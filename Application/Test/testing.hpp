@@ -4,5 +4,6 @@ namespace Test
 {
     void test();
     int test_sfml();
-    int test_animation();    
+    int test_animation();
+    int test_mushroom();   
 } // namespace Test

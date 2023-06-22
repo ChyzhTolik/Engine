@@ -6,6 +6,7 @@
 #include "Animation.hpp"
 #include "AnimatedSprite.hpp"
 #include "ResourceManager.hpp"
+#include "Game.hpp"
 
 namespace Test
 {
@@ -92,5 +93,11 @@ namespace Test
             window.display();
         }
         return 0;
+    }
+
+    int test_mushroom()
+    {
+        Engine::Game game;
+        game.run();
     }
 } // namespace Test
