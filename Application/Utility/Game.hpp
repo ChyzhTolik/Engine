@@ -15,7 +15,7 @@ namespace Engine
 	    sf::Time m_elapsed;
 
     public:
-        Game();
+        Game(sf::Texture& texture);
         ~Game();
         Window& get_window();
         void run();

@@ -15,6 +15,7 @@ set (SOURCES_FILES
     Animations/AnimatedSprite.cpp
     Utility/Window.cpp
     Utility/Game.cpp
+    Utility/EventManager.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})

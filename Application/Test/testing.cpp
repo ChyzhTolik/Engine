@@ -97,7 +97,9 @@ namespace Test
 
     int test_mushroom()
     {
-        Engine::Game game;
+        sf::Texture texture;
+        texture.loadFromFile("../media/img/Mushroom.png");
+        Engine::Game game(texture);
         game.run();
     }
 } // namespace Test

@@ -2,11 +2,11 @@
 
 namespace Engine
 {
-    Game::Game() : m_window("Engine", {800,600}), m_mushroom(m_mushroom_texture)
+    Game::Game(sf::Texture& texture) : m_window("Engine", {800,600}), m_mushroom(texture)
     {
-        m_mushroom_texture.loadFromFile("../media/img/Mushroom.png");
-        m_mushroom.setTexture(m_mushroom_texture);
-        m_increment = {4,4};
+        // m_mushroom_texture.loadFromFile("../media/img/Mushroom.png");
+        // m_mushroom.setTexture(m_mushroom_texture);
+        m_increment = {400,400};
     }
 
     Game::~Game()
@@ -36,8 +36,8 @@ namespace Engine
         }
 
         m_mushroom.setPosition(
-            {m_mushroom.getPosition().x + m_increment.x,
-            m_mushroom.getPosition().y + m_increment.y}
+            {m_mushroom.getPosition().x + m_increment.x*m_elapsed.asSeconds(),
+            m_mushroom.getPosition().y + m_increment.y*m_elapsed.asSeconds()}
         );
     }
 
@@ -55,7 +55,15 @@ namespace Engine
 
     void Game::RestartClock()
     { 
-        m_elapsed = m_clock.restart();
+        m_elapsed += m_clock.restart();
+
+        float frametime = 1.0f / 60.0f;
+        if(m_elapsed.asSeconds() >= frametime)
+        {
+            // Do something 60 times a second.
+            
+            m_elapsed -= sf::seconds(frametime); // Subtracting.
+        }
     }    
 
     Window& Game::get_window()
