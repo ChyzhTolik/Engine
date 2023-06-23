@@ -31,7 +31,7 @@ namespace Engine
         return *this;
     }
 
-    Animation& Animation::add_frames_line(int number_x,int number_y,int line)
+    Animation& Animation::add_frames_line(int number_x,int number_y,int line_num)
     {
         const sf::Vector2u size = m_texture->getSize();
         const int delta_x = size.x / number_x;
@@ -39,7 +39,7 @@ namespace Engine
 
         for(int i = 0;i<number_x;++i)
         {
-            add_frame(sf::IntRect({i*delta_x,line*delta_y},
+            add_frame(sf::IntRect({i*delta_x,line_num*delta_y},
                 {delta_x,delta_y}));
         }
 
