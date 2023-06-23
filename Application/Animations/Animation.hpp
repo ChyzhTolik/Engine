@@ -26,6 +26,7 @@ namespace Engine
         // Divide a texture on number_x lines and number_y columns and add frames from the line_num line
         Animation& add_frames_line(int number_x,int number_y,int line_num);
         Animation& add_frames_column(int number_x,int number_y,int column);
+        
         size_t size()const;
         const sf::IntRect& get_rect(size_t index)const;
     };

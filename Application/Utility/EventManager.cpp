@@ -187,6 +187,7 @@ namespace Engine
         }
 
         std::string line;
+        
         while (std::getline(bindings, line))
         {
             std::stringstream keystream(line);

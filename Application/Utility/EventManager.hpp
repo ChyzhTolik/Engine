@@ -87,7 +87,7 @@ namespace Engine
 
         void LoadBindings();
     public:
-        EventManager(/* args */);
+        EventManager();
         ~EventManager();
         bool AddBinding(Binding *l_binding);
         bool RemoveBinding(std::string l_name);
