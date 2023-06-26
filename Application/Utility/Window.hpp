@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <string_view>
+#include "EventManager.hpp"
 
 namespace Engine
 {
@@ -19,6 +20,11 @@ namespace Engine
         sf::Vector2u GetWindowSize();
         void ToggleFullscreen();
         void Draw(sf::Drawable& l_drawable);
+        bool IsFocused();
+        EventManager* GetEventManager();
+        void ToggleFullscreen(EventDetails* l_details);
+        void Close(EventDetails* l_details = nullptr);
+        sf::RenderWindow* GetRenderWindow();
 
     private:
         void Setup(std::string_view l_title, const sf::Vector2u& l_size);
@@ -29,5 +35,7 @@ namespace Engine
         std::string m_windowTitle;
         bool m_isDone;
         bool m_isFullscreen;
+        EventManager m_eventManager;
+        bool m_isFocused;
     };    
 } // namespace Engine

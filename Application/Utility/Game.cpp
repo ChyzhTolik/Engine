@@ -1,12 +1,19 @@
 #include "Game.hpp"
+#include <iostream>
 
 namespace Engine
 {
-    Game::Game(sf::Texture& texture) : m_window("Engine", {800,600}), m_mushroom(texture)
+    Game::Game(sf::Texture& texture) : m_window("Engine", {800,600}), m_mushroom(texture), m_sprite(texture), m_texture(texture)
     {
         // m_mushroom_texture.loadFromFile("../media/img/Mushroom.png");
         // m_mushroom.setTexture(m_mushroom_texture);
-        m_increment = {400,400};
+        m_clock.restart();
+        srand(time(nullptr));
+
+        m_sprite.setOrigin({m_texture.getSize().x / 2, m_texture.getSize().y / 2});
+        m_sprite.setPosition({0,0});
+
+        m_window.GetEventManager()->AddCallback("Move",&Game::MoveSprite,this);
     }
 
     Game::~Game()
@@ -84,5 +91,12 @@ namespace Engine
     void Game::handle_input()
     {
 
+    }
+
+    void Game::MoveSprite(EventDetails* l_details)
+    {
+        sf::Vector2i mousepos = m_window.GetEventManager()->GetMousePos(m_window.GetRenderWindow());
+        m_sprite.setPosition({mousepos.x, mousepos.y});
+        std::cout << "Moving sprite to: " << mousepos.x << ":" << mousepos.y << std::endl;
     }
 } // namespace Engine

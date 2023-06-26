@@ -13,6 +13,8 @@ namespace Engine
         sf::Vector2i m_increment;
         sf::Clock m_clock;
 	    sf::Time m_elapsed;
+        sf::Sprite m_sprite;
+        sf::Texture m_texture;
 
     public:
         Game(sf::Texture& texture);
@@ -21,6 +23,7 @@ namespace Engine
         void run();
         sf::Time GetElapsed();
 	    void RestartClock();
+        void MoveSprite(EventDetails* l_details);
 
     private:
         void handle_input();

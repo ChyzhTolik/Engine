@@ -22,7 +22,10 @@ namespace Engine
     bool EventManager::AddBinding(Binding *l_binding)
     {
         if (m_bindings.find(l_binding->m_name) != m_bindings.end())
-        return false;
+        {
+            return false;
+        }
+        
         return m_bindings.emplace(l_binding->m_name,l_binding).second;
     }
 
@@ -177,53 +180,50 @@ namespace Engine
     void EventManager::LoadBindings()
     {
         std::string delimiter = ":";
+
         std::ifstream bindings;
         bindings.open("keys.cfg");
 
         if (!bindings.is_open())
-        {
-            std::cout << "! Failed loading keys.cfg." << std::endl;
-            return;
+        { 
+            std::cout << "! Failed loading keys.cfg." << std::endl; return; 
         }
 
         std::string line;
-        
         while (std::getline(bindings, line))
         {
             std::stringstream keystream(line);
             std::string callbackName;
             keystream >> callbackName;
             Binding* bind = new Binding(callbackName);
-
             while (!keystream.eof())
             {
                 std::string keyval;
                 keystream >> keyval;
-                int start = 0;
-                int end = keyval.find(delimiter);
-
-                if (end == std::string::npos)
-                {
-                    delete bind;
-                    bind = nullptr;
+                if(keystream.fail()) {
+                    keystream.clear();
                     break;
                 }
-
+                int start = 0;
+                int end = keyval.find(delimiter);
+                if (end == std::string::npos){ delete bind; bind = nullptr; break; }
                 EventType type = EventType(stoi(keyval.substr(start, end - start)));
                 int code = stoi(keyval.substr(end + delimiter.length(),
-                keyval.find(delimiter, end + delimiter.length())));
+                    keyval.find(delimiter, end + delimiter.length())));
                 EventInfo eventInfo;
                 eventInfo.m_code = code;
+
                 bind->BindEvent(type, eventInfo);
             }
 
-            if (!AddBinding(bind))
-            { 
-                delete bind; 
-            }
-
+            if (!AddBinding(bind)){ delete bind; }
             bind = nullptr;
         }
         bindings.close();
+    }
+
+    void EventManager::SetFocus(const bool& l_focus)
+    {
+        m_hasFocus = l_focus;
     }
 } // namespace Engine
