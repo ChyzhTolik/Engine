@@ -108,12 +108,12 @@ namespace Engine
         m_window.draw(l_drawable);
     }
 
-    void Window::Close(EventDetails* l_details)
+    void Window::Close(EventDetails& l_details)
     {
         m_isDone = true;
     }
 
-    void Window::ToggleFullscreen(EventDetails* l_details)
+    void Window::ToggleFullscreen(EventDetails& l_details)
     {
         m_isFullscreen = !m_isFullscreen;
         m_window.close();

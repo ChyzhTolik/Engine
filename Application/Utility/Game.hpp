@@ -23,7 +23,7 @@ namespace Engine
         void run();
         sf::Time GetElapsed();
 	    void RestartClock();
-        void MoveSprite(EventDetails* l_details);
+        void MoveSprite(EventDetails& l_details);
 
     private:
         void handle_input();

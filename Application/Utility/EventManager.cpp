@@ -12,21 +12,16 @@ namespace Engine
 
     EventManager::~EventManager()
     {
-        for (auto &itr : m_bindings)
-        {
-            delete itr.second;
-            itr.second = nullptr;
-        }
     }
 
-    bool EventManager::AddBinding(Binding *l_binding)
+    bool EventManager::AddBinding(std::unique_ptr<Binding> l_binding)
     {
         if (m_bindings.find(l_binding->m_name) != m_bindings.end())
         {
             return false;
         }
         
-        return m_bindings.emplace(l_binding->m_name,l_binding).second;
+        return m_bindings.emplace(l_binding->m_name,std::move(l_binding)).second;
     }
 
     bool EventManager::RemoveBinding(std::string l_name)
@@ -38,7 +33,6 @@ namespace Engine
             return false;
         }
 
-        delete itr->second;
         m_bindings.erase(itr);
         return true;
     }
@@ -48,11 +42,11 @@ namespace Engine
         // Handling SFML events.
         for (auto &b_itr : m_bindings)
         {
-            Binding* bind = b_itr.second;
+            auto& bind = b_itr.second;
 
             for (auto &e_itr : bind->m_events)
             {
-                EventType sfmlEvent = (EventType)l_event.type;
+                EventType sfmlEvent = static_cast<EventType>(l_event.type);
 
                 if (e_itr.first != sfmlEvent)
                 { 
@@ -124,7 +118,7 @@ namespace Engine
 
         for (auto &b_itr : m_bindings)
         {
-            Binding* bind = b_itr.second;
+            auto& bind = b_itr.second;
 
             for (auto &e_itr : bind->m_events)
             {
@@ -168,7 +162,7 @@ namespace Engine
 
                 if(callItr != m_callbacks.end())
                 {
-                    callItr->second(&bind->m_details);
+                    callItr->second(bind->m_details);
                 }
             }
 
@@ -195,7 +189,8 @@ namespace Engine
             std::stringstream keystream(line);
             std::string callbackName;
             keystream >> callbackName;
-            Binding* bind = new Binding(callbackName);
+            std::unique_ptr<Binding> bind = std::make_unique<Binding>(callbackName);
+
             while (!keystream.eof())
             {
                 std::string keyval;
@@ -206,7 +201,12 @@ namespace Engine
                 }
                 int start = 0;
                 int end = keyval.find(delimiter);
-                if (end == std::string::npos){ delete bind; bind = nullptr; break; }
+
+                if (end == std::string::npos)
+                { 
+                    break; 
+                }
+
                 EventType type = EventType(stoi(keyval.substr(start, end - start)));
                 int code = stoi(keyval.substr(end + delimiter.length(),
                     keyval.find(delimiter, end + delimiter.length())));
@@ -216,8 +216,7 @@ namespace Engine
                 bind->BindEvent(type, eventInfo);
             }
 
-            if (!AddBinding(bind)){ delete bind; }
-            bind = nullptr;
+            AddBinding(std::move(bind));
         }
         bindings.close();
     }

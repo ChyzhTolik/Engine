@@ -10,7 +10,7 @@ namespace Engine
         m_clock.restart();
         srand(time(nullptr));
 
-        m_sprite.setOrigin({m_texture.getSize().x / 2, m_texture.getSize().y / 2});
+        m_sprite.setOrigin({static_cast<float>(m_texture.getSize().x / 2), static_cast<float>(m_texture.getSize().y / 2)});
         m_sprite.setPosition({0,0});
 
         m_window.GetEventManager()->AddCallback("Move",&Game::MoveSprite,this);
@@ -24,7 +24,7 @@ namespace Engine
     void Game::update()
     {
         m_window.Update();
-        move_mushroom();
+        // move_mushroom();
     }
 
     void Game::move_mushroom()
@@ -51,7 +51,7 @@ namespace Engine
     void Game::render()
     {
         m_window.BeginDraw();
-        m_window.Draw(m_mushroom);
+        m_window.Draw(m_sprite);
         m_window.EndDraw();
     }
 
@@ -93,10 +93,10 @@ namespace Engine
 
     }
 
-    void Game::MoveSprite(EventDetails* l_details)
+    void Game::MoveSprite(EventDetails& l_details)
     {
         sf::Vector2i mousepos = m_window.GetEventManager()->GetMousePos(m_window.GetRenderWindow());
-        m_sprite.setPosition({mousepos.x, mousepos.y});
+        m_sprite.setPosition({static_cast<float>(mousepos.x), static_cast<float>(mousepos.y)});
         std::cout << "Moving sprite to: " << mousepos.x << ":" << mousepos.y << std::endl;
     }
 } // namespace Engine

@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <functional>
+#include <memory>
 
 namespace Engine
 {
@@ -74,9 +75,9 @@ namespace Engine
         EventDetails m_details;
     };
 
-    using Bindings = std::unordered_map<std::string, Binding*>;
+    using Bindings = std::unordered_map<std::string, std::unique_ptr<Binding>>;
 
-    using Callbacks = std::unordered_map<std::string,std::function<void(EventDetails*)>>;
+    using Callbacks = std::unordered_map<std::string,std::function<void(EventDetails&)>>;
 
     class EventManager
     {
@@ -89,13 +90,13 @@ namespace Engine
     public:
         EventManager();
         ~EventManager();
-        bool AddBinding(Binding *l_binding);
+        bool AddBinding(std::unique_ptr<Binding> l_binding);
         bool RemoveBinding(std::string l_name);
 
         void SetFocus(const bool& l_focus);
         // Needs to be defined in the header!
         template<class T>
-        bool AddCallback(const std::string& l_name, void(T::*l_func)(EventDetails*), T* l_instance);
+        bool AddCallback(const std::string& l_name, void(T::*l_func)(EventDetails&), T* l_instance);
 
         void RemoveCallback(const std::string& l_name)
         {
@@ -112,7 +113,7 @@ namespace Engine
     };
 
     template<class T>
-    bool EventManager::AddCallback(const std::string& l_name, void(T::*l_func)(EventDetails*), T* l_instance)
+    bool EventManager::AddCallback(const std::string& l_name, void(T::*l_func)(EventDetails&), T* l_instance)
     {
         auto temp = std::bind(l_func,l_instance, std::placeholders::_1);
         return m_callbacks.emplace(l_name, temp).second;

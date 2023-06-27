@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <filesystem>
 #include <SFML/Graphics.hpp>
 
 #include "Animation.hpp"
@@ -138,7 +139,9 @@ namespace Test
 		//load of the texture image
 		Engine::ResourceManager<sf::Texture, int> textures;
 		Engine::TexturePtr texture = std::make_shared<sf::Texture>();
-		if (!texture->loadFromFile("media/img/biomenace_complete.gif"))
+		std::string exec_dir = std::filesystem::current_path().string();
+        std::string config_path = exec_dir + "/media/img/biomenace_complete.gif";
+		if (!texture->loadFromFile(config_path))
 		{
 			return -1;
 		}
