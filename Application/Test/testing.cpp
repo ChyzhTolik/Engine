@@ -205,7 +205,10 @@ namespace Test
 	int test_mushroom()
 	{
 		sf::Texture texture;
-		texture.loadFromFile("media/img/Mushroom.png");
+		if (!texture.loadFromFile("/home/achyzh/TestProjects/Engine/Application/media/img/Mushroom.png"))
+		{
+			return -1;
+		}
 		Engine::Game game(texture);
 		game.run();
 

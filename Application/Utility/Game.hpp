@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Window.hpp"
+#include "ActionFunctinoid.hpp"
 
 namespace Engine
 {
@@ -26,6 +27,18 @@ namespace Engine
         void MoveSprite(EventDetails& l_details);
 
     private:
+        class Move : public ActionFunctinoid
+        {
+        public:
+            Move(Window& l_window, sf::Sprite& l_sprite);
+            virtual void execute() override;
+        private:
+            Window& m_window;
+            sf::Sprite& m_sprite;
+        };
+
+        std::unique_ptr<ActionFunctinoid> m_move_action;
+
         void handle_input();
         void update();
         void render();

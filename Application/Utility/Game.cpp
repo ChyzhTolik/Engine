@@ -13,7 +13,9 @@ namespace Engine
         m_sprite.setOrigin({static_cast<float>(m_texture.getSize().x / 2), static_cast<float>(m_texture.getSize().y / 2)});
         m_sprite.setPosition({0,0});
 
+        // m_move_action = std::make_unique<Move>(m_window, m_sprite);
         m_window.GetEventManager()->AddCallback("Move",&Game::MoveSprite,this);
+        // m_window.GetEventManager()->add_action_functinoid("Move",m_move_action);
     }
 
     Game::~Game()
@@ -98,5 +100,17 @@ namespace Engine
         sf::Vector2i mousepos = m_window.GetEventManager()->GetMousePos(m_window.GetRenderWindow());
         m_sprite.setPosition({static_cast<float>(mousepos.x), static_cast<float>(mousepos.y)});
         std::cout << "Moving sprite to: " << mousepos.x << ":" << mousepos.y << std::endl;
+    }
+
+    void Game::Move::execute()
+    {
+        sf::Vector2i mousepos = m_window.GetEventManager()->GetMousePos(m_window.GetRenderWindow());
+        m_sprite.setPosition({static_cast<float>(mousepos.x), static_cast<float>(mousepos.y)});
+        std::cout << "Moving sprite to: " << mousepos.x << ":" << mousepos.y << std::endl;
+    }
+    
+    Game::Move::Move(Window& l_window, sf::Sprite& l_sprite) : m_window(l_window), m_sprite(l_sprite)
+    {
+
     }
 } // namespace Engine

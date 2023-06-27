@@ -5,6 +5,8 @@
 #include <functional>
 #include <memory>
 
+#include "ActionFunctinoid.hpp"
+
 namespace Engine
 {
     enum class EventType
@@ -79,11 +81,14 @@ namespace Engine
 
     using Callbacks = std::unordered_map<std::string,std::function<void(EventDetails&)>>;
 
+    using ActionFunctinoids = std::unordered_map<std::string, std::unique_ptr<ActionFunctinoid>>;
+
     class EventManager
     {
     private:
         Bindings m_bindings;
         Callbacks m_callbacks;
+        ActionFunctinoids m_action_functinoids;
         bool m_hasFocus;
 
         void LoadBindings();
@@ -97,6 +102,7 @@ namespace Engine
         // Needs to be defined in the header!
         template<class T>
         bool AddCallback(const std::string& l_name, void(T::*l_func)(EventDetails&), T* l_instance);
+        void add_action_functinoid(std::string_view l_name, std::unique_ptr<ActionFunctinoid>& l_action);
 
         void RemoveCallback(const std::string& l_name)
         {

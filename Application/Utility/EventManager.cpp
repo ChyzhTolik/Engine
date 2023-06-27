@@ -164,6 +164,13 @@ namespace Engine
                 {
                     callItr->second(bind->m_details);
                 }
+
+                // auto action = m_action_functinoids.find(bind->m_name);
+
+                // if(action != m_action_functinoids.end())
+                // {
+                //     action->second->execute();
+                // }
             }
 
             bind->c = 0;
@@ -176,7 +183,7 @@ namespace Engine
         std::string delimiter = ":";
 
         std::ifstream bindings;
-        bindings.open("keys.cfg");
+        bindings.open("/home/achyzh/TestProjects/Engine/Application/Utility/keys.cfg");
 
         if (!bindings.is_open())
         { 
@@ -224,5 +231,10 @@ namespace Engine
     void EventManager::SetFocus(const bool& l_focus)
     {
         m_hasFocus = l_focus;
+    }
+
+    void EventManager::add_action_functinoid(std::string_view l_name, std::unique_ptr<ActionFunctinoid>& l_action)
+    {
+        m_action_functinoids.emplace(l_name,std::move(l_action));
     }
 } // namespace Engine
