@@ -135,12 +135,11 @@ namespace Test
 	int test_biomenace()
 	{
 		//Creation of the window
-		sf::RenderWindow window(sf::VideoMode({ 600,800 }), "Example animation");
+		sf::RenderWindow window(sf::VideoMode({ 400,600 }), "Example animation");
 		//load of the texture image
 		Engine::ResourceManager<sf::Texture, int> textures;
 		Engine::TexturePtr texture = std::make_shared<sf::Texture>();
-		std::string exec_dir = std::filesystem::current_path().string();
-        std::string config_path = exec_dir + "/media/img/biomenace_complete.gif";
+        std::string config_path = "/home/achyzh/TestProjects/Engine/Application/media/img/biomenace_complete.gif";
 		if (!texture->loadFromFile(config_path))
 		{
 			return -1;

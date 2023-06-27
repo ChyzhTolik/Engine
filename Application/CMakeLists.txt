@@ -16,6 +16,7 @@ set (SOURCES_FILES
     Utility/Window.cpp
     Utility/Game.cpp
     Utility/EventManager.cpp
+    Utility/StateManager.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})

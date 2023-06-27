@@ -116,6 +116,8 @@ namespace Engine
         {
             return (l_wind ? sf::Mouse::getPosition(*l_wind): sf::Mouse::getPosition());
         }
+
+        void SetCurrentState();
     };
 
     template<class T>
