@@ -35,6 +35,37 @@ if(UNIX)
         ${UNIX_LIBS}/libbox2d.so.2.4.1
     )
 endif(UNIX)
+    
+if(WIN32)
+    set(WINDOWS_LIBS ${CMAKE_SOURCE_DIR}/external/Windows)
+    target_link_libraries(${PROJECT_NAME} 
+        ${WINDOWS_LIBS}/sfml-audio-d.lib
+        ${WINDOWS_LIBS}/sfml-window-d.lib
+        ${WINDOWS_LIBS}/sfml-system-d.lib
+        ${WINDOWS_LIBS}/sfml-graphics-d.lib
+
+        ${WINDOWS_LIBS}/SFGUI-d.lib
+
+        ${WINDOWS_LIBS}/box2d.lib
+    )
+
+    add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+            ${WINDOWS_LIBS}/sfml-audio-d-3.dll
+            ${WINDOWS_LIBS}/sfml-graphics-d-3.dll
+            ${WINDOWS_LIBS}/sfml-network-d-3.dll
+            ${WINDOWS_LIBS}/sfml-system-d-3.dll
+            ${WINDOWS_LIBS}/sfml-window-d-3.dll
+            ${WINDOWS_LIBS}/openal32.dll
+
+            ${WINDOWS_LIBS}/box2d.dll
+
+            ${WINDOWS_LIBS}/SFGUI-d.dll
+
+            ${CMAKE_BINARY_DIR}/Application
+    )
+endif(WIN32)
 
 target_include_directories(${PROJECT_NAME} PRIVATE Test)
 target_include_directories(${PROJECT_NAME} PRIVATE Action)
@@ -43,3 +74,4 @@ target_include_directories(${PROJECT_NAME} PRIVATE Animations)
 target_include_directories(${PROJECT_NAME} PRIVATE Utility)
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDES})
 
+file(COPY ${CMAKE_SOURCE_DIR}/Application/media DESTINATION ${CMAKE_BINARY_DIR}/Application/)
