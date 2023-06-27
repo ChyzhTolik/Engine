@@ -6,10 +6,11 @@
 
 int main()
 {
-    // Engine::Configuration::Initialize();
+	/*Engine::Configuration::Initialize();
 
-    // Engine::MainWindow window;
-    // window.run(60);
-    // Test::test_animation();
-    Test::test_mushroom();
+	Engine::MainWindow window;
+	window.run(60);*/
+	//Test::test_animation();
+	//Test::test_biomenace();
+	Test::test_mushroom();
 }

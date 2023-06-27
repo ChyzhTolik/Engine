@@ -2,7 +2,7 @@
 
 namespace Engine
 {
-    Animation::Animation(std::shared_ptr<sf::Texture> texture) : m_texture(texture)
+    Animation::Animation(TexturePtr texture) : m_texture(texture)
     {
     }
 
