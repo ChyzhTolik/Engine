@@ -13,9 +13,9 @@ namespace Engine
         m_sprite.setOrigin({static_cast<float>(m_texture.getSize().x / 2), static_cast<float>(m_texture.getSize().y / 2)});
         m_sprite.setPosition({0,0});
 
-        // m_move_action = std::make_unique<Move>(m_window, m_sprite);
+        m_move_action = std::make_unique<Move>(m_window, m_sprite);
         m_window.GetEventManager()->AddCallback("Move",&Game::MoveSprite,this);
-        // m_window.GetEventManager()->add_action_functinoid("Move",m_move_action);
+        m_window.GetEventManager()->add_action_functinoid("Move",m_move_action);
     }
 
     Game::~Game()

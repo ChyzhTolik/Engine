@@ -158,19 +158,19 @@ namespace Engine
 
             if (bind->m_events.size() == bind->c)
             {
-                auto callItr = m_callbacks.find(bind->m_name);
+                // auto callItr = m_callbacks.find(bind->m_name);
 
-                if(callItr != m_callbacks.end())
-                {
-                    callItr->second(bind->m_details);
-                }
-
-                // auto action = m_action_functinoids.find(bind->m_name);
-
-                // if(action != m_action_functinoids.end())
+                // if(callItr != m_callbacks.end())
                 // {
-                //     action->second->execute();
+                //     callItr->second(bind->m_details);
                 // }
+
+                auto action = m_action_functinoids.find(bind->m_name);
+
+                if(action != m_action_functinoids.end())
+                {
+                    action->second->execute();
+                }
             }
 
             bind->c = 0;
@@ -183,7 +183,7 @@ namespace Engine
         std::string delimiter = ":";
 
         std::ifstream bindings;
-        bindings.open("/home/achyzh/TestProjects/Engine/Application/Utility/keys.cfg");
+        bindings.open("/home/achyzh/TestProjects/Engine/Application/keys.cfg");
 
         if (!bindings.is_open())
         { 
