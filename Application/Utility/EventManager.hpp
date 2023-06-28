@@ -79,9 +79,13 @@ namespace Engine
 
     using Bindings = std::unordered_map<std::string, std::unique_ptr<Binding>>;
 
-    using Callbacks = std::unordered_map<std::string,std::function<void(EventDetails&)>>;
+    //using Callbacks = std::unordered_map<std::string,std::function<void(EventDetails&)>>;
 
     using ActionFunctinoids = std::unordered_map<std::string, std::unique_ptr<ActionFunctinoid>>;
+
+    enum class StateType;
+    using CallbackContainer = std::unordered_map<std::string, std::function<void(EventDetails&)>>;
+    using Callbacks = std::unordered_map<StateType, CallbackContainer>;
 
     class EventManager
     {
