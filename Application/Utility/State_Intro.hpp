@@ -23,7 +23,7 @@ namespace Engine
         };
     public:
         State_Intro(StateManager& l_stateManager, const sf::Texture& l_texture, const sf::Font& font);
-        ~State_Intro();
+        virtual ~State_Intro(){};
         virtual void OnCreate() override;
         virtual void OnDestroy() override;
 

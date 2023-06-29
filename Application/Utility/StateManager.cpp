@@ -10,7 +10,7 @@ namespace Engine
 	{
 		sf::Texture text_texture;
 		sf::Font font;
-		RegisterState<State_Intro>(StateType::Intro, text_texture);
+		RegisterState<State_Intro>(StateType::Intro, text_texture, font);
 		// RegisterState<State_MainMenu>(StateType::MainMenu);
 		// RegisterState<State_Game>(StateType::Game);
 		// RegisterState<State_Paused>(StateType::Paused);

@@ -18,6 +18,14 @@ namespace Engine
         Credits
     };
 
+    class StateCreator
+    {
+    public:
+        StateCreator() = default;
+        virtual ~StateCreator(){};
+        virtual std::shared_ptr<BaseState> create(StateManager& state_manager) = 0;
+    };
+
     using StateContainer = std::vector<std::pair<StateType, std::shared_ptr<BaseState>&>>;
     using TypeContainer = std::vector<StateType>;
 
@@ -41,8 +49,8 @@ namespace Engine
         void CreateState(const StateType& l_type);
         void RemoveState(const StateType& l_type);
 
-        template<typename T>
-        void RegisterState(const StateType& l_type, const sf::Texture& l_texture);
+        template<typename T, typename ...Args>
+        std::shared_ptr<BaseState> RegisterState(const StateType& l_type, Args&& ... args);
         // Members.
         SharedContext& m_shared;
         StateContainer m_states;
@@ -50,13 +58,46 @@ namespace Engine
         StateFactory m_stateFactory;
     };
 
-    template<typename T>
-    void StateManager::RegisterState(const StateType& l_type, const sf::Texture& l_texture)
+    // template <typename ...Args>
+    // void use(Args... args)
+    // {
+    //     f(std::forward<Args>(args)...);
+    // }
+
+    // template <typename ... Args>
+    // auto f(Args&& ... args)
+    // {
+    //     return [... args = std::forward<Args>(args)]{
+    //         // use args
+    //     };
+    // }
+
+    // template <typename ... Args>
+    // auto f(Args&& ... args){
+    //     return [args = std::make_tuple(std::forward<Args>(args) ...)]()mutable{
+    //         return std::apply([](auto&& ... args){
+    //             // use args
+    //         }, std::move(args));
+    //     };
+    // }
+
+    // template <typename... Args>
+    // auto f(Args&&... args){
+
+    //     auto functional = [](auto&&... args) { /* lambda body */ };
+    //     return std::bind(std::move(functional), std::forward<Args>(args)...);
+    // }
+
+
+    template<typename T, typename ...Args>
+    std::shared_ptr<BaseState> StateManager::RegisterState(const StateType& l_type, Args&& ... args)
     {
-        m_stateFactory[l_type] = [this, &l_texture]() -> std::shared_ptr<BaseState>
-        {
-            return std::make_shared<T>(*this, l_texture);
-        };
+        // m_stateFactory[l_type] = [this, args = std::make_tuple(std::forward<Args>(args) ...)]() -> std::shared_ptr<BaseState>
+        // {
+        //     return std::make_shared<T>(*this, std::forward<Args>(args)...);
+        // };
+        return std::make_shared<T>(*this, std::forward<Args>(args)...);
+
     }
     
 } // namespace Engine

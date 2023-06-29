@@ -5,6 +5,7 @@ namespace Engine
     class ActionFunctinoid
     {
     public:
+        virtual ~ActionFunctinoid(){}
         virtual void execute() = 0;
     };
     
