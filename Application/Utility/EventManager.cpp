@@ -165,11 +165,27 @@ namespace Engine
                 //     callItr->second(bind->m_details);
                 // }
 
-                auto action = m_action_functinoids.find(bind->m_name);
+                auto state_action = m_actions.find(m_current_state);
+                auto other_actions = m_actions.find(StateType(0));
 
-                if(action != m_action_functinoids.end())
+                if (state_action != m_actions.end())
                 {
-                    action->second->execute();
+                    auto callItr = state_action->second.find(bind->m_name);
+
+                    if (callItr != state_action->second.end())
+                    {
+                        callItr->second->execute();
+                    }
+                }
+
+                if (other_actions != m_actions.end())
+                {
+                    auto callItr = other_actions->second.find(bind->m_name);
+
+                    if (callItr != other_actions->second.end())
+                    {
+                        callItr->second->execute();
+                    }
                 }
             }
 
@@ -233,8 +249,32 @@ namespace Engine
         m_hasFocus = l_focus;
     }
 
-    void EventManager::add_action_functinoid(std::string_view l_name, std::unique_ptr<ActionFunctinoid>& l_action)
+    void EventManager::add_action(StateType l_state, std::string_view l_name, std::unique_ptr<ActionFunctinoid>&& l_action)
     {
-        m_action_functinoids.emplace(l_name,std::move(l_action));
+        auto iter = m_actions.emplace(l_state,ActionContainer()).first;
+        iter->second.emplace(l_name, std::move(l_action));
+        
+        // m_actions.emplace(l_name,std::move(l_action));
+    }
+
+    bool EventManager::remove_action(StateType l_state, std::string_view l_name)
+    {
+        auto state_itr = m_actions.find(l_state);
+
+        if (state_itr == m_actions.end())
+        {
+            return false;
+        }
+
+        auto action_itr = state_itr->second.find(std::string(l_name));
+
+        if (action_itr == state_itr->second.end())
+        {
+            return false;
+        }
+        
+        state_itr->second.erase(std::string(l_name));
+
+        return true;
     }
 } // namespace Engine

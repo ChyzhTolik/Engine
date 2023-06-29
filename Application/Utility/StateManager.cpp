@@ -141,7 +141,6 @@ namespace Engine
 			{
 				m_states.back().second->Deactivate();
 
-
 				StateType tmp_type = itr->first;
 				auto tmp_state = std::move(itr->second);
 				m_states.erase(itr);
@@ -170,9 +169,10 @@ namespace Engine
 			return;
 		}
 
-		auto& state = newState->second();
+		auto state = newState->second();
 		m_states.emplace_back(l_type, state);
-		state->OnCreate();
+        sf::Texture test_texture;
+		state->OnCreate(test_texture);
 	}
 
 	void StateManager::RemoveState(const StateType& l_type)

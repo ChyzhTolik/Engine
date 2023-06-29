@@ -12,7 +12,7 @@ namespace Engine
             m_transparent(false), m_transcendent(false){}
         virtual ~BaseState(){}
 
-        virtual void OnCreate() = 0;
+        virtual void OnCreate(const sf::Texture& l_texture) = 0;
         virtual void OnDestroy() = 0;
 
         virtual void Activate() = 0;

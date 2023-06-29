@@ -1,9 +1,11 @@
 #include "Game.hpp"
+#include "StateManager.hpp"
 #include <iostream>
 
 namespace Engine
 {
-    Game::Game(sf::Texture& texture) : m_window("Engine", {800,600}), m_mushroom(texture), m_sprite(texture), m_texture(texture)
+    Game::Game(sf::Texture& texture) : m_window("Engine", {800,600}), m_mushroom(texture), m_sprite(texture), m_texture(texture),
+        m_context(m_window, m_window.GetEventManager()), m_state_manager(m_context)
     {
         // m_mushroom_texture.loadFromFile("../media/img/Mushroom.png");
         // m_mushroom.setTexture(m_mushroom_texture);
@@ -12,10 +14,10 @@ namespace Engine
 
         m_sprite.setOrigin({static_cast<float>(m_texture.getSize().x / 2), static_cast<float>(m_texture.getSize().y / 2)});
         m_sprite.setPosition({0,0});
+        // m_window.GetEventManager().AddCallback("Move",&Game::MoveSprite,this);
 
-        m_move_action = std::make_unique<Move>(m_window, m_sprite);
-        m_window.GetEventManager()->AddCallback("Move",&Game::MoveSprite,this);
-        m_window.GetEventManager()->add_action_functinoid("Move",m_move_action);
+        m_context.m_eventManager.add_action(StateType::Intro,"Move",std::make_unique<Move>(*this));
+        m_state_manager.SwitchTo(StateType::Intro);
     }
 
     Game::~Game()
@@ -26,7 +28,7 @@ namespace Engine
     void Game::update()
     {
         m_window.Update();
-        // move_mushroom();
+        m_state_manager.Update(m_elapsed);
     }
 
     void Game::move_mushroom()
@@ -53,7 +55,7 @@ namespace Engine
     void Game::render()
     {
         m_window.BeginDraw();
-        m_window.Draw(m_sprite);
+        m_state_manager.Draw();
         m_window.EndDraw();
     }
 
@@ -82,11 +84,11 @@ namespace Engine
 
     void Game::run()
     {
-        while(!get_window().IsDone()){
-            handle_input();
+        while(!get_window().IsDone())
+        {
             update();
             render();
-            RestartClock();
+            LateUpdate();
         }
     }
 
@@ -97,20 +99,26 @@ namespace Engine
 
     void Game::MoveSprite(EventDetails& l_details)
     {
-        sf::Vector2i mousepos = m_window.GetEventManager()->GetMousePos(m_window.GetRenderWindow());
+        sf::Vector2i mousepos = m_window.GetEventManager().GetMousePos(m_window.GetRenderWindow());
         m_sprite.setPosition({static_cast<float>(mousepos.x), static_cast<float>(mousepos.y)});
         std::cout << "Moving sprite to: " << mousepos.x << ":" << mousepos.y << std::endl;
     }
 
     void Game::Move::execute()
     {
-        sf::Vector2i mousepos = m_window.GetEventManager()->GetMousePos(m_window.GetRenderWindow());
-        m_sprite.setPosition({static_cast<float>(mousepos.x), static_cast<float>(mousepos.y)});
+        sf::Vector2i mousepos = m_game.m_window.GetEventManager().GetMousePos(m_game.m_window.GetRenderWindow());
+        m_game.m_sprite.setPosition({static_cast<float>(mousepos.x), static_cast<float>(mousepos.y)});
         std::cout << "Moving sprite to: " << mousepos.x << ":" << mousepos.y << std::endl;
     }
     
-    Game::Move::Move(Window& l_window, sf::Sprite& l_sprite) : m_window(l_window), m_sprite(l_sprite)
+    Game::Move::Move(Game& game) : m_game(game)
     {
 
+    }
+
+    void Game::LateUpdate()
+    {
+        m_state_manager.ProcessRequests();
+        RestartClock();
     }
 } // namespace Engine

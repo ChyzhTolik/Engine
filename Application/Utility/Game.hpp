@@ -16,6 +16,8 @@ namespace Engine
 	    sf::Time m_elapsed;
         sf::Sprite m_sprite;
         sf::Texture m_texture;
+        StateManager m_state_manager;
+        SharedContext m_context;
 
     public:
         Game(sf::Texture& texture);
@@ -25,16 +27,16 @@ namespace Engine
         sf::Time GetElapsed();
 	    void RestartClock();
         void MoveSprite(EventDetails& l_details);
+        void LateUpdate();
 
     private:
         class Move : public ActionFunctinoid
         {
         public:
-            Move(Window& l_window, sf::Sprite& l_sprite);
+            Move(Game& game);
             virtual void execute() override;
         private:
-            Window& m_window;
-            sf::Sprite& m_sprite;
+            Game& m_game;
         };
 
         std::unique_ptr<ActionFunctinoid> m_move_action;

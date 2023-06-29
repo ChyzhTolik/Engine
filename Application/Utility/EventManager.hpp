@@ -79,20 +79,24 @@ namespace Engine
 
     using Bindings = std::unordered_map<std::string, std::unique_ptr<Binding>>;
 
-    //using Callbacks = std::unordered_map<std::string,std::function<void(EventDetails&)>>;
+    using Callbacks = std::unordered_map<std::string,std::function<void(EventDetails&)>>;
 
-    using ActionFunctinoids = std::unordered_map<std::string, std::unique_ptr<ActionFunctinoid>>;
+    // using ActionFunctinoids = std::unordered_map<std::string, std::unique_ptr<ActionFunctinoid>>;
 
     enum class StateType;
-    using CallbackContainer = std::unordered_map<std::string, std::function<void(EventDetails&)>>;
-    using Callbacks = std::unordered_map<StateType, CallbackContainer>;
+    // using CallbackContainer = std::unordered_map<std::string, std::function<void(EventDetails&)>>;
+    // using Callbacks = std::unordered_map<StateType, CallbackContainer>;
+
+    using ActionContainer = std::unordered_map<std::string, std::unique_ptr<ActionFunctinoid>>;
+    using Actions = std::unordered_map<StateType, ActionContainer>;
 
     class EventManager
     {
     private:
         Bindings m_bindings;
         Callbacks m_callbacks;
-        ActionFunctinoids m_action_functinoids;
+        StateType m_current_state;
+        Actions m_actions;
         bool m_hasFocus;
 
         void LoadBindings();
@@ -106,7 +110,9 @@ namespace Engine
         // Needs to be defined in the header!
         template<class T>
         bool AddCallback(const std::string& l_name, void(T::*l_func)(EventDetails&), T* l_instance);
-        void add_action_functinoid(std::string_view l_name, std::unique_ptr<ActionFunctinoid>& l_action);
+
+        void add_action(StateType l_state, std::string_view l_name, std::unique_ptr<ActionFunctinoid>&& l_action);
+        bool remove_action(StateType l_state, std::string_view l_name);
 
         void RemoveCallback(const std::string& l_name)
         {
@@ -116,12 +122,15 @@ namespace Engine
         void HandleEvent(sf::Event& l_event);
         void Update();
         
-        sf::Vector2i GetMousePos(sf::RenderWindow* l_wind = nullptr)
+        sf::Vector2i GetMousePos(sf::RenderWindow& l_wind)
         {
-            return (l_wind ? sf::Mouse::getPosition(*l_wind): sf::Mouse::getPosition());
+            return sf::Mouse::getPosition(l_wind);
         }
 
-        void SetCurrentState();
+        void SetCurrentState(StateType l_state)
+        {
+            m_current_state = l_state;
+        }
     };
 
     template<class T>

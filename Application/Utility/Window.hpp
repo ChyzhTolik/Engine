@@ -21,10 +21,10 @@ namespace Engine
         void ToggleFullscreen();
         void Draw(sf::Drawable& l_drawable);
         bool IsFocused();
-        EventManager* GetEventManager();
+        EventManager& GetEventManager();
         void ToggleFullscreen(EventDetails& l_details);
         void Close(EventDetails& l_details);
-        sf::RenderWindow* GetRenderWindow();
+        sf::RenderWindow& GetRenderWindow();
 
     private:
         void Setup(std::string_view l_title, const sf::Vector2u& l_size);
