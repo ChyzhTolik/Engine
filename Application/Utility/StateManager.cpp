@@ -9,6 +9,7 @@ namespace Engine
 	StateManager::StateManager(SharedContext& l_shared) : m_shared(l_shared)
 	{
 		sf::Texture text_texture;
+		sf::Font font;
 		RegisterState<State_Intro>(StateType::Intro, text_texture);
 		// RegisterState<State_MainMenu>(StateType::MainMenu);
 		// RegisterState<State_Game>(StateType::Game);

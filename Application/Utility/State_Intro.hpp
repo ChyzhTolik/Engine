@@ -8,7 +8,6 @@ namespace Engine
     class State_Intro : public BaseState
     {
     private:
-        private:
         sf::Sprite m_introSprite;
         sf::Text m_text;
         sf::Font m_font;
@@ -23,9 +22,8 @@ namespace Engine
             State_Intro& m_state;
         };
     public:
-        State_Intro(StateManager& l_stateManager, const sf::Texture& l_texture);
+        State_Intro(StateManager& l_stateManager, const sf::Texture& l_texture, const sf::Font& font);
         ~State_Intro();
-        void Continue(EventDetails& l_details);
         virtual void OnCreate() override;
         virtual void OnDestroy() override;
 

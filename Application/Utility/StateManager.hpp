@@ -18,10 +18,10 @@ namespace Engine
         Credits
     };
 
-    using StateContainer = std::vector<std::pair<StateType, std::unique_ptr<BaseState>&>>;
+    using StateContainer = std::vector<std::pair<StateType, std::shared_ptr<BaseState>&>>;
     using TypeContainer = std::vector<StateType>;
 
-    using StateFactory = std::unordered_map<StateType, std::function<std::unique_ptr<BaseState>(void)>>;
+    using StateFactory = std::unordered_map<StateType, std::function<std::shared_ptr<BaseState>(void)>>;
 
     class StateManager
     {
@@ -53,9 +53,9 @@ namespace Engine
     template<typename T>
     void StateManager::RegisterState(const StateType& l_type, const sf::Texture& l_texture)
     {
-        m_stateFactory[l_type] = [this, &l_texture]() -> std::unique_ptr<BaseState>
+        m_stateFactory[l_type] = [this, &l_texture]() -> std::shared_ptr<BaseState>
         {
-            return std::make_unique<T>(*this, l_texture);
+            return std::make_shared<T>(*this, l_texture);
         };
     }
     

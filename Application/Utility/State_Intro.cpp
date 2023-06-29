@@ -3,7 +3,8 @@
 
 namespace Engine
 {
-    State_Intro::State_Intro(StateManager& l_stateManager, sf::Texture& l_texture) : BaseState(l_stateManager), m_introSprite(l_texture)
+    State_Intro::State_Intro(StateManager& l_stateManager, const sf::Texture& l_texture, const sf::Font& font) : 
+        BaseState(l_stateManager), m_introSprite(l_texture), m_text(font)
     {
 
     }
@@ -12,16 +13,18 @@ namespace Engine
     {
         m_timePassed = 0.0f;
         sf::Vector2u windowSize = m_stateMgr.GetContext().m_wind.GetRenderWindow().getSize();
-        m_introSprite.setOrigin(m_introSprite.getTexture()->getSize().x / 2.0f, m_introSprite.getTexture()->getSize().y / 2.0f);
-        m_introSprite.setPosition(windowSize.x / 2.0f, 0);
-        m_font.loadFromFile("arial.ttf");
+        m_introSprite.setOrigin({m_introSprite.getTexture()->getSize().x / 2.0f, m_introSprite.getTexture()->getSize().y / 2.0f});
+        m_introSprite.setPosition({windowSize.x / 2.0f, 0});
+        if(!m_font.loadFromFile("arial.ttf"))
+        {
+            return;
+        }
         m_text.setFont(m_font);
         m_text.setString({ "Press SPACE to continue" });
         m_text.setCharacterSize(15);
         sf::FloatRect textRect = m_text.getLocalBounds();
-        m_text.setOrigin(textRect.left + textRect.width / 2.0f,
-        textRect.top + textRect.height / 2.0f);
-        m_text.setPosition(windowSize.x / 2.0f, windowSize.y / 2.0f);
+        m_text.setOrigin({textRect.left + textRect.width / 2.0f,textRect.top + textRect.height / 2.0f});
+        m_text.setPosition({windowSize.x / 2.0f, windowSize.y / 2.0f});
         EventManager& evMgr = m_stateMgr.GetContext().m_eventManager;
         evMgr.add_action(StateType::Intro,"Intro_Continue",std::make_unique<ContinueAction>(*this));
     }
@@ -36,7 +39,7 @@ namespace Engine
         if(m_timePassed < 5.0f)
         { // Less than five seconds.
             m_timePassed += l_time.asSeconds();
-            m_introSprite.setPosition(m_introSprite.getPosition().x, m_introSprite.getPosition().y + (48 * l_time.asSeconds()));
+            m_introSprite.setPosition({m_introSprite.getPosition().x, m_introSprite.getPosition().y + (48 * l_time.asSeconds())});
         }
     }
 
