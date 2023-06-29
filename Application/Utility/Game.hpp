@@ -2,6 +2,8 @@
 
 #include "Window.hpp"
 #include "ActionFunctinoid.hpp"
+#include "StateManager.hpp"
+#include "SharedContext.hpp"
 
 namespace Engine
 {

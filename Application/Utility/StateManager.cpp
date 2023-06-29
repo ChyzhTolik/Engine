@@ -8,10 +8,11 @@ namespace Engine
 {
 	StateManager::StateManager(SharedContext& l_shared) : m_shared(l_shared)
 	{
-		RegisterState<State_Intro>(StateType::Intro);
-		RegisterState<State_MainMenu>(StateType::MainMenu);
-		RegisterState<State_Game>(StateType::Game);
-		RegisterState<State_Paused>(StateType::Paused);
+		sf::Texture text_texture;
+		RegisterState<State_Intro>(StateType::Intro, text_texture);
+		// RegisterState<State_MainMenu>(StateType::MainMenu);
+		// RegisterState<State_Game>(StateType::Game);
+		// RegisterState<State_Paused>(StateType::Paused);
 	}
 
 	StateManager::~StateManager()
@@ -142,9 +143,9 @@ namespace Engine
 				m_states.back().second->Deactivate();
 
 				StateType tmp_type = itr->first;
-				auto tmp_state = std::move(itr->second);
+				auto& tmp_state = itr->second;
 				m_states.erase(itr);
-				m_states.emplace_back(tmp_type, std::move(tmp_state));
+				m_states.emplace_back(tmp_type, tmp_state);
 				tmp_state->Activate();
 				return;
 			}
@@ -172,7 +173,7 @@ namespace Engine
 		auto state = newState->second();
 		m_states.emplace_back(l_type, state);
         sf::Texture test_texture;
-		state->OnCreate(test_texture);
+		state->OnCreate();
 	}
 
 	void StateManager::RemoveState(const StateType& l_type)

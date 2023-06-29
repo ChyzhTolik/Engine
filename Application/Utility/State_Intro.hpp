@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseState.hpp"
+#include "ActionFunctinoid.hpp"
 
 namespace Engine
 {
@@ -8,15 +9,24 @@ namespace Engine
     {
     private:
         private:
-        sf::Texture m_introTexture;
         sf::Sprite m_introSprite;
         sf::Text m_text;
+        sf::Font m_font;
         float m_timePassed;
+
+        class ContinueAction : public ActionFunctinoid
+        {
+        public:
+            ContinueAction(State_Intro& state);
+            virtual void execute() override;
+        private:
+            State_Intro& m_state;
+        };
     public:
-        State_Intro(StateManager& l_stateManager);
+        State_Intro(StateManager& l_stateManager, const sf::Texture& l_texture);
         ~State_Intro();
         void Continue(EventDetails& l_details);
-        virtual void OnCreate(const sf::Texture& l_texture) override;
+        virtual void OnCreate() override;
         virtual void OnDestroy() override;
 
         virtual void Activate() override;
