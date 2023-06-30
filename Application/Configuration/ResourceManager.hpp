@@ -1,6 +1,5 @@
 #pragma once
 #include <unordered_map>
-#include <memory>
 #include <exception>
 
 #include <SFML/Audio.hpp>
@@ -20,24 +19,24 @@ namespace Engine
 		void load(const IDENTIFIER& id, Args&& ... args);
 		void clear();
 
-		RESOURCE& get(const IDENTIFIER& id) const;
+		const RESOURCE& get(const IDENTIFIER& id) const;
 
 	private:
-		std::unordered_map<IDENTIFIER, std::unique_ptr<RESOURCE>> m_map;
+		std::unordered_map<IDENTIFIER, RESOURCE> m_map;
 	};
 
 	template<typename RESOURCE, typename IDENTIFIER>
 	template<typename ...Args>
 	inline void ResourceManager<RESOURCE, IDENTIFIER>::load(const IDENTIFIER& id, Args && ...args)
 	{
-		std::unique_ptr<RESOURCE> res_ptr = std::make_unique<RESOURCE>();
+		RESOURCE res;
 
-		if (!res_ptr->loadFromFile(std::forward<Args>(args) ...))
+		if (!res.loadFromFile(std::forward<Args>(args) ...))
 		{
 			throw std::runtime_error("Impossible to load file");
 		}
 
-		m_map.emplace(id, std::move(res_ptr));
+		m_map.insert({id, res});
 	}
 
 	template<typename RESOURCE, typename IDENTIFIER>
@@ -47,9 +46,9 @@ namespace Engine
 	}
 
 	template<typename RESOURCE, typename IDENTIFIER>
-	inline RESOURCE& ResourceManager<RESOURCE, IDENTIFIER>::get(const IDENTIFIER& id) const
+	inline const RESOURCE& ResourceManager<RESOURCE, IDENTIFIER>::get(const IDENTIFIER& id) const
 	{
-		return *m_map.at(id);
+		return m_map.at(id);
 	}
 
 	template<typename IDENTIFIER>
@@ -64,29 +63,29 @@ namespace Engine
 		template<typename ... Args>
 		void load(const IDENTIFIER& id, Args&& ... args);
 
-		sf::Music& get(const IDENTIFIER& id)const;
+		const sf::Music& get(const IDENTIFIER& id) const;
 
 	private:
-		std::unordered_map<IDENTIFIER, std::unique_ptr<sf::Music>> m_map;
+		std::unordered_map<IDENTIFIER, sf::Music> m_map;
 	};
 
 	template<typename IDENTIFIER>
 	template<typename ... Args>
 	void ResourceManager<sf::Music, IDENTIFIER>::load(const IDENTIFIER& id, Args&& ... args)
 	{
-		std::unique_ptr<sf::Music> music_ptr(new sf::Music);
+		sf::Music music;
 
-		if (not music_ptr->openFromFile(std::forward<Args>(args)...))
+		if (not music.openFromFile(std::forward<Args>(args)...))
 		{
 			throw std::runtime_error("Impossible to load file");
 		}
 
-		m_map.emplace(id, std::move(music_ptr));
+		m_map.insert(id, music);
 	};
 
 	template<typename IDENTIFIER>
-	sf::Music& ResourceManager<sf::Music, IDENTIFIER>::get(const IDENTIFIER& id) const
+	const sf::Music& ResourceManager<sf::Music, IDENTIFIER>::get(const IDENTIFIER& id) const
 	{
-		return *m_map.at(id);
+		return m_map.at(id);
 	}
 }
