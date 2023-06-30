@@ -9,7 +9,9 @@ namespace Engine
 	StateManager::StateManager(SharedContext& l_shared) : m_shared(l_shared)
 	{
 		sf::Texture text_texture;
+		text_texture.loadFromFile("/home/achyzh/TestProjects/Engine/Application/media/img/intro.png");
 		sf::Font font;
+		font.loadFromFile("/home/achyzh/TestProjects/Engine/Application/media/fonts/arial.ttf");
 		RegisterState<IntroCreator>(StateType::Intro, text_texture, font);
 		// RegisterState<State_MainMenu>(StateType::MainMenu);
 		// RegisterState<State_Game>(StateType::Game);

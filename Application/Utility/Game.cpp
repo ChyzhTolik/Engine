@@ -7,14 +7,11 @@ namespace Engine
     Game::Game(sf::Texture& texture) : m_window("Engine", {800,600}), m_mushroom(texture), m_sprite(texture), m_texture(texture),
         m_context(m_window, m_window.GetEventManager()), m_state_manager(m_context)
     {
-        // m_mushroom_texture.loadFromFile("../media/img/Mushroom.png");
-        // m_mushroom.setTexture(m_mushroom_texture);
         m_clock.restart();
         srand(time(nullptr));
 
         m_sprite.setOrigin({static_cast<float>(m_texture.getSize().x / 2), static_cast<float>(m_texture.getSize().y / 2)});
         m_sprite.setPosition({0,0});
-        // m_window.GetEventManager().AddCallback("Move",&Game::MoveSprite,this);
 
         m_context.m_eventManager.add_action(StateType::Intro,"Move",std::make_unique<Move>(*this));
         m_state_manager.SwitchTo(StateType::Intro);

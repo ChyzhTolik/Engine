@@ -21,7 +21,6 @@ namespace Engine
     using StateContainer = std::vector<std::pair<StateType, std::unique_ptr<BaseState>>>;
     using TypeContainer = std::vector<StateType>;
 
-    // using StateFactory = std::unordered_map<StateType, std::function<std::shared_ptr<BaseState>(void)>>;
     using StateFactory = std::unordered_map<StateType, std::unique_ptr<StateCreator>>;
 
     class StateManager
