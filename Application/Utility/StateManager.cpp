@@ -10,7 +10,7 @@ namespace Engine
 	{
 		sf::Texture text_texture;
 		sf::Font font;
-		RegisterState<State_Intro>(StateType::Intro, text_texture, font);
+		RegisterState<IntroCreator>(StateType::Intro, text_texture, font);
 		// RegisterState<State_MainMenu>(StateType::MainMenu);
 		// RegisterState<State_Game>(StateType::Game);
 		// RegisterState<State_Paused>(StateType::Paused);
@@ -144,9 +144,9 @@ namespace Engine
 				m_states.back().second->Deactivate();
 
 				StateType tmp_type = itr->first;
-				auto& tmp_state = itr->second;
+				auto tmp_state = std::move(itr->second);
 				m_states.erase(itr);
-				m_states.emplace_back(tmp_type, tmp_state);
+				m_states.emplace_back(tmp_type, std::move(tmp_state));
 				tmp_state->Activate();
 				return;
 			}
@@ -171,8 +171,8 @@ namespace Engine
 			return;
 		}
 
-		auto state = newState->second();
-		m_states.emplace_back(l_type, state);
+		auto state = newState->second->create();
+		m_states.emplace_back(l_type, std::move(state));
         sf::Texture test_texture;
 		state->OnCreate();
 	}

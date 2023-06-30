@@ -5,6 +5,16 @@
 
 namespace Engine
 {
+    class IntroCreator : public StateCreator
+    {
+    public:
+        IntroCreator(StateManager& l_state_manager, const sf::Texture& l_texture, const sf::Font& l_font);
+        virtual std::unique_ptr<BaseState> create() override;
+    private:
+        const sf::Texture& m_texture;
+        const sf::Font& m_font;
+    };
+
     class State_Intro : public BaseState
     {
     private:
@@ -32,5 +42,5 @@ namespace Engine
 
         virtual void Update(const sf::Time& l_time) override;
         virtual void Draw() override;
-    };    
+    };
 } // namespace Engine

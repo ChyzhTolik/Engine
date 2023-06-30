@@ -18,18 +18,11 @@ namespace Engine
         Credits
     };
 
-    class StateCreator
-    {
-    public:
-        StateCreator() = default;
-        virtual ~StateCreator(){};
-        virtual std::shared_ptr<BaseState> create(StateManager& state_manager) = 0;
-    };
-
-    using StateContainer = std::vector<std::pair<StateType, std::shared_ptr<BaseState>&>>;
+    using StateContainer = std::vector<std::pair<StateType, std::unique_ptr<BaseState>>>;
     using TypeContainer = std::vector<StateType>;
 
-    using StateFactory = std::unordered_map<StateType, std::function<std::shared_ptr<BaseState>(void)>>;
+    // using StateFactory = std::unordered_map<StateType, std::function<std::shared_ptr<BaseState>(void)>>;
+    using StateFactory = std::unordered_map<StateType, std::unique_ptr<StateCreator>>;
 
     class StateManager
     {
@@ -50,13 +43,23 @@ namespace Engine
         void RemoveState(const StateType& l_type);
 
         template<typename T, typename ...Args>
-        std::shared_ptr<BaseState> RegisterState(const StateType& l_type, Args&& ... args);
+        void RegisterState(StateType l_type, Args&& ... args);
         // Members.
         SharedContext& m_shared;
         StateContainer m_states;
         TypeContainer m_toRemove;
         StateFactory m_stateFactory;
     };
+
+
+
+    template<typename T, typename ...Args>
+    void StateManager::RegisterState(StateType l_type, Args&& ... args)
+    {
+        m_stateFactory.insert({l_type, std::make_unique<T>(*this, std::forward<Args>(args)...)});
+    }
+    
+} // namespace Engine
 
     // template <typename ...Args>
     // void use(Args... args)
@@ -87,17 +90,3 @@ namespace Engine
     //     auto functional = [](auto&&... args) { /* lambda body */ };
     //     return std::bind(std::move(functional), std::forward<Args>(args)...);
     // }
-
-
-    template<typename T, typename ...Args>
-    std::shared_ptr<BaseState> StateManager::RegisterState(const StateType& l_type, Args&& ... args)
-    {
-        // m_stateFactory[l_type] = [this, args = std::make_tuple(std::forward<Args>(args) ...)]() -> std::shared_ptr<BaseState>
-        // {
-        //     return std::make_shared<T>(*this, std::forward<Args>(args)...);
-        // };
-        return std::make_shared<T>(*this, std::forward<Args>(args)...);
-
-    }
-    
-} // namespace Engine

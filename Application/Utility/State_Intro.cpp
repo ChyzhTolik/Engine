@@ -70,4 +70,15 @@ namespace Engine
             m_state.m_stateMgr.Remove(StateType::Intro);
         }
     }
+
+    IntroCreator::IntroCreator(StateManager& l_state_manager, const sf::Texture& l_texture, const sf::Font& l_font) : StateCreator(l_state_manager),
+        m_texture(l_texture), m_font(l_font)
+    {
+        
+    }
+
+    std::unique_ptr<BaseState> IntroCreator::create()
+    {
+        return std::make_unique<State_Intro>(m_state_manager, m_texture, m_font);    
+    }
 } // namespace Engine

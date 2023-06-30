@@ -50,5 +50,15 @@ namespace Engine
         StateManager& m_stateMgr;
         bool m_transparent;
         bool m_transcendent;
-    };    
+    };
+
+     class StateCreator // Functinoid
+    {
+    public:
+        StateCreator(StateManager& l_state_manager);
+        virtual ~StateCreator(){};
+        virtual std::unique_ptr<BaseState> create() = 0;
+    protected:
+        StateManager& m_state_manager;
+    };  
 } // namespace Engine
