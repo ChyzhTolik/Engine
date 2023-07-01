@@ -4,7 +4,7 @@
 namespace Engine
 {
     State_Intro::State_Intro(StateManager& l_stateManager, const sf::Texture& l_texture, const sf::Font& font) : 
-        BaseState(l_stateManager), m_introSprite(l_texture), m_text(font)
+        BaseState(l_stateManager), m_introSprite(l_texture), m_text(font), m_timePassed(0.0f)
     {
 
     }
@@ -15,11 +15,6 @@ namespace Engine
         sf::Vector2u windowSize = m_stateMgr.GetContext().m_wind.GetRenderWindow().getSize();
         m_introSprite.setOrigin({m_introSprite.getTexture()->getSize().x / 2.0f, m_introSprite.getTexture()->getSize().y / 2.0f});
         m_introSprite.setPosition({windowSize.x / 2.0f, 0});
-        if(!m_font.loadFromFile("arial.ttf"))
-        {
-            return;
-        }
-        m_text.setFont(m_font);
         m_text.setString({ "Press SPACE to continue" });
         m_text.setCharacterSize(15);
         sf::FloatRect textRect = m_text.getLocalBounds();

@@ -18,6 +18,8 @@ namespace Engine
 			Player,
 			Tiles,
 			Background,
+			Biomenace,
+			Intro
 		};
 
 		static ResourceManager<sf::Texture, Textures> textures;
@@ -41,6 +43,13 @@ namespace Engine
 
 		static ResourceManager<sf::Music, Musics> musics;
 
+		enum class Fonts
+		{
+			Arial,
+		};
+
+		static ResourceManager<sf::Font, Fonts> fonts;
+
 		static void Initialize();
 		static void clear();
 
@@ -48,6 +57,7 @@ namespace Engine
 		static void init_textures();
 		static void init_tetris_inputs();
 		static void init_musics();
+		static void init_fonts();
 	};
 }
 

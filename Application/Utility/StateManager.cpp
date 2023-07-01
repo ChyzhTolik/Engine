@@ -3,15 +3,16 @@
 #include "State_MainMenu.hpp"
 #include "State_Game.hpp"
 #include "State_Paused.hpp"
+#include "Configuration.hpp"
 
 namespace Engine
 {
 	StateManager::StateManager(SharedContext& l_shared) : m_shared(l_shared)
 	{
-		sf::Texture text_texture;
-		text_texture.loadFromFile("/home/achyzh/TestProjects/Engine/Application/media/img/intro.png");
-		sf::Font font;
-		font.loadFromFile("/home/achyzh/TestProjects/Engine/Application/media/fonts/arial.ttf");
+		sf::Texture& text_texture = Configuration::textures.get(Configuration::Textures::Intro);
+		//text_texture.loadFromFile("/home/achyzh/TestProjects/Engine/Application/media/img/intro.png");
+		sf::Font& font = Configuration::fonts.get(Configuration::Fonts::Arial);
+		//font.loadFromFile("/home/achyzh/TestProjects/Engine/Application/media/fonts/arial.ttf");
 		RegisterState<IntroCreator>(StateType::Intro, text_texture, font);
 		// RegisterState<State_MainMenu>(StateType::MainMenu);
 		// RegisterState<State_Game>(StateType::Game);
@@ -149,19 +150,19 @@ namespace Engine
 				auto tmp_state = std::move(itr->second);
 				m_states.erase(itr);
 				m_states.emplace_back(tmp_type, std::move(tmp_state));
-				tmp_state->Activate();
+				m_states.back().second->Activate();
 				return;
 			}
-
-			// State with l_type wasn't found.
-			if (!m_states.empty())
-			{
-				m_states.back().second->Deactivate();
-			}
-
-			CreateState(l_type);
-			m_states.back().second->Activate();
 		}
+
+		// State with l_type wasn't found.
+		if (!m_states.empty())
+		{
+			m_states.back().second->Deactivate();
+		}
+
+		CreateState(l_type);
+		m_states.back().second->Activate();
 	}
 
 	void StateManager::CreateState(const StateType& l_type)
@@ -175,8 +176,7 @@ namespace Engine
 
 		auto state = newState->second->create();
 		m_states.emplace_back(l_type, std::move(state));
-        sf::Texture test_texture;
-		state->OnCreate();
+		m_states.back().second->OnCreate();
 	}
 
 	void StateManager::RemoveState(const StateType& l_type)

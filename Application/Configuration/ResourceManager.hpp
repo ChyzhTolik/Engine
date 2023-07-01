@@ -1,6 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include <exception>
+#include <memory>
 
 #include <SFML/Audio.hpp>
 
@@ -10,6 +11,7 @@ namespace Engine
 	class ResourceManager
 	{
 	public:
+		using ResourcePtr = std::unique_ptr<RESOURCE>;
 		ResourceManager(const ResourceManager&) = delete;
 		ResourceManager& operator = (const ResourceManager&) = delete;
 
@@ -19,24 +21,24 @@ namespace Engine
 		void load(const IDENTIFIER& id, Args&& ... args);
 		void clear();
 
-		const RESOURCE& get(const IDENTIFIER& id) const;
+		RESOURCE& get(const IDENTIFIER& id) const;
 
 	private:
-		std::unordered_map<IDENTIFIER, RESOURCE> m_map;
+		std::unordered_map<IDENTIFIER, ResourcePtr> m_map;
 	};
 
 	template<typename RESOURCE, typename IDENTIFIER>
 	template<typename ...Args>
 	inline void ResourceManager<RESOURCE, IDENTIFIER>::load(const IDENTIFIER& id, Args && ...args)
 	{
-		RESOURCE res;
+		ResourcePtr res = std::make_unique<RESOURCE>();
 
-		if (!res.loadFromFile(std::forward<Args>(args) ...))
+		if (!res->loadFromFile(std::forward<Args>(args) ...))
 		{
 			throw std::runtime_error("Impossible to load file");
 		}
 
-		m_map.insert({id, res});
+		m_map.emplace(id, std::move(res));
 	}
 
 	template<typename RESOURCE, typename IDENTIFIER>
@@ -46,15 +48,16 @@ namespace Engine
 	}
 
 	template<typename RESOURCE, typename IDENTIFIER>
-	inline const RESOURCE& ResourceManager<RESOURCE, IDENTIFIER>::get(const IDENTIFIER& id) const
+	inline RESOURCE& ResourceManager<RESOURCE, IDENTIFIER>::get(const IDENTIFIER& id) const
 	{
-		return m_map.at(id);
+		return *m_map.at(id);
 	}
 
 	template<typename IDENTIFIER>
 	class ResourceManager<sf::Music, IDENTIFIER>
 	{
 	public:
+		using MusicPtr = std::unique_ptr<sf::Music>;
 		ResourceManager(const ResourceManager&) = delete;
 		ResourceManager& operator=(const ResourceManager&) = delete;
 
@@ -63,29 +66,29 @@ namespace Engine
 		template<typename ... Args>
 		void load(const IDENTIFIER& id, Args&& ... args);
 
-		const sf::Music& get(const IDENTIFIER& id) const;
+		sf::Music& get(const IDENTIFIER& id) const;
 
 	private:
-		std::unordered_map<IDENTIFIER, sf::Music> m_map;
+		std::unordered_map<IDENTIFIER, MusicPtr> m_map;
 	};
 
 	template<typename IDENTIFIER>
 	template<typename ... Args>
 	void ResourceManager<sf::Music, IDENTIFIER>::load(const IDENTIFIER& id, Args&& ... args)
 	{
-		sf::Music music;
+		MusicPtr music = std::make_unique<sf::Music>();
 
-		if (not music.openFromFile(std::forward<Args>(args)...))
+		if (not music->openFromFile(std::forward<Args>(args)...))
 		{
 			throw std::runtime_error("Impossible to load file");
 		}
 
-		m_map.insert(id, music);
+		m_map.emplace(id, std::move(music));
 	};
 
 	template<typename IDENTIFIER>
-	const sf::Music& ResourceManager<sf::Music, IDENTIFIER>::get(const IDENTIFIER& id) const
+	inline sf::Music& ResourceManager<sf::Music, IDENTIFIER>::get(const IDENTIFIER& id) const
 	{
-		return m_map.at(id);
+		return *m_map.at(id);
 	}
 }

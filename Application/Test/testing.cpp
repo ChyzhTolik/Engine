@@ -9,6 +9,7 @@
 #include "AnimatedSprite.hpp"
 #include "ResourceManager.hpp"
 #include "Game.hpp"
+#include "Configuration.hpp"
 
 namespace Test
 {
@@ -94,7 +95,7 @@ namespace Test
 		std::shared_ptr<Engine::Animation> walkRight = std::make_shared<Engine::Animation>(texture);
 		walkRight->add_frames_line(4, 2, 1);
 		//Creation of the animates sprite
-		Engine::AnimatedSprite sprite(walkLeft, Engine::AnimatedSprite::Status::Playing, sf::seconds(0.1));
+		Engine::AnimatedSprite sprite(walkLeft, Engine::AnimatedSprite::Status::Playing, sf::seconds(0.1f));
 		//game loop
 		sf::Clock clock;
 		while (window.isOpen())
@@ -134,23 +135,27 @@ namespace Test
 
 	int test_biomenace()
 	{
+		Engine::Configuration::Initialize();
 		//Creation of the window
 		sf::RenderWindow window(sf::VideoMode({ 400,600 }), "Example animation");
 		//load of the texture image
 		Engine::ResourceManager<sf::Texture, int> textures;
 		Engine::TexturePtr texture = std::make_shared<sf::Texture>();
-        std::string config_path = "/home/achyzh/TestProjects/Engine/Application/media/img/biomenace_complete.gif";
+		/*std::string config_path = "/home/achyzh/TestProjects/Engine/Application/media/img/biomenace_complete.gif";
 		if (!texture->loadFromFile(config_path))
 		{
 			return -1;
-		}
+		}*/
 
 		auto right_frames = get_biomenace_run_frames();
 
-		std::shared_ptr<Engine::Animation> walkLeft = std::make_shared<Engine::Animation>(texture);
-		std::shared_ptr<Engine::Animation> walkRight = std::make_shared<Engine::Animation>(texture);
+		const sf::Texture& conf_texture = Engine::Configuration::textures.get(Engine::Configuration::Textures::Biomenace);
+		Engine::TexturePtr conf_text_ptr = std::make_shared < sf::Texture>(conf_texture);
 
-		for(auto& frame : right_frames)
+		std::shared_ptr<Engine::Animation> walkLeft = std::make_shared<Engine::Animation>(conf_text_ptr);
+		std::shared_ptr<Engine::Animation> walkRight = std::make_shared<Engine::Animation>(conf_text_ptr);
+
+		for (auto& frame : right_frames)
 		{
 			walkRight->add_frame(sf::IntRect({ frame.first, frame.second }));
 		}
@@ -163,7 +168,7 @@ namespace Test
 		}
 
 		//Creation of the animates sprite
-		Engine::AnimatedSprite sprite(walkLeft, Engine::AnimatedSprite::Status::Playing, sf::seconds(0.1));
+		Engine::AnimatedSprite sprite(walkLeft, Engine::AnimatedSprite::Status::Playing, sf::seconds(0.1f));
 		//game loop
 		sf::Clock clock;
 		while (window.isOpen())
@@ -203,11 +208,18 @@ namespace Test
 
 	int test_mushroom()
 	{
+		Engine::Configuration::Initialize();
 		sf::Texture texture;
+		std::string texture_file;
+#ifdef WIN32
+		texture_file;
+#elif UNIX
 		if (!texture.loadFromFile("/home/achyzh/TestProjects/Engine/Application/media/img/Mushroom.png"))
 		{
 			return -1;
 		}
+#endif // WIN32
+
 		Engine::Game game(texture);
 		game.run();
 

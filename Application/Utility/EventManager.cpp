@@ -199,7 +199,13 @@ namespace Engine
         std::string delimiter = ":";
 
         std::ifstream bindings;
+#ifdef WIN32
+        bindings.open("media/keys.cfg");
+#elif UNIX
         bindings.open("/home/achyzh/TestProjects/Engine/Application/keys.cfg");
+
+#endif // WIN32
+
 
         if (!bindings.is_open())
         { 

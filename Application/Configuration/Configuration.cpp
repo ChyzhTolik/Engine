@@ -5,12 +5,14 @@ namespace Engine
 	ResourceManager<sf::Texture, Configuration::Textures> Configuration::textures;
 	ActionMap<Configuration::TetrisInputs> Configuration::tetris_inputs;
 	ResourceManager<sf::Music, Configuration::Musics> Configuration::musics;
+	ResourceManager<sf::Font, Configuration::Fonts> Configuration::fonts;
 
 	void Configuration::Initialize()
 	{
 		init_textures();
 		init_tetris_inputs();
 		init_musics();
+		init_fonts();
 
 		/*musics.get(Musics::TakeItToTheTop).setLoop(true);
 		musics.get(Musics::TakeItToTheTop).play();*/
@@ -26,6 +28,8 @@ namespace Engine
 		textures.load(Textures::Player, "media/Player/Ship.png");
 		textures.load(Textures::Tiles, "media/Player/tiles.png");
 		textures.load(Textures::Background, "media/Player/background.png");
+		textures.load(Textures::Biomenace, "C:/Users/PC/Source/Repos/Engine/Application/media/img/biomenace_complete.gif");
+		textures.load(Textures::Intro, "C:/Users/PC/Source/Repos/Engine/Application/media/img/intro.png");
 	}
 
 	void Configuration::init_tetris_inputs()
@@ -49,5 +53,10 @@ namespace Engine
 	void Configuration::init_musics()
 	{
 		musics.load(Musics::TakeItToTheTop, "media/music/take-it-to-the-top.ogg");
+	}
+
+	void Configuration::init_fonts()
+	{
+		fonts.load(Fonts::Arial, "media/fonts/arial.ttf");
 	}
 } // namespace Engine
