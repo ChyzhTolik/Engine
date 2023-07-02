@@ -92,7 +92,7 @@ namespace Engine
 		sf::RenderWindow& window = m_stateMgr.GetContext().m_wind.GetRenderWindow();
 		window.draw(m_text);
 
-		for (int i = 0; i < 3; ++i) 
+		for (int i = 0; i < 3; ++i)
 		{
 			window.draw(m_rects[i]);
 			window.draw(m_labels[i]);
@@ -108,19 +108,24 @@ namespace Engine
 		sf::Vector2i mousePos = l_details.m_mouse;
 		float halfX = m_state.m_buttonSize.x / 2.0f;
 		float halfY = m_state.m_buttonSize.y / 2.0f;
-		for (int i = 0; i < 3; ++i) {
+
+		for (int i = 0; i < 3; ++i)
+		{
 			if (mousePos.x >= m_state.m_rects[i].getPosition().x - halfX &&
 				mousePos.x <= m_state.m_rects[i].getPosition().x + halfX &&
 				mousePos.y >= m_state.m_rects[i].getPosition().y - halfY &&
 				mousePos.y <= m_state.m_rects[i].getPosition().y + halfY)
 			{
-				if (i == 0) {
+				if (i == 0)
+				{
 					m_state.m_stateMgr.SwitchTo(StateType::Game);
 				}
-				else if (i == 1) {
+				else if (i == 1)
+				{
 					// Credits state.
 				}
-				else if (i == 2) {
+				else if (i == 2)
+				{
 					m_state.m_stateMgr.GetContext().m_wind.Close(l_details);
 				}
 			}
