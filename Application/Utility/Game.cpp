@@ -97,7 +97,7 @@ namespace Engine
         std::cout << "Moving sprite to: " << mousepos.x << ":" << mousepos.y << std::endl;
     }
 
-    void Game::Move::execute()
+    void Game::Move::execute(EventDetails& l_details)
     {
         sf::Vector2i mousepos = m_game.m_window.GetEventManager().GetMousePos(m_game.m_window.GetRenderWindow());
         m_game.m_sprite.setPosition({static_cast<float>(mousepos.x), static_cast<float>(mousepos.y)});

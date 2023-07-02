@@ -57,7 +57,7 @@ namespace Engine
 
     }
 
-    void State_Intro::ContinueAction::execute()
+    void State_Intro::ContinueAction::execute(EventDetails& l_details)
     {
         if(m_state.m_timePassed >= 5.0f)
         {

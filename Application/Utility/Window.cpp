@@ -24,8 +24,6 @@ namespace Engine
         m_isFullscreen = false;
         m_isDone = false;
         m_isFocused = true;
-        m_eventManager.AddCallback("Fullscreen_toggle", &Window::ToggleFullscreen, this);
-        m_eventManager.AddCallback("Window_close", &Window::Close, this);
         Create();
     }
 

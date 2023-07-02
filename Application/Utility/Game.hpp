@@ -36,7 +36,7 @@ namespace Engine
         {
         public:
             Move(Game& game);
-            virtual void execute() override;
+            virtual void execute(EventDetails& l_details) override;
         private:
             Game& m_game;
         };

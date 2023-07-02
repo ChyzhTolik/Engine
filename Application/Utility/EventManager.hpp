@@ -6,6 +6,7 @@
 #include <memory>
 
 #include "ActionFunctinoid.hpp"
+#include "EventDetails.hpp"
 
 namespace Engine
 {
@@ -38,30 +39,6 @@ namespace Engine
 
     using Events = std::vector<std::pair<EventType, EventInfo>>;
 
-    struct EventDetails
-    {
-        EventDetails(const std::string& l_bindName)
-        : m_name(l_bindName)
-        {
-            Clear();
-        }
-        
-        std::string m_name;
-        sf::Vector2i m_size;
-        std::uint32_t m_textEntered;
-        sf::Vector2i m_mouse;
-        int m_mouseWheelDelta;
-        int m_keyCode; // Single key code.
-        void Clear()
-        {
-            m_size = sf::Vector2i(0, 0);
-            m_textEntered = 0;
-            m_mouse = sf::Vector2i(0, 0);
-            m_mouseWheelDelta = 0;
-            m_keyCode = -1;
-        }
-    };
-
     struct Binding
     {
         Binding(const std::string& l_name) : m_name(l_name), m_details(l_name), c(0){}
@@ -79,8 +56,6 @@ namespace Engine
 
     using Bindings = std::unordered_map<std::string, std::unique_ptr<Binding>>;
 
-    using Callbacks = std::unordered_map<std::string,std::function<void(EventDetails&)>>;
-
     // using ActionFunctinoids = std::unordered_map<std::string, std::unique_ptr<ActionFunctinoid>>;
 
     enum class StateType;
@@ -94,7 +69,6 @@ namespace Engine
     {
     private:
         Bindings m_bindings;
-        Callbacks m_callbacks;
         StateType m_current_state;
         Actions m_actions;
         bool m_hasFocus;
@@ -107,17 +81,10 @@ namespace Engine
         bool RemoveBinding(std::string l_name);
 
         void SetFocus(const bool& l_focus);
-        // Needs to be defined in the header!
-        template<class T>
-        bool AddCallback(const std::string& l_name, void(T::*l_func)(EventDetails&), T* l_instance);
 
         void add_action(StateType l_state, std::string_view l_name, std::unique_ptr<ActionFunctinoid>&& l_action);
         bool remove_action(StateType l_state, std::string_view l_name);
 
-        void RemoveCallback(const std::string& l_name)
-        {
-            m_callbacks.erase(l_name);
-        }
 
         void HandleEvent(sf::Event& l_event);
         void Update();
@@ -131,12 +98,5 @@ namespace Engine
         {
             m_current_state = l_state;
         }
-    };
-
-    template<class T>
-    bool EventManager::AddCallback(const std::string& l_name, void(T::*l_func)(EventDetails&), T* l_instance)
-    {
-        auto temp = std::bind(l_func,l_instance, std::placeholders::_1);
-        return m_callbacks.emplace(l_name, temp).second;
-    }    
+    };   
 } // namespace Engine

@@ -32,7 +32,7 @@ namespace Engine
         {
         public:
             MouseClickAction(State_MainMenu& state);
-            virtual void execute() override;
+            virtual void execute(EventDetails& l_details) override;
         private:
             State_MainMenu& m_state;
         };

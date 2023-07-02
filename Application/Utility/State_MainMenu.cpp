@@ -16,7 +16,7 @@ namespace Engine
 	}
 
 	State_MainMenu::State_MainMenu(StateManager& l_stateManager, const sf::Font& font) :
-		BaseState(l_stateManager), m_text(font)
+		BaseState(l_stateManager), m_text(font), m_font(font), m_buttonPadding(4)
 	{
 
 	}
@@ -89,14 +89,42 @@ namespace Engine
 
 	void State_MainMenu::Draw()
 	{
+		sf::RenderWindow& window = m_stateMgr.GetContext().m_wind.GetRenderWindow();
+		window.draw(m_text);
+
+		for (int i = 0; i < 3; ++i) 
+		{
+			window.draw(m_rects[i]);
+			window.draw(m_labels[i]);
+		}
 	}
 
 	State_MainMenu::MouseClickAction::MouseClickAction(State_MainMenu& state) : m_state(state)
 	{
 	}
 
-	void State_MainMenu::MouseClickAction::execute()
+	void State_MainMenu::MouseClickAction::execute(EventDetails& l_details)
 	{
+		sf::Vector2i mousePos = l_details.m_mouse;
+		float halfX = m_state.m_buttonSize.x / 2.0f;
+		float halfY = m_state.m_buttonSize.y / 2.0f;
+		for (int i = 0; i < 3; ++i) {
+			if (mousePos.x >= m_state.m_rects[i].getPosition().x - halfX &&
+				mousePos.x <= m_state.m_rects[i].getPosition().x + halfX &&
+				mousePos.y >= m_state.m_rects[i].getPosition().y - halfY &&
+				mousePos.y <= m_state.m_rects[i].getPosition().y + halfY)
+			{
+				if (i == 0) {
+					m_state.m_stateMgr.SwitchTo(StateType::Game);
+				}
+				else if (i == 1) {
+					// Credits state.
+				}
+				else if (i == 2) {
+					m_state.m_stateMgr.GetContext().m_wind.Close(l_details);
+				}
+			}
+		}
 	}
 }
 

@@ -158,13 +158,6 @@ namespace Engine
 
             if (bind->m_events.size() == bind->c)
             {
-                // auto callItr = m_callbacks.find(bind->m_name);
-
-                // if(callItr != m_callbacks.end())
-                // {
-                //     callItr->second(bind->m_details);
-                // }
-
                 auto state_action = m_actions.find(m_current_state);
                 auto other_actions = m_actions.find(StateType(0));
 
@@ -174,7 +167,7 @@ namespace Engine
 
                     if (callItr != state_action->second.end())
                     {
-                        callItr->second->execute();
+                        callItr->second->execute(bind->m_details);
                     }
                 }
 
@@ -184,7 +177,7 @@ namespace Engine
 
                     if (callItr != other_actions->second.end())
                     {
-                        callItr->second->execute();
+                        callItr->second->execute(bind->m_details);
                     }
                 }
             }
@@ -247,6 +240,7 @@ namespace Engine
 
             AddBinding(std::move(bind));
         }
+
         bindings.close();
     }
 

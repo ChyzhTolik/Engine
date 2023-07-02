@@ -27,7 +27,7 @@ namespace Engine
         {
         public:
             ContinueAction(State_Intro& state);
-            virtual void execute() override;
+            virtual void execute(EventDetails& l_details) override;
         private:
             State_Intro& m_state;
         };
