@@ -19,6 +19,7 @@ set (SOURCES_FILES
     Utility/StateManager.cpp
     Utility/State_Intro.cpp
     Utility/BaseState.cpp
+    Utility/State_MainMenu.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})

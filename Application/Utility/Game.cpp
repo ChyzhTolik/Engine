@@ -10,10 +10,6 @@ namespace Engine
         m_clock.restart();
         srand(time(nullptr));
 
-        m_sprite.setOrigin({static_cast<float>(m_texture.getSize().x / 2), static_cast<float>(m_texture.getSize().y / 2)});
-        m_sprite.setPosition({0,0});
-
-        m_context.m_eventManager.add_action(StateType::Intro,"Move",std::make_unique<Move>(*this));
         m_state_manager.SwitchTo(StateType::Intro);
     }
 

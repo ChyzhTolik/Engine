@@ -52,7 +52,7 @@ namespace Engine
         bool m_transcendent;
     };
 
-     class StateCreator // Functinoid
+    class StateCreator // Functinoid
     {
     public:
         StateCreator(StateManager& l_state_manager);

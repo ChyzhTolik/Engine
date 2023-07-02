@@ -10,10 +10,10 @@ namespace Engine
 	StateManager::StateManager(SharedContext& l_shared) : m_shared(l_shared)
 	{
 		sf::Texture& text_texture = Configuration::textures.get(Configuration::Textures::Intro);
-		//text_texture.loadFromFile("/home/achyzh/TestProjects/Engine/Application/media/img/intro.png");
 		sf::Font& font = Configuration::fonts.get(Configuration::Fonts::Arial);
-		//font.loadFromFile("/home/achyzh/TestProjects/Engine/Application/media/fonts/arial.ttf");
 		RegisterState<IntroCreator>(StateType::Intro, text_texture, font);
+		RegisterState<MenuCreator>(StateType::MainMenu, font);
+
 		// RegisterState<State_MainMenu>(StateType::MainMenu);
 		// RegisterState<State_Game>(StateType::Game);
 		// RegisterState<State_Paused>(StateType::Paused);
@@ -124,7 +124,7 @@ namespace Engine
 
 	void StateManager::Remove(const StateType& l_type)
 	{
-		m_toRemove.erase(m_toRemove.begin());
+		m_toRemove.push_back(l_type);
 	}
 
 	void StateManager::ProcessRequests()
@@ -183,7 +183,7 @@ namespace Engine
 	{
 		for (auto itr = m_states.begin(); itr != m_states.end(); ++itr)
 		{
-			if (itr->first == l_type) 
+			if (itr->first == l_type)
 			{
 				itr->second->OnDestroy();
 				m_states.erase(itr);
