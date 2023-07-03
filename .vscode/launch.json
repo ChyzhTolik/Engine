@@ -5,17 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) Launch",
+            "name": "Engine",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/Application/Engine",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${fileDirname}",
+            "cwd": "${workspaceFolder}/build/Application",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
             "preLaunchTask": "CMake: build",
+            "miDebuggerPath": "/usr/bin/gdb",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",

@@ -194,8 +194,8 @@ namespace Engine
         std::ifstream bindings;
 #ifdef WIN32
         bindings.open("media/keys.cfg");
-#elif UNIX
-        bindings.open("/home/achyzh/TestProjects/Engine/Application/keys.cfg");
+#elif __unix__
+        bindings.open("media/keys.cfg");
 
 #endif // WIN32
 

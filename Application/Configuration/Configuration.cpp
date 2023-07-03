@@ -28,8 +28,8 @@ namespace Engine
 		textures.load(Textures::Player, "media/Player/Ship.png");
 		textures.load(Textures::Tiles, "media/Player/tiles.png");
 		textures.load(Textures::Background, "media/Player/background.png");
-		textures.load(Textures::Biomenace, "C:/Users/PC/Source/Repos/Engine/Application/media/img/biomenace_complete.gif");
-		textures.load(Textures::Intro, "C:/Users/PC/Source/Repos/Engine/Application/media/img/intro.png");
+		textures.load(Textures::Biomenace, "media/img/biomenace_complete.gif");
+		textures.load(Textures::Intro, "media/img/intro.png");
 	}
 
 	void Configuration::init_tetris_inputs()
