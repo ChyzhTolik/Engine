@@ -25,6 +25,7 @@ namespace Engine
         void ToggleFullscreen(EventDetails& l_details);
         void Close(EventDetails& l_details);
         sf::RenderWindow& GetRenderWindow();
+        sf::FloatRect GetViewSpace();
 
     private:
         void Setup(std::string_view l_title, const sf::Vector2u& l_size);

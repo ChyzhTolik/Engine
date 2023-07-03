@@ -16,9 +16,6 @@ namespace Engine
 		RegisterState<MenuCreator>(StateType::MainMenu, font);
 		RegisterState<GameCreator>(StateType::Game, Configuration::textures.get(Configuration::Textures::Mushroom));
 		RegisterState<PauseCreator>(StateType::Paused, font);
-		// RegisterState<State_MainMenu>(StateType::MainMenu);
-		// RegisterState<State_Game>(StateType::Game);
-		// RegisterState<State_Paused>(StateType::Paused);
 	}
 
 	StateManager::~StateManager()
@@ -55,6 +52,7 @@ namespace Engine
 
 			for (; itr != m_states.end(); ++itr)
 			{
+				m_shared.m_wind.GetRenderWindow().setView(itr->second->GetView());
 				itr->second->Draw();
 			}
 		}
@@ -153,6 +151,8 @@ namespace Engine
 				m_states.erase(itr);
 				m_states.emplace_back(tmp_type, std::move(tmp_state));
 				m_states.back().second->Activate();
+
+				m_shared.m_wind.GetRenderWindow().setView(m_states.back().second->GetView());
 				return;
 			}
 		}
@@ -165,6 +165,7 @@ namespace Engine
 
 		CreateState(l_type);
 		m_states.back().second->Activate();
+		m_shared.m_wind.GetRenderWindow().setView(m_states.back().second->GetView());
 	}
 
 	void StateManager::CreateState(const StateType& l_type)
@@ -177,6 +178,8 @@ namespace Engine
 		}
 
 		auto state = newState->second->create();
+		state->m_view = m_shared.m_wind.GetRenderWindow().getDefaultView();
+
 		m_states.emplace_back(l_type, std::move(state));
 		m_states.back().second->OnCreate();
 	}
