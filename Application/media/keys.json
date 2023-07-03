@@ -1,0 +1,32 @@
+[
+    {
+        "code": 0,
+        "name": "Window_close",
+        "type": 0
+    },
+    {
+        "code": 89,
+        "name": "Fullscreen_toggle",
+        "type": 5
+    },
+    {
+        "code": 57,
+        "name": "Intro_Continue",
+        "type": 5
+    },
+    {
+        "code": 0,
+        "name": "Mouse_Left",
+        "type": 9
+    },
+    {
+        "code": 36,
+        "name": "Key_Escape",
+        "type": 5
+    },
+    {
+        "code": 15,
+        "name": "Key_P",
+        "type": 5
+    }
+]

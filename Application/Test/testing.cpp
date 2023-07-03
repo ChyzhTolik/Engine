@@ -139,8 +139,6 @@ namespace Test
 		//Creation of the window
 		sf::RenderWindow window(sf::VideoMode({ 400,600 }), "Example animation");
 		//load of the texture image
-		Engine::ResourceManager<sf::Texture, int> textures;
-		Engine::TexturePtr texture = std::make_shared<sf::Texture>();
 		/*std::string config_path = "/home/achyzh/TestProjects/Engine/Application/media/img/biomenace_complete.gif";
 		if (!texture->loadFromFile(config_path))
 		{
@@ -168,7 +166,7 @@ namespace Test
 		}
 
 		//Creation of the animates sprite
-		Engine::AnimatedSprite sprite(walkLeft, Engine::AnimatedSprite::Status::Playing, sf::seconds(0.1f));
+		Engine::AnimatedSprite animated_sprite(walkLeft, Engine::AnimatedSprite::Status::Playing, sf::seconds(0.1f));
 		//game loop
 		sf::Clock clock;
 		while (window.isOpen())
@@ -186,21 +184,21 @@ namespace Test
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) //move left
 			{
-				sprite.set_animation(walkLeft);
-				sprite.play();
-				sprite.move({ -speed * delta.asSeconds(),0 });
+				animated_sprite.set_animation(walkLeft);
+				animated_sprite.play();
+				animated_sprite.move({ -speed * delta.asSeconds(),0 });
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 				//move right
 			{
-				sprite.set_animation(walkRight);
-				sprite.play();
-				sprite.move({ speed * delta.asSeconds(),0 });
+				animated_sprite.set_animation(walkRight);
+				animated_sprite.play();
+				animated_sprite.move({ speed * delta.asSeconds(),0 });
 			}
 
 			window.clear();
-			sprite.update(delta); //update the animate sprite for possible frame change
-			window.draw(sprite); //display the animation
+			animated_sprite.update(delta); //update the animate sprite for possible frame change
+			window.draw(animated_sprite); //display the animation
 			window.display();
 		}
 		return 0;

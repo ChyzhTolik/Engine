@@ -2,6 +2,9 @@
 
 #include <fstream>
 #include <iostream>
+#include <nlohmann/json.hpp>
+
+using nlohmann::json;
 
 namespace Engine
 {
@@ -187,59 +190,47 @@ namespace Engine
         }
     }
 
+    void to_json(json& j, const KeyInfo& p) {
+        j = json{ {"name", p.name}, {"type", p.type}, {"code", p.code} };
+    }
+
+    void from_json(const json& j, KeyInfo& p) {
+        j.at("name").get_to(p.name);
+        j.at("type").get_to(p.type);
+        j.at("code").get_to(p.code);
+    }
+
     void EventManager::LoadBindings()
     {
         std::string delimiter = ":";
 
         std::ifstream bindings;
 #ifdef WIN32
-        bindings.open("media/keys.cfg");
+        bindings.open("media/keys.json");
 #elif __unix__
-        bindings.open("media/keys.cfg");
+        bindings.open("media/keys.json");
 
 #endif // WIN32
 
 
         if (!bindings.is_open())
         { 
-            std::cout << "! Failed loading keys.cfg." << std::endl; return; 
+            std::cout << "! Failed loading keys.json." << std::endl; return; 
         }
 
-        std::string line;
-        while (std::getline(bindings, line))
+	    json jf = json::parse(bindings);
+        std::vector<KeyInfo> key_infos;
+        key_infos =jf;
+
+        for (auto &&info : key_infos)
         {
-            std::stringstream keystream(line);
-            std::string callbackName;
-            keystream >> callbackName;
-            std::unique_ptr<Binding> bind = std::make_unique<Binding>(callbackName);
-
-            while (!keystream.eof())
-            {
-                std::string keyval;
-                keystream >> keyval;
-                if(keystream.fail()) {
-                    keystream.clear();
-                    break;
-                }
-                int start = 0;
-                int end = keyval.find(delimiter);
-
-                if (end == std::string::npos)
-                { 
-                    break; 
-                }
-
-                EventType type = EventType(stoi(keyval.substr(start, end - start)));
-                int code = stoi(keyval.substr(end + delimiter.length(),
-                    keyval.find(delimiter, end + delimiter.length())));
-                EventInfo eventInfo;
-                eventInfo.m_code = code;
-
-                bind->BindEvent(type, eventInfo);
-            }
-
+            std::unique_ptr<Binding> bind = std::make_unique<Binding>(info.name);
+            EventType type = info.type;
+            EventInfo eventInfo;
+            eventInfo.m_code = info.code;
+            bind->BindEvent(type, eventInfo);
             AddBinding(std::move(bind));
-        }
+        }        
 
         bindings.close();
     }

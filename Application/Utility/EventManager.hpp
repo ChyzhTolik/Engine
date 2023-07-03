@@ -54,6 +54,13 @@ namespace Engine
         EventDetails m_details;
     };
 
+    struct KeyInfo
+    {
+        std::string name;
+        EventType type;
+        int code;
+    };
+
     using Bindings = std::unordered_map<std::string, std::unique_ptr<Binding>>;
 
     // using ActionFunctinoids = std::unordered_map<std::string, std::unique_ptr<ActionFunctinoid>>;
