@@ -74,6 +74,6 @@ namespace Engine
 
     std::unique_ptr<BaseState> IntroCreator::create()
     {
-        return std::make_unique<State_Intro>(m_state_manager, m_texture, m_font);    
+        return std::make_unique<State_Intro>(m_state_manager, m_texture, m_font);
     }
 } // namespace Engine

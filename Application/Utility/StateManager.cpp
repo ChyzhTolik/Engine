@@ -9,10 +9,12 @@ namespace Engine
 {
 	StateManager::StateManager(SharedContext& l_shared) : m_shared(l_shared)
 	{
+
 		sf::Texture& text_texture = Configuration::textures.get(Configuration::Textures::Intro);
 		sf::Font& font = Configuration::fonts.get(Configuration::Fonts::Arial);
 		RegisterState<IntroCreator>(StateType::Intro, text_texture, font);
 		RegisterState<MenuCreator>(StateType::MainMenu, font);
+		RegisterState<GameCreator>(StateType::Game, Configuration::textures.get(Configuration::Textures::Mushroom));
 
 		// RegisterState<State_MainMenu>(StateType::MainMenu);
 		// RegisterState<State_Game>(StateType::Game);
