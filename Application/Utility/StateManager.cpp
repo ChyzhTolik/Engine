@@ -15,7 +15,7 @@ namespace Engine
 		RegisterState<IntroCreator>(StateType::Intro, text_texture, font);
 		RegisterState<MenuCreator>(StateType::MainMenu, font);
 		RegisterState<GameCreator>(StateType::Game, Configuration::textures.get(Configuration::Textures::Mushroom));
-
+		RegisterState<PauseCreator>(StateType::Paused, font);
 		// RegisterState<State_MainMenu>(StateType::MainMenu);
 		// RegisterState<State_Game>(StateType::Game);
 		// RegisterState<State_Paused>(StateType::Paused);

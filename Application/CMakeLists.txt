@@ -21,6 +21,7 @@ set (SOURCES_FILES
     Utility/BaseState.cpp
     Utility/State_MainMenu.cpp
     Utility/State_Game.cpp
+    Utility/State_Paused.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})
