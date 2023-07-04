@@ -13,4 +13,19 @@ namespace Engine
     {
 
     }
+
+    TileType Tile::get_type() const
+    {
+        return m_tile_info.type;
+    }
+
+    int Tile::get_width() const
+    {
+        return m_tile_info.size.x;
+    }
+
+    int Tile::get_height() const
+    {
+        return m_tile_info.size.y;
+    }
 } // namespace Engine

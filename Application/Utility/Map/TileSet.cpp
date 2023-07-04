@@ -58,8 +58,13 @@ namespace Engine
         tiles.close();
     }
 
-    const sf::Sprite& TileSet::get_tile(TileType type) const
+    sf::Sprite& TileSet::get_tile(TileType type) const
     {
         return *m_set.at(type);
+    }
+
+    std::shared_ptr<Tile> TileSet::find(TileType type) const
+    {
+        return m_set.find(type)->second;
     }
 } // namespace Engine

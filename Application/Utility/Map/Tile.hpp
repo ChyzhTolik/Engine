@@ -31,7 +31,13 @@ namespace Engine
     private:
         TileInfo m_tile_info;
     public:
+        Tile() = default;
+        Tile(const Tile&) = default;
+        Tile(Tile&&) = default;
         Tile(TileInfo info);
         ~Tile();
+        TileType get_type() const;
+        int get_width() const;
+        int get_height() const;
     };
 } // namespace Engine

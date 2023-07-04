@@ -2,6 +2,7 @@
 
 #include "BaseState.hpp"
 #include "ActionFunctinoid.hpp"
+#include "Map/TileMap.hpp"
 
 namespace Engine
 {
@@ -21,6 +22,7 @@ namespace Engine
     private:
         sf::Sprite m_game_sprite;
         sf::Vector2f m_increment;
+        TileMap m_map;
 
         class PauseAction : public ActionFunctinoid
         {

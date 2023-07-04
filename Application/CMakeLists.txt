@@ -25,6 +25,7 @@ set (SOURCES_FILES
     Utility/Map/Background.cpp
     Utility/Map/Tile.cpp
     Utility/Map/TileSet.cpp
+    Utility/Map/TileMap.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})
