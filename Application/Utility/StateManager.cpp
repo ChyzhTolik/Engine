@@ -5,16 +5,20 @@
 #include "State_Paused.hpp"
 #include "Configuration.hpp"
 
+#include "Map/TileSet.hpp"
+
 namespace Engine
 {
 	StateManager::StateManager(SharedContext& l_shared) : m_shared(l_shared)
 	{
-
+		TileSet tile_set;
+		tile_set.load_from_file("media/tiles.json");
 		sf::Texture& text_texture = Configuration::textures.get(Configuration::Textures::Intro);
 		sf::Font& font = Configuration::fonts.get(Configuration::Fonts::Arial);
 		RegisterState<IntroCreator>(StateType::Intro, text_texture, font);
 		RegisterState<MenuCreator>(StateType::MainMenu, font);
-		RegisterState<GameCreator>(StateType::Game, Configuration::textures.get(Configuration::Textures::Mushroom));
+		// RegisterState<GameCreator>(StateType::Game, Configuration::textures.get(Configuration::Textures::Mushroom));
+		RegisterState<GameCreator>(StateType::Game, tile_set.get_tile(TileType::Brick_Red));
 		RegisterState<PauseCreator>(StateType::Paused, font);
 	}
 

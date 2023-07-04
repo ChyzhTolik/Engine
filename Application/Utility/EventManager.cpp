@@ -202,8 +202,6 @@ namespace Engine
 
     void EventManager::LoadBindings()
     {
-        std::string delimiter = ":";
-
         std::ifstream bindings;
 #ifdef WIN32
         bindings.open("media/keys.json");

@@ -22,6 +22,9 @@ set (SOURCES_FILES
     Utility/State_MainMenu.cpp
     Utility/State_Game.cpp
     Utility/State_Paused.cpp
+    Utility/Map/Background.cpp
+    Utility/Map/Tile.cpp
+    Utility/Map/TileSet.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})

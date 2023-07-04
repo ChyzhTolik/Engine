@@ -21,6 +21,7 @@ namespace Engine
 			Biomenace,
 			Intro,
 			Mushroom,
+			TilesEngine,
 		};
 
 		static ResourceManager<sf::Texture, Textures> textures;

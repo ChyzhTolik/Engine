@@ -9,9 +9,11 @@ namespace Engine
     {
     public:
         GameCreator(StateManager& l_state_manager, const sf::Texture& l_texture);
+        GameCreator(StateManager& l_state_manager, const sf::Sprite& l_sprite);
         virtual std::unique_ptr<BaseState> create() override;
     private:
         const sf::Texture& m_texture;
+        std::shared_ptr<sf::Sprite> m_sprite;
     };
 
     class State_Game : public BaseState
@@ -40,6 +42,7 @@ namespace Engine
 
     public:
         State_Game(StateManager& l_stateManager, const sf::Texture& l_textrue);
+        State_Game(StateManager& l_stateManager, const sf::Sprite& l_sprite);
         ~State_Game();
 
         virtual void OnCreate() override;

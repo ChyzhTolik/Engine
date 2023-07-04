@@ -9,15 +9,27 @@ namespace Engine
 
     }
 
+    GameCreator::GameCreator(StateManager& l_state_manager, const sf::Sprite& l_sprite) :
+        StateCreator(l_state_manager), m_sprite(std::make_shared<sf::Sprite>(l_sprite)), m_texture(*(l_sprite.getTexture()))
+    {
+
+    }
+
     std::unique_ptr<BaseState> GameCreator::create()
     {
-        return std::make_unique<State_Game>(m_state_manager, m_texture);
+        return std::make_unique<State_Game>(m_state_manager, *m_sprite);
     }
 
     State_Game::State_Game(StateManager& l_stateManager, const sf::Texture& l_textrue):
         BaseState(l_stateManager), m_game_sprite(l_textrue)
     {
         
+    }
+
+    State_Game::State_Game(StateManager& l_stateManager, const sf::Sprite& l_sprite):
+        BaseState(l_stateManager), m_game_sprite(l_sprite)
+    {
+
     }
 
     State_Game::~State_Game()
