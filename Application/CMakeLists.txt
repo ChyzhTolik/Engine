@@ -26,6 +26,8 @@ set (SOURCES_FILES
     Utility/Map/Tile.cpp
     Utility/Map/TileSet.cpp
     Utility/Map/TileMap.cpp
+    Animations/Anim_Base.cpp
+    Animations/SpriteSheet.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})
