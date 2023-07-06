@@ -21,13 +21,13 @@ namespace Engine
     }
 
     State_Game::State_Game(StateManager& l_stateManager, const sf::Texture& l_textrue):
-        BaseState(l_stateManager), m_game_sprite(l_textrue), m_map(l_stateManager.GetContext())
+        BaseState(l_stateManager), m_background_sprite(l_textrue), m_map(l_stateManager.GetContext())
     {
         
     }
 
     State_Game::State_Game(StateManager& l_stateManager, const sf::Sprite& l_sprite):
-        BaseState(l_stateManager), m_game_sprite(l_sprite), m_map(l_stateManager.GetContext())
+        BaseState(l_stateManager), m_background_sprite(l_sprite), m_map(l_stateManager.GetContext())
     {
 
     }
@@ -39,7 +39,7 @@ namespace Engine
 
     void State_Game::OnCreate()
     {
-        m_game_sprite.setPosition({0,0});
+        m_background_sprite.setPosition({0,0});
         m_increment = sf::Vector2f(400.0f,400.0f);
         EventManager& evMgr = m_stateMgr.GetContext().m_eventManager;
         evMgr.add_action(StateType::Game,"Key_Escape",std::make_unique<MainMenuAction>(*this));
@@ -76,7 +76,7 @@ namespace Engine
 
     void State_Game::Draw()
     {
-        // m_stateMgr.GetContext().m_wind.GetRenderWindow().draw(m_game_sprite);
+        m_stateMgr.GetContext().m_wind.GetRenderWindow().draw(m_background_sprite);
         m_map.draw();
     }
 

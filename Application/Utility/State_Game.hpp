@@ -20,7 +20,7 @@ namespace Engine
     class State_Game : public BaseState
     {
     private:
-        sf::Sprite m_game_sprite;
+        sf::Sprite m_background_sprite;
         sf::Vector2f m_increment;
         TileMap m_map;
 

@@ -4,7 +4,7 @@
 namespace Engine
 {
     Anim_Base::Anim_Base(): m_frameCurrent(0), m_frameStart(0),
-        m_frameEnd(0), m_frameRow(0), m_frameTime(0.f),
+        m_frameEnd(0), m_frameTime(0.f),
         m_elapsedTime(0.f), m_frameActionStart(-1),
         m_frameActionEnd(-1), m_loop(false), m_playing(false)
     {
@@ -51,7 +51,8 @@ namespace Engine
 
     void Anim_Base::Stop()
     { 
-        m_playing = false; Reset(); 
+        m_playing = false; 
+        Reset(); 
     }
 
     void Anim_Base::Reset()
@@ -83,5 +84,20 @@ namespace Engine
     void Anim_Base::SetLooping(bool l_loop)
     { 
         m_loop = l_loop; 
+    }
+
+    void Anim_Base::SetStartFrame(Frame l_frame)
+    {
+        m_frameStart = l_frame;
+    }
+
+	void Anim_Base::SetEndFrame(Frame l_frame)
+    {
+        m_frameEnd = l_frame;
+    }
+
+    void Anim_Base::SetRectangles(std::vector<sf::IntRect>&& rects)
+    {
+        rects = std::move(rects);
     }
 } // namespace Engine

@@ -6,31 +6,40 @@ namespace Engine
 {
     void Anim_Directional::CropSprite()
     {
-        sf::IntRect rect( 
-            {m_spriteSheet->GetSpriteSize().x * static_cast<int>(m_frameCurrent),
-            m_spriteSheet->GetSpriteSize().y * (static_cast<int>(m_frameRow) + (short)m_spriteSheet->GetDirection())},
-            {m_spriteSheet->GetSpriteSize().x,
-            m_spriteSheet->GetSpriteSize().y}
-        );
-        m_spriteSheet->CropSprite(rect);
+        m_spriteSheet->CropSprite(m_spriteSheet->GetDirection() == Direction::Right ? rects[m_frameCurrent] : invert_horizontal(rects[m_frameCurrent]));
     }
 
     void Anim_Directional::FrameStep()
     {
-        if (m_frameStart < m_frameEnd){ ++m_frameCurrent; }
-        else { --m_frameCurrent; }
+        if (m_frameStart < m_frameEnd)
+        { 
+            ++m_frameCurrent; 
+        }
+        else 
+        { 
+            --m_frameCurrent; 
+        }
+
         if ((m_frameStart < m_frameEnd && m_frameCurrent > m_frameEnd)||
         (m_frameStart > m_frameEnd && m_frameCurrent < m_frameEnd))
         {
-        if (m_loop){ m_frameCurrent = m_frameStart; return; }
-        m_frameCurrent = m_frameEnd;
-        Pause();
+            if (m_loop)
+            { 
+                m_frameCurrent = m_frameStart; 
+                return; 
+            }
+
+            m_frameCurrent = m_frameEnd;
+            Pause();
         }
     }
 
-    void Anim_Directional::ReadIn(std::stringstream& l_stream)
+    sf::IntRect Anim_Directional::invert_horizontal(const sf::IntRect& rect)
     {
-        l_stream >> m_frameStart >> m_frameEnd >> m_frameRow
-        >> m_frameTime >> m_frameActionStart >> m_frameActionEnd;
+        sf::IntRect result;
+        result.left = rect.left + rect.width;
+        result.width = -rect.width;
+
+		return result;
     }
 } // namespace Engine

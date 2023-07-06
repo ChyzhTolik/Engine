@@ -13,4 +13,5 @@ int main()
 	//Test::test_animation();
 	//Test::test_biomenace();
 	Test::test_mushroom();
+	// Test::test_classes();
 }

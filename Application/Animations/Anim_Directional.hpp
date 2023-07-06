@@ -8,7 +8,8 @@ namespace Engine
     protected:
         void FrameStep();
         void CropSprite();
-        void ReadIn(std::stringstream& l_stream);
+    private:
+        sf::IntRect invert_horizontal(const sf::IntRect& rect);
     };
     
 } // namespace Engine

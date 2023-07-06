@@ -1,6 +1,9 @@
 #pragma once
+
+#include <SFML/Graphics.hpp>
 #include <sstream>
 #include <memory>
+#include <vector>
 
 namespace Engine
 {
@@ -19,24 +22,21 @@ namespace Engine
         void Stop();
         void Reset();
         virtual void Update(const float& l_dT);
-        friend std::stringstream& operator >>(std::stringstream& l_stream, Anim_Base& a)
-        {
-            a.ReadIn(l_stream);
-            return l_stream;
-        }
         void SetLooping(bool l_loop);
         void SetSpriteSheet(std::shared_ptr<SpriteSheet> l_sheet);
         void SetFrame(const unsigned int& l_frame);
         bool IsInAction();
+        void SetRectangles(std::vector<sf::IntRect>&& rects);
+        void SetStartFrame(Frame l_frame);
+	    void SetEndFrame(Frame l_frame);
 
     protected:
         virtual void FrameStep() = 0;
         virtual void CropSprite() = 0;
-        virtual void ReadIn(std::stringstream& l_stream) = 0;
         Frame m_frameCurrent;
         Frame m_frameStart;
         Frame m_frameEnd;
-        Frame m_frameRow;
+        std::vector<sf::IntRect> rects;
         int m_frameActionStart; // Frame when a specific "action" begins
         int m_frameActionEnd; // Frame when a specific "action" ends
         float m_frameTime;

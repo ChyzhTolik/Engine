@@ -4,6 +4,7 @@
 #include "ActionFunctinoid.hpp"
 #include "StateManager.hpp"
 #include "SharedContext.hpp"
+#include "SpriteSheet.hpp"
 
 namespace Engine
 {

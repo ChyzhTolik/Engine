@@ -7,6 +7,7 @@ project(Engine)
 set (SOURCES_FILES
     main.cpp
     Test/testing.cpp
+    Test/Engine_classes.hpp
     Action/Action.cpp
     Configuration/Configuration.cpp
     MainWindow.cpp
@@ -80,10 +81,10 @@ if(WIN32)
     )
 endif(WIN32)
 
+target_include_directories(${PROJECT_NAME} PRIVATE Animations)
 target_include_directories(${PROJECT_NAME} PRIVATE Test)
 target_include_directories(${PROJECT_NAME} PRIVATE Action)
 target_include_directories(${PROJECT_NAME} PRIVATE Configuration)
-target_include_directories(${PROJECT_NAME} PRIVATE Animations)
 target_include_directories(${PROJECT_NAME} PRIVATE Utility)
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDES})
 

@@ -1,15 +1,13 @@
 #include "testing.hpp"
 
+#include "Engine_classes.hpp"
+
 #include <iostream>
 #include <vector>
 #include <filesystem>
 #include <SFML/Graphics.hpp>
 
-#include "Animation.hpp"
-#include "AnimatedSprite.hpp"
-#include "ResourceManager.hpp"
-#include "Game.hpp"
-#include "Configuration.hpp"
+
 
 namespace Test
 {
@@ -222,5 +220,11 @@ namespace Test
 		game.run();
 
 		return 0;
+	}
+
+	void test_classes()
+	{
+		Engine::SpriteSheet sheet;
+		sheet.LoadSheet("media/Player.json");
 	}
 } // namespace Test

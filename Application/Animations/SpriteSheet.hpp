@@ -3,13 +3,37 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <memory>
+#include <vector>
 #include "Anim_Base.hpp"
 
 namespace Engine
 {
+    enum class AnimationType
+    {
+        Idle,
+        Running,
+        Throwint,
+        Firing,
+        Siting,
+        SitFiring,
+        Jumping,
+        JumpFiring,
+        Death,
+        Climbing,
+    };
+
+    struct FrameInfo
+    {
+        AnimationType type;
+        float frame_time;
+        std::vector<std::vector<int>> rects;
+        int start_frame;
+        int end_frame;
+    };
+
     enum class Direction{ Right = 0, Left };
 
-    using Animations = std::unordered_map<std::string,std::shared_ptr<Anim_Base>>;
+    using Animations = std::unordered_map<AnimationType,std::shared_ptr<Anim_Base>>;
 
     class SpriteSheet
     {
@@ -19,7 +43,7 @@ namespace Engine
         void CropSprite(const sf::IntRect& l_rect);
         bool LoadSheet(const std::string& l_file);
         std::shared_ptr<Anim_Base> GetCurrentAnim();
-        bool SetAnimation(const std::string& l_name, const bool& l_play = false, const bool& l_loop = false);
+        bool SetAnimation(AnimationType l_name, const bool& l_play = false, const bool& l_loop = false);
         void Update(const float& l_dT);
         void Draw(sf::RenderWindow& l_wnd);
 

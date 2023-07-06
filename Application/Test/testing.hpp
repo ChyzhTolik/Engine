@@ -7,4 +7,5 @@ namespace Test
     int test_animation();
     int test_mushroom();  
     int test_biomenace();
+    void test_classes();
 } // namespace Test
