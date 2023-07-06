@@ -9,27 +9,22 @@ namespace Engine
 
     }
 
-    GameCreator::GameCreator(StateManager& l_state_manager, const sf::Sprite& l_sprite) :
-        StateCreator(l_state_manager), m_sprite(std::make_shared<sf::Sprite>(l_sprite)), m_texture(*(l_sprite.getTexture()))
-    {
-
-    }
-
     std::unique_ptr<BaseState> GameCreator::create()
     {
-        return std::make_unique<State_Game>(m_state_manager, *m_sprite);
+        return std::make_unique<State_Game>(m_state_manager, m_texture);
     }
 
     State_Game::State_Game(StateManager& l_stateManager, const sf::Texture& l_textrue):
         BaseState(l_stateManager), m_background_sprite(l_textrue), m_map(l_stateManager.GetContext())
     {
-        
-    }
-
-    State_Game::State_Game(StateManager& l_stateManager, const sf::Sprite& l_sprite):
-        BaseState(l_stateManager), m_background_sprite(l_sprite), m_map(l_stateManager.GetContext())
-    {
-
+        m_background_sprite.setScale({3.125f,4.17f});
+        m_sprite_sheet.LoadSheet("media/Player.json");
+        m_sprite_sheet.SetAnimation(AnimationType::Idle);
+        m_sprite_sheet.SetSpritePosition({30.f, 450.f});
+        m_sprite_sheet.SetSpriteScale({3.f,3.f});
+        auto animation = m_sprite_sheet.GetCurrentAnim();
+        animation->SetLooping(true);
+        animation->Play();
     }
 
     State_Game::~State_Game()
@@ -55,29 +50,15 @@ namespace Engine
 
     void State_Game::Update(const sf::Time& l_time)
     {
-        // sf::Vector2u l_windSize = m_stateMgr.GetContext().m_wind.GetWindowSize();
-        // sf::Vector2u l_textSize = m_game_sprite.getTexture()->getSize();
+        m_sprite_sheet.Update(l_time.asSeconds());
 
-        // if((m_game_sprite.getPosition().x > l_windSize.x - l_textSize.x && m_increment.x > 0) ||
-        //     (m_game_sprite.getPosition().x < 0 && m_increment.x < 0))
-        // {
-        //     m_increment.x = -m_increment.x;
-        // }
-
-        // if((m_game_sprite.getPosition().y > l_windSize.y - l_textSize.y && m_increment.y > 0) ||
-        //     (m_game_sprite.getPosition().y < 0 && m_increment.y < 0))
-        // {
-        //     m_increment.y = -m_increment.y;
-        // }
-
-        // m_game_sprite.setPosition({m_game_sprite.getPosition().x + (m_increment.x * l_time.asSeconds()),
-        //     m_game_sprite.getPosition().y + (m_increment.y * l_time.asSeconds())});
     }
 
     void State_Game::Draw()
     {
         m_stateMgr.GetContext().m_wind.GetRenderWindow().draw(m_background_sprite);
-        m_map.draw();
+        m_sprite_sheet.Draw(m_stateMgr.GetContext().m_wind.GetRenderWindow());
+        // m_map.draw();
     }
 
     State_Game::MainMenuAction::MainMenuAction(State_Game& state) : m_state(state)

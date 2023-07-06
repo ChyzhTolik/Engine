@@ -15,7 +15,6 @@ namespace Engine
 		sf::Font& font = Configuration::fonts.get(Configuration::Fonts::Arial);
 		RegisterState<IntroCreator>(StateType::Intro, text_texture, font);
 		RegisterState<MenuCreator>(StateType::MainMenu, font);
-		// RegisterState<GameCreator>(StateType::Game, Configuration::textures.get(Configuration::Textures::Mushroom));
 		RegisterState<GameCreator>(StateType::Game, Configuration::textures.get(Configuration::Textures::Background));
 		RegisterState<PauseCreator>(StateType::Paused, font);
 	}

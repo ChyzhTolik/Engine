@@ -3,7 +3,7 @@
 
 namespace Engine
 {
-    Anim_Base::Anim_Base(): m_frameCurrent(0), m_frameStart(0),
+    Anim_Base::Anim_Base(SpriteSheet& l_sprite_sheet): m_spriteSheet(l_sprite_sheet), m_frameCurrent(0), m_frameStart(0),
         m_frameEnd(0), m_frameTime(0.f),
         m_elapsedTime(0.f), m_frameActionStart(-1),
         m_frameActionEnd(-1), m_loop(false), m_playing(false)
@@ -14,11 +14,6 @@ namespace Engine
     Anim_Base::~Anim_Base()
     {
 
-    }
-
-    void Anim_Base::SetSpriteSheet(std::shared_ptr<SpriteSheet> l_sheet)
-    {
-        m_spriteSheet = l_sheet;
     }
 
     void Anim_Base::SetFrame(const unsigned int& l_frame)

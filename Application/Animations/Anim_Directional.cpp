@@ -6,11 +6,16 @@ namespace Engine
 {
     void Anim_Directional::CropSprite()
     {
-        m_spriteSheet->CropSprite(m_spriteSheet->GetDirection() == Direction::Right ? rects[m_frameCurrent] : invert_horizontal(rects[m_frameCurrent]));
+        m_spriteSheet.CropSprite(m_spriteSheet.GetDirection() == Direction::Right ? rects[m_frameCurrent] : invert_horizontal(rects[m_frameCurrent]));
     }
 
     void Anim_Directional::FrameStep()
     {
+        if(m_frameStart == m_frameEnd)
+        {
+            return;
+        }
+
         if (m_frameStart < m_frameEnd)
         { 
             ++m_frameCurrent; 

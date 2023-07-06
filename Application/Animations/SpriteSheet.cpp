@@ -136,7 +136,7 @@ namespace Engine
 
         for (auto &&frame : frame_infos)
         {
-            std::shared_ptr<Anim_Base> animation = std::make_shared<Anim_Directional>();
+            std::shared_ptr<Anim_Base> animation = std::make_shared<Anim_Directional>(*this);
             animation->m_frameTime = frame.frame_time;
             animation->m_frameStart = frame.start_frame;
             animation->m_frameEnd = frame.end_frame;
@@ -152,5 +152,15 @@ namespace Engine
 
         frames.close();
         return true;
+    }
+
+    std::shared_ptr<Anim_Base> SpriteSheet::GetCurrentAnim()
+    {
+        return m_animationCurrent;
+    }
+
+    void SpriteSheet::SetSpriteScale(const sf::Vector2f& scale)
+    {
+        m_sprite.setScale(scale);
     }
 } // namespace Engine

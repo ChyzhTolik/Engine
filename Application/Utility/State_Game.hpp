@@ -3,6 +3,7 @@
 #include "BaseState.hpp"
 #include "ActionFunctinoid.hpp"
 #include "Map/TileMap.hpp"
+#include "SpriteSheet.hpp"
 
 namespace Engine
 {
@@ -10,7 +11,6 @@ namespace Engine
     {
     public:
         GameCreator(StateManager& l_state_manager, const sf::Texture& l_texture);
-        GameCreator(StateManager& l_state_manager, const sf::Sprite& l_sprite);
         virtual std::unique_ptr<BaseState> create() override;
     private:
         const sf::Texture& m_texture;
@@ -23,6 +23,7 @@ namespace Engine
         sf::Sprite m_background_sprite;
         sf::Vector2f m_increment;
         TileMap m_map;
+        SpriteSheet m_sprite_sheet;
 
         class PauseAction : public ActionFunctinoid
         {
@@ -44,7 +45,6 @@ namespace Engine
 
     public:
         State_Game(StateManager& l_stateManager, const sf::Texture& l_textrue);
-        State_Game(StateManager& l_stateManager, const sf::Sprite& l_sprite);
         ~State_Game();
 
         virtual void OnCreate() override;

@@ -15,7 +15,7 @@ namespace Engine
         friend class SpriteSheet;
 
     public:
-        Anim_Base();
+        Anim_Base(SpriteSheet& l_sprite_sheet);
         virtual ~Anim_Base();
         void Play();
         void Pause();
@@ -23,7 +23,6 @@ namespace Engine
         void Reset();
         virtual void Update(const float& l_dT);
         void SetLooping(bool l_loop);
-        void SetSpriteSheet(std::shared_ptr<SpriteSheet> l_sheet);
         void SetFrame(const unsigned int& l_frame);
         bool IsInAction();
         void SetRectangles(std::vector<sf::IntRect>&& rects);
@@ -44,7 +43,7 @@ namespace Engine
         bool m_loop;
         bool m_playing;
         std::string m_name;
-        std::shared_ptr<SpriteSheet> m_spriteSheet;
+        SpriteSheet& m_spriteSheet;
     };
     
 } // namespace Engine

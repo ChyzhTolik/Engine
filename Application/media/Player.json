@@ -12,7 +12,7 @@
   },
   {
     "type": 1,
-    "frame_time": 1.0,
+    "frame_time": 2.0,
     "rects": [
       [
         81, 49, 106, 89
