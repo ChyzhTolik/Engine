@@ -138,7 +138,7 @@ namespace Engine
                             ++(bind->c);
                         }
                     }
-                break;
+                    break;
 
                     case(EventType::Mouse) :
                     {
@@ -152,7 +152,8 @@ namespace Engine
                             ++(bind->c);
                         }
                     }
-                break;
+                    break;
+                    
                     case(EventType::Joystick) :
                 // Up for expansion.
                 break;

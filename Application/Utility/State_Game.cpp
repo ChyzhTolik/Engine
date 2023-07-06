@@ -39,6 +39,7 @@ namespace Engine
         EventManager& evMgr = m_stateMgr.GetContext().m_eventManager;
         evMgr.add_action(StateType::Game,"Key_Escape",std::make_unique<MainMenuAction>(*this));
         evMgr.add_action(StateType::Game,"Key_P",std::make_unique<PauseAction>(*this));
+        evMgr.add_action(StateType::Game,"Right",std::make_unique<MoveAction>(*this));
     }
 
     void State_Game::OnDestroy()
@@ -83,4 +84,17 @@ namespace Engine
 
     void State_Game::Activate(){};
     void State_Game::Deactivate(){};
+
+    State_Game::MoveAction::MoveAction(State_Game& state): m_state(state)
+    {
+
+    }
+
+    void State_Game::MoveAction::execute(EventDetails& l_details)
+    {
+        m_state.m_sprite_sheet.SetAnimation(AnimationType::Running);
+        auto animation = m_state.m_sprite_sheet.GetCurrentAnim();
+        animation->SetLooping(true);
+        animation->Play();
+    }
 } // namespace Engine

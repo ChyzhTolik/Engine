@@ -43,6 +43,15 @@ namespace Engine
             State_Game& m_state;
         };
 
+        class MoveAction : public ActionFunctinoid
+        {
+        public:
+            MoveAction(State_Game& state);
+            virtual void execute(EventDetails& l_details) override;
+        private:
+            State_Game& m_state;
+        };
+
     public:
         State_Game(StateManager& l_stateManager, const sf::Texture& l_textrue);
         ~State_Game();
