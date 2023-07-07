@@ -86,6 +86,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE Test)
 target_include_directories(${PROJECT_NAME} PRIVATE Action)
 target_include_directories(${PROJECT_NAME} PRIVATE Configuration)
 target_include_directories(${PROJECT_NAME} PRIVATE Utility)
+target_include_directories(${PROJECT_NAME} PRIVATE Entity)
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDES})
 
 file(COPY ${CMAKE_SOURCE_DIR}/Application/media DESTINATION ${CMAKE_BINARY_DIR}/Application/)
