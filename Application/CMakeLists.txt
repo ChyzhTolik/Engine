@@ -30,6 +30,7 @@ set (SOURCES_FILES
     Animations/Anim_Base.cpp
     Animations/SpriteSheet.cpp
     Animations/Anim_Directional.cpp
+    Entity/EntityBase.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})
@@ -86,6 +87,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE Test)
 target_include_directories(${PROJECT_NAME} PRIVATE Action)
 target_include_directories(${PROJECT_NAME} PRIVATE Configuration)
 target_include_directories(${PROJECT_NAME} PRIVATE Utility)
+target_include_directories(${PROJECT_NAME} PRIVATE Utility/Map)
 target_include_directories(${PROJECT_NAME} PRIVATE Entity)
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDES})
 

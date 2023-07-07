@@ -1,6 +1,8 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <memory>
+#include <Tile.hpp>
 
 namespace Engine
 {
@@ -16,9 +18,14 @@ namespace Engine
     class EntityBase
     {
         friend class EntityManager;
-        EntityBase(EntityManager* l_entityMgr);
+        EntityBase(std::shared_ptr<EntityManager> l_entityMgr);
         virtual ~EntityBase();
         // Getters and setters.
+        void SetPosition(const float& l_x, const float& l_y);
+        void SetPosition(const sf::Vector2f& l_pos);
+        void SetSize(const float& l_x, const float& l_y);
+        void SetState(const EntityState& l_state);
+
         void Move(float l_x, float l_y);
         void AddVelocity(float l_x, float l_y);
         void Accelerate(float l_x, float l_y);
@@ -45,7 +52,7 @@ namespace Engine
         sf::Vector2f m_speed; // Value of acceleration.
         sf::Vector2f m_acceleration; // Current acceleration.
         sf::Vector2f m_friction; // Default friction value.
-        TileInfo* m_referenceTile; // Tile underneath entity.
+        std::shared_ptr<TileInfo> m_referenceTile; // Tile underneath entity.
         sf::Vector2f m_size; // Size of the collision box.
         sf::FloatRect m_AABB; // The bounding box for collisions.
         EntityState m_state; // Current entity state.
@@ -53,7 +60,7 @@ namespace Engine
         bool m_collidingOnX;
         bool m_collidingOnY;
         Collisions m_collisions;
-        EntityManager* m_entityManager;
+        std::shared_ptr<EntityManager> m_entityManager;
     };
     
 } // namespace Engine
