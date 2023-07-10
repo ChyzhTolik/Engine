@@ -4,8 +4,13 @@
 
 namespace Engine
 {
-    Game::Game(sf::Texture& texture) : m_window("Engine", {800,600}), m_mushroom(texture), m_sprite(texture), m_texture(texture),
-        m_context(m_window, m_window.GetEventManager()), m_state_manager(m_context)
+    Game::Game(sf::Texture& texture, EntityManager& l_entity_manager, TileMap& l_tile_map) : 
+        m_window("Engine", {800,600}), 
+        m_mushroom(texture), 
+        m_sprite(texture), 
+        m_texture(texture),
+        m_context(m_window, m_window.GetEventManager(), l_entity_manager, l_tile_map), 
+        m_state_manager(m_context)
     {
         m_clock.restart();
         srand(time(nullptr));

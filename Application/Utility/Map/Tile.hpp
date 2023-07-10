@@ -4,6 +4,8 @@
 
 namespace Engine
 {
+    enum Sheet{ Tile_Size = 32, Sheet_Width = 256, Sheet_Height = 256 };
+
     enum class TileType
     {
         None = 0,
@@ -32,6 +34,7 @@ namespace Engine
     private:
         TileInfo m_tile_info;
     public:
+        bool m_warp;
         Tile() = default;
         Tile(const Tile&) = default;
         Tile(Tile&&) = default;

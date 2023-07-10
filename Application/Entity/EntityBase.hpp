@@ -13,18 +13,44 @@ namespace Engine
         Idle, Walking, Jumping, Attacking, Hurt, Dying
     };
 
+    struct CollisionElement
+    {
+        CollisionElement(float l_area, std::shared_ptr<TileInfo> l_info,  const sf::FloatRect& l_bounds):
+            m_area(l_area),
+            m_tile(l_info), 
+            m_tileBounds(l_bounds)
+        {
+
+        }
+
+        float m_area;
+        std::shared_ptr<TileInfo> m_tile;
+        sf::FloatRect m_tileBounds;
+    };
+
+    using Collisions = std::vector<CollisionElement>;
+
+    bool SortCollisions(const CollisionElement& l_1,const CollisionElement& l_2);
+
     class EntityManager;
 
     class EntityBase
     {
+    public:
         friend class EntityManager;
-        EntityBase(std::shared_ptr<EntityManager> l_entityMgr);
+        EntityBase(EntityManager& l_entityMgr);
         virtual ~EntityBase();
-        // Getters and setters.
         void SetPosition(const float& l_x, const float& l_y);
         void SetPosition(const sf::Vector2f& l_pos);
         void SetSize(const float& l_x, const float& l_y);
         void SetState(const EntityState& l_state);
+
+        const sf::Vector2f& GetPosition()const;
+        const sf::Vector2f& GetSize()const;
+        EntityState GetState()const;
+        std::string GetName()const;
+        unsigned int GetId()const;
+        EntityType GetType()const;
 
         void Move(float l_x, float l_y);
         void AddVelocity(float l_x, float l_y);
@@ -33,14 +59,14 @@ namespace Engine
         void ApplyFriction(float l_x, float l_y);
         virtual void Update(float l_dT);
         virtual void Draw(sf::RenderWindow& l_wind) = 0;
-        protected:
+
+    protected:
         // Methods.
         void UpdateAABB();
         void CheckCollisions();
         void ResolveCollisions();
         // Method for what THIS entity does TO the l_collider entity.
-        virtual void OnEntityCollision(EntityBase* l_collider,
-        bool l_attack) = 0;
+        virtual void OnEntityCollision(EntityBase& l_collider, bool l_attack) = 0;
         // Data members.
         std::string m_name;
         EntityType m_type;
@@ -54,13 +80,13 @@ namespace Engine
         sf::Vector2f m_friction; // Default friction value.
         std::shared_ptr<TileInfo> m_referenceTile; // Tile underneath entity.
         sf::Vector2f m_size; // Size of the collision box.
-        sf::FloatRect m_AABB; // The bounding box for collisions.
+        sf::Rect<float> m_AABB; // The bounding box for collisions.
         EntityState m_state; // Current entity state.
         // Flags for remembering axis collisions.
         bool m_collidingOnX;
         bool m_collidingOnY;
         Collisions m_collisions;
-        std::shared_ptr<EntityManager> m_entityManager;
+        EntityManager& m_entityManager;
     };
     
 } // namespace Engine

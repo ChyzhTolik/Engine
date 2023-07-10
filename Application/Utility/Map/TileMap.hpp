@@ -33,9 +33,18 @@ namespace Engine
         TileSet m_tile_set;
         SharedContext&  m_context;
         std::unordered_map<sf::Vector2i,std::shared_ptr<Tile>,Vector2i_hash> m_map;
+        sf::Vector2u m_maxMapSize;
+        float m_mapGravity;
+        TileInfo m_defaultTile;
     public:
         void load_from_file(std::string_view file);
         void draw();
+        const sf::Vector2u& GetMapSize()const;
+        float GetGravity()const;
+        TileInfo* GetDefaultTile(){ return &m_defaultTile; }
+        unsigned int GetTileSize()const;
+        Tile& GetTile(unsigned int l_x, unsigned int l_y);
+        void LoadNext();
         TileMap(SharedContext& context);
         ~TileMap();
     };

@@ -10,6 +10,7 @@ namespace Engine
 {
     enum class AnimationType
     {
+        None = -1,
         Idle,
         Running,
         Throwint,
@@ -43,6 +44,7 @@ namespace Engine
         void CropSprite(const sf::IntRect& l_rect);
         bool LoadSheet(const std::string& l_file);
         std::shared_ptr<Anim_Base> GetCurrentAnim();
+        AnimationType get_current_type() const;
         bool SetAnimation(AnimationType l_name, const bool& l_play = false, const bool& l_loop = false);
         void Update(const float& l_dT);
         void Draw(sf::RenderWindow& l_wnd);
@@ -65,6 +67,7 @@ namespace Engine
         std::string m_animType;
         Animations m_animations;
         std::shared_ptr<Anim_Base> m_animationCurrent;
+        AnimationType m_current_type;
     };
     
 } // namespace Engine

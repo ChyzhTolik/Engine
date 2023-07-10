@@ -31,6 +31,9 @@ set (SOURCES_FILES
     Animations/SpriteSheet.cpp
     Animations/Anim_Directional.cpp
     Entity/EntityBase.cpp
+    Entity/EntityManager.cpp
+    Entity/Character.cpp
+    Entity/Player.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})

@@ -68,4 +68,31 @@ namespace Engine
 
         tiles.close();
     }
+
+    const sf::Vector2u& TileMap::GetMapSize()const
+    {
+        return m_maxMapSize; 
+    }
+
+    float TileMap::GetGravity()const
+    {
+        return m_mapGravity;
+    }
+
+    unsigned int TileMap::GetTileSize()const
+    { 
+        return Sheet::Tile_Size; 
+    }
+
+    Tile& TileMap::GetTile(unsigned int l_x, unsigned int l_y)
+    {
+        auto itr = m_map.find({l_x,l_y});
+
+	    return *(itr->second);
+    }
+
+    void TileMap::LoadNext()
+    {
+        
+    }
 } // namespace Engine

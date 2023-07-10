@@ -4,6 +4,8 @@
 #include "ActionFunctinoid.hpp"
 #include "StateManager.hpp"
 #include "SharedContext.hpp"
+#include "EntityManager.hpp"
+#include "TileMap.hpp"
 
 namespace Engine
 {
@@ -22,7 +24,7 @@ namespace Engine
         SharedContext m_context;
 
     public:
-        Game(sf::Texture& texture);
+        Game(sf::Texture& texture, EntityManager& l_entity_manager, TileMap& l_tile_map);
         ~Game();
         Window& get_window();
         void run();

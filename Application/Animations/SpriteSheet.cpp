@@ -9,7 +9,7 @@ using nlohmann::json;
 
 namespace Engine
 {
-    SpriteSheet::SpriteSheet() : m_animationCurrent(nullptr),
+    SpriteSheet::SpriteSheet() : m_animationCurrent(nullptr), m_current_type(AnimationType::None),
         m_spriteScale(1.f, 1.f), m_direction(Direction::Right), m_sprite(Configuration::textures.get(Configuration::Textures::Biomenace))
     {
         
@@ -70,6 +70,7 @@ namespace Engine
         m_animationCurrent->SetLooping(l_loop);
         if(l_play){ m_animationCurrent->Play(); }
         m_animationCurrent->CropSprite();
+        m_current_type = itr->first;
 
         return true;
     }
@@ -162,5 +163,10 @@ namespace Engine
     void SpriteSheet::SetSpriteScale(const sf::Vector2f& scale)
     {
         m_sprite.setScale(scale);
+    }
+
+    AnimationType SpriteSheet::get_current_type() const
+    {
+        return m_current_type;
     }
 } // namespace Engine

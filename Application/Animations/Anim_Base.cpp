@@ -95,4 +95,9 @@ namespace Engine
     {
         rects = std::move(rects);
     }
+
+    bool Anim_Base::is_playing() const
+    {
+        return m_playing;
+    }
 } // namespace Engine

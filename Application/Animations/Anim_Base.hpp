@@ -21,6 +21,7 @@ namespace Engine
         void Pause();
         void Stop();
         void Reset();
+        bool is_playing() const;
         virtual void Update(const float& l_dT);
         void SetLooping(bool l_loop);
         void SetFrame(const unsigned int& l_frame);
