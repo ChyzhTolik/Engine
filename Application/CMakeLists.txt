@@ -34,6 +34,7 @@ set (SOURCES_FILES
     Entity/EntityManager.cpp
     Entity/Character.cpp
     Entity/Player.cpp
+    Entity/Enemy.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})

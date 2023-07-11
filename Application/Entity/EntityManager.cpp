@@ -1,6 +1,7 @@
 #include "EntityManager.hpp"
 #include "SharedContext.hpp"
 #include "Player.hpp"
+#include "Enemy.hpp"
 #include <fstream>
 #include <iostream>
 
@@ -192,5 +193,10 @@ namespace Engine
     SharedContext& EntityManager::GetContext()
     {
         return m_context;
+    }
+
+    void EntityManager::Remove(unsigned int l_id)
+    {
+
     }
 } // namespace Engine

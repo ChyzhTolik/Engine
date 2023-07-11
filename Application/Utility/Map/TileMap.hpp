@@ -13,10 +13,10 @@ namespace Engine
 
     struct Vector2i_hash 
     {
-        size_t operator()(const sf::Vector2i& p) const
+        size_t operator()(const sf::Vector2u& p) const
         {
-            auto hash1 = std::hash<int>{}(p.x);
-            auto hash2 = std::hash<int>{}(p.y);
+            auto hash1 = std::hash<unsigned int>{}(p.x);
+            auto hash2 = std::hash<unsigned int>{}(p.y);
     
             if (hash1 != hash2) {
                 return hash1 ^ hash2;             
@@ -32,7 +32,7 @@ namespace Engine
     private:
         TileSet m_tile_set;
         SharedContext&  m_context;
-        std::unordered_map<sf::Vector2i,std::shared_ptr<Tile>,Vector2i_hash> m_map;
+        std::unordered_map<sf::Vector2u,std::shared_ptr<Tile>,Vector2i_hash> m_map;
         sf::Vector2u m_maxMapSize;
         float m_mapGravity;
         TileInfo m_defaultTile;

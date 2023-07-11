@@ -82,7 +82,7 @@ namespace Engine
         }
     }
 
-    void Load(const std::string& l_path)
+    void Character::Load(const std::string& l_path)
     {
 
     }

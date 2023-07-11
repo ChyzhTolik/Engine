@@ -32,8 +32,8 @@ namespace Engine
     class Tile : public sf::Sprite
     {
     private:
-        TileInfo m_tile_info;
     public:
+        TileInfo m_tile_info;
         bool m_warp;
         Tile() = default;
         Tile(const Tile&) = default;

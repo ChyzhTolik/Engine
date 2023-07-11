@@ -15,6 +15,11 @@ namespace Engine
 
     }
 
+    EntityBase::~EntityBase()
+    {
+
+    }
+
     void EntityBase::SetPosition(const float& l_x, const float& l_y)
     {
         m_position = sf::Vector2f(l_x,l_y);
@@ -230,12 +235,12 @@ namespace Engine
             {
                 Tile& tile = gameMap.GetTile(x,y);
 
-                sf::FloatRect tileBounds({x * tileSize, y * tileSize},
-                {tileSize,tileSize});
+                sf::FloatRect tileBounds({x * tileSize*1.f, y * tileSize*1.f},
+                {tileSize*1.f,tileSize*1.f});
                 std::optional<sf::FloatRect> intersection;
                 intersection = m_AABB.findIntersection(tileBounds);
                 float area = intersection.value().width * intersection.value().height;
-                CollisionElement e(area, std::make_shared<TileInfo>(tile), tileBounds);
+                CollisionElement e(area, std::make_shared<TileInfo>(tile.m_tile_info), tileBounds);
                 m_collisions.emplace_back(e);
 
                 if(tile.m_warp && m_type == EntityType::Player)
@@ -311,5 +316,10 @@ namespace Engine
     void EntityBase::UpdateAABB()
     {
 	    m_AABB = sf::FloatRect({m_position.x - (m_size.x / 2),m_position.y - m_size.y}, {m_size.x,m_size.y});
+    }
+
+    void EntityBase::SetAcceleration(float l_x, float l_y)
+    {
+        m_acceleration = sf::Vector2f(l_x,l_y);
     }
 } // namespace Engine
