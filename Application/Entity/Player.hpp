@@ -22,5 +22,23 @@ namespace Engine
         private:
             Player& m_entity;
         };
+
+        class JumpAction : public ActionFunctinoid
+        {
+        public:
+            JumpAction(Player& l_entity);
+            virtual void execute(EventDetails& l_details) override;
+        private:
+            Player& m_entity;
+        };
+
+        class AttackAction : public ActionFunctinoid
+        {
+        public:
+            AttackAction(Player& l_entity);
+            virtual void execute(EventDetails& l_details) override;
+        private:
+            Player& m_entity;
+        };
     };
 } // namespace Engine

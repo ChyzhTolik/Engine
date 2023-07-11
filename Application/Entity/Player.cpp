@@ -12,10 +12,9 @@ namespace Engine
         EventManager& events = m_entityManager.GetContext().m_eventManager;
         
         events.add_action(StateType::Game, "Player_MoveLeft", std::make_unique<MoveAction>(*this));
-        // events->AddCallback<Player>(StateType::Game,"Player_MoveLeft", &Player::React, this);
-        // events->AddCallback<Player>(StateType::Game,"Player_MoveRight", &Player::React, this);
-        // events->AddCallback<Player>(StateType::Game,"Player_Jump", &Player::React, this);
-        // events->AddCallback<Player>(StateType::Game,"Player_Attack", &Player::React, this);
+        events.add_action(StateType::Game, "Player_MoveRight", std::make_unique<MoveAction>(*this));
+        events.add_action(StateType::Game, "Player_Jump", std::make_unique<JumpAction>(*this));
+        events.add_action(StateType::Game, "Player_Attack", std::make_unique<AttackAction>(*this));
     }
 
     Player::~Player()
@@ -100,5 +99,25 @@ namespace Engine
         {
             m_entity.Character::Move(Direction::Right);
         } 
+    }
+
+    Player::JumpAction::JumpAction(Player& l_entity) : m_entity(l_entity)
+    {
+
+    }
+
+    void Player::JumpAction::execute(EventDetails& l_details)
+    {
+        m_entity.Character::Jump();
+    }
+
+    Player::AttackAction::AttackAction(Player& l_entity) : m_entity(l_entity)
+    {
+
+    }
+
+    void Player::AttackAction::execute(EventDetails& l_details)
+    {
+        m_entity.Character::Attack();
     }
 } // namespace Engine

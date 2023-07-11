@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
+#include "StateManager.hpp"
 
 using nlohmann::json;
 
@@ -95,4 +96,32 @@ namespace Engine
     {
         
     }
+
+    const sf::Vector2f& TileMap::GetPlayerStart() const
+    {
+        return m_playerStart;
+    }
+
+    void TileMap::Update(float l_dT)
+    {
+        if(m_loadNextMap)
+        {
+            PurgeMap();
+            m_loadNextMap = false;
+            if(m_nextMap != ""){
+                load_from_file("media/Maps/"+m_nextMap);
+            } else {
+                // m_context. GetStateManager().SwitchTo(StateType::GameOver);
+            }
+            m_nextMap = "";
+        }
+        sf::FloatRect viewSpace = m_context.m_wind.GetViewSpace();
+        m_background->setPosition({viewSpace.left, viewSpace.top});
+    }
+
+    void TileMap::PurgeMap()
+    {
+
+    }
+
 } // namespace Engine

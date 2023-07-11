@@ -10,7 +10,8 @@ namespace Engine
         m_sprite(texture), 
         m_texture(texture),
         m_context(m_window, m_window.GetEventManager(), l_entity_manager, l_tile_map), 
-        m_state_manager(m_context)
+        m_state_manager(m_context),
+        m_manager(m_context.m_entityManager)
     {
         m_clock.restart();
         srand(time(nullptr));

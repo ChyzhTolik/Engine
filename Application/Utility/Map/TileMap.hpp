@@ -2,6 +2,7 @@
 #include "TileSet.hpp"
 #include <string_view>
 #include "../SharedContext.hpp"
+#include "BaseState.hpp"
 
 namespace Engine
 {
@@ -36,6 +37,10 @@ namespace Engine
         sf::Vector2u m_maxMapSize;
         float m_mapGravity;
         TileInfo m_defaultTile;
+        sf::Vector2f m_playerStart;
+        bool m_loadNextMap;
+        std::string m_nextMap;
+        std::shared_ptr<sf::Sprite> m_background;
     public:
         void load_from_file(std::string_view file);
         void draw();
@@ -44,7 +49,11 @@ namespace Engine
         TileInfo* GetDefaultTile(){ return &m_defaultTile; }
         unsigned int GetTileSize()const;
         Tile& GetTile(unsigned int l_x, unsigned int l_y);
+        const sf::Vector2f& GetPlayerStart() const;
         void LoadNext();
+        void Update(float l_dT);
+        void PurgeMap();
+
         TileMap(SharedContext& context);
         ~TileMap();
     };

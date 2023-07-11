@@ -1,5 +1,6 @@
 #include "State_Game.hpp"
 #include "StateManager.hpp"
+#include <iostream>
 
 namespace Engine
 {
@@ -52,7 +53,38 @@ namespace Engine
     void State_Game::Update(const sf::Time& l_time)
     {
         m_sprite_sheet.Update(l_time.asSeconds());
+        SharedContext& context = m_stateMgr.GetContext();
+        EntityBase* player = context.m_entityManager.Find("Player");
 
+        if(!player)
+        {
+            std::cout << "Respawning player..." << std::endl;
+            context.m_entityManager.Add(EntityType::Player,"Player");
+            player = context.m_entityManager.Find("Player");
+            player->SetPosition(m_map.GetPlayerStart());
+        } 
+        else 
+        {
+            m_view.setCenter(player->GetPosition());
+            context.m_wind.GetRenderWindow().setView(m_view);
+        }
+
+        sf::FloatRect viewSpace = context.m_wind.GetViewSpace();
+
+        if(viewSpace.left <= 0)
+        {
+            m_view.setCenter({viewSpace.width / 2,m_view.getCenter().y});
+            context.m_wind.GetRenderWindow().setView(m_view);
+        } 
+        else if (viewSpace.left + viewSpace.width > (m_map.GetMapSize().x + 1) * Sheet::Tile_Size)
+        {
+            m_view.setCenter({((m_map.GetMapSize().x + 1) *
+            Sheet::Tile_Size) - (viewSpace.width / 2),
+            m_view.getCenter().y});
+            context.m_wind.GetRenderWindow().setView(m_view);
+        }
+            m_map.Update(l_time.asSeconds());
+            m_stateMgr.GetContext().m_entityManager.Update(l_time.asSeconds());
     }
 
     void State_Game::Draw()

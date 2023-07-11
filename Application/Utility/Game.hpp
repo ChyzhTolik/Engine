@@ -22,6 +22,7 @@ namespace Engine
         sf::Texture m_texture;
         StateManager m_state_manager;
         SharedContext m_context;
+        EntityManager m_manager;
 
     public:
         Game(sf::Texture& texture, EntityManager& l_entity_manager, TileMap& l_tile_map);
