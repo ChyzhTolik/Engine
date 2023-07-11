@@ -5,6 +5,18 @@
 
 namespace Engine
 {
+    struct CharInfo
+    {
+        std::string Name;
+        std::string Spritesheet;
+        u_int32_t Hitpoints;
+        sf::Vector2u BoundingBox;
+        sf::IntRect DamageBox;
+        sf::Vector2f Speed;
+        float JumpVelocity;
+        sf::Vector2f MaxVelocity;
+    };
+
     class Character : public EntityBase
     {
         friend class EntityManager;
