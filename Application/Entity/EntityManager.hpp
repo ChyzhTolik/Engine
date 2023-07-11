@@ -29,8 +29,8 @@ namespace Engine
         EntityManager(SharedContext& l_context, unsigned int l_maxEntities);
         ~EntityManager();
         int Add(const EntityType& l_type, const std::string& l_name = "");
-        EntityBase& Find(unsigned int l_id);
-        EntityBase& Find(const std::string& l_name);
+        std::shared_ptr<EntityBase> Find(unsigned int l_id);
+        std::shared_ptr<EntityBase> Find(const std::string& l_name);
         void Remove(unsigned int l_id);
         void Update(float l_dT);
         void Draw();
@@ -40,12 +40,6 @@ namespace Engine
     private:
         template<typename T, typename ...Args>
         void RegisterEntity(const EntityType& l_type, Args&& ... args);
-        // {
-        //     m_entityFactory[l_type] = [this]() -> EntityBase*
-        //     {
-        //         return new T(*this);
-        //     };
-        // }
 
         void ProcessRemovals();
         void LoadEnemyTypes(const std::string& l_name);
@@ -62,6 +56,6 @@ namespace Engine
     template<typename T, typename ...Args>
     void EntityManager::RegisterEntity(const EntityType& l_type, Args&& ... args)
     {
-        m_entityFactory.insert({l_type, std::make_shared<T>(*this, std::forward<Args>(args)...)});
+        m_entityFactory.insert({l_type, std::make_unique<T>(*this, std::forward<Args>(args)...)});
     }
 } // namespace Engine

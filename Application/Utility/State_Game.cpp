@@ -54,20 +54,20 @@ namespace Engine
     {
         m_sprite_sheet.Update(l_time.asSeconds());
         SharedContext& context = m_stateMgr.GetContext();
-        EntityBase& player = context.m_entityManager->Find("Player");
+        auto player = context.m_entityManager->Find("Player");
 
-        // if(!player)
-        // {
-        //     std::cout << "Respawning player..." << std::endl;
-        //     context.m_entityManager->Add(EntityType::Player,"Player");
-        //     player = context.m_entityManager->Find("Player");
-        //     player->SetPosition(m_map.GetPlayerStart());
-        // } 
-        // else 
-        // {
-        //     m_view.setCenter(player->GetPosition());
-        //     context.m_wind->GetRenderWindow().setView(m_view);
-        // }
+        if(!player)
+        {
+            std::cout << "Respawning player..." << std::endl;
+            context.m_entityManager->Add(EntityType::Player,"Player");
+            player = context.m_entityManager->Find("Player");
+            player->SetPosition(m_map.GetPlayerStart());
+        } 
+        else 
+        {
+            m_view.setCenter(player->GetPosition());
+            context.m_wind->GetRenderWindow().setView(m_view);
+        }
 
         sf::FloatRect viewSpace = context.m_wind->GetViewSpace();
 

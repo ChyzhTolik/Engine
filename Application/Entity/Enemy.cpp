@@ -94,4 +94,14 @@ namespace Engine
         
         m_hasDestination = true;
     }
+
+    EnemyCreator::EnemyCreator(EntityManager& l_entity_manager):EntityCreator(l_entity_manager)
+    {
+
+    }
+
+    std::shared_ptr<EntityBase> EnemyCreator::create()
+    {
+        return std::make_shared<Enemy>(m_entity_manager);
+    }
 } // namespace Engine

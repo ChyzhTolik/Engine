@@ -13,8 +13,8 @@ namespace Engine
         m_idCounter(0)
     {
         LoadEnemyTypes("EnemyList.list");
-        // RegisterEntity<Player>(EntityType::Player);
-        // RegisterEntity<Enemy>(EntityType::Enemy);
+        RegisterEntity<PlayerCreator>(EntityType::Player);
+        RegisterEntity<EnemyCreator>(EntityType::Enemy);
     }
 
     EntityManager::~EntityManager()
@@ -54,22 +54,28 @@ namespace Engine
         return m_idCounter - 1;
     }
 
-    EntityBase& EntityManager::Find(const std::string& l_name)
+    std::shared_ptr<EntityBase> EntityManager::Find(const std::string& l_name)
     {
         for(auto &itr : m_entities)
         {
-            if(itr.second->GetName() == l_name)
-            {
-                return *(itr.second);
+            if(itr.second->GetName() == l_name){
+                return itr.second;
             }
         }
+
+        return nullptr;
     }
 
-    EntityBase& EntityManager::Find(unsigned int l_id)
+    std::shared_ptr<EntityBase> EntityManager::Find(unsigned int l_id)
     {
         auto itr = m_entities.find(l_id);
 
-        return *(itr->second);
+        if (itr == m_entities.end())
+        { 
+            return nullptr; 
+        }
+
+        return itr->second;
     }
 
     void EntityManager::Update(float l_dT)
