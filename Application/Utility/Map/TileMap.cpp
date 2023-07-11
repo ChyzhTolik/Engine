@@ -22,8 +22,8 @@ namespace Engine
 
     void TileMap::draw()
     {
-        sf::RenderWindow& l_wind = m_context.m_wind.GetRenderWindow();
-        sf::FloatRect viewSpace = m_context.m_wind.GetViewSpace();
+        sf::RenderWindow& l_wind = m_context.m_wind->GetRenderWindow();
+        sf::FloatRect viewSpace = m_context.m_wind->GetViewSpace();
 
         for (auto &&tile : m_map)
         {
@@ -115,7 +115,7 @@ namespace Engine
             }
             m_nextMap = "";
         }
-        sf::FloatRect viewSpace = m_context.m_wind.GetViewSpace();
+        sf::FloatRect viewSpace = m_context.m_wind->GetViewSpace();
         m_background->setPosition({viewSpace.left, viewSpace.top});
     }
 

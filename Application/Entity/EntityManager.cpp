@@ -13,7 +13,7 @@ namespace Engine
         m_idCounter(0)
     {
         LoadEnemyTypes("EnemyList.list");
-        RegisterEntity<Player>(EntityType::Player);
+        // RegisterEntity<Player>(EntityType::Player);
         // RegisterEntity<Enemy>(EntityType::Enemy);
     }
 
@@ -31,7 +31,7 @@ namespace Engine
             return -1; 
         }
 
-        EntityBase* entity = itr->second();
+        auto entity = itr->second->create();
         entity->m_id = m_idCounter;
 
         if (l_name != "")
@@ -39,16 +39,14 @@ namespace Engine
             entity->m_name = l_name; 
         }
 
-        m_entities.emplace(m_idCounter,entity);
+        m_entities.emplace(m_idCounter,std::move(entity));
 
         if(l_type == EntityType::Enemy)
         {
             auto itr = m_enemyTypes.find(l_name);
-
-            if(itr != m_enemyTypes.end())
-            {
-                Enemy* enemy = (Enemy*)entity;
-                enemy->Load(itr->second);
+            if(itr != m_enemyTypes.end()){
+                Enemy& enemy = static_cast<Enemy&>(*entity);
+                enemy.Load(itr->second);
             }
         }
 
@@ -56,29 +54,22 @@ namespace Engine
         return m_idCounter - 1;
     }
 
-    EntityBase* EntityManager::Find(const std::string& l_name)
+    EntityBase& EntityManager::Find(const std::string& l_name)
     {
         for(auto &itr : m_entities)
         {
             if(itr.second->GetName() == l_name)
             {
-                return itr.second;
+                return *(itr.second);
             }
         }
-
-        return nullptr;
     }
 
-    EntityBase* EntityManager::Find(unsigned int l_id)
+    EntityBase& EntityManager::Find(unsigned int l_id)
     {
         auto itr = m_entities.find(l_id);
 
-        if (itr == m_entities.end())
-        { 
-            return nullptr; 
-        }
-
-        return itr->second;
+        return *(itr->second);
     }
 
     void EntityManager::Update(float l_dT)
@@ -94,8 +85,8 @@ namespace Engine
 
     void EntityManager::Draw()
     {
-        sf::RenderWindow& wnd = m_context.m_wind.GetRenderWindow();
-        sf::FloatRect viewSpace = m_context.m_wind.GetViewSpace();
+        sf::RenderWindow& wnd = m_context.m_wind->GetRenderWindow();
+        sf::FloatRect viewSpace = m_context.m_wind->GetViewSpace();
 
         for(auto &itr : m_entities)
         {
@@ -110,11 +101,6 @@ namespace Engine
 
     void EntityManager::Purge()
     {
-        for (auto &itr : m_entities)
-        {
-            delete itr.second;
-        }
-
         m_entities.clear();
         m_idCounter = 0;
     }
@@ -129,7 +115,6 @@ namespace Engine
             if(itr != m_entities.end())
             {
                 std::cout << "Discarding entity: " << itr->second->GetId() << std::endl;
-                delete itr->second;
                 m_entities.erase(itr);
             }
             m_entitiesToRemove.pop_back();
@@ -164,21 +149,21 @@ namespace Engine
 
                 if (t1 == EntityType::Player || t1 == EntityType::Enemy)
                 {
-                    Character* c1 = (Character*)itr->second;
+                    Character& c1 = static_cast<Character&>(*itr->second);
 
-                    if (c1->m_attackAABB.findIntersection(itr2->second->m_AABB))
+                    if (c1.m_attackAABB.findIntersection(itr2->second->m_AABB))
                     {
-                        c1->OnEntityCollision(*(itr2->second), true);
+                        c1.OnEntityCollision(*(itr2->second), true);
                     }
                 }
 
                 if (t2 == EntityType::Player || t2 == EntityType::Enemy)
                 {
-                    Character* c2 = (Character*)itr2->second;
+                    Character& c2 = static_cast<Character&>(*itr2->second);
 
-                    if (c2->m_attackAABB.findIntersection(itr->second->m_AABB))
+                    if (c2.m_attackAABB.findIntersection(itr->second->m_AABB))
                     {
-                        c2->OnEntityCollision(*(itr->second), true);
+                        c2.OnEntityCollision(*(itr->second), true);
                     }
                 }
             }
@@ -196,6 +181,11 @@ namespace Engine
     }
 
     void EntityManager::Remove(unsigned int l_id)
+    {
+
+    }
+
+    EntityCreator::EntityCreator(EntityManager& l_entity_manager) : m_entity_manager(l_entity_manager)
     {
 
     }

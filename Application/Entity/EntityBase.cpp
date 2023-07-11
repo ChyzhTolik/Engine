@@ -78,7 +78,7 @@ namespace Engine
         m_positionOld = m_position;
         m_position += sf::Vector2f(l_x,l_y);
 
-        sf::Vector2u mapSize = m_entityManager.GetContext().m_gameMap.GetMapSize();
+        sf::Vector2u mapSize = m_entityManager.GetContext().m_gameMap->GetMapSize();
 
         if(m_position.x < 0)
         {
@@ -179,8 +179,8 @@ namespace Engine
 
     void EntityBase::Update(float l_dT)
     {
-        TileMap& map = m_entityManager.GetContext().m_gameMap;
-        float gravity = map.GetGravity();
+        std::shared_ptr<TileMap> map = m_entityManager.GetContext().m_gameMap;
+        float gravity = map->GetGravity();
         Accelerate(0,gravity);
         AddVelocity(m_acceleration.x * l_dT, m_acceleration.y * l_dT);
         SetAcceleration(0.0f, 0.0f);
@@ -195,9 +195,9 @@ namespace Engine
                 SetState(EntityState::Dying); 
             }
         } 
-        else if(map.GetDefaultTile())
+        else if(map->GetDefaultTile())
         {
-            frictionValue = map.GetDefaultTile()->friction;
+            frictionValue = map->GetDefaultTile()->friction;
         } 
         else 
         {
@@ -222,8 +222,8 @@ namespace Engine
 
     void EntityBase::CheckCollisions()
     {
-        TileMap& gameMap = m_entityManager.GetContext().m_gameMap;
-        unsigned int tileSize = gameMap.GetTileSize();
+        std::shared_ptr<TileMap> gameMap = m_entityManager.GetContext().m_gameMap;
+        unsigned int tileSize = gameMap->GetTileSize();
         int fromX = floor(m_AABB.left / tileSize);
         int toX = floor((m_AABB.left + m_AABB.width) / tileSize);
         int fromY = floor(m_AABB.top / tileSize);
@@ -233,7 +233,7 @@ namespace Engine
         {
             for(int y = fromY; y <= toY; ++y)
             {
-                Tile& tile = gameMap.GetTile(x,y);
+                Tile& tile = gameMap->GetTile(x,y);
 
                 sf::FloatRect tileBounds({x * tileSize*1.f, y * tileSize*1.f},
                 {tileSize*1.f,tileSize*1.f});
@@ -245,7 +245,7 @@ namespace Engine
 
                 if(tile.m_warp && m_type == EntityType::Player)
                 {
-                    gameMap.LoadNext();
+                    gameMap->LoadNext();
                 }
             }
         }
@@ -257,8 +257,8 @@ namespace Engine
         {
             std::sort(m_collisions.begin(),
             m_collisions.end(), SortCollisions);
-            TileMap& gameMap = m_entityManager.GetContext().m_gameMap;
-            unsigned int tileSize = gameMap.GetTileSize();
+            std::shared_ptr<TileMap> gameMap = m_entityManager.GetContext().m_gameMap;
+            unsigned int tileSize = gameMap->GetTileSize();
 
             for (auto &itr : m_collisions)
             {

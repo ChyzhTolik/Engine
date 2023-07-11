@@ -215,9 +215,8 @@ namespace Test
 			return -1;
 		}
 #endif // WIN32
-		// Engine::EntityManager entity_manager;
-		// Engine::Game game(texture);
-		// game.run();
+		Engine::Game game;
+		game.run();
 
 		return 0;
 	}

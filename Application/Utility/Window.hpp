@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <string_view>
 #include "EventManager.hpp"
+#include <memory>
 
 namespace Engine
 {
@@ -21,7 +22,7 @@ namespace Engine
         void ToggleFullscreen();
         void Draw(sf::Drawable& l_drawable);
         bool IsFocused();
-        EventManager& GetEventManager();
+        std::shared_ptr<EventManager> GetEventManager();
         void ToggleFullscreen(EventDetails& l_details);
         void Close(EventDetails& l_details);
         sf::RenderWindow& GetRenderWindow();
@@ -36,7 +37,7 @@ namespace Engine
         std::string m_windowTitle;
         bool m_isDone;
         bool m_isFullscreen;
-        EventManager m_eventManager;
+        std::shared_ptr<EventManager> m_eventManager;
         bool m_isFocused;
     };    
 } // namespace Engine

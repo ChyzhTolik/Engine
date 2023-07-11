@@ -155,8 +155,8 @@ namespace Engine
                     break;
                     
                     case(EventType::Joystick) :
-                // Up for expansion.
-                break;
+                    // Up for expansion.
+                    break;
                 }
             }
 
@@ -243,8 +243,6 @@ namespace Engine
     {
         auto iter = m_actions.emplace(l_state,ActionContainer()).first;
         iter->second.emplace(l_name, std::move(l_action));
-        
-        // m_actions.emplace(l_name,std::move(l_action));
     }
 
     bool EventManager::remove_action(StateType l_state, std::string_view l_name)

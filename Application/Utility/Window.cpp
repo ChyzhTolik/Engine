@@ -19,6 +19,7 @@ namespace Engine
 
     void Window::Setup(std::string_view l_title, const sf::Vector2u& l_size)
     {
+        m_eventManager = std::make_shared<EventManager>();
         m_windowTitle = l_title;
         m_windowSize = l_size;
         m_isFullscreen = false;
@@ -61,23 +62,18 @@ namespace Engine
             else if (event.type == sf::Event::LostFocus)
             {
                 m_isFocused = false;
-                m_eventManager.SetFocus(false);
+                m_eventManager->SetFocus(false);
             }
             else if (event.type == sf::Event::GainedFocus)
             {
                 m_isFocused = true;
-                m_eventManager.SetFocus((true));
+                m_eventManager->SetFocus((true));
             }
 
-            m_eventManager.HandleEvent(event);            
-
-            // else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F5)
-            // {
-            //     ToggleFullscreen();
-            // }
+            m_eventManager->HandleEvent(event);
         }
 
-        m_eventManager.Update();
+        m_eventManager->Update();
     }
     bool Window::IsDone()
     {
@@ -118,7 +114,7 @@ namespace Engine
         Create();
     }
 
-    EventManager& Window::GetEventManager()
+    std::shared_ptr<EventManager> Window::GetEventManager()
     {
         return m_eventManager;
     }

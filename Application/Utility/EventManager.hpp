@@ -63,11 +63,7 @@ namespace Engine
 
     using Bindings = std::unordered_map<std::string, std::unique_ptr<Binding>>;
 
-    // using ActionFunctinoids = std::unordered_map<std::string, std::unique_ptr<ActionFunctinoid>>;
-
     enum class StateType;
-    // using CallbackContainer = std::unordered_map<std::string, std::function<void(EventDetails&)>>;
-    // using Callbacks = std::unordered_map<StateType, CallbackContainer>;
 
     using ActionContainer = std::unordered_map<std::string, std::unique_ptr<ActionFunctinoid>>;
     using Actions = std::unordered_map<StateType, ActionContainer>;
@@ -91,7 +87,6 @@ namespace Engine
 
         void add_action(StateType l_state, std::string_view l_name, std::unique_ptr<ActionFunctinoid>&& l_action);
         bool remove_action(StateType l_state, std::string_view l_name);
-
 
         void HandleEvent(sf::Event& l_event);
         void Update();

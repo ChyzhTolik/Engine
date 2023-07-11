@@ -6,9 +6,20 @@
 
 namespace Engine
 {
+    class EntityManager;
 
-    using EntityContainer = std::unordered_map<unsigned int,EntityBase*>;
-    using EntityFactory = std::unordered_map< EntityType, std::function<EntityBase*(void)>>;
+    class EntityCreator // Functinoid
+    {
+    public:
+        EntityCreator(EntityManager& l_entity_manager);
+        virtual ~EntityCreator(){};
+        virtual std::shared_ptr<EntityBase> create() = 0;
+    protected:
+        EntityManager& m_entity_manager;
+    };
+
+    using EntityContainer = std::unordered_map<unsigned int,std::shared_ptr<EntityBase>>;
+    using EntityFactory = std::unordered_map< EntityType, std::unique_ptr<EntityCreator>>;
     using EnemyTypes = std::unordered_map<std::string,std::string>;
     struct SharedContext;
 
@@ -17,10 +28,9 @@ namespace Engine
     public:
         EntityManager(SharedContext& l_context, unsigned int l_maxEntities);
         ~EntityManager();
-        int Add(const EntityType& l_type,
-        const std::string& l_name = "");
-        EntityBase* Find(unsigned int l_id);
-        EntityBase* Find(const std::string& l_name);
+        int Add(const EntityType& l_type, const std::string& l_name = "");
+        EntityBase& Find(unsigned int l_id);
+        EntityBase& Find(const std::string& l_name);
         void Remove(unsigned int l_id);
         void Update(float l_dT);
         void Draw();
@@ -28,14 +38,14 @@ namespace Engine
         SharedContext& GetContext();
 
     private:
-        template<class T>
-        void RegisterEntity(const EntityType& l_type)
-        {
-            m_entityFactory[l_type] = [this]() -> EntityBase*
-            {
-                return new T(*this);
-            };
-        }
+        template<typename T, typename ...Args>
+        void RegisterEntity(const EntityType& l_type, Args&& ... args);
+        // {
+        //     m_entityFactory[l_type] = [this]() -> EntityBase*
+        //     {
+        //         return new T(*this);
+        //     };
+        // }
 
         void ProcessRemovals();
         void LoadEnemyTypes(const std::string& l_name);
@@ -48,4 +58,10 @@ namespace Engine
         unsigned int m_maxEntities;
         std::vector<unsigned int> m_entitiesToRemove;
     };
+
+    template<typename T, typename ...Args>
+    void EntityManager::RegisterEntity(const EntityType& l_type, Args&& ... args)
+    {
+        m_entityFactory.insert({l_type, std::make_shared<T>(*this, std::forward<Args>(args)...)});
+    }
 } // namespace Engine

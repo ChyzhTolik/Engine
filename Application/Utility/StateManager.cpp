@@ -53,7 +53,7 @@ namespace Engine
 
 			for (; itr != m_states.end(); ++itr)
 			{
-				m_shared.m_wind.GetRenderWindow().setView(itr->second->GetView());
+				m_shared.m_wind->GetRenderWindow().setView(itr->second->GetView());
 				itr->second->Draw();
 			}
 		}
@@ -139,7 +139,7 @@ namespace Engine
 
 	void StateManager::SwitchTo(const StateType& l_type)
 	{
-		m_shared.m_eventManager.SetCurrentState(l_type);
+		m_shared.m_eventManager->SetCurrentState(l_type);
 
 		for (auto itr = m_states.begin(); itr != m_states.end(); ++itr)
 		{
@@ -153,7 +153,7 @@ namespace Engine
 				m_states.emplace_back(tmp_type, std::move(tmp_state));
 				m_states.back().second->Activate();
 
-				m_shared.m_wind.GetRenderWindow().setView(m_states.back().second->GetView());
+				m_shared.m_wind->GetRenderWindow().setView(m_states.back().second->GetView());
 				return;
 			}
 		}
@@ -166,7 +166,7 @@ namespace Engine
 
 		CreateState(l_type);
 		m_states.back().second->Activate();
-		m_shared.m_wind.GetRenderWindow().setView(m_states.back().second->GetView());
+		m_shared.m_wind->GetRenderWindow().setView(m_states.back().second->GetView());
 	}
 
 	void StateManager::CreateState(const StateType& l_type)
@@ -179,7 +179,7 @@ namespace Engine
 		}
 
 		auto state = newState->second->create();
-		state->m_view = m_shared.m_wind.GetRenderWindow().getDefaultView();
+		state->m_view = m_shared.m_wind->GetRenderWindow().getDefaultView();
 
 		m_states.emplace_back(l_type, std::move(state));
 		m_states.back().second->OnCreate();

@@ -60,13 +60,13 @@ namespace Engine
 			m_labels.back().setPosition(buttonPosition);
 		}
 
-		EventManager& evMgr = m_stateMgr.GetContext().m_eventManager;
-		evMgr.add_action(StateType::MainMenu, "Mouse_Left", std::make_unique<MouseClickAction>(*this));
+		std::shared_ptr<EventManager> evMgr = m_stateMgr.GetContext().m_eventManager;
+		evMgr->add_action(StateType::MainMenu, "Mouse_Left", std::make_unique<MouseClickAction>(*this));
 	}
 
 	void State_MainMenu::OnDestroy()
 	{
-		m_stateMgr.GetContext().m_eventManager.remove_action(StateType::MainMenu, "Mouse_Left");
+		m_stateMgr.GetContext().m_eventManager->remove_action(StateType::MainMenu, "Mouse_Left");
 	}
 
 	void State_MainMenu::Activate()
@@ -89,7 +89,7 @@ namespace Engine
 
 	void State_MainMenu::Draw()
 	{
-		sf::RenderWindow& window = m_stateMgr.GetContext().m_wind.GetRenderWindow();
+		sf::RenderWindow& window = m_stateMgr.GetContext().m_wind->GetRenderWindow();
 		window.draw(m_text);
 
 		for (int i = 0; i < 3; ++i)
@@ -126,7 +126,7 @@ namespace Engine
 				}
 				else if (i == 2)
 				{
-					m_state.m_stateMgr.GetContext().m_wind.Close(l_details);
+					m_state.m_stateMgr.GetContext().m_wind->Close(l_details);
 				}
 			}
 		}

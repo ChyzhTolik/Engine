@@ -1,5 +1,8 @@
 #pragma once
 
+#include <SFML/System.hpp>
+#include <string>
+
 namespace Engine
 {
     struct EventDetails

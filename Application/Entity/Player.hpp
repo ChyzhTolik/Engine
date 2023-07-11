@@ -5,6 +5,13 @@
 
 namespace Engine
 {
+    class PlayerCreator : public EntityCreator
+    {
+    public: 
+        PlayerCreator(EntityManager& l_entity_manager);
+        virtual std::shared_ptr<EntityBase> create() override;    
+    };
+
     class Player : public Character
     {
     public:

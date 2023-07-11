@@ -1,4 +1,6 @@
 #pragma once
+
+#include <memory>
 #include "Window.hpp"
 #include "EventManager.hpp"
 #include "EntityManager.hpp"
@@ -9,19 +11,19 @@ namespace Engine
 
     struct SharedContext
     {
-        SharedContext(Window& l_window, EventManager& l_event_manager, EntityManager& l_entity_manager, TileMap& l_tile_map)
-            :m_wind(l_window),
-            m_eventManager(l_event_manager),
-            m_entityManager(l_entity_manager),
-            m_gameMap(l_tile_map)
+        SharedContext()
+            :m_wind(nullptr),
+            m_eventManager(nullptr),
+            m_entityManager(nullptr),
+            m_gameMap(nullptr)
         {
 
         }
             
-        Window& m_wind;
-        EventManager& m_eventManager;
-        EntityManager& m_entityManager;
-        TileMap& m_gameMap;
+        std::shared_ptr<Window> m_wind;
+        std::shared_ptr<EventManager> m_eventManager;
+        std::shared_ptr<EntityManager> m_entityManager;
+        std::shared_ptr<TileMap> m_gameMap;
     };
 }// namespace Engine
 

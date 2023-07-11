@@ -9,18 +9,18 @@ namespace Engine
     {
         Load("Player.char");
         m_type = EntityType::Player;
-        EventManager& events = m_entityManager.GetContext().m_eventManager;
+        std::shared_ptr<EventManager> events = m_entityManager.GetContext().m_eventManager;
         
-        events.add_action(StateType::Game, "Player_MoveLeft", std::make_unique<MoveAction>(*this));
-        events.add_action(StateType::Game, "Player_MoveRight", std::make_unique<MoveAction>(*this));
-        events.add_action(StateType::Game, "Player_Jump", std::make_unique<JumpAction>(*this));
-        events.add_action(StateType::Game, "Player_Attack", std::make_unique<AttackAction>(*this));
+        events->add_action(StateType::Game, "Player_MoveLeft", std::make_unique<MoveAction>(*this));
+        events->add_action(StateType::Game, "Player_MoveRight", std::make_unique<MoveAction>(*this));
+        events->add_action(StateType::Game, "Player_Jump", std::make_unique<JumpAction>(*this));
+        events->add_action(StateType::Game, "Player_Attack", std::make_unique<AttackAction>(*this));
     }
 
     Player::~Player()
     {
-        EventManager& events = m_entityManager.GetContext().m_eventManager;
-        events.remove_action(StateType::Game,"Player_MoveLeft");
+        std::shared_ptr<EventManager>events = m_entityManager.GetContext().m_eventManager;
+        events->remove_action(StateType::Game,"Player_MoveLeft");
     }
 
     void Player::OnEntityCollision(EntityBase& l_collider, bool l_attack)
@@ -119,5 +119,15 @@ namespace Engine
     void Player::AttackAction::execute(EventDetails& l_details)
     {
         m_entity.Character::Attack();
+    }
+
+    PlayerCreator::PlayerCreator(EntityManager& l_entity_manager) : EntityCreator(l_entity_manager)
+    {
+        
+    }
+
+    std::shared_ptr<EntityBase> PlayerCreator::create()
+    {
+        return std::make_shared<Player>(m_entity_manager);
     }
 } // namespace Engine

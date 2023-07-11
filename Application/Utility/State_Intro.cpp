@@ -12,7 +12,7 @@ namespace Engine
     void State_Intro::OnCreate()
     {
         m_timePassed = 0.0f;
-        sf::Vector2u windowSize = m_stateMgr.GetContext().m_wind.GetRenderWindow().getSize();
+        sf::Vector2u windowSize = m_stateMgr.GetContext().m_wind->GetRenderWindow().getSize();
         m_introSprite.setOrigin({m_introSprite.getTexture()->getSize().x / 2.0f, m_introSprite.getTexture()->getSize().y / 2.0f});
         m_introSprite.setPosition({windowSize.x / 2.0f, 0});
         m_text.setString({ "Press SPACE to continue" });
@@ -20,13 +20,13 @@ namespace Engine
         sf::FloatRect textRect = m_text.getLocalBounds();
         m_text.setOrigin({textRect.left + textRect.width / 2.0f,textRect.top + textRect.height / 2.0f});
         m_text.setPosition({windowSize.x / 2.0f, windowSize.y / 2.0f});
-        EventManager& evMgr = m_stateMgr.GetContext().m_eventManager;
-        evMgr.add_action(StateType::Intro,"Intro_Continue",std::make_unique<ContinueAction>(*this));
+        std::shared_ptr<EventManager> evMgr = m_stateMgr.GetContext().m_eventManager;
+        evMgr->add_action(StateType::Intro,"Intro_Continue",std::make_unique<ContinueAction>(*this));
     }
 
     void State_Intro::OnDestroy()
     {
-        m_stateMgr.GetContext().m_eventManager.remove_action(StateType::Intro, "Intro_Continue");
+        m_stateMgr.GetContext().m_eventManager->remove_action(StateType::Intro, "Intro_Continue");
     }
 
     void State_Intro::Update(const sf::Time& l_time)
@@ -40,7 +40,7 @@ namespace Engine
 
     void State_Intro::Draw()
     {
-        sf::RenderWindow& window = m_stateMgr.GetContext().m_wind.GetRenderWindow();
+        sf::RenderWindow& window = m_stateMgr.GetContext().m_wind->GetRenderWindow();
         window.draw(m_introSprite);
 
         if(m_timePassed >= 5.0f)

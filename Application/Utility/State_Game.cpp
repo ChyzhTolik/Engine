@@ -37,60 +37,60 @@ namespace Engine
     {
         m_background_sprite.setPosition({0,0});
         m_increment = sf::Vector2f(400.0f,400.0f);
-        EventManager& evMgr = m_stateMgr.GetContext().m_eventManager;
-        evMgr.add_action(StateType::Game,"Key_Escape",std::make_unique<MainMenuAction>(*this));
-        evMgr.add_action(StateType::Game,"Key_P",std::make_unique<PauseAction>(*this));
-        evMgr.add_action(StateType::Game,"Right",std::make_unique<MoveAction>(*this));
+        std::shared_ptr<EventManager> evMgr = m_stateMgr.GetContext().m_eventManager;
+        evMgr->add_action(StateType::Game,"Key_Escape",std::make_unique<MainMenuAction>(*this));
+        evMgr->add_action(StateType::Game,"Key_P",std::make_unique<PauseAction>(*this));
+        evMgr->add_action(StateType::Game,"Right",std::make_unique<MoveAction>(*this));
     }
 
     void State_Game::OnDestroy()
     {
-        EventManager& evMgr = m_stateMgr.GetContext().m_eventManager;
-        evMgr.remove_action(StateType::Game,"Key_Escape");
-        evMgr.remove_action(StateType::Game,"Key_P");
+        std::shared_ptr<EventManager> evMgr = m_stateMgr.GetContext().m_eventManager;
+        evMgr->remove_action(StateType::Game,"Key_Escape");
+        evMgr->remove_action(StateType::Game,"Key_P");
     }
 
     void State_Game::Update(const sf::Time& l_time)
     {
         m_sprite_sheet.Update(l_time.asSeconds());
         SharedContext& context = m_stateMgr.GetContext();
-        EntityBase* player = context.m_entityManager.Find("Player");
+        EntityBase& player = context.m_entityManager->Find("Player");
 
-        if(!player)
-        {
-            std::cout << "Respawning player..." << std::endl;
-            context.m_entityManager.Add(EntityType::Player,"Player");
-            player = context.m_entityManager.Find("Player");
-            player->SetPosition(m_map.GetPlayerStart());
-        } 
-        else 
-        {
-            m_view.setCenter(player->GetPosition());
-            context.m_wind.GetRenderWindow().setView(m_view);
-        }
+        // if(!player)
+        // {
+        //     std::cout << "Respawning player..." << std::endl;
+        //     context.m_entityManager->Add(EntityType::Player,"Player");
+        //     player = context.m_entityManager->Find("Player");
+        //     player->SetPosition(m_map.GetPlayerStart());
+        // } 
+        // else 
+        // {
+        //     m_view.setCenter(player->GetPosition());
+        //     context.m_wind->GetRenderWindow().setView(m_view);
+        // }
 
-        sf::FloatRect viewSpace = context.m_wind.GetViewSpace();
+        sf::FloatRect viewSpace = context.m_wind->GetViewSpace();
 
         if(viewSpace.left <= 0)
         {
             m_view.setCenter({viewSpace.width / 2,m_view.getCenter().y});
-            context.m_wind.GetRenderWindow().setView(m_view);
+            context.m_wind->GetRenderWindow().setView(m_view);
         } 
         else if (viewSpace.left + viewSpace.width > (m_map.GetMapSize().x + 1) * Sheet::Tile_Size)
         {
             m_view.setCenter({((m_map.GetMapSize().x + 1) *
             Sheet::Tile_Size) - (viewSpace.width / 2),
             m_view.getCenter().y});
-            context.m_wind.GetRenderWindow().setView(m_view);
+            context.m_wind->GetRenderWindow().setView(m_view);
         }
             m_map.Update(l_time.asSeconds());
-            m_stateMgr.GetContext().m_entityManager.Update(l_time.asSeconds());
+            m_stateMgr.GetContext().m_entityManager->Update(l_time.asSeconds());
     }
 
     void State_Game::Draw()
     {
-        m_stateMgr.GetContext().m_wind.GetRenderWindow().draw(m_background_sprite);
-        m_sprite_sheet.Draw(m_stateMgr.GetContext().m_wind.GetRenderWindow());
+        m_stateMgr.GetContext().m_wind->GetRenderWindow().draw(m_background_sprite);
+        m_sprite_sheet.Draw(m_stateMgr.GetContext().m_wind->GetRenderWindow());
         // m_map.draw();
     }
 
