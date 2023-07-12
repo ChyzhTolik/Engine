@@ -87,6 +87,9 @@ namespace Engine
         }
     }
 
+    void to_json(json& j, const CharInfo& p);
+    void from_json(const json& j, CharInfo& p);
+
     void Character::Load(const std::string& l_path)
     {
         std::ifstream char_file;

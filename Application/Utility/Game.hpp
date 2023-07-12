@@ -16,7 +16,7 @@ namespace Engine
 	    sf::Time m_elapsed;
         StateManager m_state_manager;
         SharedContext m_context;
-        EntityManager m_manager;
+        std::shared_ptr<EntityManager> m_manager;
 
     public:
         Game();

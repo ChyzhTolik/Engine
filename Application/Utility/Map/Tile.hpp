@@ -8,7 +8,7 @@ namespace Engine
 
     enum class TileType
     {
-        None = 0,
+        None = -1,
         Grass,
         Dirt,
         Stone,

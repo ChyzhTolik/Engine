@@ -3,6 +3,7 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include "StateManager.hpp"
+#include "Configuration.hpp"
 
 using nlohmann::json;
 
@@ -10,10 +11,11 @@ namespace Engine
 {
     
 
-    TileMap::TileMap(SharedContext& context) : m_context(context)
+    TileMap::TileMap(SharedContext& context) : m_context(context), m_loadNextMap(false),
+        m_background(std::make_shared<sf::Sprite>(Configuration::textures.get(Configuration::Textures::Background)))
     {
-        m_tile_set.load_from_file("media/tiles.json");
-        load_from_file("media/map.json");
+        m_tile_set.load_from_file("media/Json/tiles.json");
+        load_from_file("media/Json/map.json");
     }
     
     TileMap::~TileMap()

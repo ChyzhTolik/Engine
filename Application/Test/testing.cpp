@@ -205,16 +205,6 @@ namespace Test
 	int test_mushroom()
 	{
 		Engine::Configuration::Initialize();
-		sf::Texture texture;
-		std::string texture_file;
-#ifdef WIN32
-		texture_file;
-#elif UNIX
-		if (!texture.loadFromFile("/home/achyzh/TestProjects/Engine/Application/media/img/Mushroom.png"))
-		{
-			return -1;
-		}
-#endif // WIN32
 		Engine::Game game;
 		game.run();
 

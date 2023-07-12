@@ -22,7 +22,7 @@ namespace Engine
     private:
         sf::Sprite m_background_sprite;
         sf::Vector2f m_increment;
-        TileMap m_map;
+        std::shared_ptr<TileMap> m_map;
         SpriteSheet m_sprite_sheet;
 
         class PauseAction : public ActionFunctinoid

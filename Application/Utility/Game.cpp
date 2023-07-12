@@ -8,12 +8,13 @@ namespace Engine
     Game::Game() :
         m_window (std::make_shared<Window>("Engine", sf::Vector2u(800,600))),
         m_state_manager(m_context),
-        m_manager(m_context, 100)
+        m_manager(std::make_shared<EntityManager>(m_context, 100))
     {
         m_clock.restart();
         srand(time(nullptr));
         m_context.m_wind = m_window;
         m_context.m_eventManager = m_window->GetEventManager();
+        m_context.m_entityManager = m_manager;
 
         m_state_manager.SwitchTo(StateType::Intro);
     }

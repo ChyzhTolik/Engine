@@ -13,7 +13,7 @@ namespace Engine
         None = -1,
         Idle,
         Running,
-        Throwint,
+        Throwing,
         Firing,
         Siting,
         SitFiring,
