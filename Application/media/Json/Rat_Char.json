@@ -1,0 +1,24 @@
+{
+    "Name": "Rat",
+    "Spritesheet": "RatSheet.png",
+    "BoundingBox": [
+      14,
+      14
+    ],
+    "DamageBox": [
+      0,
+      0,
+      14,
+      14
+    ],
+    "Hitpoints": 2,
+    "JumpVelocity": 128.0,
+    "MaxVelocity": [
+      128.0,
+      1024.0
+    ],
+    "Speed": [
+      512.0,
+      64.0
+    ]
+}

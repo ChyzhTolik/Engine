@@ -1,0 +1,24 @@
+{
+    "Name": "Knight",
+    "Spritesheet": "KnightSheet.png",
+    "BoundingBox": [
+      20,
+      26
+    ],
+    "DamageBox": [
+      -5,
+      0,
+      26,
+      26
+    ],
+    "Hitpoints": 5,
+    "JumpVelocity": 250.0,
+    "MaxVelocity": [
+      200.0,
+      1024.0
+    ],
+    "Speed": [
+      1024.0,
+      128.0
+    ]
+}

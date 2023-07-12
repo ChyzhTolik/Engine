@@ -1,4 +1,9 @@
 #include "Character.hpp"
+#include "nlohmann/json.hpp"
+#include <fstream>
+#include <iostream>
+
+using nlohmann::json;
 
 namespace Engine
 {
@@ -84,7 +89,29 @@ namespace Engine
 
     void Character::Load(const std::string& l_path)
     {
+        std::ifstream char_file;
+        char_file.open(l_path);
 
+        if (!char_file.is_open())
+        { 
+            std::cout << "! Failed loading "<<l_path<<"." << std::endl; return; 
+        }
+
+	    json jf = json::parse(char_file);
+        CharInfo char_info = jf;
+
+        m_name = char_info.Name;
+        m_hitpoints = char_info.Hitpoints;
+        m_attackAABBoffset = char_info.DamageBox.getPosition();
+        m_attackAABB.width = char_info.DamageBox.width;
+        m_attackAABB.height = char_info.DamageBox.height;
+        SetSize(char_info.BoundingBox.x, char_info.BoundingBox.y);
+        m_spriteSheet.LoadSheet(char_info.Spritesheet);
+        m_speed = char_info.Speed;
+        m_jumpVelocity = char_info.JumpVelocity;
+        m_maxVelocity = char_info.MaxVelocity;
+
+        char_file.close();
     }
 
     void Character::UpdateAttackAABB()
@@ -168,5 +195,44 @@ namespace Engine
     void Character::Draw(sf::RenderWindow& l_wind)
     {
         m_spriteSheet.Draw(l_wind);
+    }
+
+    void to_json(json& j, const CharInfo& p)
+    {
+        j = json
+        { 
+            {"Name", p.Name},
+            {"Spritesheet", p.Spritesheet},
+            {"Hitpoints", p.Hitpoints},
+            {"BoundingBox", {p.BoundingBox.x, p.BoundingBox.y}},
+            {"DamageBox", {p.DamageBox.left, p.DamageBox.top,p.DamageBox.width,p.DamageBox.height}},
+            {"Speed", {p.Speed.x, p.Speed.y}},
+            {"JumpVelocity", p.JumpVelocity},
+            {"MaxVelocity", {p.MaxVelocity.y, p.MaxVelocity.y}}
+        };
+    }
+
+    void from_json(const json& j, CharInfo& p) 
+    {
+        j.at("Name").get_to(p.Name);
+        j.at("Spritesheet").get_to(p.Spritesheet);
+        j.at("Hitpoints").get_to(p.Hitpoints);
+
+        unsigned int vec_u[2];
+        j.at("BoundingBox").get_to(vec_u);
+        p.BoundingBox = {vec_u[0], vec_u[1]};
+
+        float rect_f[4];
+        j.at("DamageBox").get_to(rect_f);
+        p.DamageBox = {{rect_f[0],rect_f[1]},{rect_f[2],rect_f[3]}};
+
+        float vec_f[2];
+        j.at("Speed").get_to(vec_f);
+        p.Speed = {vec_f[0], vec_f[1]};
+
+        j.at("JumpVelocity").get_to(p.JumpVelocity);
+        
+        j.at("MaxVelocity").get_to(vec_f);
+        p.MaxVelocity={vec_f[0],vec_f[1]};
     }
 } // namespace Engine
