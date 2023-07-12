@@ -31,7 +31,7 @@ namespace Engine
 		textures.load(Textures::Biomenace, "media/img/biomenace_complete.gif");
 		textures.load(Textures::Intro, "media/img/intro.png");
 		textures.load(Textures::Mushroom, "media/img/Mushroom.png");
-		textures.load(Textures::TilesEngine, "media/img/tilesheet.png");
+		textures.load(Textures::TilesEngine, "media/SpriteSheets/tilesheet.png");
 	}
 
 	void Configuration::init_tetris_inputs()
