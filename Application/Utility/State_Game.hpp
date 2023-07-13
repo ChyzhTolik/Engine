@@ -3,7 +3,6 @@
 #include "BaseState.hpp"
 #include "ActionFunctinoid.hpp"
 #include "Map/TileMap.hpp"
-#include "SpriteSheet.hpp"
 
 namespace Engine
 {
@@ -21,9 +20,7 @@ namespace Engine
     {
     private:
         sf::Sprite m_background_sprite;
-        sf::Vector2f m_increment;
         std::shared_ptr<TileMap> m_map;
-        SpriteSheet m_sprite_sheet;
 
         class PauseAction : public ActionFunctinoid
         {

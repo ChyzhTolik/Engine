@@ -1,6 +1,6 @@
 {
     "Name": "Knight",
-    "Spritesheet": "KnightSheet.png",
+    "Spritesheet": "Knight_Animations.json",
     "BoundingBox": [
       20,
       26

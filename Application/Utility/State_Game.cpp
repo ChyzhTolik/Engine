@@ -1,6 +1,7 @@
 #include "State_Game.hpp"
 #include "StateManager.hpp"
 #include <iostream>
+#include "Configuration.hpp"
 
 namespace Engine
 {
@@ -18,14 +19,7 @@ namespace Engine
     State_Game::State_Game(StateManager& l_stateManager, const sf::Texture& l_textrue):
         BaseState(l_stateManager), m_background_sprite(l_textrue), m_map(std::make_shared<TileMap>(l_stateManager.GetContext()))
     {
-        m_background_sprite.setScale({3.125f,4.17f});
-        m_sprite_sheet.LoadSheet("media/Player.json");
-        m_sprite_sheet.SetAnimation(AnimationType::Idle);
-        m_sprite_sheet.SetSpritePosition({30.f, 450.f});
-        m_sprite_sheet.SetSpriteScale({3.f,3.f});
-        auto animation = m_sprite_sheet.GetCurrentAnim();
-        animation->SetLooping(true);
-        animation->Play();
+        
     }
 
     State_Game::~State_Game()
@@ -35,8 +29,7 @@ namespace Engine
 
     void State_Game::OnCreate()
     {
-        m_background_sprite.setPosition({0,0});
-        m_increment = sf::Vector2f(400.0f,400.0f);
+        m_background_sprite.setScale({3.125f,4.17f});
         std::shared_ptr<EventManager> evMgr = m_stateMgr.GetContext().m_eventManager;
         m_stateMgr.GetContext().m_gameMap = m_map;
         evMgr->add_action(StateType::Game,"Key_Escape",std::make_unique<MainMenuAction>(*this));
@@ -53,17 +46,16 @@ namespace Engine
 
     void State_Game::Update(const sf::Time& l_time)
     {
-        m_sprite_sheet.Update(l_time.asSeconds());
         SharedContext& context = m_stateMgr.GetContext();
-        auto player = context.m_entityManager->Find("Player");
+        auto player = context.m_entityManager->Find("Knight");
 
         if(!player)
         {
             std::cout << "Respawning player..." << std::endl;
-            context.m_entityManager->Add(EntityType::Player,"Player");
-            player = context.m_entityManager->Find("Player");
+            context.m_entityManager->Add(EntityType::Player,"Knight");
+            player = context.m_entityManager->Find("Knight");
             player->SetPosition(m_map->GetPlayerStart());
-        } 
+        }
         else 
         {
             m_view.setCenter(player->GetPosition());
@@ -91,7 +83,6 @@ namespace Engine
     void State_Game::Draw()
     {
         m_stateMgr.GetContext().m_wind->GetRenderWindow().draw(m_background_sprite);
-        m_sprite_sheet.Draw(m_stateMgr.GetContext().m_wind->GetRenderWindow());
         m_map->draw();
     }
 
@@ -125,9 +116,6 @@ namespace Engine
 
     void State_Game::MoveAction::execute(EventDetails& l_details)
     {
-        m_state.m_sprite_sheet.SetAnimation(AnimationType::Running);
-        auto animation = m_state.m_sprite_sheet.GetCurrentAnim();
-        animation->SetLooping(true);
-        animation->Play();
+        
     }
 } // namespace Engine

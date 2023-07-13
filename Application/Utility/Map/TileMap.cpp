@@ -67,7 +67,7 @@ namespace Engine
         {
             std::shared_ptr<Tile> tile = m_tile_set.find(info.type);
             m_map.emplace(info.coords, std::move(tile));
-        }        
+        }
 
         tiles.close();
     }
@@ -87,11 +87,16 @@ namespace Engine
         return Sheet::Tile_Size; 
     }
 
-    Tile& TileMap::GetTile(unsigned int l_x, unsigned int l_y)
+    std::shared_ptr<Tile> TileMap::GetTile(unsigned int l_x, unsigned int l_y)
     {
         auto itr = m_map.find({l_x,l_y});
 
-	    return *(itr->second);
+        if (itr==m_map.end())
+        {
+            return nullptr;
+        }
+        
+	    return itr->second;
     }
 
     void TileMap::LoadNext()

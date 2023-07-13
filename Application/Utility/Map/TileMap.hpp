@@ -37,7 +37,7 @@ namespace Engine
         sf::Vector2u m_maxMapSize;
         float m_mapGravity;
         TileInfo m_defaultTile;
-        sf::Vector2f m_playerStart;
+        sf::Vector2f m_playerStart = {0,512};
         bool m_loadNextMap;
         std::string m_nextMap;
         std::shared_ptr<sf::Sprite> m_background;
@@ -48,7 +48,7 @@ namespace Engine
         float GetGravity()const;
         TileInfo* GetDefaultTile(){ return &m_defaultTile; }
         unsigned int GetTileSize()const;
-        Tile& GetTile(unsigned int l_x, unsigned int l_y);
+        std::shared_ptr<Tile> GetTile(unsigned int l_x, unsigned int l_y);
         const sf::Vector2f& GetPlayerStart() const;
         void LoadNext();
         void Update(float l_dT);

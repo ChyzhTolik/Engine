@@ -1,5 +1,6 @@
 #include "State_MainMenu.hpp"
 #include "StateManager.hpp"
+#include "Configuration.hpp"
 
 namespace Engine
 {

@@ -123,11 +123,11 @@ namespace Engine
     bool SpriteSheet::LoadSheet(const std::string& l_file)
     {
         std::ifstream frames;
-        frames.open("media/Player.json");
+        frames.open(l_file);
 
         if (!frames.is_open())
         { 
-            std::cout << "! Failed loading Player.json." << std::endl; 
+            std::cout << "! Failed loading "<<l_file<<"." << std::endl; 
             return false; 
         }
 

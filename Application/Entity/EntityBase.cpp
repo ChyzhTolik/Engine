@@ -3,6 +3,7 @@
 #include "TileMap.hpp"
 #include <cmath>
 #include <optional>
+#include <algorithm>
 
 namespace Engine
 {
@@ -224,26 +225,31 @@ namespace Engine
     {
         std::shared_ptr<TileMap> gameMap = m_entityManager.GetContext().m_gameMap;
         unsigned int tileSize = gameMap->GetTileSize();
-        int fromX = floor(m_AABB.left / tileSize);
+        int fromX = std::max(0.,floor(m_AABB.left / tileSize));
         int toX = floor((m_AABB.left + m_AABB.width) / tileSize);
-        int fromY = floor(m_AABB.top / tileSize);
+        int fromY = std::max(0.,floor(m_AABB.top / tileSize));
         int toY = floor((m_AABB.top + m_AABB.height) / tileSize);
 
         for(int x = fromX; x <= toX; ++x)
         {
             for(int y = fromY; y <= toY; ++y)
             {
-                Tile& tile = gameMap->GetTile(x,y);
+                auto tile = gameMap->GetTile(x,y);
+
+                if (!tile)
+                {
+                    continue;
+                }                
 
                 sf::FloatRect tileBounds({x * tileSize*1.f, y * tileSize*1.f},
                 {tileSize*1.f,tileSize*1.f});
                 std::optional<sf::FloatRect> intersection;
                 intersection = m_AABB.findIntersection(tileBounds);
                 float area = intersection.value().width * intersection.value().height;
-                CollisionElement e(area, std::make_shared<TileInfo>(tile.m_tile_info), tileBounds);
+                CollisionElement e(area, std::make_shared<TileInfo>(tile->m_tile_info), tileBounds);
                 m_collisions.emplace_back(e);
 
-                if(tile.m_warp && m_type == EntityType::Player)
+                if(tile->m_warp && m_type == EntityType::Player)
                 {
                     gameMap->LoadNext();
                 }
