@@ -8,7 +8,8 @@ namespace Engine
     struct CharInfo
     {
         std::string Name;
-        std::string Spritesheet;
+        int Spritesheet;
+        std::string Animations;
         u_int32_t Hitpoints;
         sf::Vector2u BoundingBox;
         sf::FloatRect DamageBox;

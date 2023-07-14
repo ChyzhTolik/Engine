@@ -84,6 +84,7 @@ namespace Engine
     {
         m_stateMgr.GetContext().m_wind->GetRenderWindow().draw(m_background_sprite);
         m_map->draw();
+        m_stateMgr.GetContext().m_entityManager->Draw();
     }
 
     State_Game::MainMenuAction::MainMenuAction(State_Game& state) : m_state(state)

@@ -6,7 +6,7 @@
 namespace Engine
 {
     Game::Game() :
-        m_window (std::make_shared<Window>("Engine", sf::Vector2u(1200,1000))),
+        m_window (std::make_shared<Window>("Engine", sf::Vector2u(800,600))),
         m_state_manager(m_context),
         m_manager(std::make_shared<EntityManager>(m_context, 100))
     {

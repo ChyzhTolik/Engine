@@ -1,15 +1,23 @@
 #pragma once
 #include "TileSet.hpp"
 #include <string_view>
-#include "../SharedContext.hpp"
+#include "SharedContext.hpp"
 #include "BaseState.hpp"
 
 namespace Engine
 {
-    struct MapInfo
+    struct MapTileInfo
     {
         TileType type;
         sf::Vector2i coords;
+    };
+
+    struct MapAdditionalInfo
+    {
+        sf::Vector2u m_maxMapSize;
+        float m_mapGravity;
+        sf::Vector2f m_playerStart;
+        sf::Vector2f friction;
     };
 
     struct Vector2i_hash 
@@ -37,7 +45,7 @@ namespace Engine
         sf::Vector2u m_maxMapSize;
         float m_mapGravity;
         TileInfo m_defaultTile;
-        sf::Vector2f m_playerStart = {0,512};
+        sf::Vector2f m_playerStart = {0,0};
         bool m_loadNextMap;
         std::string m_nextMap;
         std::shared_ptr<sf::Sprite> m_background;

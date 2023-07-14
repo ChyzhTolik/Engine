@@ -95,4 +95,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE Utility/Map)
 target_include_directories(${PROJECT_NAME} PRIVATE Entity)
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDES})
 
-file(COPY ${CMAKE_SOURCE_DIR}/Application/media DESTINATION ${CMAKE_BINARY_DIR}/Application/)
+# file(COPY ${CMAKE_SOURCE_DIR}/Application/media DESTINATION ${CMAKE_BINARY_DIR}/Application/)
+
+add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/Application/media
+    ${CMAKE_BINARY_DIR}/Application/media
+)

@@ -245,6 +245,12 @@ namespace Engine
                 {tileSize*1.f,tileSize*1.f});
                 std::optional<sf::FloatRect> intersection;
                 intersection = m_AABB.findIntersection(tileBounds);
+                
+                if (!intersection.has_value())
+                {
+                    continue;
+                }
+                
                 float area = intersection.value().width * intersection.value().height;
                 CollisionElement e(area, std::make_shared<TileInfo>(tile->m_tile_info), tileBounds);
                 m_collisions.emplace_back(e);

@@ -36,11 +36,11 @@ namespace Engine
         }
     }
 
-    void to_json(json& j, const MapInfo& p) {
+    void to_json(json& j, const MapTileInfo& p) {
         j = json{ {"type", p.type}, {"coords", {p.coords.x, p.coords.y}} };
     }
 
-    void from_json(const json& j, MapInfo& p) {
+    void from_json(const json& j, MapTileInfo& p) {
 
         j.at("type").get_to(p.type);
 
@@ -49,19 +49,55 @@ namespace Engine
         p.coords = sf::Vector2i(coords[0],coords[1]);
     }
 
+    void to_json(json& j, const MapAdditionalInfo& p) {
+        j = json{ 
+            {"MapSize", {p.m_maxMapSize.x, p.m_maxMapSize.y}}, 
+            {"Gravity", p.m_mapGravity},
+            {"PlayerStartPos", {p.m_playerStart.x, p.m_playerStart.y}},
+            {"Friction", {p.friction.x, p.friction.y}}
+        };
+    }
+
+    void from_json(const json& j, MapAdditionalInfo& p) {
+
+        j.at("Gravity").get_to(p.m_mapGravity);
+
+        unsigned int coords_u[2];
+        j.at("MapSize").get_to(coords_u);
+        p.m_maxMapSize = sf::Vector2u(coords_u[0],coords_u[1]);
+
+        float coords_f[2];
+        j.at("PlayerStartPos").get_to(coords_f);
+        p.m_playerStart = sf::Vector2f(coords_f[0],coords_f[1]);
+
+        j.at("Friction").get_to(coords_f);
+        p.friction = sf::Vector2f(coords_f[0],coords_f[1]);
+    }
+
     void TileMap::load_from_file(std::string_view file)
     {
+        // "MapSize" : [64, 32],
+        // "Gravity" : 512,
+        // "PlayerStartPos" : [0,512],
+        // "Friction" : [0.8 , 0],
         std::ifstream tiles;
         tiles.open(std::string(file));
 
         if (!tiles.is_open())
         { 
-            std::cout << "! Failed loading keys.json." << std::endl; return; 
+            std::cout << "! Failed loading "<<file<<"." << std::endl; return; 
         }
 
 	    json jf = json::parse(tiles);
-        std::vector<MapInfo> key_infos;
-        key_infos = jf;
+        std::vector<MapTileInfo> key_infos;
+        MapAdditionalInfo add_info;
+        add_info = jf["MapAdditionalInfo"];
+
+        m_maxMapSize = add_info.m_maxMapSize;
+        m_playerStart = add_info.m_playerStart;
+        m_mapGravity = add_info.m_mapGravity;
+
+        key_infos = jf["Tiles"];
 
         for (auto &&info : key_infos)
         {

@@ -10,7 +10,7 @@ using nlohmann::json;
 namespace Engine
 {
     SpriteSheet::SpriteSheet() : m_animationCurrent(nullptr), m_current_type(AnimationType::None),
-        m_spriteScale(1.f, 1.f), m_direction(Direction::Right), m_sprite(Configuration::textures.get(Configuration::Textures::Biomenace))
+        m_spriteScale(1.f, 1.f), m_direction(Direction::Right)
     {
         
     }
@@ -23,12 +23,12 @@ namespace Engine
     void SpriteSheet::SetSpriteSize(const sf::Vector2i& l_size)
     {
         m_spriteSize = l_size;
-        m_sprite.setOrigin({m_spriteSize.x / 2.f, m_spriteSize.y / 1.f});
+        m_sprite->setOrigin({m_spriteSize.x / 2.f, m_spriteSize.y / 1.f});
     }
 
     void SpriteSheet::SetSpritePosition(const sf::Vector2f& l_pos)
     {
-        m_sprite.setPosition(l_pos);
+        m_sprite->setPosition(l_pos);
     }
 
     void SpriteSheet::SetDirection(const Direction& l_dir)
@@ -44,7 +44,7 @@ namespace Engine
 
     void SpriteSheet::CropSprite(const sf::IntRect& l_rect)
     {
-        m_sprite.setTextureRect(l_rect);
+        m_sprite->setTextureRect(l_rect);
     }
 
     bool SpriteSheet::SetAnimation(AnimationType l_name, const bool& l_play, const bool& l_loop)
@@ -82,7 +82,7 @@ namespace Engine
 
     void SpriteSheet::Draw(sf::RenderWindow& l_wnd)
     {
-        l_wnd.draw(m_sprite);
+        l_wnd.draw(*m_sprite);
     }
 
     sf::Vector2i SpriteSheet::GetSpriteSize()const
@@ -92,7 +92,7 @@ namespace Engine
         
     sf::Vector2f SpriteSheet::GetSpritePosition()const
     {
-        return m_sprite.getPosition();
+        return m_sprite->getPosition();
     }
 
     Direction SpriteSheet::GetDirection()const
@@ -120,7 +120,7 @@ namespace Engine
         j.at("end_frame").get_to(p.end_frame);
     }
 
-    bool SpriteSheet::LoadSheet(const std::string& l_file)
+    bool SpriteSheet::LoadSheet(const std::string& l_file, int texture_id)
     {
         std::ifstream frames;
         frames.open(l_file);
@@ -149,7 +149,9 @@ namespace Engine
             }
 
             m_animations.emplace(AnimationType(frame.type),std::move(animation));            
-        }        
+        }
+
+        m_sprite = std::make_shared<sf::Sprite>(Configuration::textures.get(Configuration::Textures(texture_id)));  
 
         frames.close();
         return true;
@@ -162,7 +164,7 @@ namespace Engine
 
     void SpriteSheet::SetSpriteScale(const sf::Vector2f& scale)
     {
-        m_sprite.setScale(scale);
+        m_sprite->setScale(scale);
     }
 
     AnimationType SpriteSheet::get_current_type() const

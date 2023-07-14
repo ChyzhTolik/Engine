@@ -1,6 +1,7 @@
 {
     "Name": "Rat",
-    "Spritesheet": "RatSheet.png",
+    "Spritesheet": 8,
+    "Animations": "Rat_Animations.json",
     "BoundingBox": [
       14,
       14

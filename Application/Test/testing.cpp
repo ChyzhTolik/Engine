@@ -6,6 +6,7 @@
 #include <vector>
 #include <filesystem>
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 
 
@@ -213,7 +214,38 @@ namespace Test
 
 	void test_classes()
 	{
-		Engine::SpriteSheet sheet;
-		sheet.LoadSheet("media/Player.json");
+		sf::Time m_elapsed;
+		sf::Clock m_clock;
+		Engine::Configuration::Initialize();
+		sf::Vector2u window_size{800,600};
+		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
+		
+		sf::Sprite sprite(Engine::Configuration::textures.get(Engine::Configuration::Textures::Knigth));
+		Engine::SpriteSheet sprite_sheet;
+		sprite_sheet.LoadSheet("media/Json/Knight_Animations.json", 7);
+		sprite_sheet.SetAnimation(Engine::AnimationType::Idle);
+		sprite_sheet.GetCurrentAnim()->SetLooping(true);
+		sprite_sheet.GetCurrentAnim()->Play();
+
+		while(!window->IsDone())
+        {
+			m_elapsed += m_clock.restart();
+
+			float frametime = 1.0f / 60.0f;
+			if(m_elapsed.asSeconds() >= frametime)
+			{
+				// Do something 60 times a second.
+				
+				m_elapsed -= sf::seconds(frametime); // Subtracting.
+			}
+
+            window->Update();
+			sprite_sheet.Update(m_elapsed.asSeconds());
+            window->BeginDraw();
+			// Render here.
+			// window->Draw(sprite);
+			sprite_sheet.Draw(window->GetRenderWindow());
+			window->EndDraw();
+		}
 	}
 } // namespace Test

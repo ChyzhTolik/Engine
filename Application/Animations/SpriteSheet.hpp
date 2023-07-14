@@ -42,7 +42,7 @@ namespace Engine
         SpriteSheet();
         ~SpriteSheet();
         void CropSprite(const sf::IntRect& l_rect);
-        bool LoadSheet(const std::string& l_file);
+        bool LoadSheet(const std::string& l_file, int texture_id);
         std::shared_ptr<Anim_Base> GetCurrentAnim();
         AnimationType get_current_type() const;
         bool SetAnimation(AnimationType l_name, const bool& l_play = false, const bool& l_loop = false);
@@ -60,7 +60,7 @@ namespace Engine
 
     private:
         std::string m_texture;
-        sf::Sprite m_sprite;
+        std::shared_ptr<sf::Sprite> m_sprite;
         sf::Vector2i m_spriteSize;
         sf::Vector2f m_spriteScale;
         Direction m_direction;

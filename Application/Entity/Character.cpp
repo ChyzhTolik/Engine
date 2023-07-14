@@ -109,8 +109,8 @@ namespace Engine
         m_attackAABB.width = char_info.DamageBox.width;
         m_attackAABB.height = char_info.DamageBox.height;
         SetSize(char_info.BoundingBox.x, char_info.BoundingBox.y);
-        std::string file_full_path = "media/Json/" + char_info.Spritesheet;
-        m_spriteSheet.LoadSheet(file_full_path);
+        std::string file_full_path = "media/Json/" + char_info.Animations;
+        m_spriteSheet.LoadSheet(file_full_path, char_info.Spritesheet);
         m_speed = char_info.Speed;
         m_jumpVelocity = char_info.JumpVelocity;
         m_maxVelocity = char_info.MaxVelocity;
@@ -207,6 +207,7 @@ namespace Engine
         { 
             {"Name", p.Name},
             {"Spritesheet", p.Spritesheet},
+            {"Animations", p.Animations},
             {"Hitpoints", p.Hitpoints},
             {"BoundingBox", {p.BoundingBox.x, p.BoundingBox.y}},
             {"DamageBox", {p.DamageBox.left, p.DamageBox.top,p.DamageBox.width,p.DamageBox.height}},
@@ -220,6 +221,7 @@ namespace Engine
     {
         j.at("Name").get_to(p.Name);
         j.at("Spritesheet").get_to(p.Spritesheet);
+        j.at("Animations").get_to(p.Animations);
         j.at("Hitpoints").get_to(p.Hitpoints);
 
         unsigned int vec_u[2];
