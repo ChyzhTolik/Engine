@@ -218,33 +218,66 @@ namespace Test
 		sf::Clock m_clock;
 		Engine::Configuration::Initialize();
 		sf::Vector2u window_size{800,600};
-		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
+		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);		
+
+		Engine::SharedContext shared_context;
+		shared_context.m_wind = window;
+		shared_context.m_eventManager = window->GetEventManager();
+
+		sf::View view = window->GetRenderWindow().getView();
+		view.setCenter({500.f,600.f});
+
+		window->GetRenderWindow().setView(view);
 		
+		std::shared_ptr<Engine::TileMap> map = std::make_shared<Engine::TileMap>(shared_context);
+		shared_context.m_gameMap = map;
+		map->load_from_file("media/Json/map.json");
+
 		sf::Sprite sprite(Engine::Configuration::textures.get(Engine::Configuration::Textures::Knigth));
 		Engine::SpriteSheet sprite_sheet;
 		sprite_sheet.LoadSheet("media/Json/Knight_Animations.json", 7);
 		sprite_sheet.SetAnimation(Engine::AnimationType::Idle);
-		sprite_sheet.GetCurrentAnim()->SetLooping(true);
-		sprite_sheet.GetCurrentAnim()->Play();
+		auto animation = sprite_sheet.GetCurrentAnim();
+		animation->SetLooping(true);
+		animation->Play();
+		sprite_sheet.SetSpritePosition({view.getCenter()});
+		sprite_sheet.SetSpriteScale({3.f,3.f});
+
+		Engine::EntityManager entity_manager(shared_context, 100);
+		entity_manager.Add(Engine::EntityType::Player);
+
+		sf::Sprite background(Engine::Configuration::textures.get(Engine::Configuration::Textures::Background));
+		background.setOrigin
+		(
+			{
+				background.getTextureRect().left + background.getTexture()->getSize().x / 2.f,
+				background.getTextureRect().top + background.getTexture()->getSize().y / 2.f
+			}
+		);
+		
+		background.setPosition(view.getCenter());
+		background.setScale({3.125f,4.17f});
 
 		while(!window->IsDone())
         {
+            window->BeginDraw();
 			m_elapsed += m_clock.restart();
 
 			float frametime = 1.0f / 60.0f;
 			if(m_elapsed.asSeconds() >= frametime)
-			{
-				// Do something 60 times a second.
-				
+			{				
 				m_elapsed -= sf::seconds(frametime); // Subtracting.
 			}
 
-            window->Update();
+			window->Update();
 			sprite_sheet.Update(m_elapsed.asSeconds());
-            window->BeginDraw();
+			entity_manager.Update(m_elapsed.asSeconds());
+			map->Update(m_elapsed.asSeconds());
 			// Render here.
-			// window->Draw(sprite);
+			window->Draw(background);
+			map->draw();
 			sprite_sheet.Draw(window->GetRenderWindow());
+			// entity_manager.Draw();
 			window->EndDraw();
 		}
 	}

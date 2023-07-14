@@ -76,10 +76,6 @@ namespace Engine
 
     void TileMap::load_from_file(std::string_view file)
     {
-        // "MapSize" : [64, 32],
-        // "Gravity" : 512,
-        // "PlayerStartPos" : [0,512],
-        // "Friction" : [0.8 , 0],
         std::ifstream tiles;
         tiles.open(std::string(file));
 

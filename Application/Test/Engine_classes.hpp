@@ -7,3 +7,4 @@
 #include "ResourceManager.hpp"
 #include "Game.hpp"
 #include "Configuration.hpp"
+#include "TileMap.hpp"
