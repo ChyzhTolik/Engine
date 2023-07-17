@@ -8,3 +8,6 @@
 #include "Game.hpp"
 #include "Configuration.hpp"
 #include "TileMap.hpp"
+#include "Character.hpp"
+#include "EntityManager.hpp"
+#include "Player.hpp"

@@ -21,6 +21,7 @@ namespace Engine
         JumpFiring,
         Death,
         Climbing,
+        Attacking,
     };
 
     struct FrameInfo

@@ -188,7 +188,7 @@ namespace Engine
 
     void EntityManager::Remove(unsigned int l_id)
     {
-
+        // m_entities.erase(l_id);
     }
 
     EntityCreator::EntityCreator(EntityManager& l_entity_manager) : m_entity_manager(l_entity_manager)

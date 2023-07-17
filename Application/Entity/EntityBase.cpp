@@ -93,7 +93,7 @@ namespace Engine
         if(m_position.y < 0)
         {
             m_position.y = 0;
-        } 
+        }
         else if(m_position.y > (mapSize.y + 1) * Sheet::Tile_Size)
         {
             m_position.y = (mapSize.y + 1) * Sheet::Tile_Size;

@@ -92,6 +92,7 @@ namespace Engine
         m_maxMapSize = add_info.m_maxMapSize;
         m_playerStart = add_info.m_playerStart;
         m_mapGravity = add_info.m_mapGravity;
+        m_defaultTile.friction = add_info.friction;
 
         key_infos = jf["Tiles"];
 

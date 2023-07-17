@@ -40,18 +40,18 @@
         "type": 24
     },
     {
-        "code": 3,
+        "code": 72,
         "name": "Player_MoveRight",
-        "type": 24
+        "type": 5
     },
     {
-        "code": 5,
+        "code": 57,
         "name": "Player_Jump",
-        "type": 57
+        "type": 5
     },
     {
-        "code": 24,
+        "code": 58,
         "name": "Player_Attack",
-        "type": 58
+        "type": 5
     }
 ]

@@ -225,7 +225,7 @@ namespace Test
 		shared_context.m_eventManager = window->GetEventManager();
 
 		sf::View view = window->GetRenderWindow().getView();
-		view.setCenter({500.f,600.f});
+		view.setCenter({300.f,600.f});
 
 		window->GetRenderWindow().setView(view);
 		
@@ -258,6 +258,8 @@ namespace Test
 		background.setPosition(view.getCenter());
 		background.setScale({3.125f,4.17f});
 
+		Engine::Player player(entity_manager);
+
 		while(!window->IsDone())
         {
             window->BeginDraw();
@@ -273,11 +275,14 @@ namespace Test
 			sprite_sheet.Update(m_elapsed.asSeconds());
 			entity_manager.Update(m_elapsed.asSeconds());
 			map->Update(m_elapsed.asSeconds());
+			player.Update(m_elapsed.asSeconds());
+			m_elapsed = m_clock.restart();
 			// Render here.
 			window->Draw(background);
 			map->draw();
-			sprite_sheet.Draw(window->GetRenderWindow());
+			// sprite_sheet.Draw(window->GetRenderWindow());
 			// entity_manager.Draw();
+			player.Draw(window->GetRenderWindow());
 			window->EndDraw();
 		}
 	}

@@ -68,7 +68,12 @@ namespace Engine
         
         m_animationCurrent = itr->second;
         m_animationCurrent->SetLooping(l_loop);
-        if(l_play){ m_animationCurrent->Play(); }
+
+        if(l_play)
+        { 
+            m_animationCurrent->Play(); 
+        }
+        
         m_animationCurrent->CropSprite();
         m_current_type = itr->first;
 
@@ -122,6 +127,7 @@ namespace Engine
 
     bool SpriteSheet::LoadSheet(const std::string& l_file, int texture_id)
     {
+        m_sprite = std::make_shared<sf::Sprite>(Configuration::textures.get(Configuration::Textures(texture_id)));
         std::ifstream frames;
         frames.open(l_file);
 
@@ -148,10 +154,18 @@ namespace Engine
                 animation->rects.emplace_back(frame_rect);
             }
 
-            m_animations.emplace(AnimationType(frame.type),std::move(animation));            
+            m_animations.emplace(AnimationType(frame.type),animation);
+
+            if (m_animationCurrent)
+            { 
+                continue; 
+            }
+
+            SetAnimation(AnimationType(frame.type), true, true);
+            // m_animationCurrent = animation;
+            // m_animationCurrent->Play();
         }
 
-        m_sprite = std::make_shared<sf::Sprite>(Configuration::textures.get(Configuration::Textures(texture_id)));  
 
         frames.close();
         return true;

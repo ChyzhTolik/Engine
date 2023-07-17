@@ -77,7 +77,7 @@ namespace Engine
         m_hitpoints = (m_hitpoints - l_damage > 0 ?
         m_hitpoints - l_damage : 0);
 
-        if (m_hitpoints)
+        if (m_hitpoints > 0)
         { 
             SetState(EntityState::Hurt); 
         }

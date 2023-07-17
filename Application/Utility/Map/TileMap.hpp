@@ -54,7 +54,10 @@ namespace Engine
         void draw();
         const sf::Vector2u& GetMapSize()const;
         float GetGravity()const;
-        TileInfo* GetDefaultTile(){ return &m_defaultTile; }
+        TileInfo* GetDefaultTile()
+        { 
+            return &m_defaultTile; 
+        }
         unsigned int GetTileSize()const;
         std::shared_ptr<Tile> GetTile(unsigned int l_x, unsigned int l_y);
         const sf::Vector2f& GetPlayerStart() const;
