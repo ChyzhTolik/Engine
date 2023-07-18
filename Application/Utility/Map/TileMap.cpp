@@ -30,8 +30,10 @@ namespace Engine
         for (auto &&tile : m_map)
         {
             sf::Sprite& sprite = m_tile_set.get_tile(tile.second->get_type());
-            sprite.setPosition({static_cast<float>(tile.first.x * tile.second->get_width()),
-                static_cast<float>(tile.first.y * tile.second->get_height())});
+            sprite.setPosition({
+                static_cast<float>(tile.first.x * tile.second->get_width()),
+                static_cast<float>(tile.first.y * tile.second->get_height())
+            });
             l_wind.draw(sprite);
         }
     }

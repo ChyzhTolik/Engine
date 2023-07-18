@@ -30,14 +30,9 @@
         "type": 5
     },
     {
-        "code": 72,
-        "name": "Right",
-        "type": 5
-    },
-    {
-        "code": 0,
+        "code": 71,
         "name": "Player_MoveLeft",
-        "type": 24
+        "type": 5
     },
     {
         "code": 72,

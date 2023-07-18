@@ -225,9 +225,9 @@ namespace Engine
     {
         std::shared_ptr<TileMap> gameMap = m_entityManager.GetContext().m_gameMap;
         unsigned int tileSize = gameMap->GetTileSize();
-        int fromX = std::max(0.,floor(m_AABB.left / tileSize));
+        int fromX = floor(m_AABB.left / tileSize);
         int toX = floor((m_AABB.left + m_AABB.width) / tileSize);
-        int fromY = std::max(0.,floor(m_AABB.top / tileSize));
+        int fromY = floor(m_AABB.top / tileSize);
         int toY = floor((m_AABB.top + m_AABB.height) / tileSize);
 
         for(int x = fromX; x <= toX; ++x)
@@ -241,8 +241,8 @@ namespace Engine
                     continue;
                 }                
 
-                sf::FloatRect tileBounds({x * tileSize*1.f, y * tileSize*1.f},
-                {tileSize*1.f,tileSize*1.f});
+                sf::FloatRect tileBounds({static_cast<float>(x * tileSize), static_cast<float>(y * tileSize)}, 
+                    {static_cast<float>(tileSize),static_cast<float>(tileSize)});
                 std::optional<sf::FloatRect> intersection;
                 intersection = m_AABB.findIntersection(tileBounds);
                 
@@ -327,7 +327,9 @@ namespace Engine
 
     void EntityBase::UpdateAABB()
     {
-	    m_AABB = sf::FloatRect({m_position.x - (m_size.x / 2),m_position.y - m_size.y}, {m_size.x,m_size.y});
+	    m_AABB = sf::FloatRect(
+            {m_position.x + (m_entityManager.GetContext().m_gameMap->GetTileSize() - m_size.x),
+            m_position.y + (m_entityManager.GetContext().m_gameMap->GetTileSize() - m_size.y)}, {m_size.x,m_size.y});
     }
 
     void EntityBase::SetAcceleration(float l_x, float l_y)

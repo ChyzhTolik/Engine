@@ -233,6 +233,8 @@ namespace Test
 		shared_context.m_gameMap = map;
 		map->load_from_file("media/Json/map.json");
 
+		window->GetEventManager()->SetCurrentState(Engine::StateType::Game);
+
 		sf::Sprite sprite(Engine::Configuration::textures.get(Engine::Configuration::Textures::Knigth));
 		Engine::SpriteSheet sprite_sheet;
 		sprite_sheet.LoadSheet("media/Json/Knight_Animations.json", 7);
@@ -244,7 +246,7 @@ namespace Test
 		sprite_sheet.SetSpriteScale({3.f,3.f});
 
 		Engine::EntityManager entity_manager(shared_context, 100);
-		entity_manager.Add(Engine::EntityType::Player);
+		// entity_manager.Add(Engine::EntityType::Player);
 
 		sf::Sprite background(Engine::Configuration::textures.get(Engine::Configuration::Textures::Background));
 		background.setOrigin
@@ -273,9 +275,13 @@ namespace Test
 
 			window->Update();
 			sprite_sheet.Update(m_elapsed.asSeconds());
-			entity_manager.Update(m_elapsed.asSeconds());
+			// entity_manager.Update(m_elapsed.asSeconds());
 			map->Update(m_elapsed.asSeconds());
 			player.Update(m_elapsed.asSeconds());
+			view.setCenter(player.GetPosition());
+			window->GetRenderWindow().setView(view);
+			background.setPosition(view.getCenter());
+
 			m_elapsed = m_clock.restart();
 			// Render here.
 			window->Draw(background);
