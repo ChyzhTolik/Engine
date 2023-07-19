@@ -138,9 +138,9 @@ namespace Engine
         {
             m_spriteSheet.SetAnimation(AnimationType::Jumping,true,false);
         }
-        else if(state == EntityState::Attacking && m_spriteSheet.get_current_type() != AnimationType::Firing)
+        else if(state == EntityState::Attacking && m_spriteSheet.get_current_type() != AnimationType::Attacking)
         {
-            m_spriteSheet.SetAnimation(AnimationType::Firing,true,false);
+            m_spriteSheet.SetAnimation(AnimationType::Attacking,true,false);
         } 
         else if(state == EntityState::Dying && m_spriteSheet.get_current_type() != AnimationType::Death)
         {

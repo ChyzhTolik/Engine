@@ -33,7 +33,7 @@
     },
     {
       "type": 1,
-      "frame_time": 1.4,
+      "frame_time": 0.1,
       "rects": [
         [
           0, 64, 31, 95

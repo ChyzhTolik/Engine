@@ -76,8 +76,9 @@ namespace Engine
             m_view.getCenter().y});
             context.m_wind->GetRenderWindow().setView(m_view);
         }
-            m_map->Update(l_time.asSeconds());
-            m_stateMgr.GetContext().m_entityManager->Update(l_time.asSeconds());
+        
+        m_map->Update(l_time.asSeconds());
+        m_stateMgr.GetContext().m_entityManager->Update(l_time.asSeconds());
     }
 
     void State_Game::Draw()

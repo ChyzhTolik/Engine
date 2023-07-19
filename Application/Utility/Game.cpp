@@ -64,6 +64,16 @@ namespace Engine
     {
         while(!get_window().IsDone())
         {
+            m_elapsed += m_clock.restart();
+
+            float frametime = 1.0f / 30.0f;
+            if(m_elapsed.asSeconds() >= frametime)
+            {
+                // Do something 60 times a second.
+                
+                m_elapsed -= sf::seconds(frametime); // Subtracting.
+            }
+
             update();
             render();
             LateUpdate();

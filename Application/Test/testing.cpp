@@ -212,10 +212,20 @@ namespace Test
 		return 0;
 	}
 
+	sf::IntRect invert_horizontal(const sf::IntRect& rect)
+    {
+        sf::IntRect result = rect;
+        result.left = rect.left + rect.width;
+        result.width = -rect.width;
+
+		return result;
+    }
+
 	void test_classes()
 	{
-		sf::Time m_elapsed;
+		sf::Time m_elapsed = sf::Time::Zero;
 		sf::Clock m_clock;
+		sf::Time TimePerFrame = sf::seconds(1.f/60);
 		Engine::Configuration::Initialize();
 		sf::Vector2u window_size{800,600};
 		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);		
@@ -238,7 +248,8 @@ namespace Test
 		sf::Sprite sprite(Engine::Configuration::textures.get(Engine::Configuration::Textures::Knigth));
 		Engine::SpriteSheet sprite_sheet;
 		sprite_sheet.LoadSheet("media/Json/Knight_Animations.json", 7);
-		sprite_sheet.SetAnimation(Engine::AnimationType::Idle);
+		sprite_sheet.SetAnimation(Engine::AnimationType::Running);
+		sprite_sheet.SetDirection(Engine::Direction::Right);
 		auto animation = sprite_sheet.GetCurrentAnim();
 		animation->SetLooping(true);
 		animation->Play();
@@ -262,34 +273,87 @@ namespace Test
 
 		Engine::Player player(entity_manager);
 
-		while(!window->IsDone())
-        {
-            window->BeginDraw();
-			m_elapsed += m_clock.restart();
+		sf::Sprite bio_sprite(Engine::Configuration::textures.get(Engine::Configuration::Textures::Biomenace));
+		sf::IntRect rect_bio({27, 49}, {53-27, 89-49});
+		sf::IntRect inv_rec({rect_bio.left+rect_bio.width,rect_bio.top},{-rect_bio.width,rect_bio.height});
 
-			float frametime = 1.0f / 60.0f;
-			if(m_elapsed.asSeconds() >= frametime)
-			{				
-				m_elapsed -= sf::seconds(frametime); // Subtracting.
+		// sf::IntRect result;
+        // result.left = rect.left + rect.width;
+        // result.width = -rect.width;
+
+		// return result;
+		sf::IntRect inv_rec2 = invert_horizontal(rect_bio);
+		bio_sprite.setTextureRect(inv_rec2);
+		bio_sprite.setPosition({view.getCenter().x,view.getCenter().y - 100.f});
+		bio_sprite.setScale({3.f,3.f});
+
+		// while(!window->IsDone())
+        // {
+        //     window->BeginDraw();
+		// 	m_elapsed += m_clock.restart();
+
+		// 	float frametime = 1.0f / 60.0f;
+		// 	if(m_elapsed.asSeconds() >= frametime)
+		// 	{				
+		// 		m_elapsed -= sf::seconds(frametime); // Subtracting.
+		// 	}
+
+		// 	window->Update();
+		// 	sprite_sheet.Update(m_elapsed.asSeconds());
+		// 	// entity_manager.Update(m_elapsed.asSeconds());
+		// 	map->Update(m_elapsed.asSeconds());
+		// 	player.Update(m_elapsed.asSeconds());
+		// 	view.setCenter(player.GetPosition());
+		// 	window->GetRenderWindow().setView(view);
+		// 	background.setPosition(view.getCenter());
+
+		// 	m_elapsed = m_clock.restart();
+		// 	// Render here.
+		// 	window->Draw(background);
+		// 	map->draw();
+		// 	// sprite_sheet.Draw(window->GetRenderWindow());
+		// 	// entity_manager.Draw();
+		// 	player.Draw(window->GetRenderWindow());
+		// 	window->EndDraw();
+		// }
+
+
+		sf::Time timeSinceLastUpdate = sf::Time::Zero;
+		while (!window->IsDone())
+		{
+			window->Update();
+
+			// update
+
+			bool repaint = false;
+			timeSinceLastUpdate += m_clock.restart();
+
+			while (timeSinceLastUpdate > TimePerFrame)
+			{
+				timeSinceLastUpdate -= TimePerFrame;
+				repaint = true;
+				map->Update(TimePerFrame.asSeconds());
+				sprite_sheet.Update(TimePerFrame.asSeconds());
+				player.Update(TimePerFrame.asSeconds());
+				view.setCenter(player.GetPosition());
+				window->GetRenderWindow().setView(view);
+				background.setPosition(view.getCenter());
 			}
 
-			window->Update();
-			sprite_sheet.Update(m_elapsed.asSeconds());
-			// entity_manager.Update(m_elapsed.asSeconds());
-			map->Update(m_elapsed.asSeconds());
-			player.Update(m_elapsed.asSeconds());
-			view.setCenter(player.GetPosition());
-			window->GetRenderWindow().setView(view);
-			background.setPosition(view.getCenter());
+			if(repaint)
+			{
+				window->BeginDraw();
+				// draw
+				window->Draw(background);
+				map->draw();
+				sprite_sheet.Draw(window->GetRenderWindow());
+				// entity_manager.Draw();
+				player.Draw(window->GetRenderWindow());
+				window->Draw(bio_sprite);
+			}
 
-			m_elapsed = m_clock.restart();
-			// Render here.
-			window->Draw(background);
-			map->draw();
-			// sprite_sheet.Draw(window->GetRenderWindow());
-			// entity_manager.Draw();
-			player.Draw(window->GetRenderWindow());
 			window->EndDraw();
 		}
+		
 	}
 } // namespace Test
