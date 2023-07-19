@@ -9,8 +9,6 @@ using nlohmann::json;
 
 namespace Engine
 {
-    
-
     TileMap::TileMap(SharedContext& context) : m_context(context), m_loadNextMap(false),
         m_background(std::make_shared<sf::Sprite>(Configuration::textures.get(Configuration::Textures::Background)))
     {
@@ -45,6 +43,19 @@ namespace Engine
     void from_json(const json& j, MapTileInfo& p) {
 
         j.at("type").get_to(p.type);
+
+        int coords[2];
+        j.at("coords").get_to(coords);
+        p.coords = sf::Vector2i(coords[0],coords[1]);
+    }
+
+    void to_json(json& j, const EnemyMapInfo& p) {
+        j = json{ {"name", p.name}, {"coords", {p.coords.x, p.coords.y}} };
+    }
+
+    void from_json(const json& j, EnemyMapInfo& p) {
+
+        j.at("name").get_to(p.name);
 
         int coords[2];
         j.at("coords").get_to(coords);
@@ -88,6 +99,7 @@ namespace Engine
 
 	    json jf = json::parse(tiles);
         std::vector<MapTileInfo> key_infos;
+        std::vector<EnemyMapInfo> enemies;
         MapAdditionalInfo add_info;
         add_info = jf["MapAdditionalInfo"];
 
@@ -95,6 +107,7 @@ namespace Engine
         m_playerStart = add_info.m_playerStart;
         m_mapGravity = add_info.m_mapGravity;
         m_defaultTile.friction = add_info.friction;
+        enemies = jf["MapAdditionalInfo"]["Enemies"];
 
         key_infos = jf["Tiles"];
 

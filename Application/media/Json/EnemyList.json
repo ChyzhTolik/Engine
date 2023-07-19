@@ -1,0 +1,10 @@
+[
+    {
+        "Name" : "Rat",
+        "File" : "Rat_Char.json"
+    },
+    {
+        "Name" : "Slime",
+        "File" : "Slime_Char.json"
+    }
+]

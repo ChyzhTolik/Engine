@@ -4,7 +4,30 @@
     "MapSize" : [64, 32],
     "Gravity" : 512,
     "PlayerStartPos" : [32,512],
-    "Friction" : [0.8 , 0]
+    "Friction" : [0.8 , 0],
+    "EnemyPos" : [
+      {
+        "coords": [
+          128,
+          512
+        ],
+        "name": "Rat"
+      },
+      {
+        "coords": [
+          438,
+          512
+        ],
+        "name": "Rat"
+      },
+      {
+        "coords": [
+          384,
+          512
+        ],
+        "name": "Rat"
+      }
+    ]
   },
   "Tiles" :[
     {

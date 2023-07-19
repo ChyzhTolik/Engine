@@ -3,9 +3,16 @@
 #include <unordered_map>
 #include <functional>
 #include "EntityBase.hpp"
+#include <string>
 
 namespace Engine
 {
+    struct EnemyInfo
+    {
+        std::string name;
+        std::string file;
+    };
+
     class EntityManager;
 
     class EntityCreator // Functinoid

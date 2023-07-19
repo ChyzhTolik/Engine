@@ -12,6 +12,12 @@ namespace Engine
         sf::Vector2i coords;
     };
 
+    struct EnemyMapInfo
+    {
+        std::string name;
+        sf::Vector2i coords;
+    };
+
     struct MapAdditionalInfo
     {
         sf::Vector2u m_maxMapSize;
