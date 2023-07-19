@@ -19,7 +19,13 @@ namespace Engine
     State_Game::State_Game(StateManager& l_stateManager, const sf::Texture& l_textrue):
         BaseState(l_stateManager), m_background_sprite(l_textrue), m_map(std::make_shared<TileMap>(l_stateManager.GetContext()))
     {
-        
+        m_background_sprite.setOrigin
+		(
+			{
+				m_background_sprite.getTextureRect().left + m_background_sprite.getTexture()->getSize().x / 2.f,
+				m_background_sprite.getTextureRect().top + m_background_sprite.getTexture()->getSize().y / 2.f
+			}
+		);
     }
 
     State_Game::~State_Game()
@@ -79,6 +85,7 @@ namespace Engine
         
         m_map->Update(l_time.asSeconds());
         m_stateMgr.GetContext().m_entityManager->Update(l_time.asSeconds());
+        m_background_sprite.setPosition(m_view.getCenter());
     }
 
     void State_Game::Draw()

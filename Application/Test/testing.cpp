@@ -207,7 +207,7 @@ namespace Test
 	{
 		Engine::Configuration::Initialize();
 		Engine::Game game;
-		game.run();
+		game.run(60);
 
 		return 0;
 	}
@@ -287,6 +287,7 @@ namespace Test
 		bio_sprite.setPosition({view.getCenter().x,view.getCenter().y - 100.f});
 		bio_sprite.setScale({3.f,3.f});
 
+		{
 		// while(!window->IsDone())
         // {
         //     window->BeginDraw();
@@ -316,6 +317,7 @@ namespace Test
 		// 	player.Draw(window->GetRenderWindow());
 		// 	window->EndDraw();
 		// }
+		}
 
 
 		sf::Time timeSinceLastUpdate = sf::Time::Zero;

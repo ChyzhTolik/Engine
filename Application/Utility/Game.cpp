@@ -27,7 +27,17 @@ namespace Engine
     void Game::update()
     {
         m_window->Update();
-        m_state_manager.Update(m_elapsed);
+
+        m_repaint = false;
+		m_elapsed += m_clock.restart();
+
+        while (m_elapsed > m_time_per_frame)
+        {
+            m_elapsed -= m_time_per_frame;
+            m_repaint = true;
+
+            m_state_manager.Update(m_time_per_frame);
+        }
     }
 
     void Game::render()
@@ -60,22 +70,19 @@ namespace Engine
         return *m_window; 
     }
 
-    void Game::run()
+    void Game::run(uint32_t frames_per_second)
     {
+        m_time_per_frame = sf::seconds(1.f/frames_per_second);
+
         while(!get_window().IsDone())
         {
-            m_elapsed += m_clock.restart();
-
-            float frametime = 1.0f / 30.0f;
-            if(m_elapsed.asSeconds() >= frametime)
-            {
-                // Do something 60 times a second.
-                
-                m_elapsed -= sf::seconds(frametime); // Subtracting.
-            }
-
             update();
-            render();
+
+            if (m_repaint)
+            {
+                render();
+            }
+            
             LateUpdate();
         }
     }
@@ -88,6 +95,6 @@ namespace Engine
     void Game::LateUpdate()
     {
         m_state_manager.ProcessRequests();
-        RestartClock();
+        // RestartClock();
     }
 } // namespace Engine
