@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include "Anim_Base.hpp"
+#include "Direction.hpp"
 
 namespace Engine
 {
@@ -32,8 +33,6 @@ namespace Engine
         int start_frame;
         int end_frame;
     };
-
-    enum class Direction{ Right = 0, Left };
 
     using Animations = std::unordered_map<AnimationType,std::shared_ptr<Anim_Base>>;
 

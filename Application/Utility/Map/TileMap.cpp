@@ -57,9 +57,9 @@ namespace Engine
 
         j.at("name").get_to(p.name);
 
-        int coords[2];
+        float coords[2];
         j.at("coords").get_to(coords);
-        p.coords = sf::Vector2i(coords[0],coords[1]);
+        p.coords = sf::Vector2f(coords[0],coords[1]);
     }
 
     void to_json(json& j, const MapAdditionalInfo& p) {
@@ -99,7 +99,6 @@ namespace Engine
 
 	    json jf = json::parse(tiles);
         std::vector<MapTileInfo> key_infos;
-        std::vector<EnemyMapInfo> enemies;
         MapAdditionalInfo add_info;
         add_info = jf["MapAdditionalInfo"];
 
@@ -107,7 +106,7 @@ namespace Engine
         m_playerStart = add_info.m_playerStart;
         m_mapGravity = add_info.m_mapGravity;
         m_defaultTile.friction = add_info.friction;
-        enemies = jf["MapAdditionalInfo"]["Enemies"];
+        m_enemyStarts = jf["MapAdditionalInfo"]["EnemyPos"];
 
         key_infos = jf["Tiles"];
 

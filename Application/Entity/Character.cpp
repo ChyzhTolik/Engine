@@ -29,6 +29,7 @@ namespace Engine
         }
 
         m_spriteSheet.SetDirection(l_dir);
+        m_direction = l_dir;
 
         if (l_dir == Direction::Left)
         { 

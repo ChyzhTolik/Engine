@@ -30,6 +30,7 @@ set (SOURCES_FILES
     Animations/Anim_Base.cpp
     Animations/SpriteSheet.cpp
     Animations/Anim_Directional.cpp
+    Animations/Direction.hpp
     Entity/EntityBase.cpp
     Entity/EntityManager.cpp
     Entity/Character.cpp

@@ -15,7 +15,7 @@ namespace Engine
     struct EnemyMapInfo
     {
         std::string name;
-        sf::Vector2i coords;
+        sf::Vector2f coords;
     };
 
     struct MapAdditionalInfo
@@ -52,6 +52,7 @@ namespace Engine
         float m_mapGravity;
         TileInfo m_defaultTile;
         sf::Vector2f m_playerStart = {0,0};
+        std::vector<EnemyMapInfo> m_enemyStarts;
         bool m_loadNextMap;
         std::string m_nextMap;
         std::shared_ptr<sf::Sprite> m_background;
@@ -60,6 +61,11 @@ namespace Engine
         void draw();
         const sf::Vector2u& GetMapSize()const;
         float GetGravity()const;
+        std::vector<EnemyMapInfo> get_enemy_positions()
+        {
+            return m_enemyStarts;
+        }
+
         TileInfo* GetDefaultTile()
         { 
             return &m_defaultTile; 

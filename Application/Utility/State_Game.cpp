@@ -19,13 +19,7 @@ namespace Engine
     State_Game::State_Game(StateManager& l_stateManager, const sf::Texture& l_textrue):
         BaseState(l_stateManager), m_background_sprite(l_textrue), m_map(std::make_shared<TileMap>(l_stateManager.GetContext()))
     {
-        m_background_sprite.setOrigin
-		(
-			{
-				m_background_sprite.getTextureRect().left + m_background_sprite.getTexture()->getSize().x / 2.f,
-				m_background_sprite.getTextureRect().top + m_background_sprite.getTexture()->getSize().y / 2.f
-			}
-		);
+        
     }
 
     State_Game::~State_Game()
@@ -35,12 +29,20 @@ namespace Engine
 
     void State_Game::OnCreate()
     {
+        m_background_sprite.setOrigin
+		(
+			{
+				m_background_sprite.getTextureRect().left + m_background_sprite.getTexture()->getSize().x / 2.f,
+				m_background_sprite.getTextureRect().top + m_background_sprite.getTexture()->getSize().y / 2.f
+			}
+		);
         m_background_sprite.setScale({3.125f,4.17f});
         std::shared_ptr<EventManager> evMgr = m_stateMgr.GetContext().m_eventManager;
         m_stateMgr.GetContext().m_gameMap = m_map;
         evMgr->add_action(StateType::Game,"Key_Escape",std::make_unique<MainMenuAction>(*this));
         evMgr->add_action(StateType::Game,"Key_P",std::make_unique<PauseAction>(*this));
         evMgr->add_action(StateType::Game,"Right",std::make_unique<MoveAction>(*this));
+        load_enemies();
     }
 
     void State_Game::OnDestroy()
@@ -126,5 +128,17 @@ namespace Engine
     void State_Game::MoveAction::execute(EventDetails& l_details)
     {
         
+    }
+    
+    void State_Game::load_enemies()
+    {
+        SharedContext& context = m_stateMgr.GetContext();
+
+        for (auto &&enemy : context.m_gameMap->get_enemy_positions())
+        {
+            int id = context.m_entityManager->Add(EntityType::Enemy,enemy.name);
+            auto new_enemy = context.m_entityManager->Find(id);
+            new_enemy->SetPosition(enemy.coords);
+        }
     }
 } // namespace Engine

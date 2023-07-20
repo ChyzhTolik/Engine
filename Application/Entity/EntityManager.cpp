@@ -42,8 +42,6 @@ namespace Engine
             entity->m_name = l_name; 
         }
 
-        m_entities.emplace(m_idCounter,std::move(entity));
-
         if(l_type == EntityType::Enemy)
         {
             auto itr = m_enemyTypes.find(l_name);
@@ -53,6 +51,8 @@ namespace Engine
                 enemy.Load(itr->second);
             }
         }
+        
+        m_entities.emplace(m_idCounter,std::move(entity));
 
         ++m_idCounter;
         return m_idCounter - 1;
@@ -85,7 +85,7 @@ namespace Engine
     void EntityManager::Update(float l_dT)
     {
         for(auto &itr : m_entities)
-        {
+        {           
             itr.second->Update(l_dT);
         }
 
@@ -210,6 +210,7 @@ namespace Engine
 
         for (auto &&enemy : enemies)
         {
+            enemy.file = "media/Json/" + enemy.file;
             m_enemyTypes.insert({std::move(enemy.name), std::move(enemy.file)});
         }        
     }
@@ -221,7 +222,7 @@ namespace Engine
 
     void EntityManager::Remove(unsigned int l_id)
     {
-        m_entities.erase(l_id);
+        m_entitiesToRemove.emplace_back(l_id);
     }
 
     EntityCreator::EntityCreator(EntityManager& l_entity_manager) : m_entity_manager(l_entity_manager)

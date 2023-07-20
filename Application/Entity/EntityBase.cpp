@@ -11,7 +11,8 @@ namespace Engine
         :m_entityManager(l_entityMgr), m_name("BaseEntity"),
         m_type(EntityType::Base), m_referenceTile(nullptr),
         m_state(EntityState::Idle), m_id(0),
-        m_collidingOnX(false), m_collidingOnY(false)
+        m_collidingOnX(false), m_collidingOnY(false),
+        m_direction(Direction::Right)
     {
 
     }
@@ -24,19 +25,19 @@ namespace Engine
     void EntityBase::SetPosition(const float& l_x, const float& l_y)
     {
         m_position = sf::Vector2f(l_x,l_y);
-        UpdateAABB();
+        UpdateAABB(m_direction);
     }
     
     void EntityBase::SetPosition(const sf::Vector2f& l_pos)
     {
         m_position = l_pos;
-        UpdateAABB();
+        UpdateAABB(m_direction);
     }
 
     void EntityBase::SetSize(const float& l_x, const float& l_y)
     {
         m_size = sf::Vector2f(l_x,l_y);
-        UpdateAABB();
+        UpdateAABB(m_direction);
     }
 
     void EntityBase::SetState(const EntityState& l_state)
@@ -100,7 +101,7 @@ namespace Engine
             SetState(EntityState::Dying);
         }
 
-        UpdateAABB();
+        UpdateAABB(m_direction);
     }
 
     void EntityBase::AddVelocity(float l_x, float l_y)
@@ -325,11 +326,21 @@ namespace Engine
         }
     }
 
-    void EntityBase::UpdateAABB()
+    void EntityBase::UpdateAABB(Direction direction)
     {
-	    m_AABB = sf::FloatRect(
-            {m_position.x + (m_entityManager.GetContext().m_gameMap->GetTileSize() - m_size.x),
-            m_position.y + (m_entityManager.GetContext().m_gameMap->GetTileSize() - m_size.y)}, {m_size.x,m_size.y});
+        if (direction == Direction::Right)
+        {
+            m_AABB = sf::FloatRect(
+                {m_position.x + (m_entityManager.GetContext().m_gameMap->GetTileSize() - m_size.x),
+                m_position.y + (m_entityManager.GetContext().m_gameMap->GetTileSize() - m_size.y)}, {m_size.x,m_size.y});
+        }
+        else
+        {
+            m_AABB = sf::FloatRect(
+                {m_position.x,
+                m_position.y + (m_entityManager.GetContext().m_gameMap->GetTileSize() - m_size.y)}, {m_size.x,m_size.y});
+        }
+        
     }
 
     void EntityBase::SetAcceleration(float l_x, float l_y)

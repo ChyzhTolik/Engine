@@ -21,6 +21,7 @@ namespace Engine
     private:
         sf::Sprite m_background_sprite;
         std::shared_ptr<TileMap> m_map;
+        void load_enemies();
 
         class PauseAction : public ActionFunctinoid
         {

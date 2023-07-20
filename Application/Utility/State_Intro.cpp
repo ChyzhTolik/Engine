@@ -59,7 +59,7 @@ namespace Engine
 
     void State_Intro::ContinueAction::execute(EventDetails& l_details)
     {
-        if(m_state.m_timePassed >= 5.0f)
+        if(m_state.m_timePassed >= 2.0f)
         {
             m_state.m_stateMgr.SwitchTo(StateType::MainMenu);
             m_state.m_stateMgr.Remove(StateType::Intro);
