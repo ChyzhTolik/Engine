@@ -151,6 +151,10 @@ namespace Engine
         {
             m_spriteSheet.SetAnimation(AnimationType::Idle,true,true);
         }
+        else if(state == EntityState::Hurt && m_spriteSheet.get_current_type() != AnimationType::Hurt)
+        {
+            m_spriteSheet.SetAnimation(AnimationType::Hurt,true,false);
+        }
     }
 
     void Character::Update(float l_dT)

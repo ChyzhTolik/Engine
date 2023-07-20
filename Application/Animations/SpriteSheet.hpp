@@ -23,6 +23,7 @@ namespace Engine
         Death,
         Climbing,
         Attacking,
+        Hurt,
     };
 
     struct FrameInfo
