@@ -25,7 +25,14 @@
           384,
           512
         ],
-        "name": "Rat"
+        "name": "Slime"
+      },
+      {
+        "coords": [
+          200,
+          512
+        ],
+        "name": "Slime"
       }
     ]
   },

@@ -1,0 +1,27 @@
+[
+    {
+        "type": 0,
+        "frame_time": 0.1,
+        "rects": [
+            [
+                226, 278, 254, 295
+            ],
+            [
+                256, 279, 287, 295
+            ]
+        ],
+        "start_frame":0,
+        "end_frame":1
+    },
+    {
+        "type": 10,
+        "frame_time": 0.08,
+        "rects": [
+            [
+                350, 271, 376, 295
+            ]
+        ],
+        "start_frame":0,
+        "end_frame":0
+    }
+]
