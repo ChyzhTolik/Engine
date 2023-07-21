@@ -252,8 +252,7 @@ namespace Engine
         if (!m_spriteSheet.GetCurrentAnim())
         {
             return;
-        }
-        
+        }        
 
         if (direction == Direction::Right)
         {

@@ -4,6 +4,7 @@
 #include <cmath>
 #include <optional>
 #include <algorithm>
+#include <iostream>
 
 namespace Engine
 {
@@ -44,6 +45,7 @@ namespace Engine
     {
         if(m_state == EntityState::Dying){ return; }
         m_state = l_state;
+        std::cout<<"State:"<<static_cast<int>(l_state)<<std::endl;
     }
 
     const sf::Vector2f& EntityBase::GetSize()const
