@@ -100,4 +100,10 @@ namespace Engine
     {
         return m_playing;
     }
+    
+    sf::Vector2i Anim_Base::get_current_sprite_size() const
+    {
+        return rects[m_frameCurrent].getSize();
+    }
+
 } // namespace Engine

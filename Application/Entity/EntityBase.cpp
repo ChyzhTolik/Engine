@@ -328,8 +328,6 @@ namespace Engine
 
     void EntityBase::UpdateAABB(Direction direction)
     {
-        unsigned int sprite_width = 0;
-
         if (direction == Direction::Right)
         {
             m_AABB = sf::FloatRect(

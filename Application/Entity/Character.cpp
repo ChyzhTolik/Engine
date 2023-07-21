@@ -109,9 +109,9 @@ namespace Engine
         m_attackAABBoffset = char_info.DamageBox.getPosition();
         m_attackAABB.width = char_info.DamageBox.width;
         m_attackAABB.height = char_info.DamageBox.height;
-        SetSize(char_info.BoundingBox.x, char_info.BoundingBox.y);
         std::string file_full_path = "media/Json/" + char_info.Animations;
         m_spriteSheet.LoadSheet(file_full_path, char_info.Spritesheet);
+        SetSize(char_info.BoundingBox.x, char_info.BoundingBox.y);
         m_speed = char_info.Speed;
         m_jumpVelocity = char_info.JumpVelocity;
         m_maxVelocity = char_info.MaxVelocity;
@@ -245,5 +245,28 @@ namespace Engine
         
         j.at("MaxVelocity").get_to(vec_f);
         p.MaxVelocity={vec_f[0],vec_f[1]};
+    }
+
+    void Character::UpdateAABB(Direction direction)
+    {
+        if (!m_spriteSheet.GetCurrentAnim())
+        {
+            return;
+        }
+        
+
+        if (direction == Direction::Right)
+        {
+            m_AABB = sf::FloatRect(
+                {m_position.x + (m_spriteSheet.GetSpriteSize().x - m_size.x),
+                m_position.y + (m_spriteSheet.GetSpriteSize().y - m_size.y)}, {m_size.x,m_size.y});
+        }
+        else
+        {
+            m_AABB = sf::FloatRect(
+                {m_position.x,
+                m_position.y + (m_spriteSheet.GetSpriteSize().y - m_size.y)}, {m_size.x,m_size.y});
+        }
+        
     }
 } // namespace Engine

@@ -50,7 +50,6 @@ namespace Engine
         void Update(const float& l_dT);
         void Draw(sf::RenderWindow& l_wnd);
 
-        void SetSpriteSize(const sf::Vector2i& l_size);
         void SetSpritePosition(const sf::Vector2f& l_pos);
         void SetDirection(const Direction& l_dir);
         void SetSpriteScale(const sf::Vector2f& scale);
@@ -62,7 +61,6 @@ namespace Engine
     private:
         std::string m_texture;
         std::shared_ptr<sf::Sprite> m_sprite;
-        sf::Vector2i m_spriteSize;
         sf::Vector2f m_spriteScale;
         Direction m_direction;
         std::string m_animType;

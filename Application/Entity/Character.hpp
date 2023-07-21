@@ -34,6 +34,7 @@ namespace Engine
         void Draw(sf::RenderWindow& l_wind);
 
     protected:
+        virtual void UpdateAABB(Direction direction) override;
         void UpdateAttackAABB();
         void Animate();
         SpriteSheet m_spriteSheet;

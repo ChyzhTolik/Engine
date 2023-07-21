@@ -29,6 +29,7 @@ namespace Engine
         void SetRectangles(std::vector<sf::IntRect>&& rects);
         void SetStartFrame(Frame l_frame);
 	    void SetEndFrame(Frame l_frame);
+        sf::Vector2i get_current_sprite_size() const;
 
     protected:
         virtual void FrameStep() = 0;
