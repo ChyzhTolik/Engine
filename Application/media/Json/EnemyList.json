@@ -6,5 +6,9 @@
     {
         "Name" : "Slime",
         "File" : "Slime_Char.json"
+    },
+    {
+        "Name" : "GreenGuy",
+        "File" : "GreenGuy_Char.json"
     }
 ]

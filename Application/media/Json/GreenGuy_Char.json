@@ -1,0 +1,25 @@
+{
+    "Name": "GreenGuy",
+    "Spritesheet": 3,
+    "Animations": "GreenGuy_Animations.json",
+    "BoundingBox": [
+      25,
+      18
+    ],
+    "DamageBox": [
+      0,
+      0,
+      25,
+      18
+    ],
+    "Hitpoints": 5,
+    "JumpVelocity": 128.0,
+    "MaxVelocity": [
+      128.0,
+      1024.0
+    ],
+    "Speed": [
+      512.0,
+      64.0
+    ]
+}
