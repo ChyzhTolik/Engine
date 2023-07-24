@@ -10,7 +10,7 @@ namespace Engine
         std::string Name;
         int Spritesheet;
         std::string Animations;
-        u_int32_t Hitpoints;
+        uint32_t Hitpoints;
         sf::Vector2u BoundingBox;
         sf::FloatRect DamageBox;
         sf::Vector2f Speed;

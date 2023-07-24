@@ -8,4 +8,5 @@ namespace Test
     int test_mushroom();  
     int test_biomenace();
     void test_classes();
+    void test_sprite_origin();
 } // namespace Test

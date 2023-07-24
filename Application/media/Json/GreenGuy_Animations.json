@@ -16,6 +16,7 @@
             224, 300, 255, 338
           ]
         ],
+        "origins":[],
         "start_frame":0,
         "end_frame":3
     },
@@ -30,6 +31,7 @@
             407, 300, 434, 339
           ]
         ],
+        "origins":[],
         "start_frame":0,
         "end_frame":1
     },
@@ -62,6 +64,7 @@
                 362, 144, 378, 149
             ]
         ],
+        "origins":[],
         "start_frame":0,
         "end_frame":7
     }

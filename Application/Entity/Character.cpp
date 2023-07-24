@@ -254,17 +254,20 @@ namespace Engine
             return;
         }        
 
+        auto origin = m_spriteSheet.get_origin();
+        auto position = m_position - origin;
+        
         if (direction == Direction::Right)
         {
             m_AABB = sf::FloatRect(
-                {m_position.x + (m_spriteSheet.GetSpriteSize().x - m_size.x),
-                m_position.y + (m_spriteSheet.GetSpriteSize().y - m_size.y)}, {m_size.x,m_size.y});
+                {position.x + (m_spriteSheet.GetSpriteSize().x - m_size.x),
+                position.y + (m_spriteSheet.GetSpriteSize().y - m_size.y)}, {m_size.x,m_size.y});
         }
         else
         {
             m_AABB = sf::FloatRect(
-                {m_position.x,
-                m_position.y + (m_spriteSheet.GetSpriteSize().y - m_size.y)}, {m_size.x,m_size.y});
+                {position.x,
+                position.y + (m_spriteSheet.GetSpriteSize().y - m_size.y)}, {m_size.x,m_size.y});
         }
         
     }

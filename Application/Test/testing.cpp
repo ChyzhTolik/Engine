@@ -358,4 +358,58 @@ namespace Test
 		}
 		
 	}
+
+	void test_sprite_origin()
+	{
+		Engine::Configuration::Initialize();
+		sf::Vector2u window_size{800,600};
+		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
+
+		sf::CircleShape circle(30.f);
+		sf::RectangleShape rectangle({50.f, 200.f});
+		sf::RectangleShape rectangle2({50.f, 200.f});
+		sf::RectangleShape back({200.f,200.f});
+		rectangle.setFillColor(sf::Color::Cyan);
+		rectangle.setPosition({100.f, 0.f});
+		rectangle.setOrigin({0.f,0.f});
+		rectangle2.setFillColor(sf::Color::Yellow);
+		rectangle2.setPosition({50.f, 0.f});
+
+		sf::Sprite sprite1(Engine::Configuration::textures.get(Engine::Configuration::Textures::Biomenace));
+		sf::Sprite sprite2(Engine::Configuration::textures.get(Engine::Configuration::Textures::Biomenace));
+		sf::IntRect sprite_rect({81, 48}, {106 - 81, 89 - 48});
+
+		sf::Vector2f origin = {18.f, 0.f};
+
+		sprite1.setTextureRect(sprite_rect);
+		sprite1.setScale({2.f,2.f});
+		sprite1.setOrigin(origin);
+		sprite1.setPosition({100.f,0.f});
+
+		auto invert_rect = invert_horizontal(sprite_rect);
+		sprite2.setTextureRect(invert_rect);
+		sprite2.setScale({2.f,2.f});
+		sprite2.setOrigin({std::abs(sprite2.getTextureRect().width) - origin.x,0.f});
+		sprite2.setPosition({100.f,100.f});
+
+		std::cout<<sprite1.getTextureRect().width - origin.x<<std::endl;
+
+
+		while (!window->IsDone())
+		{
+			window->Update();
+
+			window->BeginDraw();
+
+			window->Draw(back);
+			window->Draw(rectangle);
+			window->Draw(rectangle2);
+			window->Draw(sprite1);
+			window->Draw(sprite2);
+
+			window->EndDraw();
+		}
+
+
+	}
 } // namespace Test

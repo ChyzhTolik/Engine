@@ -107,6 +107,7 @@ namespace Engine
             {"rects",p.rects},
             {"start_frame",p.start_frame},
             {"end_frame",p.end_frame},
+            {"origins",p.origins},
         };
     }
 
@@ -117,6 +118,7 @@ namespace Engine
         j.at("rects").get_to(p.rects);
         j.at("start_frame").get_to(p.start_frame);
         j.at("end_frame").get_to(p.end_frame);
+        j.at("origins").get_to(p.origins);
     }
 
     bool SpriteSheet::LoadSheet(const std::string& l_file, int texture_id)
@@ -148,6 +150,12 @@ namespace Engine
                 animation->rects.emplace_back(frame_rect);
             }
 
+            for (auto &&origin : frame.origins)
+            {
+                animation->origins.push_back(origin);
+            }
+            
+
             m_animations.emplace(AnimationType(frame.type),animation);
 
             if (m_animationCurrent)
@@ -178,5 +186,15 @@ namespace Engine
     AnimationType SpriteSheet::get_current_type() const
     {
         return m_current_type;
+    }
+
+    void SpriteSheet::set_sprite_origin(const sf::Vector2f& l_origin)
+    {
+        m_sprite->setOrigin(l_origin);
+    }
+
+    sf::Vector2f SpriteSheet::get_origin()const
+    {
+        return m_sprite->getOrigin();
     }
 } // namespace Engine

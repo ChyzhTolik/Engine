@@ -12,4 +12,5 @@ int main()
 	//Test::test_biomenace();
 	Test::test_mushroom();
 	// Test::test_classes();
+	// Test::test_sprite_origin();
 }

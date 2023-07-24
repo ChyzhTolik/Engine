@@ -8,18 +8,25 @@ namespace Engine
     void Anim_Directional::CropSprite()
     {
         sf::IntRect& rect = rects[m_frameCurrent];
-        Direction direction = m_spriteSheet.GetDirection();
-
-        // if (direction == Direction::Left)
-        // {
-        //     std::cout<<"Left"<<std::endl;
-        //     std::cout<<rect.left<<" "<<rect.top<<std::endl;
-        //     std::cout<<"Invert"<<std::endl;
-        //     auto inv_rect = invert_horizontal(rect);
-        //     std::cout<<inv_rect.left<<" "<<inv_rect.top<<std::endl;
-        // }        
+        Direction direction = m_spriteSheet.GetDirection();    
 
         m_spriteSheet.CropSprite(m_spriteSheet.GetDirection() == Direction::Right ? rects[m_frameCurrent] : invert_horizontal(rects[m_frameCurrent]));
+
+        if (!origins.empty())
+        {
+            sf::Vector2f origin = {origins[m_frameCurrent], 0.f};
+
+            if (m_spriteSheet.GetDirection() == Direction::Right)
+            {
+                m_spriteSheet.set_sprite_origin(origin);
+            }
+            else
+            {
+                sf::Vector2f left_origin = {abs(rects[m_frameCurrent].width)-origin.x, 0.f};
+                m_spriteSheet.set_sprite_origin(left_origin);
+            }
+        }
+        
     }
 
     void Anim_Directional::FrameStep()
