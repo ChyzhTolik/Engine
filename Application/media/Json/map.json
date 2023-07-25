@@ -1,10 +1,12 @@
 {
   "MapAdditionalInfo":
   {
+    "Warp" : [63, 27],
     "MapSize" : [64, 32],
     "Gravity" : 512,
     "PlayerStartPos" : [32,512],
     "Friction" : [0.8 , 0],
+    "NextMap" : "map2.json",
     "EnemyPos" : [
       {
         "coords": [

@@ -45,7 +45,6 @@ namespace Engine
     {
         if(m_state == EntityState::Dying){ return; }
         m_state = l_state;
-        std::cout<<"State:"<<static_cast<int>(l_state)<<std::endl;
     }
 
     const sf::Vector2f& EntityBase::GetSize()const
@@ -258,7 +257,7 @@ namespace Engine
                 CollisionElement e(area, std::make_shared<TileInfo>(tile->m_tile_info), tileBounds);
                 m_collisions.emplace_back(e);
 
-                if(tile->m_warp && m_type == EntityType::Player)
+                if(gameMap->get_warp_pos() == sf::Vector2u(x,y) && m_type == EntityType::Player)
                 {
                     gameMap->LoadNext();
                 }

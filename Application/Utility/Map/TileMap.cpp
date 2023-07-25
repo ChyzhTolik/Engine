@@ -18,6 +18,7 @@ namespace Engine
     
     TileMap::~TileMap()
     {
+        PurgeMap();
     }
 
     void TileMap::draw()
@@ -63,10 +64,12 @@ namespace Engine
     }
 
     void to_json(json& j, const MapAdditionalInfo& p) {
-        j = json{ 
+        j = json{
+            {"Warp", {p.warp.x, p.warp.y}},
             {"MapSize", {p.m_maxMapSize.x, p.m_maxMapSize.y}}, 
             {"Gravity", p.m_mapGravity},
             {"PlayerStartPos", {p.m_playerStart.x, p.m_playerStart.y}},
+            {"NextMap", p.next_map},
             {"Friction", {p.friction.x, p.friction.y}}
         };
     }
@@ -74,8 +77,12 @@ namespace Engine
     void from_json(const json& j, MapAdditionalInfo& p) {
 
         j.at("Gravity").get_to(p.m_mapGravity);
+        j.at("NextMap").get_to(p.next_map);
 
         unsigned int coords_u[2];
+        j.at("Warp").get_to(coords_u);
+        p.warp = sf::Vector2u(coords_u[0],coords_u[1]);
+
         j.at("MapSize").get_to(coords_u);
         p.m_maxMapSize = sf::Vector2u(coords_u[0],coords_u[1]);
 
@@ -99,13 +106,10 @@ namespace Engine
 
 	    json jf = json::parse(tiles);
         std::vector<MapTileInfo> key_infos;
-        MapAdditionalInfo add_info;
-        add_info = jf["MapAdditionalInfo"];
 
-        m_maxMapSize = add_info.m_maxMapSize;
-        m_playerStart = add_info.m_playerStart;
-        m_mapGravity = add_info.m_mapGravity;
-        m_defaultTile.friction = add_info.friction;
+        m_additional_info = jf["MapAdditionalInfo"];
+
+        m_defaultTile.friction = m_additional_info.friction;
         m_enemyStarts = jf["MapAdditionalInfo"]["EnemyPos"];
 
         key_infos = jf["Tiles"];
@@ -121,12 +125,12 @@ namespace Engine
 
     const sf::Vector2u& TileMap::GetMapSize()const
     {
-        return m_maxMapSize; 
+        return m_additional_info.m_maxMapSize; 
     }
 
     float TileMap::GetGravity()const
     {
-        return m_mapGravity;
+        return m_additional_info.m_mapGravity;
     }
 
     unsigned int TileMap::GetTileSize()const
@@ -148,12 +152,12 @@ namespace Engine
 
     void TileMap::LoadNext()
     {
-        
+        m_loadNextMap = true;
     }
 
     const sf::Vector2f& TileMap::GetPlayerStart() const
     {
-        return m_playerStart;
+        return m_additional_info.m_playerStart;
     }
 
     void TileMap::Update(float l_dT)
@@ -162,12 +166,15 @@ namespace Engine
         {
             PurgeMap();
             m_loadNextMap = false;
-            if(m_nextMap != ""){
-                load_from_file("media/Maps/"+m_nextMap);
-            } else {
+            if(m_additional_info.next_map != "")
+            {
+                load_from_file("media/Json/"+ m_additional_info.next_map );
+            } 
+            else 
+            {
                 // m_context. GetStateManager().SwitchTo(StateType::GameOver);
             }
-            m_nextMap = "";
+            m_additional_info.next_map  = "";
         }
         sf::FloatRect viewSpace = m_context.m_wind->GetViewSpace();
         m_background->setPosition({viewSpace.left, viewSpace.top});
@@ -175,7 +182,13 @@ namespace Engine
 
     void TileMap::PurgeMap()
     {
+        m_map.clear();
+        m_context.m_entityManager->Purge();
+    }
 
+    sf::Vector2u TileMap::get_warp_pos() const
+    {
+        return m_additional_info.warp;
     }
 
 } // namespace Engine

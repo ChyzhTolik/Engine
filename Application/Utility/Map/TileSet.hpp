@@ -14,6 +14,7 @@ namespace Engine
     public:
         TileSet() = default;
         ~TileSet(){};
+        void clear();
         void load_from_file(std::string_view file_name);
         sf::Sprite& get_tile(TileType type) const;
         std::shared_ptr<Tile> find(TileType type) const;

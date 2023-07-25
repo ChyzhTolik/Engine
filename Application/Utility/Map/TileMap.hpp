@@ -20,10 +20,12 @@ namespace Engine
 
     struct MapAdditionalInfo
     {
+        sf::Vector2u warp;
         sf::Vector2u m_maxMapSize;
         float m_mapGravity;
         sf::Vector2f m_playerStart;
         sf::Vector2f friction;
+        std::string next_map;
     };
 
     struct Vector2i_hash 
@@ -48,19 +50,17 @@ namespace Engine
         TileSet m_tile_set;
         SharedContext&  m_context;
         std::unordered_map<sf::Vector2u,std::shared_ptr<Tile>,Vector2i_hash> m_map;
-        sf::Vector2u m_maxMapSize;
-        float m_mapGravity;
+        MapAdditionalInfo m_additional_info;
         TileInfo m_defaultTile;
-        sf::Vector2f m_playerStart = {0,0};
         std::vector<EnemyMapInfo> m_enemyStarts;
         bool m_loadNextMap;
-        std::string m_nextMap;
         std::shared_ptr<sf::Sprite> m_background;
     public:
         void load_from_file(std::string_view file);
         void draw();
         const sf::Vector2u& GetMapSize()const;
         float GetGravity()const;
+        sf::Vector2u get_warp_pos() const;
         std::vector<EnemyMapInfo> get_enemy_positions()
         {
             return m_enemyStarts;

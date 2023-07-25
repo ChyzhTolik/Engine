@@ -34,7 +34,6 @@ namespace Engine
     private:
     public:
         TileInfo m_tile_info;
-        bool m_warp;
         Tile() = default;
         Tile(const Tile&) = default;
         Tile(Tile&&) = default;
