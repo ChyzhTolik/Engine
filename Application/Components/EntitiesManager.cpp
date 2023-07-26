@@ -1,6 +1,7 @@
 #include "EntitiesManager.hpp"
 
 #include "PositionComp.hpp"
+#include "SystemManager.hpp"
 
 namespace Engine
 {
@@ -42,8 +43,8 @@ namespace Engine
             }
         }
         // Notifying the system manager of a modified entity.
-        // m_system_manager->EntityModified(entity,l_mask);
-        // m_system_manager->AddEvent(entity,(EventID)EntityEvent::Spawned);
+        m_system_manager->EntityModified(entity,l_mask);
+        m_system_manager->AddEvent(entity,(EventID)EntityEvent::Spawned);
         return entity;
     }
 
@@ -63,7 +64,7 @@ namespace Engine
         }
 
         m_entities.erase(itr);
-        // m_systems->RemoveEntity(l_id);
+        m_system_manager->RemoveEntity(l_entity);
         return true;
     }
 
@@ -93,7 +94,7 @@ namespace Engine
         itr->second.second.emplace_back(component);
         itr->second.first.set((unsigned int)l_component);
         // Notifying the system manager of a modified entity.
-        // m_systems->EntityModified(l_entity,itr->second.first);
+        m_system_manager->EntityModified(l_entity,itr->second.first);
         return true;
     }
 
@@ -127,8 +128,37 @@ namespace Engine
         
         container.erase(component);
         itr->second.first.reset((unsigned int)l_component);
-        // m_systems->EntityModified(l_entity, itr->second.first);
+        m_system_manager->EntityModified(l_entity, itr->second.first);
         return true;
+    }
+
+    bool EntitiesManager::HasComponent(const EntityId& l_entity, const ComponentType& l_component)
+    {
+        auto itr = m_entities.find(l_entity);
+
+        if (itr == m_entities.end())
+        { 
+            return false; 
+        }
+
+        return itr->second.first[(unsigned int)l_component] == 1;
+    }
+
+    void EntitiesManager::Purge()
+    {
+        m_system_manager->PurgeEntities();
+        for(auto& entity : m_entities)
+        {
+            entity.second.second.clear();
+            entity.second.first.reset();
+        }
+        m_entities.clear();
+        m_idCounter = 0;
+    }
+
+    int EntitiesManager::AddEntity(const std::string& l_entityFile)
+    {
+        return 0;
     }
 
 } // namespace Engine

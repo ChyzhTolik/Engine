@@ -39,6 +39,14 @@ set (SOURCES_FILES
     Components/Component.cpp
     Components/PositionComp.cpp
     Components/EntitiesManager.cpp
+    Components/System.cpp
+    Components/MessageHandler.cpp
+    Components/EntityMessages.hpp
+    Components/SystemManager.cpp
+    Components/EventQueue.hpp
+    Components/DrawableComponent.cpp
+    Components/SpriteSheetComponent.cpp
+    Components/RendererSystem.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})

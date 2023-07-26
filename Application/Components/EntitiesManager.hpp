@@ -8,7 +8,7 @@
 
 namespace Engine
 {
-    const uint32_t ComponentsNumber = 32;
+    const uint32_t ComponentsNumber = 20;
     using EntityId = uint32_t;
 
     class ComponentCreator
@@ -49,8 +49,8 @@ namespace Engine
         template<class T>
         std::shared_ptr<T> GetComponent(const EntityId& l_entity, const ComponentType& l_component);
         bool RemoveComponent(const EntityId& l_entity, const ComponentType& l_component);
-        bool HasComponent(const EntityId& l_entity,
-        const Component& l_component);
+        bool HasComponent(const EntityId& l_entity, const ComponentType& l_component);
+        void Purge();
     private:
         template<typename T, typename ...Args> // T inherits from ComponentCreator
         void add_component_type(ComponentType l_type, Args&& ... args)

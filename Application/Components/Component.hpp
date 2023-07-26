@@ -16,23 +16,13 @@ namespace Engine
         Collidable
     };
 
-    enum class SystemType
-    {
-        Renderer = 0, 
-        Movement, 
-        Collision, 
-        Control, 
-        State, 
-        SheetAnimation
-    };
-
     class Component
     {
     private:
         ComponentType m_type;
     public:
         Component(ComponentType type);
-        ~Component();
+        virtual ~Component();
         ComponentType get_type() const;
         virtual void load(std::stringstream& l_stream) = 0;
     };    
