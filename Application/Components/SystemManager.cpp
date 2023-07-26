@@ -71,7 +71,7 @@ namespace Engine
             return; 
         }
 
-        std::shared_ptr<RendererSystem> system = static_cast<std::shared_ptr<RendererSystem>>(itr->second);
+        std::shared_ptr<RendererSystem> system = std::dynamic_pointer_cast<RendererSystem>(itr->second);
 
         system->Render(l_wind, l_elevation);
     }

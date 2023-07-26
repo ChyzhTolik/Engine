@@ -119,8 +119,7 @@ namespace Engine
         bool FitsRequirements(const std::bitset<REQUIREMENTS_NUM>& l_bits);
         void Purge();
         virtual void Update(float l_dT) = 0;
-        virtual void HandleEvent(const EntityId& l_entity,
-        const EntityEvent& l_event) = 0;
+        virtual void HandleEvent(const EntityId& l_entity, const EntityEvent& l_event) = 0;
 
     protected:
         std::shared_ptr<SystemManager> m_system_manager;
