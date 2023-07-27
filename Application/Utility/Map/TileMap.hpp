@@ -44,20 +44,27 @@ namespace Engine
         }
     };
 
+    using MapLayer = std::unordered_map<sf::Vector2u,std::shared_ptr<Tile>,Vector2i_hash>;
+
     class TileMap
     {
     private:
         TileSet m_tile_set;
         SharedContext&  m_context;
         std::unordered_map<sf::Vector2u,std::shared_ptr<Tile>,Vector2i_hash> m_map;
+        std::unordered_map<int, MapLayer> m_map_layers;
         MapAdditionalInfo m_additional_info;
         TileInfo m_defaultTile;
         std::vector<EnemyMapInfo> m_enemyStarts;
         bool m_loadNextMap;
         std::shared_ptr<sf::Sprite> m_background;
+        int m_player_id;
     public:
+        int get_player_id() const;
         void load_from_file(std::string_view file);
         void draw();
+        void draw_layer(int layer);
+        std::shared_ptr<Tile> get_tile_on_layer(uint32_t x, uint32_t y, int layer);
         const sf::Vector2u& GetMapSize()const;
         float GetGravity()const;
         sf::Vector2u get_warp_pos() const;

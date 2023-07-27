@@ -2,6 +2,7 @@
 #include "StateManager.hpp"
 #include <iostream>
 #include "Configuration.hpp"
+#include "PositionComp.hpp"
 
 namespace Engine
 {
@@ -42,7 +43,12 @@ namespace Engine
         evMgr->add_action(StateType::Game,"Key_Escape",std::make_unique<MainMenuAction>(*this));
         evMgr->add_action(StateType::Game,"Key_P",std::make_unique<PauseAction>(*this));
         evMgr->add_action(StateType::Game,"Right",std::make_unique<MoveAction>(*this));
+        evMgr->add_action(StateType::Game, "Player_MoveLeft",std::make_unique<MoveAction>(*this));
+        evMgr->add_action(StateType::Game, "Player_MoveRigth",std::make_unique<MoveAction>(*this));
+        evMgr->add_action(StateType::Game, "Player_MoveUp",std::make_unique<MoveAction>(*this));
+        evMgr->add_action(StateType::Game, "Player_MoveDown",std::make_unique<MoveAction>(*this));
         load_enemies();
+        m_player = m_map->get_player_id();
     }
 
     void State_Game::OnDestroy()
@@ -54,47 +60,58 @@ namespace Engine
 
     void State_Game::Update(const sf::Time& l_time)
     {
-        SharedContext& context = m_stateMgr.GetContext();
-        auto player = context.m_entityManager->Find("Knight");
-
-        if(!player)
-        {
-            std::cout << "Respawning player..." << std::endl;
-            context.m_entityManager->Add(EntityType::Player,"Knight");
-            player = context.m_entityManager->Find("Knight");
-            player->SetPosition(m_map->GetPlayerStart());
-        }
-        else 
-        {
-            m_view.setCenter(player->GetPosition());
-            context.m_wind->GetRenderWindow().setView(m_view);
-        }
-
-        sf::FloatRect viewSpace = context.m_wind->GetViewSpace();
-
-        if(viewSpace.left <= 0)
-        {
-            m_view.setCenter({viewSpace.width / 2,m_view.getCenter().y});
-            context.m_wind->GetRenderWindow().setView(m_view);
-        } 
-        else if (viewSpace.left + viewSpace.width > (m_map->GetMapSize().x + 1) * Sheet::Tile_Size)
-        {
-            m_view.setCenter({((m_map->GetMapSize().x + 1) *
-            Sheet::Tile_Size) - (viewSpace.width / 2),
-            m_view.getCenter().y});
-            context.m_wind->GetRenderWindow().setView(m_view);
-        }
-        
+        auto context = m_stateMgr.GetContext();
+        UpdateCamera();
         m_map->Update(l_time.asSeconds());
-        m_stateMgr.GetContext().m_entityManager->Update(l_time.asSeconds());
-        m_background_sprite.setPosition(m_view.getCenter());
+        context.m_system_manager->Update(l_time.asSeconds());
+
+        // SharedContext& context = m_stateMgr.GetContext();
+        // auto player = context.m_entityManager->Find("Knight");
+
+        // if(!player)
+        // {
+        //     std::cout << "Respawning player..." << std::endl;
+        //     context.m_entityManager->Add(EntityType::Player,"Knight");
+        //     player = context.m_entityManager->Find("Knight");
+        //     player->SetPosition(m_map->GetPlayerStart());
+        // }
+        // else 
+        // {
+        //     m_view.setCenter(player->GetPosition());
+        //     context.m_wind->GetRenderWindow().setView(m_view);
+        // }
+
+        // sf::FloatRect viewSpace = context.m_wind->GetViewSpace();
+
+        // if(viewSpace.left <= 0)
+        // {
+        //     m_view.setCenter({viewSpace.width / 2,m_view.getCenter().y});
+        //     context.m_wind->GetRenderWindow().setView(m_view);
+        // } 
+        // else if (viewSpace.left + viewSpace.width > (m_map->GetMapSize().x + 1) * Sheet::Tile_Size)
+        // {
+        //     m_view.setCenter({((m_map->GetMapSize().x + 1) *
+        //     Sheet::Tile_Size) - (viewSpace.width / 2),
+        //     m_view.getCenter().y});
+        //     context.m_wind->GetRenderWindow().setView(m_view);
+        // }
+        
+        // m_map->Update(l_time.asSeconds());
+        // m_stateMgr.GetContext().m_entityManager->Update(l_time.asSeconds());
+        // m_background_sprite.setPosition(m_view.getCenter());
     }
 
     void State_Game::Draw()
     {
-        m_stateMgr.GetContext().m_wind->GetRenderWindow().draw(m_background_sprite);
-        m_map->draw();
-        m_stateMgr.GetContext().m_entityManager->Draw();
+        // m_stateMgr.GetContext().m_wind->GetRenderWindow().draw(m_background_sprite);
+        // m_map->draw();
+        // m_stateMgr.GetContext().m_entityManager->Draw();
+
+        for(unsigned int i = 0; i < Sheet::NumLairs; ++i)
+        {
+            m_map->draw_layer(i);
+            m_stateMgr.GetContext().m_system_manager->Draw(m_stateMgr.GetContext().m_wind, i);
+        }
     }
 
     State_Game::MainMenuAction::MainMenuAction(State_Game& state) : m_state(state)
@@ -122,12 +139,32 @@ namespace Engine
 
     State_Game::MoveAction::MoveAction(State_Game& state): m_state(state)
     {
-
+        
     }
 
     void State_Game::MoveAction::execute(EventDetails& l_details)
     {
-        
+        Message msg((MessageType)EntityMessage::Move);
+
+        if (l_details.m_name == "Player_MoveLeft")
+        {
+            msg.m_info = (int)Direction::Left;
+        } 
+        else if (l_details.m_name == "Player_MoveRight")
+        {
+        msg.m_info = (int)Direction::Right;
+        } 
+        else if (l_details.m_name == "Player_MoveUp")
+        {
+        msg.m_info = (int)Direction::Up;
+        } 
+        else if (l_details.m_name == "Player_MoveDown")
+        {
+            msg.m_info = (int)Direction::Down;
+        }
+
+        msg.m_receiver = m_state.m_player;
+        m_state.m_stateMgr.GetContext().m_system_manager->GetMessageHandler().Dispatch(msg);
     }
     
     void State_Game::load_enemies()
@@ -139,6 +176,48 @@ namespace Engine
             int id = context.m_entityManager->Add(EntityType::Enemy,enemy.name);
             auto new_enemy = context.m_entityManager->Find(id);
             new_enemy->SetPosition(enemy.coords);
+        }
+    }
+
+    void State_Game::UpdateCamera()
+    {
+        if (m_player == -1)
+        { 
+            return; 
+        }
+
+        auto context = m_stateMgr.GetContext();
+
+        auto pos = m_stateMgr.GetContext().m_entities_manager->GetComponent<PositionComp>(m_player, ComponentType::Position);
+
+        m_view.setCenter(pos->get_position());
+
+        context.m_wind->GetRenderWindow().setView(m_view);
+
+        sf::FloatRect viewSpace = context.m_wind->GetViewSpace();
+
+        if (viewSpace.left <= 0)
+        {
+            m_view.setCenter({viewSpace.width / 2, m_view.getCenter().y});
+            context.m_wind->GetRenderWindow().setView(m_view);
+        } 
+        else if (viewSpace.left + viewSpace.width >(m_map->GetMapSize().x) * Sheet::Tile_Size)
+        {
+            m_view.setCenter({((m_map->GetMapSize().x) * Sheet::Tile_Size) -
+                (viewSpace.width / 2), m_view.getCenter().y});
+            context.m_wind->GetRenderWindow().setView(m_view);
+        }
+        if (viewSpace.top <= 0)
+        {
+            m_view.setCenter({m_view.getCenter().x, viewSpace.height / 2});
+            context.m_wind->GetRenderWindow().setView(m_view);
+        } 
+        else if (viewSpace.top + viewSpace.height > (m_map->GetMapSize().y) * Sheet::Tile_Size)
+        {
+            m_view.setCenter({m_view.getCenter().x,
+                ((m_map->GetMapSize().y) * Sheet::Tile_Size) - (viewSpace.height / 2)});
+
+            context.m_wind->GetRenderWindow().setView(m_view);
         }
     }
 } // namespace Engine

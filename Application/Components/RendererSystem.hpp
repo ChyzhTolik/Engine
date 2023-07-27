@@ -11,7 +11,7 @@ namespace Engine
     public:
         RendererSystem(std::shared_ptr<SystemManager> l_system_manager);
         virtual ~RendererSystem();
-        void Render(std::shared_ptr<Window> l_wind, unsigned int l_layer);
+        void Render(std::shared_ptr<Window> l_wind, uint32_t l_layer);
         virtual void Update(float l_dT) override;
         virtual void HandleEvent(const EntityId& l_entity, const EntityEvent& l_event) override;
         virtual void Notify(const Message& l_message) override;

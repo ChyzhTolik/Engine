@@ -24,7 +24,6 @@ namespace Engine
     void TileMap::draw()
     {
         sf::RenderWindow& l_wind = m_context.m_wind->GetRenderWindow();
-        sf::FloatRect viewSpace = m_context.m_wind->GetViewSpace();
 
         for (auto &&tile : m_map)
         {
@@ -191,4 +190,56 @@ namespace Engine
         return m_additional_info.warp;
     }
 
+    int TileMap::get_player_id() const
+    {
+        return m_player_id;
+    }
+
+    void TileMap::draw_layer(int layer)
+    {
+        auto itr = m_map_layers.find(layer);
+
+        if (itr == m_map_layers.end())
+        {
+            return;
+        }
+
+        sf::RenderWindow& l_wind = m_context.m_wind->GetRenderWindow();
+
+        for (auto &&tile : m_map_layers.at(layer))
+        {
+            sf::Sprite& sprite = m_tile_set.get_tile(tile.second->get_type());
+            sprite.setPosition({
+                static_cast<float>(tile.first.x * tile.second->get_width()),
+                static_cast<float>(tile.first.y * tile.second->get_height())
+            });
+
+            l_wind.draw(sprite);
+        }
+    }
+
+    std::shared_ptr<Tile> TileMap::get_tile_on_layer(uint32_t x, uint32_t y, int layer)
+    {
+        if(x < 0 || y < 0 || x >= m_additional_info.m_maxMapSize.x || y >= m_additional_info.m_maxMapSize.y 
+            || layer < 0 ||  layer >= Sheet::NumLairs)
+        {
+            return nullptr;
+        }
+
+        auto itr = m_map_layers.find(layer);
+
+        if (itr == m_map_layers.end())
+        {
+            return nullptr;
+        }
+        
+        auto map_itr = m_map_layers.at(layer).find(sf::Vector2u(x,y));
+
+        if (map_itr == m_map_layers.at(layer).end())
+        {
+            return nullptr;
+        }
+        
+        return map_itr->second;
+    }
 } // namespace Engine

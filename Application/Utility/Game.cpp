@@ -8,7 +8,9 @@ namespace Engine
     Game::Game() :
         m_window (std::make_shared<Window>("Engine", sf::Vector2u(800,600))),
         m_state_manager(m_context),
-        m_manager(std::make_shared<EntityManager>(m_context, 100))
+        m_manager(std::make_shared<EntityManager>(m_context, 100)),
+        m_system_manager(std::make_shared<SystemManager>()),
+        m_entities_manager(std::make_shared<EntitiesManager>(m_system_manager))
     {
         m_clock.restart();
         srand(time(nullptr));
@@ -17,6 +19,10 @@ namespace Engine
         m_context.m_entityManager = m_manager;
 
         m_state_manager.SwitchTo(StateType::Intro);
+        m_system_manager->SetEntityManager(m_entities_manager);
+
+        m_context.m_entities_manager = m_entities_manager;
+        m_context.m_system_manager = m_system_manager;
     }
 
     Game::~Game()

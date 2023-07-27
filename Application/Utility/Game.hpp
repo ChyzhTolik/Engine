@@ -5,6 +5,8 @@
 #include "StateManager.hpp"
 #include "SharedContext.hpp"
 #include "EntityManager.hpp"
+#include "EntitiesManager.hpp"
+#include "SystemManager.hpp"
 
 namespace Engine
 {
@@ -19,6 +21,8 @@ namespace Engine
         StateManager m_state_manager;
         SharedContext m_context;
         std::shared_ptr<EntityManager> m_manager;
+        std::shared_ptr<EntitiesManager> m_entities_manager;
+        std::shared_ptr<SystemManager> m_system_manager;
 
     public:
         Game();

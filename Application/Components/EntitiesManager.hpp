@@ -30,7 +30,7 @@ namespace Engine
 
     using ComponentContainer = std::vector<std::shared_ptr<Component>>;
     using EntityData = std::pair<std::bitset<ComponentsNumber>,ComponentContainer>;
-    using EntityContainer = std::unordered_map<EntityId,EntityData>;
+    using EntitiesContainer = std::unordered_map<EntityId,EntityData>;
     using ComponentFactory = std::unordered_map<ComponentType,std::unique_ptr<ComponentCreator>>;
 
     class SystemManager;
@@ -60,7 +60,7 @@ namespace Engine
 
         std::shared_ptr<SystemManager> m_system_manager;
         unsigned int m_idCounter;
-        EntityContainer m_entities;
+        EntitiesContainer m_entities;
         ComponentFactory m_component_factory;
     };
 
@@ -87,7 +87,7 @@ namespace Engine
             return c->get_type() == l_component;
         });
 
-        return (component != container.end() ? dynamic_cast<std::shared_ptr<T>>(*component) : nullptr);
+        return (component != container.end() ? std::dynamic_pointer_cast<T>(*component) : nullptr);
     }
     
 } // namespace Engine
