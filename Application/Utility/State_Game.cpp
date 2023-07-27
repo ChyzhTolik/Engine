@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Configuration.hpp"
 #include "PositionComp.hpp"
+#include "MovementSystem.hpp"
 
 namespace Engine
 {
@@ -49,6 +50,7 @@ namespace Engine
         evMgr->add_action(StateType::Game, "Player_MoveDown",std::make_unique<MoveAction>(*this));
         load_enemies();
         m_player = m_map->get_player_id();
+        m_stateMgr.GetContext().m_system_manager->GetSystem<MovementSystem>(SystemType::Movement)->SetMap(m_map);
     }
 
     void State_Game::OnDestroy()

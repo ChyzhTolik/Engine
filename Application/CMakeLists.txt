@@ -47,6 +47,8 @@ set (SOURCES_FILES
     Components/DrawableComponent.cpp
     Components/SpriteSheetComponent.cpp
     Components/RendererSystem.cpp
+    Components/MovableComponent.cpp
+    Components/MovementSystem.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})

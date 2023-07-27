@@ -42,6 +42,6 @@ namespace Engine
     std::shared_ptr<T> SystemManager::GetSystem(const SystemType& l_system)
     {
         auto itr = m_systems.find(l_system);
-        return(itr != m_systems.end() ? dynamic_cast<std::shared_ptr<T>>(itr->second) : nullptr);
+        return(itr != m_systems.end() ? std::dynamic_pointer_cast<T>(itr->second) : nullptr);
     }
 } // namespace Engine
