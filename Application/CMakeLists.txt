@@ -49,6 +49,7 @@ set (SOURCES_FILES
     Components/RendererSystem.cpp
     Components/MovableComponent.cpp
     Components/MovementSystem.cpp
+    Components/StateComponent.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})
