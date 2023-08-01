@@ -18,12 +18,12 @@ namespace Engine
 
     class Component
     {
-    private:
-        ComponentType m_type;
     public:
         Component(ComponentType type);
         virtual ~Component();
         ComponentType get_type() const;
         virtual void load(std::stringstream& l_stream) = 0;
+    private:
+        ComponentType m_type;
     };    
 } // namespace Engine

@@ -50,6 +50,8 @@ set (SOURCES_FILES
     Components/MovableComponent.cpp
     Components/MovementSystem.cpp
     Components/StateComponent.cpp
+    Components/StateSystem.cpp
+    Components/ControllerComponent.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})
