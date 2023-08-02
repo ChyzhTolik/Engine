@@ -52,6 +52,10 @@ set (SOURCES_FILES
     Components/StateComponent.cpp
     Components/StateSystem.cpp
     Components/ControllerComponent.cpp
+    Components/ControllerSystem.cpp
+    Components/AnimationSystem.cpp
+    Components/CollisionComponent.cpp
+    Components/CollisionSystem.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})

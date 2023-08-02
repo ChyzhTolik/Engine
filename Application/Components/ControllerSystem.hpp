@@ -1,6 +1,7 @@
 #pragma once
 
 #include "System.hpp"
+#include "Direction.hpp"
 
 namespace Engine
 {
@@ -9,10 +10,11 @@ namespace Engine
     public:
         ControllerSystem(std::shared_ptr<SystemManager> l_system_manager);
         ~ControllerSystem();
-        virtual void Update(float l_dT) = 0;
-        virtual void HandleEvent(const EntityId& l_entity, const EntityEvent& l_event) = 0;
+        void Update(float l_dT) override;
+        void HandleEvent(const EntityId& l_entity, const EntityEvent& l_event) override;
+        void Notify(const Message& l_message) override;
     private:
-        /* data */
+        void MoveEntity(const EntityId& l_entity, const Direction& l_dir);
     };
     
     

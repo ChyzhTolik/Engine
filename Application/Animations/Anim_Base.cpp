@@ -106,4 +106,10 @@ namespace Engine
         return rects[m_frameCurrent].getSize();
     }
 
+    std::string Anim_Base::get_name() const
+    {
+        return m_name;
+    }
+
+
 } // namespace Engine

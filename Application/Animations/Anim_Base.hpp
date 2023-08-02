@@ -30,6 +30,7 @@ namespace Engine
         void SetStartFrame(Frame l_frame);
 	    void SetEndFrame(Frame l_frame);
         sf::Vector2i get_current_sprite_size() const;
+        std::string get_name() const;
 
     protected:
         virtual void FrameStep() = 0;
