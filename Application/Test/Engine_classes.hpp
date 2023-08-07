@@ -11,3 +11,5 @@
 #include "Character.hpp"
 #include "EntityManager.hpp"
 #include "Player.hpp"
+
+#include "../NewMap/Tile.hpp"

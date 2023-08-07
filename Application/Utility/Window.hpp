@@ -13,7 +13,7 @@ namespace Engine
         Window();
         Window(std::string_view l_title,const sf::Vector2u& l_size);
         ~Window();
-        void BeginDraw(); // Clear the window.
+        void BeginDraw(sf::Color color = sf::Color::Black); // Clear the window.
         void EndDraw(); // Display the changes.
         void Update();
         bool IsDone();

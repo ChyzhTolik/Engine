@@ -9,4 +9,5 @@ namespace Test
     int test_biomenace();
     void test_classes();
     void test_sprite_origin();
+    void test_map();
 } // namespace Test

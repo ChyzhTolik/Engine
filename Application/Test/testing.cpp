@@ -408,8 +408,43 @@ namespace Test
 			window->Draw(sprite2);
 
 			window->EndDraw();
+		}	
+	}
+
+	void test_map()
+	{
+		Engine::Configuration::Initialize();
+		sf::Vector2u window_size{800,600};
+		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
+
+		sf::Sprite sprite(Engine::Configuration::textures.get(Engine::Configuration::Textures::Intro));
+		sprite.setOrigin({sprite.getTextureRect().left + sprite.getTextureRect().width/2.f, sprite.getTextureRect().top + sprite.getTextureRect().height/2.f});
+		sprite.setPosition({sprite.getTextureRect().width*1.f,sprite.getTextureRect().height*1.f});
+		auto rect = sprite.getTextureRect();
+		sf::RectangleShape rect_shape({rect.getSize().x*1.f,rect.getSize().y*1.f});
+		auto rect_shape2 = rect_shape;
+		rect_shape.setFillColor(sf::Color::Red);
+		rect_shape2.setFillColor(sf::Color::Green);
+		rect_shape.setOrigin({sprite.getTextureRect().left + sprite.getTextureRect().width/2.f, sprite.getTextureRect().top + sprite.getTextureRect().height/2.f});
+		rect_shape.setPosition({sprite.getTextureRect().width*1.f,sprite.getTextureRect().height*1.f});
+
+
+		NewMap::TileInfo tile_info{1,false,{0.8f,0.f},{0,0},{32,32}};
+		NewMap::Tile tile(tile_info,6);
+		tile.setPosition({400.f,300.f});
+
+		while (!window->IsDone())
+		{
+			window->Update();
+
+			window->BeginDraw(sf::Color::Black);
+
+			window->Draw(rect_shape);
+			window->Draw(rect_shape2);
+			window->Draw(sprite);
+			window->Draw(tile);
+
+			window->EndDraw();
 		}
-
-
 	}
 } // namespace Test

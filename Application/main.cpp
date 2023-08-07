@@ -10,7 +10,8 @@ int main()
 	window.run(60);*/
 	//Test::test_animation();
 	//Test::test_biomenace();
-	Test::test_mushroom();
+	// Test::test_mushroom();
 	// Test::test_classes();
 	// Test::test_sprite_origin();
+	Test::test_map();
 }
