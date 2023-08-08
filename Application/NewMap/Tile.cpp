@@ -20,4 +20,19 @@ namespace NewMap
     {
         return Engine::Configuration::textures.get(Engine::Configuration::Textures(texture_id));
     }
+
+    sf::Vector2f Tile::get_friction() const
+    {
+        return m_tile_info.friction;
+    }
+
+    sf::Vector2i Tile::get_size() const
+    {
+        return m_tile_info.size;
+    }
+
+    bool Tile::is_deadly() const
+    {
+        return m_tile_info.is_deadly;
+    }
 } // namespace NewMap

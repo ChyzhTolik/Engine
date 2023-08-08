@@ -27,7 +27,7 @@ namespace Engine
 
         for (auto &&tile : m_map)
         {
-            sf::Sprite& sprite = m_tile_set.get_tile(tile.second->get_type());
+            sf::Sprite& sprite = m_tile_set.get_tile(tile.second->get_type<TileType>());
             sprite.setPosition({
                 static_cast<float>(tile.first.x * tile.second->get_width()),
                 static_cast<float>(tile.first.y * tile.second->get_height())
@@ -208,7 +208,7 @@ namespace Engine
 
         for (auto &&tile : m_map_layers.at(layer))
         {
-            sf::Sprite& sprite = m_tile_set.get_tile(tile.second->get_type());
+            sf::Sprite& sprite = m_tile_set.get_tile(tile.second->get_type<TileType>());
             sprite.setPosition({
                 static_cast<float>(tile.first.x * tile.second->get_width()),
                 static_cast<float>(tile.first.y * tile.second->get_height())

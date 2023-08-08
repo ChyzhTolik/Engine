@@ -14,10 +14,10 @@ namespace Engine
 
     }
 
-    TileType Tile::get_type() const
-    {
-        return m_tile_info.type;
-    }
+    // TileType Tile::get_type() const
+    // {
+    //     return m_tile_info.type;
+    // }
 
     int Tile::get_width() const
     {

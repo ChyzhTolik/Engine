@@ -40,8 +40,27 @@ namespace Engine
         Tile(Tile&&) = default;
         Tile(TileInfo info);
         ~Tile();
-        TileType get_type() const;
+        // TileType get_type() const;
         int get_width() const;
         int get_height() const;
+
+        template<typename T>
+        T get_type() const;
+
+        template<typename T>
+        void set_type(T type);
+
     };
+
+    template<typename T>
+    T Tile::get_type() const
+    {
+        return T(m_tile_info.type);
+    }
+
+    template<typename T>
+    void Tile::set_type(T type)
+    {
+        m_tile_info.type = static_cast<uint32_t>(type);
+    }
 } // namespace Engine

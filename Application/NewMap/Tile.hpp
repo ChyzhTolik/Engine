@@ -3,6 +3,7 @@
 #include "Configuration.hpp"
 #include <SFML/Graphics.hpp>
 
+
 namespace NewMap
 {
     struct TileInfo
@@ -21,11 +22,31 @@ namespace NewMap
         ~Tile();
 
         TileInfo get_tile_info() const;
+
+        template<typename T>
+        T get_type() const;
+
+        template<typename T>
+        void set_type(T type);
+
+        sf::Vector2f get_friction() const;
+        sf::Vector2i get_size() const;
+        bool is_deadly() const;
     private:
         const sf::Texture& get_texture(uint32_t texture_id);
         TileInfo m_tile_info;
     };
     
-    
+    template<typename T>
+    T Tile::get_type() const
+    {
+        return T(m_tile_info.type);
+    }
+
+    template<typename T>
+    void Tile::set_type(T type)
+    {
+        m_tile_info.type = static_cast<uint32_t>(type);
+    }
     
 } // namespace NewMap

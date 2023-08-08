@@ -7,6 +7,7 @@
 #include <filesystem>
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include "KnightTiles.hpp"
 
 
 
@@ -429,9 +430,14 @@ namespace Test
 		rect_shape.setPosition({sprite.getTextureRect().width*1.f,sprite.getTextureRect().height*1.f});
 
 
-		NewMap::TileInfo tile_info{1,false,{0.8f,0.f},{0,0},{32,32}};
+		NewMap::TileInfo tile_info{5,false,{0.8f,0.f},{0,0},{32,32}};
 		NewMap::Tile tile(tile_info,6);
 		tile.setPosition({400.f,300.f});
+
+		NewMap::KnightTiles tile_type = tile.get_type<NewMap::KnightTiles>();
+		tile_type = NewMap::KnightTiles::Icy_Rock;
+		tile.set_type<NewMap::KnightTiles>(tile_type);
+		std::cout<<static_cast<uint32_t>(tile_type)<<std::endl;
 
 		while (!window->IsDone())
 		{
