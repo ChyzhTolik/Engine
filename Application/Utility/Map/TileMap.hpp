@@ -10,6 +10,7 @@ namespace Engine
     {
         TileType type;
         sf::Vector2i coords;
+        int layer;
     };
 
     struct EnemyMapInfo

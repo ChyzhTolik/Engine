@@ -37,12 +37,18 @@ namespace Engine
     }
 
     void to_json(json& j, const MapTileInfo& p) {
-        j = json{ {"type", p.type}, {"coords", {p.coords.x, p.coords.y}} };
+        j = json
+        { 
+            {"type", p.type}, 
+            {"coords", {p.coords.x, p.coords.y}},
+            {"layer", p.layer} 
+        };
     }
 
     void from_json(const json& j, MapTileInfo& p) {
 
         j.at("type").get_to(p.type);
+        j.at("layer").get_to(p.layer);
 
         int coords[2];
         j.at("coords").get_to(coords);

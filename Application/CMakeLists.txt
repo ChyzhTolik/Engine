@@ -58,6 +58,8 @@ set (SOURCES_FILES
     Components/CollisionSystem.cpp
     NewMap/Tile.cpp
     NewMap/KnightTiles.hpp
+    NewMap/IsoTiles.hpp
+    NewMap/TileSet.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})
