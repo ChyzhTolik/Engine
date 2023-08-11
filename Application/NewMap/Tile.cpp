@@ -2,7 +2,7 @@
 
 namespace NewMap
 {
-    Tile::Tile(const TileInfo& tile_info, u_int32_t texture_id) : sf::Sprite(get_texture(texture_id)), m_tile_info(tile_info)
+    Tile::Tile(const TileInfo& tile_info, uint32_t texture_id) : sf::Sprite(get_texture(texture_id)), m_tile_info(tile_info)
     {
         setTextureRect({m_tile_info.coords, m_tile_info.size});
     }

@@ -34,6 +34,7 @@ namespace Engine
 		textures.load(Textures::TilesEngine, "media/SpriteSheets/tilesheet.png");
 		textures.load(Textures::Knigth, "media/SpriteSheets/KnigthSheet.png");
 		textures.load(Textures::Rat, "media/SpriteSheets/RatSheet.png");
+		textures.load(Textures::IsometricTiles,"media/SpriteSheets/tilesheet2.png");
 	}
 
 	void Configuration::init_tetris_inputs()

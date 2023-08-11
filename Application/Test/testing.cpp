@@ -439,15 +439,18 @@ namespace Test
 		tile.set_type<NewMap::KnightTiles>(tile_type);
 		std::cout<<static_cast<uint32_t>(tile_type)<<std::endl;
 
+		NewMap::TileSet tile_set;
+		tile_set.load_from_file("media/Json/IsometricTiles.json");
+
 		while (!window->IsDone())
 		{
 			window->Update();
 
 			window->BeginDraw(sf::Color::Black);
 
-			window->Draw(rect_shape);
-			window->Draw(rect_shape2);
-			window->Draw(sprite);
+			// window->Draw(rect_shape);
+			// window->Draw(rect_shape2);
+			// window->Draw(sprite);
 			window->Draw(tile);
 
 			window->EndDraw();

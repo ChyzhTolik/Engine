@@ -24,6 +24,7 @@ namespace Engine
 			TilesEngine,
 			Knigth,
 			Rat,
+			IsometricTiles,
 		};
 
 		static ResourceManager<sf::Texture, Textures> textures;

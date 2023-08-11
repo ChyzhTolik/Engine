@@ -13,3 +13,4 @@
 #include "Player.hpp"
 
 #include "../NewMap/Tile.hpp"
+#include "../NewMap/TileSet.hpp"
