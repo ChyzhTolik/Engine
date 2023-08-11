@@ -441,6 +441,8 @@ namespace Test
 
 		NewMap::TileSet tile_set;
 		tile_set.load_from_file("media/Json/IsometricTiles.json");
+		auto tile1 = tile_set.get_tile(0);
+		tile1->setPosition({100.f,100.f});
 
 		while (!window->IsDone())
 		{
@@ -452,6 +454,7 @@ namespace Test
 			// window->Draw(rect_shape2);
 			// window->Draw(sprite);
 			window->Draw(tile);
+			window->Draw(*tile1);
 
 			window->EndDraw();
 		}
