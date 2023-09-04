@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include "KnightTiles.hpp"
+#include "IsoTiles.hpp"
 
 
 
@@ -418,18 +419,6 @@ namespace Test
 		sf::Vector2u window_size{800,600};
 		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
 
-		sf::Sprite sprite(Engine::Configuration::textures.get(Engine::Configuration::Textures::Intro));
-		sprite.setOrigin({sprite.getTextureRect().left + sprite.getTextureRect().width/2.f, sprite.getTextureRect().top + sprite.getTextureRect().height/2.f});
-		sprite.setPosition({sprite.getTextureRect().width*1.f,sprite.getTextureRect().height*1.f});
-		auto rect = sprite.getTextureRect();
-		sf::RectangleShape rect_shape({rect.getSize().x*1.f,rect.getSize().y*1.f});
-		auto rect_shape2 = rect_shape;
-		rect_shape.setFillColor(sf::Color::Red);
-		rect_shape2.setFillColor(sf::Color::Green);
-		rect_shape.setOrigin({sprite.getTextureRect().left + sprite.getTextureRect().width/2.f, sprite.getTextureRect().top + sprite.getTextureRect().height/2.f});
-		rect_shape.setPosition({sprite.getTextureRect().width*1.f,sprite.getTextureRect().height*1.f});
-
-
 		NewMap::TileInfo tile_info{5,false,{0.8f,0.f},{0,0},{32,32}};
 		NewMap::Tile tile(tile_info,6);
 		tile.setPosition({400.f,300.f});
@@ -441,8 +430,10 @@ namespace Test
 
 		NewMap::TileSet tile_set;
 		tile_set.load_from_file("media/Json/IsometricTiles.json");
+
+		auto tiles_num = tile_set.count();
+
 		auto tile1 = tile_set.get_tile(0);
-		tile1->setPosition({100.f,100.f});
 
 		while (!window->IsDone())
 		{
@@ -450,11 +441,15 @@ namespace Test
 
 			window->BeginDraw(sf::Color::Black);
 
-			// window->Draw(rect_shape);
-			// window->Draw(rect_shape2);
-			// window->Draw(sprite);
 			window->Draw(tile);
-			window->Draw(*tile1);
+
+			for (size_t i = 0; i < tiles_num; i++)
+			{
+				tile1 = tile_set.get_tile(i);
+				tile1->setPosition({32.f * i, 100.f});
+				auto type = tile1->get_type<NewMap::IsoTiles>();
+				window->Draw(*tile1);
+			}
 
 			window->EndDraw();
 		}

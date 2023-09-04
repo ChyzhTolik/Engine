@@ -8,7 +8,7 @@ using nlohmann::json;
 
 namespace NewMap
 {
-    TileSet::TileSet(/* args */)
+    TileSet::TileSet()
     {
     }
     
@@ -93,5 +93,10 @@ namespace NewMap
         {
             return nullptr;
         }
+    }
+
+    uint32_t TileSet::count() const
+    {
+        return m_set.size();
     }
 } // namespace NewMap
