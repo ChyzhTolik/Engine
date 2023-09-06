@@ -9,7 +9,7 @@ namespace Engine
     class PositionComp : public Component
     {
     public:
-        PositionComp(ComponentType type);
+        PositionComp();
         ~PositionComp();
         void load(std::stringstream& l_stream) override;
         void set_position(sf::Vector2f position);

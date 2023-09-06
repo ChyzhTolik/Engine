@@ -35,4 +35,9 @@ namespace NewMap
     {
         return m_tile_info.is_deadly;
     }
+
+    void Tile::set_friction(const sf::Vector2f& friction)
+    {
+        m_tile_info.friction = friction;
+    }
 } // namespace NewMap

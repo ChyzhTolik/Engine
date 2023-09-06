@@ -1,27 +1,18 @@
 #include "EntitiesManager.hpp"
 
-#include "PositionComp.hpp"
 #include "SystemManager.hpp"
 
 namespace Engine
 {
-    EntitiesManager::EntitiesManager(std::shared_ptr<SystemManager> system_manager) : m_system_manager(system_manager)
+    EntitiesManager::EntitiesManager(std::shared_ptr<SystemManager> system_manager) : m_system_manager(system_manager), m_idCounter(0)
     {
         add_component_type<PositionCompCreator>(ComponentType::Position);
+        add_component_type<MovementCompCreator>(ComponentType::Movable);
+        add_component_type<SpriteSheetCompCreator>(ComponentType::SpriteSheet);
     }
     
     EntitiesManager::~EntitiesManager()
     {
-    }
-
-    PositionCompCreator::PositionCompCreator(ComponentType type) : ComponentCreator(type)
-    {
-        
-    }
-
-    std::unique_ptr<Component> PositionCompCreator::create()
-    {
-        return std::make_unique<PositionComp>(m_type);
     }
 
     int EntitiesManager::AddEntity(const std::bitset<ComponentsNumber>& l_mask)

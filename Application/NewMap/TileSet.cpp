@@ -98,5 +98,5 @@ namespace NewMap
     uint32_t TileSet::count() const
     {
         return m_set.size();
-    }
+    }    
 } // namespace NewMap

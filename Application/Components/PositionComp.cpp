@@ -2,7 +2,7 @@
 
 namespace Engine
 {
-    PositionComp::PositionComp(ComponentType type) : Component(type)
+    PositionComp::PositionComp() : Component(ComponentType::Position)
     {
     }
     

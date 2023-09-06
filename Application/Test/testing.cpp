@@ -419,21 +419,29 @@ namespace Test
 		sf::Vector2u window_size{800,600};
 		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
 
-		NewMap::TileInfo tile_info{5,false,{0.8f,0.f},{0,0},{32,32}};
-		NewMap::Tile tile(tile_info,6);
-		tile.setPosition({400.f,300.f});
+		Engine::SharedContext context;
+		context.m_wind = window;
 
-		NewMap::KnightTiles tile_type = tile.get_type<NewMap::KnightTiles>();
-		tile_type = NewMap::KnightTiles::Icy_Rock;
-		tile.set_type<NewMap::KnightTiles>(tile_type);
-		std::cout<<static_cast<uint32_t>(tile_type)<<std::endl;
+		std::shared_ptr<NewMap::TileSet> tile_set = std::make_shared<NewMap::TileSet>();
+		tile_set->load_from_file("media/Json/IsometricTiles.json");
 
-		NewMap::TileSet tile_set;
-		tile_set.load_from_file("media/Json/IsometricTiles.json");
+		NewMap::LayeredMap map(context);
+		map.set_tile_set(tile_set);
+		map.load_from_file("media/Json/LayeredMap.json");
 
-		auto tiles_num = tile_set.count();
+		std::shared_ptr<Engine::SystemManager> system_manager = std::make_shared<Engine::SystemManager>();
+		std::shared_ptr<Engine::EntitiesManager> entities_manager = std::make_shared<Engine::EntitiesManager>(system_manager);
 
-		auto tile1 = tile_set.get_tile(0);
+		context.m_entities_manager = entities_manager;
+		context.m_system_manager = system_manager;
+
+		auto ent_id = entities_manager->AddEntity(0b1111111);
+		entities_manager->RemoveComponent(ent_id, Engine::ComponentType::Controller);
+		auto has = entities_manager->HasComponent(ent_id, Engine::ComponentType::Controller);
+		assert(has==false);
+		entities_manager->RemoveEntity(ent_id);
+
+		// entities_manager->AddEntity()
 
 		while (!window->IsDone())
 		{
@@ -441,15 +449,7 @@ namespace Test
 
 			window->BeginDraw(sf::Color::Black);
 
-			window->Draw(tile);
-
-			for (size_t i = 0; i < tiles_num; i++)
-			{
-				tile1 = tile_set.get_tile(i);
-				tile1->setPosition({32.f * i, 100.f});
-				auto type = tile1->get_type<NewMap::IsoTiles>();
-				window->Draw(*tile1);
-			}
+			map.draw();
 
 			window->EndDraw();
 		}

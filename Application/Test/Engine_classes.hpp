@@ -14,3 +14,4 @@
 
 #include "../NewMap/Tile.hpp"
 #include "../NewMap/TileSet.hpp"
+#include "../NewMap/LayeredMap.hpp"

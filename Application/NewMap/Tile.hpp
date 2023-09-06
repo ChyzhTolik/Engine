@@ -30,6 +30,7 @@ namespace NewMap
         void set_type(T type);
 
         sf::Vector2f get_friction() const;
+        void set_friction(const sf::Vector2f& friction);
         sf::Vector2i get_size() const;
         bool is_deadly() const;
     private:

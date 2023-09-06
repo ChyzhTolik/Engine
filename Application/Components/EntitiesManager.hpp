@@ -5,28 +5,12 @@
 #include <vector>
 #include <bitset>
 #include <unordered_map>
+#include "ComponentCreator.hpp"
 
 namespace Engine
 {
     const uint32_t ComponentsNumber = 20;
     using EntityId = uint32_t;
-
-    class ComponentCreator
-    {
-    public:
-        ComponentCreator(ComponentType type) : m_type(type){}
-        virtual std::unique_ptr<Component> create() = 0;
-
-    protected:
-        ComponentType m_type;
-    };
-
-    class PositionCompCreator : public ComponentCreator
-    {
-    public:
-        PositionCompCreator(ComponentType type);
-        std::unique_ptr<Component> create() override;
-    };
 
     using ComponentContainer = std::vector<std::shared_ptr<Component>>;
     using EntityData = std::pair<std::bitset<ComponentsNumber>,ComponentContainer>;
@@ -55,7 +39,7 @@ namespace Engine
         template<typename T, typename ...Args> // T inherits from ComponentCreator
         void add_component_type(ComponentType l_type, Args&& ... args)
         {
-            m_component_factory.insert({l_type, std::make_unique<T>(l_type, std::forward<Args>(args)...)});
+            m_component_factory.insert({l_type, std::make_unique<T>(std::forward<Args>(args)...)});
         }
 
         std::shared_ptr<SystemManager> m_system_manager;

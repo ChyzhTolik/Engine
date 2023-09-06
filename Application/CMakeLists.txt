@@ -56,10 +56,13 @@ set (SOURCES_FILES
     Components/AnimationSystem.cpp
     Components/CollisionComponent.cpp
     Components/CollisionSystem.cpp
+    Components/ComponentCreator.cpp
     NewMap/Tile.cpp
     NewMap/KnightTiles.hpp
     NewMap/IsoTiles.hpp
     NewMap/TileSet.cpp
+    NewMap/LayeredMap.cpp
+    Common/Vector2i_hash.hpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})
@@ -120,6 +123,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE Utility/Map)
 target_include_directories(${PROJECT_NAME} PRIVATE Entity)
 target_include_directories(${PROJECT_NAME} PRIVATE Components)
 target_include_directories(${PROJECT_NAME} PRIVATE NewMap)
+target_include_directories(${PROJECT_NAME} PRIVATE Common)
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDES})
 
 file(COPY ${CMAKE_SOURCE_DIR}/Application/media DESTINATION ${CMAKE_BINARY_DIR}/Application/)
