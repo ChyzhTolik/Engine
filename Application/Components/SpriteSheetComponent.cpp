@@ -23,7 +23,7 @@ namespace Engine
         }
 
         m_sprite_sheet = std::make_shared<SpriteSheet>();
-        m_sprite_sheet->LoadSheet("media/Spritesheets/" +(l_name != "" ? l_name : m_sheet_name) + ".sheet", texture_id);
+        m_sprite_sheet->LoadSheet("media/Json/" +(l_name != "" ? l_name : m_sheet_name) + ".json", texture_id);
     }
 
     std::shared_ptr<SpriteSheet> SpriteSheetComponent::GetSpriteSheet()

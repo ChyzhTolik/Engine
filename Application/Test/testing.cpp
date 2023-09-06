@@ -439,7 +439,13 @@ namespace Test
 		entities_manager->RemoveComponent(ent_id, Engine::ComponentType::Controller);
 		auto has = entities_manager->HasComponent(ent_id, Engine::ComponentType::Controller);
 		assert(has==false);
-		entities_manager->RemoveEntity(ent_id);
+
+		auto sprite_component = entities_manager->GetComponent<Engine::SpriteSheetComponent>(ent_id, Engine::ComponentType::SpriteSheet);
+		sprite_component->Create("Knight_Animations", 7);
+		auto sprite_sheet = sprite_component->GetSpriteSheet();
+		sprite_sheet->SetSpritePosition({32.f,32.f});
+		sprite_sheet->SetAnimation(Engine::AnimationType::Running);
+
 
 		// entities_manager->AddEntity()
 
@@ -450,6 +456,7 @@ namespace Test
 			window->BeginDraw(sf::Color::Black);
 
 			map.draw();
+			sprite_sheet->Draw(window->GetRenderWindow());
 
 			window->EndDraw();
 		}

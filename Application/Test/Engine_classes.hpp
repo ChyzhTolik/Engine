@@ -11,6 +11,7 @@
 #include "Character.hpp"
 #include "EntityManager.hpp"
 #include "Player.hpp"
+#include "SpriteSheetComponent.hpp"
 
 #include "../NewMap/Tile.hpp"
 #include "../NewMap/TileSet.hpp"

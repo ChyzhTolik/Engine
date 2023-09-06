@@ -28,7 +28,7 @@ namespace Engine
         int AddEntity(const std::bitset<ComponentsNumber>& l_mask);
         int AddEntity(const std::string& l_entityFile);
         bool RemoveEntity(const EntityId& l_id);
-        bool AddComponent(const EntityId& l_entity,const ComponentType& l_component);
+        bool AddComponent(const EntityId& l_entity,const ComponentType& l_component);        
 
         template<class T>
         std::shared_ptr<T> GetComponent(const EntityId& l_entity, const ComponentType& l_component);
