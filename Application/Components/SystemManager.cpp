@@ -1,11 +1,15 @@
 #include "SystemManager.hpp"
 #include "EntitiesManager.hpp"
 #include "RendererSystem.hpp"
+#include "CollisionSystem.hpp"
+#include "MovementSystem.hpp"
 
 namespace Engine
 {
     SystemManager::SystemManager() : m_entityManager(std::make_shared<EntitiesManager>(nullptr))
     {
+        m_systems[SystemType::Collision] = std::make_shared<CollisionSystem>(shared_from_this());
+        m_systems[SystemType::Movement] = std::make_shared<MovementSystem>(shared_from_this());
     }
     
     SystemManager::~SystemManager()

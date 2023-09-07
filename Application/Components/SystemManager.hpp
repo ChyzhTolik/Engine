@@ -12,7 +12,7 @@ namespace Engine
     using SystemContainer = std::unordered_map<SystemType,std::shared_ptr<System>>;
     using EntityEventContainer = std::unordered_map<EntityId,EventQueue>;
 
-    class SystemManager
+    class SystemManager : std::enable_shared_from_this<SystemManager>
     {
     public:
         SystemManager();
