@@ -9,6 +9,7 @@ namespace Engine
         add_component_type<PositionCompCreator>(ComponentType::Position);
         add_component_type<MovementCompCreator>(ComponentType::Movable);
         add_component_type<SpriteSheetCompCreator>(ComponentType::SpriteSheet);
+        add_component_type<ControllerCompCreator>(ComponentType::Controller);
     }
     
     EntitiesManager::~EntitiesManager()

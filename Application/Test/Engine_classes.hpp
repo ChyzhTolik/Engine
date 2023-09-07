@@ -12,7 +12,10 @@
 #include "EntityManager.hpp"
 #include "Player.hpp"
 #include "SpriteSheetComponent.hpp"
+#include "ControllerComponent.hpp"
+#include "MovableComponent.hpp"
 
 #include "../NewMap/Tile.hpp"
 #include "../NewMap/TileSet.hpp"
 #include "../NewMap/LayeredMap.hpp"
+#include "MovementSystem.hpp"

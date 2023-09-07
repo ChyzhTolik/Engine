@@ -436,27 +436,52 @@ namespace Test
 		context.m_system_manager = system_manager;
 
 		auto ent_id = entities_manager->AddEntity(0b1111111);
-		entities_manager->RemoveComponent(ent_id, Engine::ComponentType::Controller);
 		auto has = entities_manager->HasComponent(ent_id, Engine::ComponentType::Controller);
-		assert(has==false);
+		assert(has==true);
 
 		auto sprite_component = entities_manager->GetComponent<Engine::SpriteSheetComponent>(ent_id, Engine::ComponentType::SpriteSheet);
-		sprite_component->Create("Knight_Animations", 7);
+		sprite_component->Create("SnakeLogan_Animations", 3);
 		auto sprite_sheet = sprite_component->GetSpriteSheet();
 		sprite_sheet->SetSpritePosition({32.f,32.f});
 		sprite_sheet->SetAnimation(Engine::AnimationType::Running);
+		auto animation = sprite_sheet->GetCurrentAnim();
+		animation->SetLooping(true);
+		animation->Play();
 
+		auto control_component = entities_manager->GetComponent<Engine::ControllerComponent>(ent_id, Engine::ComponentType::Controller);
 
-		// entities_manager->AddEntity()
+		auto movement_component = entities_manager->GetComponent<Engine::MovableComponent>(ent_id, Engine::ComponentType::Movable);
+		movement_component->add_velocity({0.5f, 0.f});
 
+		Engine::MovementSystem movement_system(system_manager);
+
+		sf::Clock m_clock;
+		sf::Time TimePerFrame = sf::seconds(1.f/60);
+
+		sf::Time timeSinceLastUpdate = sf::Time::Zero;
 		while (!window->IsDone())
 		{
 			window->Update();
 
-			window->BeginDraw(sf::Color::Black);
+			// update
 
-			map.draw();
-			sprite_sheet->Draw(window->GetRenderWindow());
+			bool repaint = false;
+			timeSinceLastUpdate += m_clock.restart();
+
+			while (timeSinceLastUpdate > TimePerFrame)
+			{
+				timeSinceLastUpdate -= TimePerFrame;
+				repaint = true;
+				sprite_sheet->Update(TimePerFrame.asSeconds());
+			}
+
+			if(repaint)
+			{
+				window->BeginDraw();
+				// draw
+				map.draw();
+				sprite_sheet->Draw(window->GetRenderWindow());
+			}
 
 			window->EndDraw();
 		}
