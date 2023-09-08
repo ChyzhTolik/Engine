@@ -67,4 +67,9 @@ namespace Engine
     {
         return m_set.find(type)->second;
     }
+
+    void TileSet::clear()
+    {
+        
+    }
 } // namespace Engine

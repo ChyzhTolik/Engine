@@ -60,6 +60,9 @@
         "typeinfo": "cpp",
         "any": "cpp",
         "forward_list": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "filesystem": "cpp",
+        "bitset": "cpp",
+        "variant": "cpp"
     }
 }

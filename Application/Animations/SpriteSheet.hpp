@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include "Anim_Base.hpp"
+#include "Direction.hpp"
 
 namespace Engine
 {
@@ -13,7 +14,7 @@ namespace Engine
         None = -1,
         Idle,
         Running,
-        Throwint,
+        Throwing,
         Firing,
         Siting,
         SitFiring,
@@ -21,6 +22,8 @@ namespace Engine
         JumpFiring,
         Death,
         Climbing,
+        Attacking,
+        Hurt,
     };
 
     struct FrameInfo
@@ -28,11 +31,10 @@ namespace Engine
         AnimationType type;
         float frame_time;
         std::vector<std::vector<int>> rects;
+        std::vector<float> origins;
         int start_frame;
         int end_frame;
     };
-
-    enum class Direction{ Right = 0, Left };
 
     using Animations = std::unordered_map<AnimationType,std::shared_ptr<Anim_Base>>;
 
@@ -42,26 +44,26 @@ namespace Engine
         SpriteSheet();
         ~SpriteSheet();
         void CropSprite(const sf::IntRect& l_rect);
-        bool LoadSheet(const std::string& l_file);
+        bool LoadSheet(const std::string& l_file, int texture_id);
         std::shared_ptr<Anim_Base> GetCurrentAnim();
         AnimationType get_current_type() const;
         bool SetAnimation(AnimationType l_name, const bool& l_play = false, const bool& l_loop = false);
         void Update(const float& l_dT);
         void Draw(sf::RenderWindow& l_wnd);
 
-        void SetSpriteSize(const sf::Vector2i& l_size);
         void SetSpritePosition(const sf::Vector2f& l_pos);
         void SetDirection(const Direction& l_dir);
         void SetSpriteScale(const sf::Vector2f& scale);
+        void set_sprite_origin(const sf::Vector2f& l_origin);
 
 	    Direction GetDirection()const;
         sf::Vector2i GetSpriteSize()const;
         sf::Vector2f GetSpritePosition()const;
+        sf::Vector2f get_origin()const;
 
     private:
         std::string m_texture;
-        sf::Sprite m_sprite;
-        sf::Vector2i m_spriteSize;
+        std::shared_ptr<sf::Sprite> m_sprite;
         sf::Vector2f m_spriteScale;
         Direction m_direction;
         std::string m_animType;

@@ -30,28 +30,23 @@
         "type": 5
     },
     {
+        "code": 71,
+        "name": "Player_MoveLeft",
+        "type": 23
+    },
+    {
         "code": 72,
-        "name": "Right",
+        "name": "Player_MoveRight",
+        "type": 23
+    },
+    {
+        "code": 57,
+        "name": "Player_Jump",
         "type": 5
     },
     {
-        "code": 0,
-        "name": "Player_MoveLeft",
-        "type": 24
-    },
-    {
-        "code": 3,
-        "name": "Player_MoveRight",
-        "type": 24
-    },
-    {
-        "code": 5,
-        "name": "Player_Jump",
-        "type": 57
-    },
-    {
-        "code": 24,
+        "code": 39,
         "name": "Player_Attack",
-        "type": 58
+        "type": 5
     }
 ]

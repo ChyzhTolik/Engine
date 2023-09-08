@@ -10,7 +10,7 @@ using nlohmann::json;
 namespace Engine
 {
     SpriteSheet::SpriteSheet() : m_animationCurrent(nullptr), m_current_type(AnimationType::None),
-        m_spriteScale(1.f, 1.f), m_direction(Direction::Right), m_sprite(Configuration::textures.get(Configuration::Textures::Biomenace))
+        m_spriteScale(1.f, 1.f), m_direction(Direction::Right)
     {
         
     }
@@ -20,15 +20,9 @@ namespace Engine
 
     }
 
-    void SpriteSheet::SetSpriteSize(const sf::Vector2i& l_size)
-    {
-        m_spriteSize = l_size;
-        m_sprite.setOrigin({m_spriteSize.x / 2.f, m_spriteSize.y / 1.f});
-    }
-
     void SpriteSheet::SetSpritePosition(const sf::Vector2f& l_pos)
     {
-        m_sprite.setPosition(l_pos);
+        m_sprite->setPosition(l_pos);
     }
 
     void SpriteSheet::SetDirection(const Direction& l_dir)
@@ -44,7 +38,7 @@ namespace Engine
 
     void SpriteSheet::CropSprite(const sf::IntRect& l_rect)
     {
-        m_sprite.setTextureRect(l_rect);
+        m_sprite->setTextureRect(l_rect);
     }
 
     bool SpriteSheet::SetAnimation(AnimationType l_name, const bool& l_play, const bool& l_loop)
@@ -68,7 +62,12 @@ namespace Engine
         
         m_animationCurrent = itr->second;
         m_animationCurrent->SetLooping(l_loop);
-        if(l_play){ m_animationCurrent->Play(); }
+
+        if(l_play)
+        { 
+            m_animationCurrent->Play(); 
+        }
+        
         m_animationCurrent->CropSprite();
         m_current_type = itr->first;
 
@@ -82,17 +81,17 @@ namespace Engine
 
     void SpriteSheet::Draw(sf::RenderWindow& l_wnd)
     {
-        l_wnd.draw(m_sprite);
+        l_wnd.draw(*m_sprite);
     }
 
     sf::Vector2i SpriteSheet::GetSpriteSize()const
     {
-        return m_spriteSize;
+        return m_animationCurrent->get_current_sprite_size();
     }
         
     sf::Vector2f SpriteSheet::GetSpritePosition()const
     {
-        return m_sprite.getPosition();
+        return m_sprite->getPosition();
     }
 
     Direction SpriteSheet::GetDirection()const
@@ -108,6 +107,7 @@ namespace Engine
             {"rects",p.rects},
             {"start_frame",p.start_frame},
             {"end_frame",p.end_frame},
+            {"origins",p.origins},
         };
     }
 
@@ -118,16 +118,18 @@ namespace Engine
         j.at("rects").get_to(p.rects);
         j.at("start_frame").get_to(p.start_frame);
         j.at("end_frame").get_to(p.end_frame);
+        j.at("origins").get_to(p.origins);
     }
 
-    bool SpriteSheet::LoadSheet(const std::string& l_file)
+    bool SpriteSheet::LoadSheet(const std::string& l_file, int texture_id)
     {
+        m_sprite = std::make_shared<sf::Sprite>(Configuration::textures.get(Configuration::Textures(texture_id)));
         std::ifstream frames;
-        frames.open("media/Player.json");
+        frames.open(l_file);
 
         if (!frames.is_open())
         { 
-            std::cout << "! Failed loading Player.json." << std::endl; 
+            std::cout << "! Failed loading "<<l_file<<"." << std::endl; 
             return false; 
         }
 
@@ -148,8 +150,24 @@ namespace Engine
                 animation->rects.emplace_back(frame_rect);
             }
 
-            m_animations.emplace(AnimationType(frame.type),std::move(animation));            
-        }        
+            for (auto &&origin : frame.origins)
+            {
+                animation->origins.push_back(origin);
+            }
+            
+
+            m_animations.emplace(AnimationType(frame.type),animation);
+
+            if (m_animationCurrent)
+            { 
+                continue; 
+            }
+
+            SetAnimation(AnimationType(frame.type), true, true);
+            // m_animationCurrent = animation;
+            // m_animationCurrent->Play();
+        }
+
 
         frames.close();
         return true;
@@ -162,11 +180,21 @@ namespace Engine
 
     void SpriteSheet::SetSpriteScale(const sf::Vector2f& scale)
     {
-        m_sprite.setScale(scale);
+        m_sprite->setScale(scale);
     }
 
     AnimationType SpriteSheet::get_current_type() const
     {
         return m_current_type;
+    }
+
+    void SpriteSheet::set_sprite_origin(const sf::Vector2f& l_origin)
+    {
+        m_sprite->setOrigin(l_origin);
+    }
+
+    sf::Vector2f SpriteSheet::get_origin()const
+    {
+        return m_sprite->getOrigin();
     }
 } // namespace Engine

@@ -30,11 +30,39 @@ set (SOURCES_FILES
     Animations/Anim_Base.cpp
     Animations/SpriteSheet.cpp
     Animations/Anim_Directional.cpp
+    Animations/Direction.hpp
     Entity/EntityBase.cpp
     Entity/EntityManager.cpp
     Entity/Character.cpp
     Entity/Player.cpp
     Entity/Enemy.cpp
+    Components/Component.cpp
+    Components/PositionComp.cpp
+    Components/EntitiesManager.cpp
+    Components/System.cpp
+    Components/MessageHandler.cpp
+    Components/EntityMessages.hpp
+    Components/SystemManager.cpp
+    Components/EventQueue.hpp
+    Components/DrawableComponent.cpp
+    Components/SpriteSheetComponent.cpp
+    Components/RendererSystem.cpp
+    Components/MovableComponent.cpp
+    Components/MovementSystem.cpp
+    Components/StateComponent.cpp
+    Components/StateSystem.cpp
+    Components/ControllerComponent.cpp
+    Components/ControllerSystem.cpp
+    Components/AnimationSystem.cpp
+    Components/CollisionComponent.cpp
+    Components/CollisionSystem.cpp
+    Components/ComponentCreator.cpp
+    NewMap/Tile.cpp
+    NewMap/KnightTiles.hpp
+    NewMap/IsoTiles.hpp
+    NewMap/TileSet.cpp
+    NewMap/LayeredMap.cpp
+    Common/Vector2i_hash.hpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})
@@ -93,6 +121,15 @@ target_include_directories(${PROJECT_NAME} PRIVATE Configuration)
 target_include_directories(${PROJECT_NAME} PRIVATE Utility)
 target_include_directories(${PROJECT_NAME} PRIVATE Utility/Map)
 target_include_directories(${PROJECT_NAME} PRIVATE Entity)
+target_include_directories(${PROJECT_NAME} PRIVATE Components)
+target_include_directories(${PROJECT_NAME} PRIVATE NewMap)
+target_include_directories(${PROJECT_NAME} PRIVATE Common)
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDES})
 
 file(COPY ${CMAKE_SOURCE_DIR}/Application/media DESTINATION ${CMAKE_BINARY_DIR}/Application/)
+
+add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/Application/media
+    ${CMAKE_BINARY_DIR}/Application/media
+)

@@ -29,6 +29,8 @@ namespace Engine
         void SetRectangles(std::vector<sf::IntRect>&& rects);
         void SetStartFrame(Frame l_frame);
 	    void SetEndFrame(Frame l_frame);
+        sf::Vector2i get_current_sprite_size() const;
+        std::string get_name() const;
 
     protected:
         virtual void FrameStep() = 0;
@@ -37,6 +39,7 @@ namespace Engine
         Frame m_frameStart;
         Frame m_frameEnd;
         std::vector<sf::IntRect> rects;
+        std::vector<float> origins;
         int m_frameActionStart; // Frame when a specific "action" begins
         int m_frameActionEnd; // Frame when a specific "action" ends
         float m_frameTime;

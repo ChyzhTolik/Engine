@@ -8,10 +8,11 @@ namespace Engine
     struct CharInfo
     {
         std::string Name;
-        std::string Spritesheet;
-        u_int32_t Hitpoints;
+        int Spritesheet;
+        std::string Animations;
+        uint32_t Hitpoints;
         sf::Vector2u BoundingBox;
-        sf::IntRect DamageBox;
+        sf::FloatRect DamageBox;
         sf::Vector2f Speed;
         float JumpVelocity;
         sf::Vector2f MaxVelocity;
@@ -33,6 +34,7 @@ namespace Engine
         void Draw(sf::RenderWindow& l_wind);
 
     protected:
+        virtual void UpdateAABB(Direction direction) override;
         void UpdateAttackAABB();
         void Animate();
         SpriteSheet m_spriteSheet;

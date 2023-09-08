@@ -5,6 +5,8 @@
 #include "StateManager.hpp"
 #include "SharedContext.hpp"
 #include "EntityManager.hpp"
+#include "EntitiesManager.hpp"
+#include "SystemManager.hpp"
 
 namespace Engine
 {
@@ -14,15 +16,19 @@ namespace Engine
         std::shared_ptr<Window> m_window;
         sf::Clock m_clock;
 	    sf::Time m_elapsed;
+        sf::Time m_time_per_frame;
+        bool m_repaint = false;
         StateManager m_state_manager;
         SharedContext m_context;
-        EntityManager m_manager;
+        std::shared_ptr<EntityManager> m_manager;
+        std::shared_ptr<EntitiesManager> m_entities_manager;
+        std::shared_ptr<SystemManager> m_system_manager;
 
     public:
         Game();
         ~Game();
         Window& get_window();
-        void run();
+        void run(uint32_t frames_per_second);
         sf::Time GetElapsed();
 	    void RestartClock();
         void LateUpdate();

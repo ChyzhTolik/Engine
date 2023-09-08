@@ -28,10 +28,13 @@ namespace Engine
 		textures.load(Textures::Player, "media/Player/Ship.png");
 		textures.load(Textures::Tiles, "media/Player/tiles.png");
 		textures.load(Textures::Background, "media/img/bg2.png");
-		textures.load(Textures::Biomenace, "media/img/biomenace_complete.gif");
+		textures.load(Textures::Biomenace, "media/SpriteSheets/BiomenaceSheet.gif");
 		textures.load(Textures::Intro, "media/img/intro.png");
 		textures.load(Textures::Mushroom, "media/img/Mushroom.png");
-		textures.load(Textures::TilesEngine, "media/img/tilesheet.png");
+		textures.load(Textures::TilesEngine, "media/SpriteSheets/tilesheet.png");
+		textures.load(Textures::Knigth, "media/SpriteSheets/KnigthSheet.png");
+		textures.load(Textures::Rat, "media/SpriteSheets/RatSheet.png");
+		textures.load(Textures::IsometricTiles,"media/SpriteSheets/tilesheet2.png");
 	}
 
 	void Configuration::init_tetris_inputs()

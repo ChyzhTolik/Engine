@@ -39,9 +39,9 @@ namespace Engine
         m_window.close();
     }
 
-    void Window::BeginDraw()
+    void Window::BeginDraw(sf::Color color)
     {
-        m_window.clear(sf::Color::Black);
+        m_window.clear(color);
     }
 
     void Window::EndDraw()

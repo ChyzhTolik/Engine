@@ -3,6 +3,8 @@
 #include "TileMap.hpp"
 #include <cmath>
 #include <optional>
+#include <algorithm>
+#include <iostream>
 
 namespace Engine
 {
@@ -10,7 +12,8 @@ namespace Engine
         :m_entityManager(l_entityMgr), m_name("BaseEntity"),
         m_type(EntityType::Base), m_referenceTile(nullptr),
         m_state(EntityState::Idle), m_id(0),
-        m_collidingOnX(false), m_collidingOnY(false)
+        m_collidingOnX(false), m_collidingOnY(false),
+        m_direction(Direction::Right)
     {
 
     }
@@ -23,19 +26,19 @@ namespace Engine
     void EntityBase::SetPosition(const float& l_x, const float& l_y)
     {
         m_position = sf::Vector2f(l_x,l_y);
-        UpdateAABB();
+        UpdateAABB(m_direction);
     }
     
     void EntityBase::SetPosition(const sf::Vector2f& l_pos)
     {
         m_position = l_pos;
-        UpdateAABB();
+        UpdateAABB(m_direction);
     }
 
     void EntityBase::SetSize(const float& l_x, const float& l_y)
     {
         m_size = sf::Vector2f(l_x,l_y);
-        UpdateAABB();
+        UpdateAABB(m_direction);
     }
 
     void EntityBase::SetState(const EntityState& l_state)
@@ -92,14 +95,14 @@ namespace Engine
         if(m_position.y < 0)
         {
             m_position.y = 0;
-        } 
+        }
         else if(m_position.y > (mapSize.y + 1) * Sheet::Tile_Size)
         {
             m_position.y = (mapSize.y + 1) * Sheet::Tile_Size;
             SetState(EntityState::Dying);
         }
 
-        UpdateAABB();
+        UpdateAABB(m_direction);
     }
 
     void EntityBase::AddVelocity(float l_x, float l_y)
@@ -233,17 +236,28 @@ namespace Engine
         {
             for(int y = fromY; y <= toY; ++y)
             {
-                Tile& tile = gameMap->GetTile(x,y);
+                auto tile = gameMap->GetTile(x,y);
 
-                sf::FloatRect tileBounds({x * tileSize*1.f, y * tileSize*1.f},
-                {tileSize*1.f,tileSize*1.f});
+                if (!tile)
+                {
+                    continue;
+                }                
+
+                sf::FloatRect tileBounds({static_cast<float>(x * tileSize), static_cast<float>(y * tileSize)}, 
+                    {static_cast<float>(tileSize),static_cast<float>(tileSize)});
                 std::optional<sf::FloatRect> intersection;
                 intersection = m_AABB.findIntersection(tileBounds);
+                
+                if (!intersection.has_value())
+                {
+                    continue;
+                }
+                
                 float area = intersection.value().width * intersection.value().height;
-                CollisionElement e(area, std::make_shared<TileInfo>(tile.m_tile_info), tileBounds);
+                CollisionElement e(area, std::make_shared<TileInfo>(tile->m_tile_info), tileBounds);
                 m_collisions.emplace_back(e);
 
-                if(tile.m_warp && m_type == EntityType::Player)
+                if(gameMap->get_warp_pos() == sf::Vector2u(x,y) && m_type == EntityType::Player)
                 {
                     gameMap->LoadNext();
                 }
@@ -313,9 +327,21 @@ namespace Engine
         }
     }
 
-    void EntityBase::UpdateAABB()
+    void EntityBase::UpdateAABB(Direction direction)
     {
-	    m_AABB = sf::FloatRect({m_position.x - (m_size.x / 2),m_position.y - m_size.y}, {m_size.x,m_size.y});
+        if (direction == Direction::Right)
+        {
+            m_AABB = sf::FloatRect(
+                {m_position.x + (m_entityManager.GetContext().m_gameMap->GetTileSize() - m_size.x),
+                m_position.y + (m_entityManager.GetContext().m_gameMap->GetTileSize() - m_size.y)}, {m_size.x,m_size.y});
+        }
+        else
+        {
+            m_AABB = sf::FloatRect(
+                {m_position.x,
+                m_position.y + (m_entityManager.GetContext().m_gameMap->GetTileSize() - m_size.y)}, {m_size.x,m_size.y});
+        }
+        
     }
 
     void EntityBase::SetAcceleration(float l_x, float l_y)

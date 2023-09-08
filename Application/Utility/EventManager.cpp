@@ -205,9 +205,9 @@ namespace Engine
     {
         std::ifstream bindings;
 #ifdef WIN32
-        bindings.open("media/keys.json");
+        bindings.open("media/Json/keys.json");
 #elif __unix__
-        bindings.open("media/keys.json");
+        bindings.open("media/Json/keys.json");
 
 #endif // WIN32
 

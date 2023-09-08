@@ -6,6 +6,9 @@
 #include <vector>
 #include <filesystem>
 #include <SFML/Graphics.hpp>
+#include <memory>
+#include "KnightTiles.hpp"
+#include "IsoTiles.hpp"
 
 
 
@@ -205,25 +208,282 @@ namespace Test
 	int test_mushroom()
 	{
 		Engine::Configuration::Initialize();
-		sf::Texture texture;
-		std::string texture_file;
-#ifdef WIN32
-		texture_file;
-#elif UNIX
-		if (!texture.loadFromFile("/home/achyzh/TestProjects/Engine/Application/media/img/Mushroom.png"))
-		{
-			return -1;
-		}
-#endif // WIN32
 		Engine::Game game;
-		game.run();
+		game.run(60);
 
 		return 0;
 	}
 
+	sf::IntRect invert_horizontal(const sf::IntRect& rect)
+    {
+        sf::IntRect result = rect;
+        result.left = rect.left + rect.width;
+        result.width = -rect.width;
+
+		return result;
+    }
+
 	void test_classes()
 	{
-		Engine::SpriteSheet sheet;
-		sheet.LoadSheet("media/Player.json");
+		sf::Time m_elapsed = sf::Time::Zero;
+		sf::Clock m_clock;
+		sf::Time TimePerFrame = sf::seconds(1.f/60);
+		Engine::Configuration::Initialize();
+		sf::Vector2u window_size{800,600};
+		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);		
+
+		Engine::SharedContext shared_context;
+		shared_context.m_wind = window;
+		shared_context.m_eventManager = window->GetEventManager();
+
+		sf::View view = window->GetRenderWindow().getView();
+		view.setCenter({300.f,600.f});
+
+		window->GetRenderWindow().setView(view);
+		
+		std::shared_ptr<Engine::TileMap> map = std::make_shared<Engine::TileMap>(shared_context);
+		shared_context.m_gameMap = map;
+		map->load_from_file("media/Json/map.json");
+
+		window->GetEventManager()->SetCurrentState(Engine::StateType::Game);
+
+		sf::Sprite sprite(Engine::Configuration::textures.get(Engine::Configuration::Textures::Knigth));
+		Engine::SpriteSheet sprite_sheet;
+		sprite_sheet.LoadSheet("media/Json/Knight_Animations.json", 7);
+		sprite_sheet.SetAnimation(Engine::AnimationType::Running);
+		sprite_sheet.SetDirection(Engine::Direction::Right);
+		auto animation = sprite_sheet.GetCurrentAnim();
+		animation->SetLooping(true);
+		animation->Play();
+		sprite_sheet.SetSpritePosition({view.getCenter()});
+		sprite_sheet.SetSpriteScale({3.f,3.f});
+
+		Engine::EntityManager entity_manager(shared_context, 100);
+		// entity_manager.Add(Engine::EntityType::Player);
+
+		sf::Sprite background(Engine::Configuration::textures.get(Engine::Configuration::Textures::Background));
+		background.setOrigin
+		(
+			{
+				background.getTextureRect().left + background.getTexture()->getSize().x / 2.f,
+				background.getTextureRect().top + background.getTexture()->getSize().y / 2.f
+			}
+		);
+		
+		background.setPosition(view.getCenter());
+		background.setScale({3.125f,4.17f});
+
+		Engine::Player player(entity_manager);
+
+		sf::Sprite bio_sprite(Engine::Configuration::textures.get(Engine::Configuration::Textures::Biomenace));
+		sf::IntRect rect_bio({27, 49}, {53-27, 89-49});
+		sf::IntRect inv_rec({rect_bio.left+rect_bio.width,rect_bio.top},{-rect_bio.width,rect_bio.height});
+
+		// sf::IntRect result;
+        // result.left = rect.left + rect.width;
+        // result.width = -rect.width;
+
+		// return result;
+		sf::IntRect inv_rec2 = invert_horizontal(rect_bio);
+		bio_sprite.setTextureRect(inv_rec2);
+		bio_sprite.setPosition({view.getCenter().x,view.getCenter().y - 100.f});
+		bio_sprite.setScale({3.f,3.f});
+
+		{
+		// while(!window->IsDone())
+        // {
+        //     window->BeginDraw();
+		// 	m_elapsed += m_clock.restart();
+
+		// 	float frametime = 1.0f / 60.0f;
+		// 	if(m_elapsed.asSeconds() >= frametime)
+		// 	{				
+		// 		m_elapsed -= sf::seconds(frametime); // Subtracting.
+		// 	}
+
+		// 	window->Update();
+		// 	sprite_sheet.Update(m_elapsed.asSeconds());
+		// 	// entity_manager.Update(m_elapsed.asSeconds());
+		// 	map->Update(m_elapsed.asSeconds());
+		// 	player.Update(m_elapsed.asSeconds());
+		// 	view.setCenter(player.GetPosition());
+		// 	window->GetRenderWindow().setView(view);
+		// 	background.setPosition(view.getCenter());
+
+		// 	m_elapsed = m_clock.restart();
+		// 	// Render here.
+		// 	window->Draw(background);
+		// 	map->draw();
+		// 	// sprite_sheet.Draw(window->GetRenderWindow());
+		// 	// entity_manager.Draw();
+		// 	player.Draw(window->GetRenderWindow());
+		// 	window->EndDraw();
+		// }
+		}
+
+
+		sf::Time timeSinceLastUpdate = sf::Time::Zero;
+		while (!window->IsDone())
+		{
+			window->Update();
+
+			// update
+
+			bool repaint = false;
+			timeSinceLastUpdate += m_clock.restart();
+
+			while (timeSinceLastUpdate > TimePerFrame)
+			{
+				timeSinceLastUpdate -= TimePerFrame;
+				repaint = true;
+				map->Update(TimePerFrame.asSeconds());
+				sprite_sheet.Update(TimePerFrame.asSeconds());
+				player.Update(TimePerFrame.asSeconds());
+				view.setCenter(player.GetPosition());
+				window->GetRenderWindow().setView(view);
+				background.setPosition(view.getCenter());
+			}
+
+			if(repaint)
+			{
+				window->BeginDraw();
+				// draw
+				window->Draw(background);
+				map->draw();
+				sprite_sheet.Draw(window->GetRenderWindow());
+				// entity_manager.Draw();
+				player.Draw(window->GetRenderWindow());
+				window->Draw(bio_sprite);
+			}
+
+			window->EndDraw();
+		}
+		
+	}
+
+	void test_sprite_origin()
+	{
+		Engine::Configuration::Initialize();
+		sf::Vector2u window_size{800,600};
+		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
+
+		sf::CircleShape circle(30.f);
+		sf::RectangleShape rectangle({50.f, 200.f});
+		sf::RectangleShape rectangle2({50.f, 200.f});
+		sf::RectangleShape back({200.f,200.f});
+		rectangle.setFillColor(sf::Color::Cyan);
+		rectangle.setPosition({100.f, 0.f});
+		rectangle.setOrigin({0.f,0.f});
+		rectangle2.setFillColor(sf::Color::Yellow);
+		rectangle2.setPosition({50.f, 0.f});
+
+		sf::Sprite sprite1(Engine::Configuration::textures.get(Engine::Configuration::Textures::Biomenace));
+		sf::Sprite sprite2(Engine::Configuration::textures.get(Engine::Configuration::Textures::Biomenace));
+		sf::IntRect sprite_rect({81, 48}, {106 - 81, 89 - 48});
+
+		sf::Vector2f origin = {18.f, 0.f};
+
+		sprite1.setTextureRect(sprite_rect);
+		sprite1.setScale({2.f,2.f});
+		sprite1.setOrigin(origin);
+		sprite1.setPosition({100.f,0.f});
+
+		auto invert_rect = invert_horizontal(sprite_rect);
+		sprite2.setTextureRect(invert_rect);
+		sprite2.setScale({2.f,2.f});
+		sprite2.setOrigin({std::abs(sprite2.getTextureRect().width) - origin.x,0.f});
+		sprite2.setPosition({100.f,100.f});
+
+		std::cout<<sprite1.getTextureRect().width - origin.x<<std::endl;
+
+
+		while (!window->IsDone())
+		{
+			window->Update();
+
+			window->BeginDraw();
+
+			window->Draw(back);
+			window->Draw(rectangle);
+			window->Draw(rectangle2);
+			window->Draw(sprite1);
+			window->Draw(sprite2);
+
+			window->EndDraw();
+		}	
+	}
+
+	void test_map()
+	{
+		Engine::Configuration::Initialize();
+		sf::Vector2u window_size{800,600};
+		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
+
+		Engine::SharedContext context;
+		context.m_wind = window;
+
+		std::shared_ptr<NewMap::TileSet> tile_set = std::make_shared<NewMap::TileSet>();
+		tile_set->load_from_file("media/Json/IsometricTiles.json");
+
+		NewMap::LayeredMap map(context);
+		map.set_tile_set(tile_set);
+		map.load_from_file("media/Json/LayeredMap.json");
+
+		std::shared_ptr<Engine::SystemManager> system_manager = std::make_shared<Engine::SystemManager>();
+		std::shared_ptr<Engine::EntitiesManager> entities_manager = std::make_shared<Engine::EntitiesManager>(system_manager);
+
+		context.m_entities_manager = entities_manager;
+		context.m_system_manager = system_manager;
+
+		auto ent_id = entities_manager->AddEntity(0b1111111);
+		auto has = entities_manager->HasComponent(ent_id, Engine::ComponentType::Controller);
+		assert(has==true);
+
+		auto sprite_component = entities_manager->GetComponent<Engine::SpriteSheetComponent>(ent_id, Engine::ComponentType::SpriteSheet);
+		sprite_component->Create("SnakeLogan_Animations", 3);
+		auto sprite_sheet = sprite_component->GetSpriteSheet();
+		sprite_sheet->SetSpritePosition({32.f,32.f});
+		sprite_sheet->SetAnimation(Engine::AnimationType::Running);
+		auto animation = sprite_sheet->GetCurrentAnim();
+		animation->SetLooping(true);
+		animation->Play();
+
+		auto control_component = entities_manager->GetComponent<Engine::ControllerComponent>(ent_id, Engine::ComponentType::Controller);
+
+		auto movement_component = entities_manager->GetComponent<Engine::MovableComponent>(ent_id, Engine::ComponentType::Movable);
+		movement_component->add_velocity({0.5f, 0.f});
+
+		Engine::MovementSystem movement_system(system_manager);
+
+		sf::Clock m_clock;
+		sf::Time TimePerFrame = sf::seconds(1.f/60);
+
+		sf::Time timeSinceLastUpdate = sf::Time::Zero;
+		while (!window->IsDone())
+		{
+			window->Update();
+
+			// update
+
+			bool repaint = false;
+			timeSinceLastUpdate += m_clock.restart();
+
+			while (timeSinceLastUpdate > TimePerFrame)
+			{
+				timeSinceLastUpdate -= TimePerFrame;
+				repaint = true;
+				sprite_sheet->Update(TimePerFrame.asSeconds());
+			}
+
+			if(repaint)
+			{
+				window->BeginDraw();
+				// draw
+				map.draw();
+				sprite_sheet->Draw(window->GetRenderWindow());
+			}
+
+			window->EndDraw();
+		}
 	}
 } // namespace Test

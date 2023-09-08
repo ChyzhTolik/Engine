@@ -22,6 +22,9 @@ namespace Engine
 			Intro,
 			Mushroom,
 			TilesEngine,
+			Knigth,
+			Rat,
+			IsometricTiles,
 		};
 
 		static ResourceManager<sf::Texture, Textures> textures;

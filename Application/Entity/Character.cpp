@@ -1,4 +1,9 @@
 #include "Character.hpp"
+#include "nlohmann/json.hpp"
+#include <fstream>
+#include <iostream>
+
+using nlohmann::json;
 
 namespace Engine
 {
@@ -24,6 +29,7 @@ namespace Engine
         }
 
         m_spriteSheet.SetDirection(l_dir);
+        m_direction = l_dir;
 
         if (l_dir == Direction::Left)
         { 
@@ -72,7 +78,7 @@ namespace Engine
         m_hitpoints = (m_hitpoints - l_damage > 0 ?
         m_hitpoints - l_damage : 0);
 
-        if (m_hitpoints)
+        if (m_hitpoints > 0)
         { 
             SetState(EntityState::Hurt); 
         }
@@ -82,9 +88,35 @@ namespace Engine
         }
     }
 
+    void to_json(json& j, const CharInfo& p);
+    void from_json(const json& j, CharInfo& p);
+
     void Character::Load(const std::string& l_path)
     {
+        std::ifstream char_file;
+        char_file.open(l_path);
 
+        if (!char_file.is_open())
+        { 
+            std::cout << "! Failed loading "<<l_path<<"." << std::endl; return; 
+        }
+
+	    json jf = json::parse(char_file);
+        CharInfo char_info = jf;
+
+        m_name = char_info.Name;
+        m_hitpoints = char_info.Hitpoints;
+        m_attackAABBoffset = char_info.DamageBox.getPosition();
+        m_attackAABB.width = char_info.DamageBox.width;
+        m_attackAABB.height = char_info.DamageBox.height;
+        std::string file_full_path = "media/Json/" + char_info.Animations;
+        m_spriteSheet.LoadSheet(file_full_path, char_info.Spritesheet);
+        SetSize(char_info.BoundingBox.x, char_info.BoundingBox.y);
+        m_speed = char_info.Speed;
+        m_jumpVelocity = char_info.JumpVelocity;
+        m_maxVelocity = char_info.MaxVelocity;
+
+        char_file.close();
     }
 
     void Character::UpdateAttackAABB()
@@ -107,9 +139,9 @@ namespace Engine
         {
             m_spriteSheet.SetAnimation(AnimationType::Jumping,true,false);
         }
-        else if(state == EntityState::Attacking && m_spriteSheet.get_current_type() != AnimationType::Firing)
+        else if(state == EntityState::Attacking && m_spriteSheet.get_current_type() != AnimationType::Attacking)
         {
-            m_spriteSheet.SetAnimation(AnimationType::Firing,true,false);
+            m_spriteSheet.SetAnimation(AnimationType::Attacking,true,false);
         } 
         else if(state == EntityState::Dying && m_spriteSheet.get_current_type() != AnimationType::Death)
         {
@@ -118,6 +150,10 @@ namespace Engine
         else if(state == EntityState::Idle && m_spriteSheet.get_current_type() != AnimationType::Idle)
         {
             m_spriteSheet.SetAnimation(AnimationType::Idle,true,true);
+        }
+        else if(state == EntityState::Hurt && m_spriteSheet.get_current_type() != AnimationType::Hurt)
+        {
+            m_spriteSheet.SetAnimation(AnimationType::Hurt,true,false);
         }
     }
 
@@ -168,5 +204,71 @@ namespace Engine
     void Character::Draw(sf::RenderWindow& l_wind)
     {
         m_spriteSheet.Draw(l_wind);
+    }
+
+    void to_json(json& j, const CharInfo& p)
+    {
+        j = json
+        { 
+            {"Name", p.Name},
+            {"Spritesheet", p.Spritesheet},
+            {"Animations", p.Animations},
+            {"Hitpoints", p.Hitpoints},
+            {"BoundingBox", {p.BoundingBox.x, p.BoundingBox.y}},
+            {"DamageBox", {p.DamageBox.left, p.DamageBox.top,p.DamageBox.width,p.DamageBox.height}},
+            {"Speed", {p.Speed.x, p.Speed.y}},
+            {"JumpVelocity", p.JumpVelocity},
+            {"MaxVelocity", {p.MaxVelocity.y, p.MaxVelocity.y}}
+        };
+    }
+
+    void from_json(const json& j, CharInfo& p) 
+    {
+        j.at("Name").get_to(p.Name);
+        j.at("Spritesheet").get_to(p.Spritesheet);
+        j.at("Animations").get_to(p.Animations);
+        j.at("Hitpoints").get_to(p.Hitpoints);
+
+        unsigned int vec_u[2];
+        j.at("BoundingBox").get_to(vec_u);
+        p.BoundingBox = {vec_u[0], vec_u[1]};
+
+        float rect_f[4];
+        j.at("DamageBox").get_to(rect_f);
+        p.DamageBox = {{rect_f[0],rect_f[1]},{rect_f[2],rect_f[3]}};
+
+        float vec_f[2];
+        j.at("Speed").get_to(vec_f);
+        p.Speed = {vec_f[0], vec_f[1]};
+
+        j.at("JumpVelocity").get_to(p.JumpVelocity);
+        
+        j.at("MaxVelocity").get_to(vec_f);
+        p.MaxVelocity={vec_f[0],vec_f[1]};
+    }
+
+    void Character::UpdateAABB(Direction direction)
+    {
+        if (!m_spriteSheet.GetCurrentAnim())
+        {
+            return;
+        }        
+
+        auto origin = m_spriteSheet.get_origin();
+        auto position = m_position - origin;
+        
+        if (direction == Direction::Right)
+        {
+            m_AABB = sf::FloatRect(
+                {position.x + (m_spriteSheet.GetSpriteSize().x - m_size.x),
+                position.y + (m_spriteSheet.GetSpriteSize().y - m_size.y)}, {m_size.x,m_size.y});
+        }
+        else
+        {
+            m_AABB = sf::FloatRect(
+                {position.x,
+                position.y + (m_spriteSheet.GetSpriteSize().y - m_size.y)}, {m_size.x,m_size.y});
+        }
+        
     }
 } // namespace Engine

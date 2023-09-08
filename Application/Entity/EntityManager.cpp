@@ -4,6 +4,9 @@
 #include "Enemy.hpp"
 #include <fstream>
 #include <iostream>
+#include <nlohmann/json.hpp>
+
+using nlohmann::json;
 
 namespace Engine
 {
@@ -12,7 +15,7 @@ namespace Engine
         m_maxEntities(l_maxEntities), 
         m_idCounter(0)
     {
-        LoadEnemyTypes("EnemyList.list");
+        LoadEnemyTypes("media/Json/EnemyList.json");
         RegisterEntity<PlayerCreator>(EntityType::Player);
         RegisterEntity<EnemyCreator>(EntityType::Enemy);
     }
@@ -39,16 +42,17 @@ namespace Engine
             entity->m_name = l_name; 
         }
 
-        m_entities.emplace(m_idCounter,std::move(entity));
-
         if(l_type == EntityType::Enemy)
         {
             auto itr = m_enemyTypes.find(l_name);
+            
             if(itr != m_enemyTypes.end()){
                 Enemy& enemy = static_cast<Enemy&>(*entity);
                 enemy.Load(itr->second);
             }
         }
+        
+        m_entities.emplace(m_idCounter,std::move(entity));
 
         ++m_idCounter;
         return m_idCounter - 1;
@@ -81,7 +85,7 @@ namespace Engine
     void EntityManager::Update(float l_dT)
     {
         for(auto &itr : m_entities)
-        {
+        {           
             itr.second->Update(l_dT);
         }
 
@@ -176,9 +180,39 @@ namespace Engine
         }
     }
 
+    void to_json(json& j, const EnemyInfo& p)
+    {
+        j = json
+        { 
+            {"Name", p.name},
+            {"File", p.file},
+        };
+    }
+
+    void from_json(const json& j, EnemyInfo& p) 
+    {
+        j.at("Name").get_to(p.name);
+        j.at("File").get_to(p.file);
+    }
+
     void EntityManager::LoadEnemyTypes(const std::string& l_name)
     {
-        
+        std::ifstream inFile { l_name };
+
+        if (!inFile.good()) 
+        {
+            std::cout << "! Failed loading "<<l_name<<"." << std::endl; 
+            return; 
+        }
+
+        json jf = json::parse(inFile);
+        std::vector<EnemyInfo> enemies = jf;
+
+        for (auto &&enemy : enemies)
+        {
+            enemy.file = "media/Json/" + enemy.file;
+            m_enemyTypes.insert({std::move(enemy.name), std::move(enemy.file)});
+        }        
     }
 
     SharedContext& EntityManager::GetContext()
@@ -188,7 +222,7 @@ namespace Engine
 
     void EntityManager::Remove(unsigned int l_id)
     {
-
+        m_entitiesToRemove.emplace_back(l_id);
     }
 
     EntityCreator::EntityCreator(EntityManager& l_entity_manager) : m_entity_manager(l_entity_manager)

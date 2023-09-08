@@ -7,7 +7,7 @@ namespace Engine
     Player::Player(EntityManager& l_entityMgr)
     : Character(l_entityMgr)
     {
-        Load("Player.char");
+        Load("media/Json/Snake_Char.json");
         m_type = EntityType::Player;
         std::shared_ptr<EventManager> events = m_entityManager.GetContext().m_eventManager;
         
@@ -19,8 +19,11 @@ namespace Engine
 
     Player::~Player()
     {
-        std::shared_ptr<EventManager>events = m_entityManager.GetContext().m_eventManager;
+        std::shared_ptr<EventManager>events = m_entityManager.GetContext().m_eventManager;        
         events->remove_action(StateType::Game,"Player_MoveLeft");
+        events->remove_action(StateType::Game,"Player_MoveRight");
+        events->remove_action(StateType::Game,"Player_Jump");
+        events->remove_action(StateType::Game,"Player_Attack");
     }
 
     void Player::OnEntityCollision(EntityBase& l_collider, bool l_attack)

@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include <Tile.hpp>
+#include "Direction.hpp"
 
 namespace Engine
 {
@@ -62,7 +63,7 @@ namespace Engine
 
     protected:
         // Methods.
-        void UpdateAABB();
+        virtual void UpdateAABB(Direction direction = Direction::Right);
         void CheckCollisions();
         void ResolveCollisions();
         // Method for what THIS entity does TO the l_collider entity.
@@ -87,6 +88,7 @@ namespace Engine
         bool m_collidingOnY;
         Collisions m_collisions;
         EntityManager& m_entityManager;
+        Direction m_direction;
     };
     
 } // namespace Engine
