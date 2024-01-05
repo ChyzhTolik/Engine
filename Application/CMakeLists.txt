@@ -67,6 +67,7 @@ set (SOURCES_FILES
 
 add_executable(${PROJECT_NAME} ${SOURCES_FILES})
 
+
 set (INCLUDES ${CMAKE_SOURCE_DIR}/external/include)
 
 if(UNIX)
@@ -80,6 +81,11 @@ if(UNIX)
         ${UNIX_LIBS}/libSFGUI-d.so
 
         ${UNIX_LIBS}/libbox2d.so.2.4.1
+
+        # ${UNIX_LIBS}/libgmock_main.a
+        # ${UNIX_LIBS}/libgmock.a
+        # ${UNIX_LIBS}/libgtest_main.a
+        # ${UNIX_LIBS}/libgtest.a
     )
 endif(UNIX)
     
@@ -125,6 +131,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE Components)
 target_include_directories(${PROJECT_NAME} PRIVATE NewMap)
 target_include_directories(${PROJECT_NAME} PRIVATE Common)
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDES})
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/external/googletest/googlemock/include)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/external/googletest/googletest/include)
 
 file(COPY ${CMAKE_SOURCE_DIR}/Application/media DESTINATION ${CMAKE_BINARY_DIR}/Application/)
 

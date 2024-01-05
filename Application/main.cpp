@@ -13,5 +13,6 @@ int main()
 	// Test::test_mushroom();
 	// Test::test_classes();
 	// Test::test_sprite_origin();
-	Test::test_map();
+	// Test::test_map();
+	// Test::test_sfml();
 }
