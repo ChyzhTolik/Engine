@@ -1,26 +1,25 @@
 cmake_minimum_required(VERSION 3.26)
 set(CMAKE_CXX_STANDARD 17)
 
-project(Common)
+project(Map)
 
 set(HEADERS 
-    Configuration/Configuration.hpp
-    Configuration/ResourceManager.hpp
-    Window/Window.hpp
-    Window/EventDetails.hpp
-    Window/EventManager.hpp
-    Window/ActionFunctinoid.hpp
-    Vector2i_hash.hpp    
+    IsoTiles.hpp
+    KnightTiles.hpp
+    LayeredMap.hpp
+    Tile.hpp
+    TileSet.hpp
 )
 set(SOURCES 
-    Configuration/Configuration.cpp
-    Window/Window.cpp
-    Window/EventManager.cpp
+    LayeredMap.cpp
+    Tile.cpp
+    TileSet.cpp
 )
 add_library(${PROJECT_NAME} SHARED ${HEADERS} ${SOURCES})
 
-set (INCLUDES ${CMAKE_SOURCE_DIR}/external/include)
+target_link_libraries(${PROJECT_NAME} PUBLIC Common) 
 
+set (INCLUDES ${CMAKE_SOURCE_DIR}/external/include)
 if(UNIX)
     set(UNIX_LIBS ${CMAKE_SOURCE_DIR}/external/UNIX)
     target_link_libraries(${PROJECT_NAME} 
@@ -36,5 +35,5 @@ if(UNIX)
 endif(UNIX)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDES})
-target_include_directories(${PROJECT_NAME} PUBLIC Configuration)
-target_include_directories(${PROJECT_NAME} PUBLIC Window)
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/Common)
+

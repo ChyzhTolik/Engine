@@ -2,10 +2,14 @@
 
 #include <Configuration/Configuration.hpp>
 
-TEST(ExampleTest, Test2)
+TEST(ConfigurationTest, TestInitTextures)
 {
-    Engine::Configuration::Initialize();
-    auto texture = Engine::Configuration::textures.get(Engine::Configuration::Textures::Biomenace);
+    sf::RenderWindow window(sf::VideoMode({300,200}), "SFML works!");
 
-    EXPECT_EQ(texture.getSize().x, 20);
+    Engine::Configuration::Initialize();
+    auto texture = Engine::Configuration::textures.get(Engine::Configuration::Textures::Intro);
+
+    EXPECT_EQ(texture.getSize().x, 400);
+    EXPECT_EQ(texture.getSize().y, 150);
 }
+

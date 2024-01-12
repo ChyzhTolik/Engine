@@ -1,5 +1,10 @@
 #include "testing_libs.hpp"
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <memory>
+
+#include "Configuration/Configuration.hpp"
+#include "Window/Window.hpp"
 
 namespace Test
 {
@@ -10,9 +15,12 @@ namespace Test
 
     int test_sfml()
 	{
-		sf::RenderWindow window(sf::VideoMode({ 200, 200 }), "SFML works!");
-		sf::CircleShape shape(100.f);
-		shape.setFillColor(sf::Color::Green);
+		Engine::Configuration::Initialize();
+		sf::Sprite sprite(Engine::Configuration::textures.get(Engine::Configuration::Textures::Intro));
+		sf::RenderWindow window(sf::VideoMode(sprite.getTexture()->getSize()), "SFML works!");
+
+		std::cout<<"Width: "<<window.getSize().x<<std::endl;
+		std::cout<<"Height: "<<window.getSize().y<<std::endl;
 
 		while (window.isOpen())
 		{
@@ -24,10 +32,26 @@ namespace Test
 			}
 
 			window.clear();
-			window.draw(shape);
+			window.draw(sprite);
 			window.display();
 		}
 
 		return 0;
+	}
+
+	void test_window()
+	{
+		Engine::Configuration::Initialize();
+		sf::Vector2u window_size{800,600};
+		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
+
+		sf::Clock m_clock;
+		sf::Time TimePerFrame = sf::seconds(1.f/60);
+
+		sf::Time timeSinceLastUpdate = sf::Time::Zero;
+		while (!window->IsDone())
+		{
+			window->Update();
+		}
 	}
 } // namespace Test

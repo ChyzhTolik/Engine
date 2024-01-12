@@ -5,6 +5,6 @@
 int main()
 {
     std::cout<<"Hi"<<std::endl;
-    Test::test_sfml();
+    Test::test_window();
 
 }
