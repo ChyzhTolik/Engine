@@ -1,0 +1,36 @@
+#pragma once
+
+#include "Window.hpp"
+#include "ActionFunctinoid.hpp"
+#include "StateManager.hpp"
+#include "SharedContext.hpp"
+
+namespace Engine
+{
+    class Game
+    {
+    private:
+        std::shared_ptr<Window> m_window;
+        sf::Clock m_clock;
+	    sf::Time m_elapsed;
+        sf::Time m_time_per_frame;
+        bool m_repaint = false;
+        StateManager m_state_manager;
+        SharedContext m_context;
+
+    public:
+        Game();
+        ~Game();
+        Window& get_window();
+        void run(uint32_t frames_per_second);
+        sf::Time GetElapsed();
+	    void RestartClock();
+        void LateUpdate();
+
+    private:
+        void handle_input();
+        void update();
+        void render();
+    };    
+} // namespace Engine
+

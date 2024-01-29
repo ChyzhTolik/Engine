@@ -24,7 +24,9 @@ namespace Engine
         MouseLeft = sf::Event::MouseLeft,
         Closed = sf::Event::Closed,
         TextEntered = sf::Event::TextEntered,
-        Keyboard = sf::Event::Count + 1, Mouse, Joystick
+        Keyboard = sf::Event::Count + 1, 
+        Mouse, 
+        Joystick
     };
 
     struct EventInfo

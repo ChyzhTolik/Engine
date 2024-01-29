@@ -9,13 +9,26 @@ set(HEADERS
     Window/Window.hpp
     Window/EventDetails.hpp
     Window/EventManager.hpp
-    Window/ActionFunctinoid.hpp
-    Vector2i_hash.hpp    
+    StateManager/StateManager.hpp
+    StateManager/State_Game.hpp
+    StateManager/BaseState.hpp
+    StateManager/State_Paused.hpp
+
+    CommonHeaders/ActionFunctinoid.hpp
+    CommonHeaders/Vector2i_hash.hpp
+    CommonHeaders/SharedContext.hpp
+
+    Game/Game.hpp
 )
 set(SOURCES 
     Configuration/Configuration.cpp
     Window/Window.cpp
     Window/EventManager.cpp
+    StateManager/BaseState.cpp
+    StateManager/State_Paused.cpp
+    StateManager/State_Game.cpp
+    StateManager/StateManager.cpp
+    Game/Game.cpp
 )
 add_library(${PROJECT_NAME} SHARED ${HEADERS} ${SOURCES})
 
@@ -38,3 +51,6 @@ endif(UNIX)
 target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDES})
 target_include_directories(${PROJECT_NAME} PUBLIC Configuration)
 target_include_directories(${PROJECT_NAME} PUBLIC Window)
+target_include_directories(${PROJECT_NAME} PUBLIC StateManager)
+target_include_directories(${PROJECT_NAME} PUBLIC CommonHeaders)
+target_include_directories(${PROJECT_NAME} PUBLIC Game)

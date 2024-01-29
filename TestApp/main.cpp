@@ -5,6 +5,5 @@
 int main()
 {
     std::cout<<"Hi"<<std::endl;
-    Test::test_window();
-
+    Test::test_states();
 }

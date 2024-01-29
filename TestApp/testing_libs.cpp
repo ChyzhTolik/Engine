@@ -5,6 +5,7 @@
 
 #include "Configuration/Configuration.hpp"
 #include "Window/Window.hpp"
+#include "Game/Game.hpp"
 
 namespace Test
 {
@@ -44,7 +45,8 @@ namespace Test
 		Engine::Configuration::Initialize();
 		sf::Vector2u window_size{800,600};
 		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
-
+		sf::Sprite sprite(Engine::Configuration::textures.get(Engine::Configuration::Textures::Intro));
+		
 		sf::Clock m_clock;
 		sf::Time TimePerFrame = sf::seconds(1.f/60);
 
@@ -52,6 +54,16 @@ namespace Test
 		while (!window->IsDone())
 		{
 			window->Update();
+			window->BeginDraw();
+			window->Draw(sprite);
+			window->EndDraw();
 		}
+	}
+
+	void test_states()
+	{
+		Engine::Configuration::Initialize();
+		Engine::Game game;
+		game.run(60);
 	}
 } // namespace Test
