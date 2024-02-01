@@ -57,7 +57,7 @@ namespace Engine
 
     void State_Game::Draw()
     {
-        sf::Sprite sprite(Engine::Configuration::textures.get(Engine::Configuration::Textures::Intro));
+        sf::Sprite sprite(Engine::Configuration::textures.get(Engine::Configuration::Textures::Background));
 		m_stateMgr.GetContext().m_wind->Draw(sprite);
     }
 

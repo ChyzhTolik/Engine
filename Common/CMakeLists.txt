@@ -10,9 +10,11 @@ set(HEADERS
     Window/EventDetails.hpp
     Window/EventManager.hpp
     StateManager/StateManager.hpp
-    StateManager/State_Game.hpp
-    StateManager/BaseState.hpp
-    StateManager/State_Paused.hpp
+    StateManager/States/State_Game.hpp
+    StateManager/States/BaseState.hpp
+    StateManager/States/State_Paused.hpp
+    StateManager/States/State_Intro.hpp
+    StateManager/States/State_MainMenu.hpp
 
     CommonHeaders/ActionFunctinoid.hpp
     CommonHeaders/Vector2i_hash.hpp
@@ -24,9 +26,11 @@ set(SOURCES
     Configuration/Configuration.cpp
     Window/Window.cpp
     Window/EventManager.cpp
-    StateManager/BaseState.cpp
-    StateManager/State_Paused.cpp
-    StateManager/State_Game.cpp
+    StateManager/States/BaseState.cpp
+    StateManager/States/State_Paused.cpp
+    StateManager/States/State_Game.cpp
+    StateManager/States/State_Intro.cpp
+    StateManager/States/State_MainMenu.cpp
     StateManager/StateManager.cpp
     Game/Game.cpp
 )

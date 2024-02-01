@@ -1,6 +1,8 @@
 #include "StateManager.hpp"
-#include "State_Game.hpp"
-#include "State_Paused.hpp"
+#include "States/State_Game.hpp"
+#include "States/State_Paused.hpp"
+#include "States/State_Intro.hpp"
+#include "States/State_MainMenu.hpp"
 #include "Configuration.hpp"
 
 namespace Engine
@@ -11,6 +13,10 @@ namespace Engine
 		sf::Font& font = Configuration::fonts.get(Configuration::Fonts::Arial);
 		RegisterState<GameCreator>(StateType::Game, Configuration::textures.get(Configuration::Textures::Background));
 		RegisterState<PauseCreator>(StateType::Paused, Configuration::fonts.get(Configuration::Fonts::Arial));
+		RegisterState<MenuCreator>(StateType::MainMenu,Configuration::fonts.get(Configuration::Fonts::Arial));
+		RegisterState<IntroCreator>(StateType::Intro, 
+									Configuration::textures.get(Configuration::Textures::Intro), 
+									Configuration::fonts.get(Configuration::Fonts::Arial));
 	}
 
 	StateManager::~StateManager()

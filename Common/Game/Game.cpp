@@ -14,7 +14,7 @@ namespace Engine
         m_context.m_wind = m_window;
         m_context.m_eventManager = m_window->GetEventManager();
 
-        m_state_manager.SwitchTo(StateType::Game);
+        m_state_manager.SwitchTo(StateType::Intro);
     }
 
     Game::~Game()
