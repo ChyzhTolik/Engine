@@ -141,6 +141,7 @@ namespace Engine
 	{
 		m_shared.m_eventManager->SetCurrentState(l_type);
 
+		// State with l_type was found
 		for (auto itr = m_states.begin(); itr != m_states.end(); ++itr)
 		{
 			if (itr->first == l_type)
