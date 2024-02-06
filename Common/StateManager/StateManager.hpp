@@ -5,11 +5,13 @@
 #include <vector>
 #include <memory>
 #include <unordered_map>
+#include <optional>
 
 namespace Engine
 {
     enum class StateType
     {
+        EnptyState,
         Intro = 1, 
         MainMenu, 
         Game, 

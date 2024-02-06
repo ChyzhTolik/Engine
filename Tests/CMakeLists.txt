@@ -4,7 +4,10 @@ set(CMAKE_CXX_STANDARD 17)
 
 project(Tests)
 
-set(SOURCES ConfigurationTests.cpp)
+set(SOURCES 
+    ConfigurationTests.cpp
+    StateManagerTests/StateManagerTests.cpp
+)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 

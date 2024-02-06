@@ -89,6 +89,7 @@ namespace Engine
 
         void add_action(StateType l_state, std::string_view l_name, std::unique_ptr<ActionFunctinoid>&& l_action);
         bool remove_action(StateType l_state, std::string_view l_name);
+        bool execute_action(StateType l_state, std::string_view l_name, EventDetails& l_details);
 
         void HandleEvent(sf::Event& l_event);
         void Update();

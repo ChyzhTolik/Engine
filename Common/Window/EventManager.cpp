@@ -265,4 +265,25 @@ namespace Engine
 
         return true;
     }
+
+    bool EventManager::execute_action(StateType l_state, std::string_view l_name, EventDetails& l_details)
+    {
+        auto state_itr = m_actions.find(l_state);
+
+        if (state_itr == m_actions.end())
+        {
+            return false;
+        }
+
+        auto action_itr = state_itr->second.find(std::string(l_name));
+
+        if (action_itr == state_itr->second.end())
+        {
+            return false;
+        }
+
+        action_itr->second->execute(l_details);
+
+        return true;
+    }
 } // namespace Engine
