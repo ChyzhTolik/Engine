@@ -24,10 +24,10 @@ namespace Engine
         Window& get_window();
         void run(uint32_t frames_per_second);
         sf::Time GetElapsed();
-	    void RestartClock();
-        void LateUpdate();
 
     private:
+	    void RestartClock();
+        void LateUpdate();
         void handle_input();
         void update();
         void render();
