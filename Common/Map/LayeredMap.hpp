@@ -45,7 +45,7 @@ namespace NewMap
         MapAdditionalInfo m_map_info;
         std::vector<EnemyMapInfo> m_enemyStarts;
         std::shared_ptr<TileSet> m_tile_set;
-        std::map<int, MapLayer> m_layered_map;
+        std::unordered_map<int, MapLayer> m_layered_map;
         std::unordered_map<sf::Vector2i,std::shared_ptr<Tile>,Common::Vector2i_hash> m_map;
     };
     

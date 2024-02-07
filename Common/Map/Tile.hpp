@@ -33,8 +33,8 @@ namespace NewMap
         void set_friction(const sf::Vector2f& friction);
         sf::Vector2i get_size() const;
         bool is_deadly() const;
-    private:
         const sf::Texture& get_texture(uint32_t texture_id);
+    private:
         TileInfo m_tile_info;
     };
     

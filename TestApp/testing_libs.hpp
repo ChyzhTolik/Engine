@@ -6,5 +6,6 @@ namespace Test
     int test_sfml();
     void test_window();
     void test_states();
+    void test_tiles();
     
 } // namespace Test

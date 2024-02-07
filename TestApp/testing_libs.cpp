@@ -6,6 +6,7 @@
 #include "Configuration/Configuration.hpp"
 #include "Window/Window.hpp"
 #include "Game.hpp"
+#include "Map/Tile.hpp"
 
 namespace Test
 {
@@ -65,5 +66,23 @@ namespace Test
 		Engine::Configuration::Initialize();
 		Engine::Game game;
 		game.run(60);
+	}
+
+	void test_tiles()
+	{
+		Engine::Configuration::Initialize();
+		NewMap::TileInfo tile_info{1, false,{0.2f,0.f},{0,0},{32,32}};
+		NewMap::Tile tile(tile_info,6);
+
+		sf::Vector2u window_size{800,600};
+		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
+		sf::Sprite sprite(tile.get_texture(6));
+		while (!window->IsDone())
+		{
+			window->Update();
+			window->BeginDraw();
+			window->Draw(tile);
+			window->EndDraw();
+		}
 	}
 } // namespace Test
