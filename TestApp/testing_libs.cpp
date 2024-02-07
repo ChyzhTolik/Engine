@@ -5,7 +5,7 @@
 
 #include "Configuration/Configuration.hpp"
 #include "Window/Window.hpp"
-#include "Game/Game.hpp"
+#include "Game.hpp"
 
 namespace Test
 {

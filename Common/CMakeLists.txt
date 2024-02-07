@@ -20,7 +20,11 @@ set(HEADERS
     CommonHeaders/Vector2i_hash.hpp
     CommonHeaders/SharedContext.hpp
 
-    Game/Game.hpp
+    Map/IsoTiles.hpp
+    Map/KnightTiles.hpp
+    Map/LayeredMap.hpp
+    Map/Tile.hpp
+    Map/TileSet.hpp
 )
 set(SOURCES 
     Configuration/Configuration.cpp
@@ -32,7 +36,10 @@ set(SOURCES
     StateManager/States/State_Intro.cpp
     StateManager/States/State_MainMenu.cpp
     StateManager/StateManager.cpp
-    Game/Game.cpp
+
+    Map/LayeredMap.cpp
+    Map/Tile.cpp
+    Map/TileSet.cpp
 )
 add_library(${PROJECT_NAME} SHARED ${HEADERS} ${SOURCES})
 
@@ -57,4 +64,4 @@ target_include_directories(${PROJECT_NAME} PUBLIC Configuration)
 target_include_directories(${PROJECT_NAME} PUBLIC Window)
 target_include_directories(${PROJECT_NAME} PUBLIC StateManager)
 target_include_directories(${PROJECT_NAME} PUBLIC CommonHeaders)
-target_include_directories(${PROJECT_NAME} PUBLIC Game)
+target_include_directories(${PROJECT_NAME} PUBLIC Map)
