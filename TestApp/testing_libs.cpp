@@ -7,6 +7,9 @@
 #include "Window/Window.hpp"
 #include "Game.hpp"
 #include "Map/Tile.hpp"
+#include "Map/TileTemplate.hpp"
+#include "Map/TileSetTemplate.hpp"
+#include "Map/KnightTiles.hpp"
 
 namespace Test
 {
@@ -71,17 +74,27 @@ namespace Test
 	void test_tiles()
 	{
 		Engine::Configuration::Initialize();
-		NewMap::TileInfo tile_info{1, false,{0.2f,0.f},{0,0},{32,32}};
-		NewMap::Tile tile(tile_info,6);
+		NewMap::TileInfo tile_info{1, false,{0.2f,0.f},{32,0},{32,32}};
+		NewMap::Tile tile(tile_info,Engine::Configuration::Textures::IsometricTiles);
+
+		Engine::TileInfo<Engine::KnightTiles> temp_tile_info{Engine::KnightTiles::Brick, false,{0.2f,0.f},{32,0},{32,32}};
+		Engine::TileTemplate<Engine::KnightTiles> temp_tile(temp_tile_info, Engine::Configuration::Textures::TilesEngine);
+
+		auto t_info = temp_tile.get_tile_info();
+		std::cout<<tile_info.friction.x<<" "<<t_info.friction.x<<std::endl;
 
 		sf::Vector2u window_size{800,600};
 		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
-		sf::Sprite sprite(tile.get_texture(6));
+
+		Engine::TileSetTemplate<Engine::KnightTiles> tile_set;
+		tile_set.load_from_file("media/Json/tiles.json");
+
+
 		while (!window->IsDone())
 		{
 			window->Update();
 			window->BeginDraw();
-			window->Draw(tile);
+			window->Draw(temp_tile);
 			window->EndDraw();
 		}
 	}

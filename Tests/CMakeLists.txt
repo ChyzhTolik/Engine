@@ -7,6 +7,7 @@ project(Tests)
 set(SOURCES 
     ConfigurationTests.cpp
     StateManagerTests/StateManagerTests.cpp
+    MapTests/MapTests.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

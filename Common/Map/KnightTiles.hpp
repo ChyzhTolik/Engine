@@ -1,6 +1,6 @@
 #pragma once
 
-namespace NewMap
+namespace Engine
 {
     enum class KnightTiles
     {
@@ -14,7 +14,6 @@ namespace NewMap
         Icy_Rock,
         Spikes,
         Ice,
-    };
-    
+    };    
 } // namespace NewMap
 

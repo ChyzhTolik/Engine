@@ -25,6 +25,9 @@ set(HEADERS
     Map/LayeredMap.hpp
     Map/Tile.hpp
     Map/TileSet.hpp
+
+    Map/TileTemplate.hpp
+    Map/TileSetTemplate.hpp
 )
 set(SOURCES 
     Configuration/Configuration.cpp

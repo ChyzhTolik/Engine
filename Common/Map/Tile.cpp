@@ -6,6 +6,13 @@ namespace NewMap
     {
         setTextureRect({m_tile_info.coords, m_tile_info.size});
     }
+
+    Tile::Tile(const TileInfo& tile_info, Engine::Configuration::Textures texture_id) : 
+        sf::Sprite(Engine::Configuration::textures.get(texture_id)), m_tile_info(tile_info)
+    {
+        setTextureRect({m_tile_info.coords, m_tile_info.size});
+        auto texture = get_texture(static_cast<uint32_t>(texture_id));
+    }
     
     Tile::~Tile()
     {

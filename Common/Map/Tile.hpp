@@ -14,10 +14,11 @@ namespace NewMap
         sf::Vector2i coords;
         sf::Vector2i size;
     };
-
+    
     class Tile : public sf::Sprite
     {
     public:
+        Tile(const TileInfo& tile_info, Engine::Configuration::Textures texture_id);
         Tile(const TileInfo& tile_info, uint32_t texture_id);
         ~Tile();
 
@@ -33,8 +34,8 @@ namespace NewMap
         void set_friction(const sf::Vector2f& friction);
         sf::Vector2i get_size() const;
         bool is_deadly() const;
-        const sf::Texture& get_texture(uint32_t texture_id);
     private:
+        const sf::Texture& get_texture(uint32_t texture_id);
         TileInfo m_tile_info;
     };
     
