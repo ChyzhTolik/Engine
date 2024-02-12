@@ -1,6 +1,6 @@
 #pragma once
 
-namespace NewMap
+namespace Engine
 {
     enum class IsoTiles
     {

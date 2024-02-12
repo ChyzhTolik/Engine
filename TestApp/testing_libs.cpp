@@ -10,6 +10,11 @@
 #include "Map/TileTemplate.hpp"
 #include "Map/TileSetTemplate.hpp"
 #include "Map/KnightTiles.hpp"
+#include "Map/IsoTiles.hpp"
+
+#include <nlohmann/json.hpp>
+using nlohmann::json;
+
 
 namespace Test
 {
@@ -86,15 +91,22 @@ namespace Test
 		sf::Vector2u window_size{800,600};
 		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
 
-		Engine::TileSetTemplate<Engine::KnightTiles> tile_set;
-		tile_set.load_from_file("media/Json/tiles.json");
+		Engine::TileSetTemplate<Engine::IsoTiles> tile_set;
+		tile_set.load_from_file("media/Json/IsometricTiles.json");
 
 
 		while (!window->IsDone())
 		{
 			window->Update();
 			window->BeginDraw();
-			window->Draw(temp_tile);
+
+			for (size_t i = 0; i<tile_set.count(); i++)
+			{			
+				auto tile = tile_set.get_tile(Engine::IsoTiles(i));
+				tile->setPosition({tile->get_tile_info().coords.x, tile->get_tile_info().coords.y});
+				window->Draw(*tile);				
+			}
+			
 			window->EndDraw();
 		}
 	}

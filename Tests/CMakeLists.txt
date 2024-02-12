@@ -24,6 +24,6 @@ add_test(
 
 add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${CMAKE_SOURCE_DIR}/Application/media
+    ${CMAKE_SOURCE_DIR}/media
     ${CMAKE_BINARY_DIR}/media
 )

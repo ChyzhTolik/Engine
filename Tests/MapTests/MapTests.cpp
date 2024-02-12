@@ -2,6 +2,7 @@
 
 #include <Map/TileTemplate.hpp>
 #include <Map/KnightTiles.hpp>
+#include <Map/TileSetTemplate.hpp>
 #include <Configuration/Configuration.hpp>
 
 TEST(MapTests, TileTemplateTests)
@@ -22,4 +23,42 @@ TEST(MapTests, TileTemplateTests)
 
     temp_tile.set_friction({0.3f,0.3f});
     EXPECT_EQ(temp_tile.get_friction(), sf::Vector2f(0.3f,0.3f));
+}
+
+TEST(MapTest, TileSetTemplateTests)
+{
+    Engine::TileInfo<Engine::KnightTiles> temp_tile_info{Engine::KnightTiles::Brick, false,{0.2f,0.f},{32,0},{32,32}};
+
+    json j;
+    j = temp_tile_info;
+
+    Engine::TileInfo<Engine::KnightTiles> new_tile_info = j;
+
+    EXPECT_EQ(new_tile_info, temp_tile_info);
+
+    auto type = new_tile_info.type;
+    Engine::TileTemplate<Engine::KnightTiles> temp_tile(temp_tile_info, Engine::Configuration::Textures::TilesEngine);
+
+    Engine::TileSetInfo<Engine::KnightTiles> tile_set_info;
+    tile_set_info.texture_id=Engine::Configuration::Textures::TilesEngine;
+    tile_set_info.tiles.push_back(temp_tile_info);
+    tile_set_info.tiles.push_back(new_tile_info);
+
+    json jey;
+    jey = tile_set_info;
+
+    Engine::TileSetInfo<Engine::KnightTiles> new_tile_set_info = jey;
+    EXPECT_EQ(tile_set_info.texture_id, new_tile_set_info.texture_id);
+    EXPECT_EQ(tile_set_info.tiles, new_tile_set_info.tiles);
+    new_tile_set_info.tiles.back().is_deadly = !new_tile_set_info.tiles.back().is_deadly;
+    EXPECT_NE(tile_set_info.tiles, new_tile_set_info.tiles);
+
+    Engine::TileSetTemplate<Engine::KnightTiles> tile_set;
+    tile_set.load_from_file("media/Json/IsometricTiles.json");
+    EXPECT_EQ(tile_set.count(), 5);
+
+    const auto tile = tile_set.get_tile(Engine::KnightTiles::Brick);
+    EXPECT_EQ(tile->get_size(), sf::Vector2i(32,32));
+    EXPECT_EQ(tile->get_friction(), sf::Vector2f(0.9f,0.f));
+    EXPECT_EQ(tile->getTextureRect().getPosition(), sf::Vector2i(96,0));
 }

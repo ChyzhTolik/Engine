@@ -6,11 +6,11 @@
 #include <vector>
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <optional>
 
+using nlohmann::json;
 namespace Engine
 {
-    using nlohmann::json;
-
     template<typename TyleType = uint32_t>
     struct TileSetInfo
     {
@@ -28,9 +28,8 @@ namespace Engine
         void load_from_file(const std::string& file_name);
         std::shared_ptr<TileTemplate<TyleType>> get_tile(TyleType id) const;
         uint32_t count() const;
-        void test_json();
     private:
-        std::unordered_map<uint32_t, std::shared_ptr<TileTemplate<TyleType>>> m_set;
+        std::unordered_map<TyleType, std::shared_ptr<TileTemplate<TyleType>>> m_set;
     };
     
     template<typename TyleType>
@@ -78,7 +77,7 @@ namespace Engine
 
         uint32_t tile_id;
         j.at("type").get_to(tile_id);
-        p.type = TyleType(tile_id);
+        p.type = static_cast<TyleType>(tile_id);
 
         j.at("is_deadly").get_to(p.is_deadly);
     }
@@ -115,24 +114,25 @@ namespace Engine
 	    json jf = json::parse(tiles);
         TileSetInfo<TyleType> set_info;
         set_info = jf;
+        m_set.clear();
 
         for (auto &&info : set_info.tiles)
         {
             std::shared_ptr<TileTemplate<TyleType>> tile = std::make_shared<TileTemplate<TyleType>>(info, set_info.texture_id);
-            // m_set.emplace(info.type, std::move(tile));
+            m_set.emplace(info.type, std::move(tile));
         }
     }
 
     template<typename TyleType>
     std::shared_ptr<TileTemplate<TyleType>> TileSetTemplate<TyleType>::get_tile(TyleType id) const
     {
-        return nullptr;
-    }
-
-    template<typename TyleType>
-    void TileSetTemplate<TyleType>::test_json()
-    {
-        
-    }
-    
+        if (m_set.find(id) != m_set.end())
+        {
+            return m_set.at(id);
+        }
+        else
+        {
+            return nullptr;
+        }
+    }    
 } // namespace Engine

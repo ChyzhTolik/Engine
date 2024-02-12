@@ -16,6 +16,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/Game)
 
 add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${CMAKE_SOURCE_DIR}/Application/media
+    ${CMAKE_SOURCE_DIR}/media
     ${CMAKE_BINARY_DIR}/TestApp/media
 )
