@@ -11,14 +11,14 @@
 using nlohmann::json;
 namespace Engine
 {
-    template<typename TyleType = uint32_t>
+    template<typename TileType = uint32_t>
     struct TileSetInfo
     {
         Configuration::Textures texture_id;
-        std::vector<TileInfo<TyleType>> tiles;
+        std::vector<TileInfo<TileType>> tiles;
     };
 
-    template<typename TyleType>
+    template<typename TileType>
     class TileSetTemplate
     {
     public:
@@ -26,43 +26,43 @@ namespace Engine
         ~TileSetTemplate();
 
         void load_from_file(const std::string& file_name);
-        std::shared_ptr<TileTemplate<TyleType>> get_tile(TyleType id) const;
+        std::shared_ptr<TileTemplate<TileType>> get_tile(TileType id) const;
         uint32_t count() const;
     private:
-        std::unordered_map<TyleType, std::shared_ptr<TileTemplate<TyleType>>> m_set;
+        std::unordered_map<TileType, std::shared_ptr<TileTemplate<TileType>>> m_set;
     };
     
-    template<typename TyleType>
-    TileSetTemplate<TyleType>::TileSetTemplate(/* args */)
+    template<typename TileType>
+    TileSetTemplate<TileType>::TileSetTemplate(/* args */)
     {
     }
     
-    template<typename TyleType>
-    TileSetTemplate<TyleType>::~TileSetTemplate()
+    template<typename TileType>
+    TileSetTemplate<TileType>::~TileSetTemplate()
     {
     }
 
-    template<typename TyleType>
-    uint32_t TileSetTemplate<TyleType>::count() const
+    template<typename TileType>
+    uint32_t TileSetTemplate<TileType>::count() const
     {
         return m_set.size();
     }
 
-    template<typename TyleType>
-    void to_json(json& j, const TileInfo<TyleType>& p) 
+    template<typename TileType>
+    void to_json(json& j, const TileInfo<TileType>& p) 
     {
         j = json
         { 
             {"coords", {p.coords.x, p.coords.y}}, 
             {"size", {p.size.x,p.size.y}}, 
             {"friction", {p.friction.x, p.friction.y}},
-            {"type", static_cast<uint32_t>(p.type)},
+            {"type", p.type},
             {"is_deadly", p.is_deadly}
         };
     }
 
-    template<typename TyleType>
-    void from_json(const json& j, TileInfo<TyleType>& p) 
+    template<typename TileType>
+    void from_json(const json& j, TileInfo<TileType>& p) 
     {
         float float_array[2];
         j.at("friction").get_to(float_array);
@@ -75,15 +75,13 @@ namespace Engine
         j.at("size").get_to(int_array);
         p.size = sf::Vector2i(int_array[0],int_array[1]);
 
-        uint32_t tile_id;
-        j.at("type").get_to(tile_id);
-        p.type = static_cast<TyleType>(tile_id);
+        j.at("type").get_to(p.type );
 
         j.at("is_deadly").get_to(p.is_deadly);
     }
 
-    template<typename TyleType>
-    void to_json(json& j, const TileSetInfo<TyleType>& p)
+    template<typename TileType>
+    void to_json(json& j, const TileSetInfo<TileType>& p)
     {
         j = json
         {
@@ -92,8 +90,8 @@ namespace Engine
         };
     }
 
-    template<typename TyleType>
-    void from_json(const json& j, TileSetInfo<TyleType>& p)
+    template<typename TileType>
+    void from_json(const json& j, TileSetInfo<TileType>& p)
     {
         std::vector<uint32_t> tile_ids;
 
@@ -101,8 +99,8 @@ namespace Engine
         j.at("tiles").get_to(p.tiles);        
     }
 
-    template<typename TyleType>
-    void TileSetTemplate<TyleType>::load_from_file(const std::string& file_name)
+    template<typename TileType>
+    void TileSetTemplate<TileType>::load_from_file(const std::string& file_name)
     {
         std::fstream tiles{file_name};
 
@@ -112,19 +110,19 @@ namespace Engine
         }
 
 	    json jf = json::parse(tiles);
-        TileSetInfo<TyleType> set_info;
+        TileSetInfo<TileType> set_info;
         set_info = jf;
         m_set.clear();
 
         for (auto &&info : set_info.tiles)
         {
-            std::shared_ptr<TileTemplate<TyleType>> tile = std::make_shared<TileTemplate<TyleType>>(info, set_info.texture_id);
+            std::shared_ptr<TileTemplate<TileType>> tile = std::make_shared<TileTemplate<TileType>>(info, set_info.texture_id);
             m_set.emplace(info.type, std::move(tile));
         }
     }
 
-    template<typename TyleType>
-    std::shared_ptr<TileTemplate<TyleType>> TileSetTemplate<TyleType>::get_tile(TyleType id) const
+    template<typename TileType>
+    std::shared_ptr<TileTemplate<TileType>> TileSetTemplate<TileType>::get_tile(TileType id) const
     {
         if (m_set.find(id) != m_set.end())
         {

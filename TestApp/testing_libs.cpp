@@ -11,6 +11,7 @@
 #include "Map/TileSetTemplate.hpp"
 #include "Map/KnightTiles.hpp"
 #include "Map/IsoTiles.hpp"
+#include "Map/MapLayerTemplate.hpp"
 
 #include <nlohmann/json.hpp>
 using nlohmann::json;
@@ -91,21 +92,29 @@ namespace Test
 		sf::Vector2u window_size{800,600};
 		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
 
-		Engine::TileSetTemplate<Engine::IsoTiles> tile_set;
-		tile_set.load_from_file("media/Json/IsometricTiles.json");
+		std::shared_ptr<Engine::TileSetTemplate<Engine::IsoTiles>> tile_set = std::make_shared<Engine::TileSetTemplate<Engine::IsoTiles>>();
+		tile_set->load_from_file("media/Json/IsometricTiles.json");
 
+		Engine::SharedContext context;
+		context.m_wind = window;
+		context.m_eventManager = context.m_wind->GetEventManager();
+
+		Engine::MapLayerTemplate<Engine::IsoTiles> map_layer(context);
+		map_layer.set_tile_set(tile_set);
+		map_layer.load_from_file("media/map/map_info.json");
 
 		while (!window->IsDone())
 		{
 			window->Update();
 			window->BeginDraw();
+			map_layer.draw();
 
-			for (size_t i = 0; i<tile_set.count(); i++)
-			{			
-				auto tile = tile_set.get_tile(Engine::IsoTiles(i));
-				tile->setPosition({tile->get_tile_info().coords.x, tile->get_tile_info().coords.y});
-				window->Draw(*tile);				
-			}
+			// for (size_t i = 0; i<tile_set.count(); i++)
+			// {			
+			// 	auto tile = tile_set.get_tile(Engine::IsoTiles(i));
+			// 	tile->setPosition({tile->get_tile_info().coords.x, tile->get_tile_info().coords.y});
+			// 	window->Draw(*tile);				
+			// }
 			
 			window->EndDraw();
 		}

@@ -43,6 +43,8 @@ set(SOURCES
     Map/LayeredMap.cpp
     Map/Tile.cpp
     Map/TileSet.cpp
+    # Map/LayeredMapTemplate.hpp
+    Map/MapLayerTemplate.hpp
 )
 add_library(${PROJECT_NAME} SHARED ${HEADERS} ${SOURCES})
 

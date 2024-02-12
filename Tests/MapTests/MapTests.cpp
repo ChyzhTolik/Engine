@@ -61,4 +61,13 @@ TEST(MapTest, TileSetTemplateTests)
     EXPECT_EQ(tile->get_size(), sf::Vector2i(32,32));
     EXPECT_EQ(tile->get_friction(), sf::Vector2f(0.9f,0.f));
     EXPECT_EQ(tile->getTextureRect().getPosition(), sf::Vector2i(96,0));
+
+    Engine::TileSetTemplate<std::string> tile_set_string;
+    tile_set_string.load_from_file("media/Json/IsometricTiles_string.json");
+    EXPECT_EQ(tile_set.count(), 5);
+
+    const auto tile_string = tile_set_string.get_tile("GrassJungle");
+    EXPECT_EQ(tile_string->get_size(), sf::Vector2i(32,32));
+    EXPECT_EQ(tile_string->get_friction(), sf::Vector2f(0.9f,0.f));
+    EXPECT_EQ(tile_string->getTextureRect().getPosition(), sf::Vector2i(64,0));
 }

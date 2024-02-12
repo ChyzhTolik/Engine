@@ -1,0 +1,42 @@
+{
+    "tiles_file_id" : 9,
+    "tiles":
+    [
+        {
+            "coords" : [0,0],
+            "size" : [32, 32],
+            "friction": [0.9, 0],
+            "type": "GrassDark",
+            "is_deadly": false
+        },
+        {
+            "coords" : [32,0],
+            "size" : [32, 32],
+            "friction": [0.9, 0],
+            "type": "GrassLight",
+            "is_deadly": false
+        },
+        {
+            "coords" : [64,0],
+            "size" : [32, 32],
+            "friction": [0.9, 0],
+            "type": "GrassJungle",
+            "is_deadly": false
+        },
+        {
+            "coords" : [96,0],
+            "size" : [32, 32],
+            "friction": [0.9, 0],
+            "type": "Grass",
+            "is_deadly": false
+        }
+        ,
+        {
+            "coords" : [96,228],
+            "size" : [32, 32],
+            "friction": [0.9, 0],
+            "type": "Barrel",
+            "is_deadly": false
+        }
+    ]
+}

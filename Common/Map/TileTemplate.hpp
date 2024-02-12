@@ -15,83 +15,83 @@ namespace Engine
         sf::Vector2i size;
     };
 
-    template<typename TyleType = uint32_t>
+    template<typename TileType = uint32_t>
     class TileTemplate : public sf::Sprite
     {
         public:
-        TileTemplate(const TileInfo<TyleType>& tile_info, Configuration::Textures texture_id);
+        TileTemplate(const TileInfo<TileType>& tile_info, Configuration::Textures texture_id);
         ~TileTemplate();
 
-        TileInfo<TyleType> get_tile_info() const;
+        TileInfo<TileType> get_tile_info() const;
 
-        TyleType get_type() const;
-        void set_type(TyleType type);
+        TileType get_type() const;
+        void set_type(TileType type);
 
         sf::Vector2f get_friction() const;
         void set_friction(const sf::Vector2f& friction);
         sf::Vector2i get_size() const;
         bool is_deadly() const;
     private:
-        TileInfo<TyleType> m_tile_info;
+        TileInfo<TileType> m_tile_info;
     };
 
-    template<typename TyleType>
-	inline TileTemplate<TyleType>::TileTemplate(const TileInfo<TyleType>& tile_info, Configuration::Textures texture_id) : 
+    template<typename TileType>
+	inline TileTemplate<TileType>::TileTemplate(const TileInfo<TileType>& tile_info, Configuration::Textures texture_id) : 
         sf::Sprite(Engine::Configuration::textures.get(texture_id)), m_tile_info(tile_info)
 	{
         setTextureRect({m_tile_info.coords, m_tile_info.size});
 	}
 
-    template<typename TyleType>
-    inline TileTemplate<TyleType>::~TileTemplate()
+    template<typename TileType>
+    inline TileTemplate<TileType>::~TileTemplate()
     {
 
     }
 
-    template<typename TyleType>
-    TyleType TileTemplate<TyleType>::get_type() const
+    template<typename TileType>
+    TileType TileTemplate<TileType>::get_type() const
     {
         return m_tile_info.type;
     }
 
-    template<typename TyleType>
-    void TileTemplate<TyleType>::set_type(TyleType type)
+    template<typename TileType>
+    void TileTemplate<TileType>::set_type(TileType type)
     {
         m_tile_info.type = type;
     }
 
-    template<typename TyleType>
-    TileInfo<TyleType> TileTemplate<TyleType>::get_tile_info() const
+    template<typename TileType>
+    TileInfo<TileType> TileTemplate<TileType>::get_tile_info() const
     {
         return m_tile_info;
     }
 
-    template<typename TyleType>
-    sf::Vector2f TileTemplate<TyleType>::get_friction() const
+    template<typename TileType>
+    sf::Vector2f TileTemplate<TileType>::get_friction() const
     {
         return m_tile_info.friction;
     }
 
-    template<typename TyleType>
-    sf::Vector2i TileTemplate<TyleType>::get_size() const
+    template<typename TileType>
+    sf::Vector2i TileTemplate<TileType>::get_size() const
     {
         return m_tile_info.size;
     }
 
-    template<typename TyleType>
-    bool TileTemplate<TyleType>::is_deadly() const
+    template<typename TileType>
+    bool TileTemplate<TileType>::is_deadly() const
     {
         return m_tile_info.is_deadly;
     }
 
-    template<typename TyleType>
-    void TileTemplate<TyleType>::set_friction(const sf::Vector2f& friction)
+    template<typename TileType>
+    void TileTemplate<TileType>::set_friction(const sf::Vector2f& friction)
     {
         m_tile_info.friction = friction;
     }
 
-    template<typename TyleType>
-    inline bool operator==(const TileInfo<TyleType>& lhs, const TileInfo<TyleType>& rhs)
+    template<typename TileType>
+    inline bool operator==(const TileInfo<TileType>& lhs, const TileInfo<TileType>& rhs)
     {
         return lhs.coords == rhs.coords 
             && lhs.friction == rhs.friction
