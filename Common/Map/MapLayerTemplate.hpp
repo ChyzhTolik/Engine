@@ -1,8 +1,9 @@
 #pragma once
 
 #include "TileSetTemplate.hpp"
-#include "CommonHeaders/SharedContext.hpp"
+#include "SharedContext.hpp"
 #include "Vector2i_hash.hpp"
+#include "MapLayerInterface.hpp"
 #include <fstream>
 
 namespace Engine
@@ -15,14 +16,16 @@ namespace Engine
     };
 
     template<typename TileType>
-    class MapLayerTemplate
+    class MapLayerTemplate : public MapLayerInterface
     {
     public:
+        MapLayerTemplate() = delete;
         MapLayerTemplate(SharedContext& context);
         ~MapLayerTemplate();
-        void load_from_file(const std::string& file_name);
+        void load_from_file(const std::string& file_name) override;
         void set_tile_set(std::shared_ptr<TileSetTemplate<TileType>> tile_set);
-        void draw();
+        void draw() override;
+        uint32_t count() const;
     private:
         Engine::SharedContext&  m_context;
         std::shared_ptr<TileSetTemplate<TileType>> m_tile_set;
@@ -100,5 +103,11 @@ namespace Engine
             tile.second->setPosition(position);
             l_wind.draw(*tile.second);
         }        
+    }
+
+    template<typename TileType>
+    uint32_t MapLayerTemplate<TileType>::count() const
+    {
+        return m_map.size();
     }
 } // namespace Engine

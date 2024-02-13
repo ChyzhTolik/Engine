@@ -22,12 +22,12 @@ set(HEADERS
 
     Map/IsoTiles.hpp
     Map/KnightTiles.hpp
-    Map/LayeredMap.hpp
-    Map/Tile.hpp
-    Map/TileSet.hpp
-
     Map/TileTemplate.hpp
     Map/TileSetTemplate.hpp
+    Map/MapLayerInterface.hpp
+    Map/MapLayerTemplate.hpp
+    Map/MapLayerInterface.hpp
+    Map/LayeredMap.hpp
 )
 set(SOURCES 
     Configuration/Configuration.cpp
@@ -39,12 +39,7 @@ set(SOURCES
     StateManager/States/State_Intro.cpp
     StateManager/States/State_MainMenu.cpp
     StateManager/StateManager.cpp
-
     Map/LayeredMap.cpp
-    Map/Tile.cpp
-    Map/TileSet.cpp
-    # Map/LayeredMapTemplate.hpp
-    Map/MapLayerTemplate.hpp
 )
 add_library(${PROJECT_NAME} SHARED ${HEADERS} ${SOURCES})
 

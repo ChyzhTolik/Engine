@@ -7,5 +7,6 @@ namespace Test
     void test_window();
     void test_states();
     void test_tiles();
+    void test_map();
     
 } // namespace Test

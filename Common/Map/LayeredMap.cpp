@@ -1,54 +1,51 @@
 #include "LayeredMap.hpp"
-#include "nlohmann/json.hpp"
+
 #include <fstream>
 #include <iostream>
+#include <nlohmann/json.hpp>
+
+#include "MapLayerTemplate.hpp"
+#include "IsoTiles.hpp"
 
 using nlohmann::json;
 
-namespace NewMap
+namespace Engine
 {
-    LayeredMap::LayeredMap(Engine::SharedContext& context) : m_context(context)
+    LayeredMap::LayeredMap(Engine::SharedContext& context): m_context(context)
     {
+
     }
-    
+        
     LayeredMap::~LayeredMap()
     {
+
     }
 
-    void to_json(json& j, const MapTileInfo& p) 
-    {
-        j = json
-        { 
-            {"type", p.type}, 
-            {"coords", {p.coords.x, p.coords.y}},
-            {"layer", p.layer},
-            {"solid", static_cast<int>(p.solid)} 
-        };
+    void to_json(json& j, const EnemyPositionInfo& p) {
+        j = json{ {"name", p.name}, {"coords", {p.coords.x, p.coords.y}} };
     }
 
-    void from_json(const json& j, MapTileInfo& p) 
-    {
+    void from_json(const json& j, EnemyPositionInfo& p) {
 
-        j.at("type").get_to(p.type);
-        j.at("layer").get_to(p.layer);
+        j.at("name").get_to(p.name);
 
-        int solid;
-        j.at("solid").get_to(solid);
-        p.solid = static_cast<bool>(solid);
-
-        int coords[2];
+        float coords[2];
         j.at("coords").get_to(coords);
-        p.coords = sf::Vector2i(coords[0],coords[1]);
+        p.coords = sf::Vector2f(coords[0],coords[1]);
     }
 
     void to_json(json& j, const MapAdditionalInfo& p) {
-        j = json{
+        j = json
+        {
             {"Warp", {p.warp.x, p.warp.y}},
             {"MapSize", {p.m_maxMapSize.x, p.m_maxMapSize.y}}, 
             {"Gravity", p.m_mapGravity},
             {"PlayerStartPos", {p.m_playerStart.x, p.m_playerStart.y}},
             {"NextMap", p.next_map},
-            {"Friction", {p.friction.x, p.friction.y}}
+            {"Friction", {p.friction.x, p.friction.y}},
+            {"EnemyPositions", p.enemy_positions},
+            {"LayersFiles",p.layers_files},
+            {"TileSets",p.tile_set_files}
         };
     }
 
@@ -70,70 +67,68 @@ namespace NewMap
 
         j.at("Friction").get_to(coords_f);
         p.friction = sf::Vector2f(coords_f[0],coords_f[1]);
-    }
 
-    void to_json(json& j, const EnemyMapInfo& p) {
-        j = json{ {"name", p.name}, {"coords", {p.coords.x, p.coords.y}} };
-    }
+        j.at("EnemyPositions").get_to(p.enemy_positions);
 
-    void from_json(const json& j, EnemyMapInfo& p) {
+        j.at("LayersFiles").get_to(p.layers_files);
 
-        j.at("name").get_to(p.name);
-
-        float coords[2];
-        j.at("coords").get_to(coords);
-        p.coords = sf::Vector2f(coords[0],coords[1]);
+        j.at("TileSets").get_to(p.tile_set_files);
     }
 
     void LayeredMap::load_from_file(const std::string& file_name)
     {
-        std::ifstream tiles(file_name);
+        std::fstream map_file{file_name};
 
-        if (!tiles.good())
+        if (!map_file.good())
+        { 
+            std::cout << "! Failed loading " << file_name << "." << std::endl; return; 
+        }
+
+	    json jf = json::parse(map_file);
+        m_map_info = jf;
+
+        TileSetTemplate<IsoTiles> tile_set;
+        tile_set.load_from_file("");
+
+        for (const auto &i : m_map_info.layers_files)
         {
-            std::cout << "! Failed loading "<<file_name<<"." << std::endl; 
-            return; 
+            std::shared_ptr<MapLayerInterface> layer = std::make_shared<MapLayerTemplate<IsoTiles>>(m_context);
+            
         }
         
-        json jf = json::parse(tiles);
-        std::vector<MapTileInfo> key_infos;
-
-        m_map_info = jf["MapAdditionalInfo"];
-
-        m_enemyStarts = jf["MapAdditionalInfo"]["EnemyPos"];
-
-        key_infos = jf["Tiles"];
-
-        for (auto &&info : key_infos)
-        {
-            std::shared_ptr<Tile> tile = m_tile_set->find(info.type);
-            m_layered_map[info.layer].emplace(info.coords, std::move(tile));
-        }
-
-        tiles.close();
-    }
-
-    void LayeredMap::set_tile_set(std::shared_ptr<TileSet> tile_set)
-    {
-        m_tile_set=tile_set;
     }
 
     void LayeredMap::draw()
     {
-        sf::RenderWindow& l_wind = m_context.m_wind->GetRenderWindow();
 
-        for (auto &&layer : m_layered_map)
-        {
-            for (auto &&tile : layer.second)
-            {
-                sf::Vector2i tile_size = tile.second->get_size();
-                sf::Vector2f position = {
-                    static_cast<float>(tile.first.x * tile_size.x), 
-                    static_cast<float>(tile.first.y * tile_size.y)
-                };
-                tile.second->setPosition(position);
-                l_wind.draw(*tile.second);
-            }            
-        }        
     }
-} // namespace NewMap
+
+    void LayeredMap::add_layer(std::shared_ptr<MapLayerInterface> layer_map, int layer)
+    {
+        m_layered_map.emplace(layer, layer_map);
+    }
+
+    void LayeredMap::test_json()
+    {
+        // sf::Vector2u warp;
+        // sf::Vector2u m_maxMapSize;
+        // float m_mapGravity;
+        // sf::Vector2f m_playerStart;
+        // sf::Vector2f friction;
+        // std::string next_map;
+        std::vector<EnemyPositionInfo> enemy_positions{{"rat",{10.f,20.f}}};
+        std::vector<std::string> layers_files{"map_layer1.json","map_layer2.json"};
+        MapAdditionalInfo info{{0,1}, {100,200}, 0.6f, {23.f,23.f}, {0.f,0.5f},"empty",enemy_positions,layers_files};
+
+        json j;
+        j = info;
+
+        MapAdditionalInfo info2 = j;
+
+        std::cout<<j.dump()<<std::endl;
+
+        std::fstream map_file{"media/map/map_info.json"};
+        json jf = json::parse(map_file);
+        MapAdditionalInfo map_info = jf;
+    }
+} // namespace Engine

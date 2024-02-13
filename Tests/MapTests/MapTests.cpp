@@ -3,7 +3,9 @@
 #include <Map/TileTemplate.hpp>
 #include <Map/KnightTiles.hpp>
 #include <Map/TileSetTemplate.hpp>
+#include <Map/MapLayerTemplate.hpp>
 #include <Configuration/Configuration.hpp>
+#include <CommonHeaders/SharedContext.hpp>
 
 TEST(MapTests, TileTemplateTests)
 {
@@ -70,4 +72,20 @@ TEST(MapTest, TileSetTemplateTests)
     EXPECT_EQ(tile_string->get_size(), sf::Vector2i(32,32));
     EXPECT_EQ(tile_string->get_friction(), sf::Vector2f(0.9f,0.f));
     EXPECT_EQ(tile_string->getTextureRect().getPosition(), sf::Vector2i(64,0));
+}
+
+TEST(MapTests, MapLayerTemplateTests)
+{
+    Engine::Configuration::Initialize();
+
+    std::shared_ptr<Engine::TileSetTemplate<Engine::KnightTiles>> tile_set = std::make_shared<Engine::TileSetTemplate<Engine::KnightTiles>>();
+	tile_set->load_from_file("media/Json/IsometricTiles.json");
+
+    Engine::SharedContext context;
+
+    Engine::MapLayerTemplate<Engine::KnightTiles> layer(context);
+    layer.set_tile_set(tile_set);
+    layer.load_from_file("media/map/map_info.json");
+
+    EXPECT_EQ(layer.count(), 12);
 }

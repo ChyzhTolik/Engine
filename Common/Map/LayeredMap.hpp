@@ -1,20 +1,12 @@
 #pragma once
 
-#include "TileSet.hpp"
+#include "MapLayerInterface.hpp"
 #include "Vector2i_hash.hpp"
 #include "SharedContext.hpp"
 
-namespace NewMap
+namespace Engine
 {
-    struct MapTileInfo
-    {
-        uint32_t type;
-        sf::Vector2i coords;
-        int32_t layer;
-        bool solid;
-    };
-
-    struct EnemyMapInfo
+    struct EnemyPositionInfo
     {
         std::string name;
         sf::Vector2f coords;
@@ -28,25 +20,24 @@ namespace NewMap
         sf::Vector2f m_playerStart;
         sf::Vector2f friction;
         std::string next_map;
+        std::vector<EnemyPositionInfo> enemy_positions;
+        std::vector<std::string> layers_files;
+        std::vector<std::string> tile_set_files;
     };
-
-    using MapLayer = std::unordered_map<sf::Vector2i,std::shared_ptr<Tile>,Common::Vector2i_hash>;
 
     class LayeredMap
     {
     public:
         LayeredMap(Engine::SharedContext& context);
         ~LayeredMap();
-        void set_tile_set(std::shared_ptr<TileSet> tile_set);
         void load_from_file(const std::string& file_name);
         void draw();
+        void add_layer(std::shared_ptr<MapLayerInterface> layer_map, int layer);
+        void test_json();
     private:
         Engine::SharedContext&  m_context;
         MapAdditionalInfo m_map_info;
-        std::vector<EnemyMapInfo> m_enemyStarts;
-        std::shared_ptr<TileSet> m_tile_set;
-        std::unordered_map<int, MapLayer> m_layered_map;
-        std::unordered_map<sf::Vector2i,std::shared_ptr<Tile>,Common::Vector2i_hash> m_map;
+        std::unordered_map<int, std::shared_ptr<MapLayerInterface>> m_layered_map;
     };
     
 } // namespace NewMap

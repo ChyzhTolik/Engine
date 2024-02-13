@@ -6,12 +6,12 @@
 #include "Configuration/Configuration.hpp"
 #include "Window/Window.hpp"
 #include "Game.hpp"
-#include "Map/Tile.hpp"
 #include "Map/TileTemplate.hpp"
 #include "Map/TileSetTemplate.hpp"
 #include "Map/KnightTiles.hpp"
 #include "Map/IsoTiles.hpp"
 #include "Map/MapLayerTemplate.hpp"
+#include "Map/LayeredMap.hpp"
 
 #include <nlohmann/json.hpp>
 using nlohmann::json;
@@ -80,43 +80,49 @@ namespace Test
 	void test_tiles()
 	{
 		Engine::Configuration::Initialize();
-		NewMap::TileInfo tile_info{1, false,{0.2f,0.f},{32,0},{32,32}};
-		NewMap::Tile tile(tile_info,Engine::Configuration::Textures::IsometricTiles);
 
 		Engine::TileInfo<Engine::KnightTiles> temp_tile_info{Engine::KnightTiles::Brick, false,{0.2f,0.f},{32,0},{32,32}};
 		Engine::TileTemplate<Engine::KnightTiles> temp_tile(temp_tile_info, Engine::Configuration::Textures::TilesEngine);
 
 		auto t_info = temp_tile.get_tile_info();
-		std::cout<<tile_info.friction.x<<" "<<t_info.friction.x<<std::endl;
 
 		sf::Vector2u window_size{800,600};
 		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
 
-		std::shared_ptr<Engine::TileSetTemplate<Engine::IsoTiles>> tile_set = std::make_shared<Engine::TileSetTemplate<Engine::IsoTiles>>();
+		std::shared_ptr<Engine::TileSetTemplate<Engine::KnightTiles>> tile_set = std::make_shared<Engine::TileSetTemplate<Engine::KnightTiles>>();
 		tile_set->load_from_file("media/Json/IsometricTiles.json");
 
 		Engine::SharedContext context;
+
 		context.m_wind = window;
 		context.m_eventManager = context.m_wind->GetEventManager();
 
-		Engine::MapLayerTemplate<Engine::IsoTiles> map_layer(context);
-		map_layer.set_tile_set(tile_set);
-		map_layer.load_from_file("media/map/map_info.json");
+		std::shared_ptr<Engine::MapLayerInterface> map_layer = std::make_shared<Engine::MapLayerTemplate<Engine::KnightTiles>>(context);
+		std::dynamic_pointer_cast<Engine::MapLayerTemplate<Engine::KnightTiles>>(map_layer)->set_tile_set(tile_set);
+		map_layer->load_from_file("media/map/map_layer1.json");
 
 		while (!window->IsDone())
 		{
 			window->Update();
 			window->BeginDraw();
-			map_layer.draw();
-
-			// for (size_t i = 0; i<tile_set.count(); i++)
-			// {			
-			// 	auto tile = tile_set.get_tile(Engine::IsoTiles(i));
-			// 	tile->setPosition({tile->get_tile_info().coords.x, tile->get_tile_info().coords.y});
-			// 	window->Draw(*tile);				
-			// }
+			map_layer->draw();
 			
 			window->EndDraw();
 		}
+	}
+
+	void test_map()
+	{
+		Engine::Configuration::Initialize();
+		sf::Vector2u window_size{800,600};
+		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
+		Engine::SharedContext context;
+
+		context.m_wind = window;
+		context.m_eventManager = context.m_wind->GetEventManager();
+
+		Engine::LayeredMap layered_map(context);
+		// layered_map.test_json();
+		layered_map.load_from_file("media/map/map_info.json");
 	}
 } // namespace Test
