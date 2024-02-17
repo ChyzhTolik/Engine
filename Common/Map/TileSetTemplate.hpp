@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TileTemplate.hpp"
+#include "TileSetInterface.hpp"
 #include <unordered_map>
 #include <memory>
 #include <vector>
@@ -19,15 +20,15 @@ namespace Engine
     };
 
     template<typename TileType>
-    class TileSetTemplate
+    class TileSetTemplate : public TileSetInterface
     {
     public:
         TileSetTemplate(/* args */);
         ~TileSetTemplate();
 
-        void load_from_file(const std::string& file_name);
+        virtual void load_from_file(const std::string& file_name) override;
         std::shared_ptr<TileTemplate<TileType>> get_tile(TileType id) const;
-        uint32_t count() const;
+        virtual uint32_t count() const override;
     private:
         std::unordered_map<TileType, std::shared_ptr<TileTemplate<TileType>>> m_set;
     };
@@ -132,5 +133,5 @@ namespace Engine
         {
             return nullptr;
         }
-    }    
+    }
 } // namespace Engine

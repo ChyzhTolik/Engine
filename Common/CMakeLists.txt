@@ -24,9 +24,11 @@ set(HEADERS
     Map/KnightTiles.hpp
     Map/TileTemplate.hpp
     Map/TileSetTemplate.hpp
+    Map/TileSetInterface.hpp
     Map/MapLayerInterface.hpp
     Map/MapLayerTemplate.hpp
     Map/MapLayerInterface.hpp
+    Map/TileSetFactory.hpp
     Map/LayeredMap.hpp
 )
 set(SOURCES 

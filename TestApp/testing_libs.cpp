@@ -12,6 +12,7 @@
 #include "Map/IsoTiles.hpp"
 #include "Map/MapLayerTemplate.hpp"
 #include "Map/LayeredMap.hpp"
+#include "Map/TileSetFactory.hpp"
 
 #include <nlohmann/json.hpp>
 using nlohmann::json;
@@ -92,13 +93,18 @@ namespace Test
 		std::shared_ptr<Engine::TileSetTemplate<Engine::KnightTiles>> tile_set = std::make_shared<Engine::TileSetTemplate<Engine::KnightTiles>>();
 		tile_set->load_from_file("media/Json/IsometricTiles.json");
 
+		Engine::TileSetFactory tile_set_factory;
+		auto tile_set_from_factory = tile_set_factory.get<Engine::IsoTiles>();
+		tile_set_from_factory->load_from_file("media/map/IsometricTiles.json");
+
 		Engine::SharedContext context;
 
 		context.m_wind = window;
 		context.m_eventManager = context.m_wind->GetEventManager();
 
-		std::shared_ptr<Engine::MapLayerInterface> map_layer = std::make_shared<Engine::MapLayerTemplate<Engine::KnightTiles>>(context);
-		std::dynamic_pointer_cast<Engine::MapLayerTemplate<Engine::KnightTiles>>(map_layer)->set_tile_set(tile_set);
+		std::shared_ptr<Engine::MapLayerInterface> map_layer = std::make_shared<Engine::MapLayerTemplate<Engine::IsoTiles>>(context);
+		std::dynamic_pointer_cast<Engine::MapLayerTemplate<Engine::IsoTiles>>(map_layer)->
+			set_tile_set(std::dynamic_pointer_cast<Engine::TileSetTemplate<Engine::IsoTiles>>(tile_set_from_factory));
 		map_layer->load_from_file("media/map/map_layer1.json");
 
 		while (!window->IsDone())
