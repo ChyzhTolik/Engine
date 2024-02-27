@@ -8,6 +8,7 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <optional>
+#include <iostream>
 
 using nlohmann::json;
 namespace Engine

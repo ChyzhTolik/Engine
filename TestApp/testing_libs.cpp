@@ -12,7 +12,6 @@
 #include "Map/IsoTiles.hpp"
 #include "Map/MapLayerTemplate.hpp"
 #include "Map/LayeredMap.hpp"
-#include "Map/TileSetFactory.hpp"
 
 #include <nlohmann/json.hpp>
 using nlohmann::json;
@@ -80,41 +79,41 @@ namespace Test
 
 	void test_tiles()
 	{
-		Engine::Configuration::Initialize();
+		// Engine::Configuration::Initialize();
 
-		Engine::TileInfo<Engine::KnightTiles> temp_tile_info{Engine::KnightTiles::Brick, false,{0.2f,0.f},{32,0},{32,32}};
-		Engine::TileTemplate<Engine::KnightTiles> temp_tile(temp_tile_info, Engine::Configuration::Textures::TilesEngine);
+		// Engine::TileInfo<Engine::KnightTiles> temp_tile_info{Engine::KnightTiles::Brick, false,{0.2f,0.f},{32,0},{32,32}};
+		// Engine::TileTemplate<Engine::KnightTiles> temp_tile(temp_tile_info, Engine::Configuration::Textures::TilesEngine);
 
-		auto t_info = temp_tile.get_tile_info();
+		// auto t_info = temp_tile.get_tile_info();
 
-		sf::Vector2u window_size{800,600};
-		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
+		// sf::Vector2u window_size{800,600};
+		// std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
 
-		std::shared_ptr<Engine::TileSetTemplate<Engine::KnightTiles>> tile_set = std::make_shared<Engine::TileSetTemplate<Engine::KnightTiles>>();
-		tile_set->load_from_file("media/Json/IsometricTiles.json");
+		// std::shared_ptr<Engine::TileSetTemplate<Engine::KnightTiles>> tile_set = std::make_shared<Engine::TileSetTemplate<Engine::KnightTiles>>();
+		// tile_set->load_from_file("media/Json/IsometricTiles.json");
 
-		Engine::TileSetFactory tile_set_factory;
-		auto tile_set_from_factory = tile_set_factory.get<Engine::IsoTiles>();
-		tile_set_from_factory->load_from_file("media/map/IsometricTiles.json");
+		// Engine::TileSetFactory tile_set_factory;
+		// auto tile_set_from_factory = tile_set_factory.get<Engine::IsoTiles>();
+		// tile_set_from_factory->load_from_file("media/map/IsometricTiles.json");
 
-		Engine::SharedContext context;
+		// Engine::SharedContext context;
 
-		context.m_wind = window;
-		context.m_eventManager = context.m_wind->GetEventManager();
+		// context.m_wind = window;
+		// context.m_eventManager = context.m_wind->GetEventManager();
 
-		std::shared_ptr<Engine::MapLayerInterface> map_layer = std::make_shared<Engine::MapLayerTemplate<Engine::IsoTiles>>(context);
-		std::dynamic_pointer_cast<Engine::MapLayerTemplate<Engine::IsoTiles>>(map_layer)->
-			set_tile_set(std::dynamic_pointer_cast<Engine::TileSetTemplate<Engine::IsoTiles>>(tile_set_from_factory));
-		map_layer->load_from_file("media/map/map_layer1.json");
+		// std::shared_ptr<Engine::MapLayerInterface> map_layer = std::make_shared<Engine::MapLayerTemplate<Engine::IsoTiles>>(context);
+		// std::dynamic_pointer_cast<Engine::MapLayerTemplate<Engine::IsoTiles>>(map_layer)->
+		// 	set_tile_set(std::dynamic_pointer_cast<Engine::TileSetTemplate<Engine::IsoTiles>>(tile_set_from_factory));
+		// map_layer->load_from_file("media/map/map_layer1.json");
 
-		while (!window->IsDone())
-		{
-			window->Update();
-			window->BeginDraw();
-			map_layer->draw();
+		// while (!window->IsDone())
+		// {
+		// 	window->Update();
+		// 	window->BeginDraw();
+		// 	map_layer->draw();
 			
-			window->EndDraw();
-		}
+		// 	window->EndDraw();
+		// }
 	}
 
 	void test_map()
@@ -129,6 +128,15 @@ namespace Test
 
 		Engine::LayeredMap layered_map(context);
 		// layered_map.test_json();
-		layered_map.load_from_file("media/map/map_info.json");
+		layered_map.load_from_file("media/map/GameMap.json");
+
+		while (!window->IsDone())
+		{
+			window->Update();
+			window->BeginDraw();
+			layered_map.draw();
+			
+			window->EndDraw();
+		}
 	}
 } // namespace Test

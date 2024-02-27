@@ -1,0 +1,49 @@
+{
+    "FolderPath" : "media/map/",
+    "TileSets":
+    [
+        {
+            "name" : "IsoTileSet",
+            "file" : "IsometricTiles.json"
+        },
+        {
+            "name" : "KnightTileSet",
+            "file" : "KnightTiles.json"
+        }
+    ],
+    "Layers":
+    [
+        {
+            "TileSet" : "IsoTileSet",
+            "Position" : 0,
+            "file" : "map_layer1.json"
+        },
+        {
+            "TileSet" : "KnightTileSet",
+            "Position" : 1,
+            "file" : "map_layer2.json"
+        }
+    ],
+    "EnemyPositions":
+    [
+        {
+            "coords":[10.0,20.0],
+            "name":"rat"
+        }
+    ],
+    "Friction":[0.0,0.5],
+    "Gravity":0.6000000238418579,
+    "LayersFiles":
+    [
+        "map_layer1.json",
+        "map_layer2.json"
+    ],
+    "MapSize":
+    {
+        "width" : 200,
+        "height" : 100
+    },
+    "NextMap":"empty",
+    "PlayerStartPos":[23.0,23.0],
+    "Warp":[0,1]
+}

@@ -5,5 +5,5 @@
 int main()
 {
     std::cout<<"Hi"<<std::endl;
-    Test::test_tiles();
+    Test::test_map();
 }

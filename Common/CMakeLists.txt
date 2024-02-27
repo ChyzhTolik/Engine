@@ -19,6 +19,7 @@ set(HEADERS
     CommonHeaders/ActionFunctinoid.hpp
     CommonHeaders/Vector2i_hash.hpp
     CommonHeaders/SharedContext.hpp
+    CommonHeaders/MapStructs.hpp
 
     Map/IsoTiles.hpp
     Map/KnightTiles.hpp
@@ -28,8 +29,8 @@ set(HEADERS
     Map/MapLayerInterface.hpp
     Map/MapLayerTemplate.hpp
     Map/MapLayerInterface.hpp
-    Map/TileSetFactory.hpp
     Map/LayeredMap.hpp
+    Map/MapLayerFactory.hpp
 )
 set(SOURCES 
     Configuration/Configuration.cpp
@@ -42,6 +43,7 @@ set(SOURCES
     StateManager/States/State_MainMenu.cpp
     StateManager/StateManager.cpp
     Map/LayeredMap.cpp
+    Map/MapLayerFactory.cpp
 )
 add_library(${PROJECT_NAME} SHARED ${HEADERS} ${SOURCES})
 
