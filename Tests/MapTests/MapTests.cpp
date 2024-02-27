@@ -4,8 +4,21 @@
 #include <Map/KnightTiles.hpp>
 #include <Map/TileSetTemplate.hpp>
 #include <Map/MapLayerTemplate.hpp>
+#include <Map/LayeredMap.hpp>
 #include <Configuration/Configuration.hpp>
 #include <CommonHeaders/SharedContext.hpp>
+
+class MapTestsFixture : public ::testing::Test
+{
+protected:
+	void SetUp()
+	{
+		Engine::Configuration::Initialize();
+	}
+	void TearDown()
+	{
+	}
+};
 
 TEST(MapTests, TileTemplateTests)
 {
@@ -74,18 +87,27 @@ TEST(MapTest, TileSetTemplateTests)
     EXPECT_EQ(tile_string->getTextureRect().getPosition(), sf::Vector2i(64,0));
 }
 
-TEST(MapTests, MapLayerTemplateTests)
+TEST_F(MapTestsFixture, MapLayerTemplateTests)
 {
-    Engine::Configuration::Initialize();
-
     std::shared_ptr<Engine::TileSetTemplate<Engine::KnightTiles>> tile_set = std::make_shared<Engine::TileSetTemplate<Engine::KnightTiles>>();
-	tile_set->load_from_file("media/Json/IsometricTiles.json");
+	tile_set->load_from_file("media/map/IsometricTiles.json");
 
     Engine::SharedContext context;
 
     Engine::MapLayerTemplate<Engine::KnightTiles> layer(context);
     layer.set_tile_set(tile_set);
-    layer.load_from_file("media/map/map_info.json");
+    layer.load_from_file("media/map/map_layer1.json");
 
     EXPECT_EQ(layer.count(), 12);
+}
+
+TEST_F(MapTestsFixture, LayeredMapTests)
+{
+    Engine::SharedContext context;
+
+    std::unique_ptr<Engine::LayeredMap> map = std::make_unique<Engine::LayeredMap>(context);
+
+    map->load_from_file("media/map/GameMap.json");
+
+    EXPECT_EQ(map->layers_count(), 2);
 }

@@ -51,8 +51,7 @@ namespace Engine
         ~LayeredMap();
         void load_from_file(const std::string& file_name);
         void draw();
-        void add_layer(std::shared_ptr<MapLayerInterface> layer_map, int layer);
-        void test_json();
+        size_t layers_count() const;
     private:
         Engine::SharedContext&  m_context;
         MapAdditionalInfo m_map_info;

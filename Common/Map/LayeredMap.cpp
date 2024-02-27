@@ -147,17 +147,11 @@ namespace Engine
         for (auto &&layer : m_layers)
         {
             layer.second->draw();
-        }
-           
+        }           
     }
 
-    void LayeredMap::add_layer(std::shared_ptr<MapLayerInterface> layer_map, int layer)
+    size_t LayeredMap::layers_count() const
     {
-        
-    }
-
-    void LayeredMap::test_json()
-    {
-        
+        return m_layers.size();
     }
 } // namespace Engine
