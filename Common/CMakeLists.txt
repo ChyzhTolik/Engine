@@ -31,6 +31,13 @@ set(HEADERS
     Map/MapLayerInterface.hpp
     Map/LayeredMap.hpp
     Map/MapLayerFactory.hpp
+
+    Animations/SpriteSheet.hpp
+    Animations/Anim_Base.hpp
+    Animations/Direction.hpp
+    Animations/AnimatedSprite.hpp
+    Animations/Animation.hpp
+    Animations/Anim_Directional.hpp
 )
 set(SOURCES 
     Configuration/Configuration.cpp
@@ -44,6 +51,12 @@ set(SOURCES
     StateManager/StateManager.cpp
     Map/LayeredMap.cpp
     Map/MapLayerFactory.cpp
+
+    Animations/SpriteSheet.cpp
+    Animations/Anim_Base.cpp
+    Animations/AnimatedSprite.cpp
+    Animations/Animation.cpp
+    Animations/Anim_Directional.cpp
 )
 add_library(${PROJECT_NAME} SHARED ${HEADERS} ${SOURCES})
 

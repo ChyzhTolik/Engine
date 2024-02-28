@@ -7,7 +7,8 @@
                 "${workspaceFolder}/Application/Test",
                 "${workspaceFolder}/Application/Configuration",
                 "${workspaceFolder}/Common",
-                "${workspaceFolder}/Common/CommonHeaders"
+                "${workspaceFolder}/Common/CommonHeaders",
+                "${workspaceFolder}/external/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",
