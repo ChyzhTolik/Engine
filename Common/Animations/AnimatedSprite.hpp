@@ -20,17 +20,6 @@ namespace Engine
             Playing
         };
 
-    private:
-        AnimationPtr m_animation;
-        sf::Time m_delta;
-        sf::Time m_elapsed;
-        bool m_loop;
-        int m_repeat;
-        Status m_status;
-        size_t m_current_frame;
-        sf::Vertex m_vertices[4];
-        void set_frame(size_t index,bool resetTime);
-
     public:
         ~AnimatedSprite(){};
         AnimatedSprite(const AnimatedSprite&) = default;
@@ -49,6 +38,8 @@ namespace Engine
             bool loop = true,int repeat=0
         );
 
+        AnimatedSprite() = delete;
+
         void set_animation(AnimationPtr animation);
         AnimationPtr get_animation()const;
         void set_frame_time(sf::Time deltaTime);
@@ -64,5 +55,16 @@ namespace Engine
         void set_frame(size_t index);
         void set_color(const sf::Color& color);
         void update(const sf::Time& deltaTime);
+
+    private:
+        AnimationPtr m_animation;
+        sf::Time m_delta;
+        sf::Time m_elapsed;
+        bool m_loop;
+        int m_repeat;
+        Status m_status;
+        size_t m_current_frame;
+        sf::Vertex m_vertices[4];
+        void set_frame(size_t index,bool resetTime);
     };    
 } // namespace Engine

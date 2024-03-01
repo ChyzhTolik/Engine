@@ -5,5 +5,5 @@
 int main()
 {
     std::cout<<"Hi"<<std::endl;
-    Test::test_map();
+    Test::test_animation();
 }

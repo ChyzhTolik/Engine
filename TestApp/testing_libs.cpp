@@ -13,6 +13,8 @@
 #include "Map/MapLayerTemplate.hpp"
 #include "Map/LayeredMap.hpp"
 
+#include "Animations/AnimatedSprite.hpp"
+
 #include <nlohmann/json.hpp>
 using nlohmann::json;
 
@@ -138,5 +140,91 @@ namespace Test
 			
 			window->EndDraw();
 		}
+	}
+
+	void test_animation()
+	{
+		Engine::Configuration::Initialize();
+		sf::Vector2u window_size{800,600};
+		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
+
+		std::shared_ptr<sf::Texture> texture = std::make_shared<sf::Texture>(Engine::Configuration::textures.get(Engine::Configuration::Textures::Knigth2));
+		std::shared_ptr<Engine::Animation> animation = std::make_shared<Engine::Animation>(texture);
+
+		for (int i = 0; i < 9; i++)
+		{
+			animation->add_frame(sf::IntRect({64*i,200},{64,60}));
+		}
+
+		Engine::AnimatedSprite animated_sprite(animation, Engine::AnimatedSprite::Status::Playing);
+		animated_sprite.play();
+
+		animated_sprite.set_frame_time(sf::seconds(0.1f));
+		animated_sprite.set_loop(true);
+		animated_sprite.setScale({3.f,3.f});
+
+		sf::Clock clock;
+		sf::Time timeSinceLastUpdate = sf::Time::Zero;
+		sf::Time TimePerFrame = sf::seconds(1.f/60);
+
+		while (!window->IsDone())
+		{
+			window->Update();
+			bool repaint = false;
+			timeSinceLastUpdate += clock.restart();
+
+			while (timeSinceLastUpdate > TimePerFrame)
+			{
+				timeSinceLastUpdate -= TimePerFrame;
+				repaint = true;
+				animated_sprite.update(TimePerFrame);
+			}
+
+			if(repaint)
+			{
+				window->BeginDraw();
+				window->Draw(animated_sprite);
+				window->EndDraw();
+			}
+		}
+
+		// sf::Time TimePerFrame = sf::seconds(1.f/60);
+		// sf::Clock m_clock;
+		// sf::Time timeSinceLastUpdate = sf::Time::Zero;
+		// while (!window->IsDone())
+		// {
+		// 	window->Update();
+
+		// 	// update
+
+		// 	bool repaint = false;
+		// 	timeSinceLastUpdate += m_clock.restart();
+
+		// 	while (timeSinceLastUpdate > TimePerFrame)
+		// 	{
+		// 		timeSinceLastUpdate -= TimePerFrame;
+		// 		repaint = true;
+		// 		animated_sprite.update(timeSinceLastUpdate);
+		// 	}
+
+		// 	if(repaint)
+		// 	{
+		// 		window->BeginDraw();
+		// 		// draw
+		// 		window->Draw(animated_sprite);
+		// 	}
+
+		// 	window->EndDraw();
+
+		// 	timeSinceLastUpdate += m_clock.restart();
+
+		// 	float frametime = 1.0f / 60.0f;
+		// 	if(timeSinceLastUpdate.asSeconds() >= frametime)
+		// 	{
+		// 		// Do something 60 times a second.
+				
+		// 		timeSinceLastUpdate -= sf::seconds(frametime); // Subtracting.
+		// 	}
+		// }
 	}
 } // namespace Test

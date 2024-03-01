@@ -8,5 +8,6 @@ namespace Test
     void test_states();
     void test_tiles();
     void test_map();
+    void test_animation();
     
 } // namespace Test

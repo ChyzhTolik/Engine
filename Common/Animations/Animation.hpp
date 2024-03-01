@@ -10,11 +10,6 @@ namespace Engine
 
     class Animation
     {
-    private:
-        friend class AnimatedSprite;
-        std::vector<sf::IntRect> m_frames;
-        TexturePtr m_texture;
-
     public:
         Animation(TexturePtr texture = nullptr);
         ~Animation();
@@ -29,5 +24,10 @@ namespace Engine
         
         size_t size()const;
         const sf::IntRect& get_rect(size_t index)const;
+        
+    private:
+        friend class AnimatedSprite;
+        std::vector<sf::IntRect> m_frames;
+        TexturePtr m_texture;
     };
 } // namespace Engine

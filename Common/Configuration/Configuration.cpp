@@ -33,6 +33,7 @@ namespace Engine
 		textures.load(Textures::Knigth, "media/SpriteSheets/KnigthSheet.png");
 		textures.load(Textures::Rat, "media/SpriteSheets/RatSheet.png");
 		textures.load(Textures::IsometricTiles,"media/SpriteSheets/tilesheet2.png");
+		textures.load(Textures::Knigth2,"media/SpriteSheets/BODY_male_Epic_armors_Golden.png");
 	}
 
 	void Configuration::init_musics()
