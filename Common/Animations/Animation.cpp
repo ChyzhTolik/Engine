@@ -2,22 +2,12 @@
 
 namespace Engine
 {
-    Animation::Animation(TexturePtr texture) : m_texture(texture)
+    Animation::Animation(const sf::Vector2u& texture_size) : m_texture_size(texture_size)
     {
     }
 
     Animation::~Animation()
     {
-    }
-
-    void Animation::set_texture(TexturePtr texture)
-    {
-        m_texture = texture;
-    }
-
-    TexturePtr Animation::get_texture() const
-    {
-        return m_texture;
     }
 
     size_t Animation::size() const
@@ -33,9 +23,8 @@ namespace Engine
 
     Animation& Animation::add_frames_line(int number_x,int number_y,int line_num)
     {
-        const sf::Vector2u size = m_texture->getSize();
-        const int delta_x = size.x / number_x;
-        const int delta_y = size.y / number_y;
+        const int delta_x = m_texture_size.x / number_x;
+        const int delta_y = m_texture_size.y / number_y;
 
         for(int i = 0;i<number_x;++i)
         {
@@ -48,9 +37,8 @@ namespace Engine
 
     Animation& Animation::add_frames_column(int number_x,int number_y,int column)
     {
-        const sf::Vector2u size = m_texture->getSize();
-        const int delta_x = size.x / number_x;
-        const int delta_y = size.y / number_y;
+        const int delta_x = m_texture_size.x / number_x;
+        const int delta_y = m_texture_size.y / number_y;
         
         for(int i = 0;i<number_y;++i)
         {

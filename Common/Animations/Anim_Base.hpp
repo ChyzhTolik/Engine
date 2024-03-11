@@ -8,12 +8,18 @@
 namespace Engine
 {
     class SpriteSheet;
+
+    template<typename T>
+    class SpriteSheetTemplate;
+
     using Frame = unsigned int;
 
     class Anim_Base
     {
         friend class SpriteSheet;
 
+        template<typename T>
+        friend class SpriteSheetTemplate;
     public:
         Anim_Base(SpriteSheet& l_sprite_sheet);
         virtual ~Anim_Base();
@@ -32,7 +38,7 @@ namespace Engine
         sf::Vector2i get_current_sprite_size() const;
         std::string get_name() const;
 
-    protected:
+    protected:        
         virtual void FrameStep() = 0;
         virtual void CropSprite() = 0;
         Frame m_frameCurrent;

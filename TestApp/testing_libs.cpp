@@ -14,6 +14,8 @@
 #include "Map/LayeredMap.hpp"
 
 #include "Animations/AnimatedSprite.hpp"
+#include "Animations/SpriteSheetTemplate.hpp"
+#include "Animations/AnimationTypes.hpp"
 
 #include <nlohmann/json.hpp>
 using nlohmann::json;
@@ -149,14 +151,14 @@ namespace Test
 		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
 
 		std::shared_ptr<sf::Texture> texture = std::make_shared<sf::Texture>(Engine::Configuration::textures.get(Engine::Configuration::Textures::Knigth2));
-		std::shared_ptr<Engine::Animation> animation = std::make_shared<Engine::Animation>(texture);
+		std::shared_ptr<Engine::Animation> animation = std::make_shared<Engine::Animation>(texture->getSize());
 
 		for (int i = 0; i < 9; i++)
 		{
 			animation->add_frame(sf::IntRect({64*i,200},{64,60}));
 		}
 
-		Engine::AnimatedSprite animated_sprite(animation, Engine::AnimatedSprite::Status::Playing);
+		Engine::AnimatedSprite animated_sprite(*texture, animation, Engine::AnimatedSprite::Status::Playing);
 		animated_sprite.play();
 
 		animated_sprite.set_frame_time(sf::seconds(0.1f));
@@ -226,5 +228,45 @@ namespace Test
 		// 		timeSinceLastUpdate -= sf::seconds(frametime); // Subtracting.
 		// 	}
 		// }
+	}
+
+	void test_animation2()
+	{
+		Engine::Configuration::Initialize();
+		sf::Vector2u window_size{800,600};
+		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
+
+		Engine::SpriteSheetTemplate<Engine::AnimationType> sprite_sheet;
+
+		sprite_sheet.LoadSheet("media/Json/SnakeLogan_Animations.json", 3);
+		sprite_sheet.SetAnimation(Engine::AnimationType::Running);
+		sprite_sheet.GetCurrentAnim()->Play();
+		sprite_sheet.SetSpritePosition({100.f,100.f});
+
+		sf::Clock clock;
+		sf::Time timeSinceLastUpdate = sf::Time::Zero;
+		sf::Time TimePerFrame = sf::seconds(1.f/60);
+
+		while (!window->IsDone())
+		{
+			window->Update();
+			bool repaint = false;
+			timeSinceLastUpdate += clock.restart();
+
+			while (timeSinceLastUpdate > TimePerFrame)
+			{
+				timeSinceLastUpdate -= TimePerFrame;
+				repaint = true;
+				sprite_sheet.Update(TimePerFrame.asSeconds());
+			}
+
+			if(repaint)
+			{
+				window->BeginDraw();
+				sprite_sheet.Draw(window->GetRenderWindow());
+				// window->Draw();
+				window->EndDraw();
+			}
+		}
 	}
 } // namespace Test

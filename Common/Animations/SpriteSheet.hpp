@@ -9,45 +9,12 @@
 
 namespace Engine
 {
-    enum class AnimationType
-    {
-        None = -1,
-        Idle,
-        Running,
-        Throwing,
-        Firing,
-        Siting,
-        SitFiring,
-        Jumping,
-        JumpFiring,
-        Death,
-        Climbing,
-        Attacking,
-        Hurt,
-    };
-
-    struct FrameInfo
-    {
-        AnimationType type;
-        float frame_time;
-        std::vector<std::vector<int>> rects;
-        std::vector<float> origins;
-        int start_frame;
-        int end_frame;
-    };
-
-    using Animations = std::unordered_map<AnimationType,std::shared_ptr<Anim_Base>>;
-
     class SpriteSheet
     {
     public:
-        SpriteSheet();
-        ~SpriteSheet();
+        virtual ~SpriteSheet();
         void CropSprite(const sf::IntRect& l_rect);
-        bool LoadSheet(const std::string& l_file, int texture_id);
         std::shared_ptr<Anim_Base> GetCurrentAnim();
-        AnimationType get_current_type() const;
-        bool SetAnimation(AnimationType l_name, const bool& l_play = false, const bool& l_loop = false);
         void Update(const float& l_dT);
         void Draw(sf::RenderWindow& l_wnd);
 
@@ -61,15 +28,17 @@ namespace Engine
         sf::Vector2f GetSpritePosition()const;
         sf::Vector2f get_origin()const;
 
-    private:
-        std::string m_texture;
+    protected:
+        SpriteSheet();
+        SpriteSheet(const SpriteSheet&){};
+        SpriteSheet(const SpriteSheet&&){};
         std::shared_ptr<sf::Sprite> m_sprite;
         sf::Vector2f m_spriteScale;
         Direction m_direction;
         std::string m_animType;
-        Animations m_animations;
         std::shared_ptr<Anim_Base> m_animationCurrent;
-        AnimationType m_current_type;
+
+    private:
     };
     
 } // namespace Engine

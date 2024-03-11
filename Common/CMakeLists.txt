@@ -38,6 +38,8 @@ set(HEADERS
     Animations/AnimatedSprite.hpp
     Animations/Animation.hpp
     Animations/Anim_Directional.hpp
+    Animations/SpriteSheetTemplate.hpp
+    Animations/AnimationTypes.hpp
 )
 set(SOURCES 
     Configuration/Configuration.cpp

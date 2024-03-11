@@ -5,12 +5,13 @@ namespace Engine
     AnimatedSprite::FuncType AnimatedSprite::defaultFunc = []()->void{};
 
     AnimatedSprite::AnimatedSprite(
+            const sf::Texture& texture,
             AnimationPtr animation,
             Status status,
             const sf::Time& deltaTime,
             bool loop,
             int repeat
-        ) : sf::Sprite(*(animation->m_texture)),
+        ) : sf::Sprite(texture),
         m_animation(animation),
         m_status(status),
         m_delta(deltaTime),
@@ -29,7 +30,6 @@ namespace Engine
             m_elapsed = sf::Time::Zero;
             m_current_frame = 0;
             set_frame(0,true);
-            setTexture(*(animation->get_texture()));
         }
     }
 

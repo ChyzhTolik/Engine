@@ -32,10 +32,12 @@ namespace Engine
         FuncType on_finished;        
 
         AnimatedSprite(
+            const sf::Texture& texture,
             AnimationPtr animation = nullptr,
             Status status=Status::Playing,
             const sf::Time& deltaTime = sf::seconds(0.15f),
-            bool loop = true,int repeat=0
+            bool loop = true,
+            int repeat=0
         );
 
         AnimatedSprite() = delete;

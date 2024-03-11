@@ -9,7 +9,7 @@ using nlohmann::json;
 
 namespace Engine
 {
-    SpriteSheet::SpriteSheet() : m_animationCurrent(nullptr), m_current_type(AnimationType::None),
+    SpriteSheet::SpriteSheet() : m_animationCurrent(nullptr),
         m_spriteScale(1.f, 1.f), m_direction(Direction::Right)
     {
         
@@ -41,39 +41,6 @@ namespace Engine
         m_sprite->setTextureRect(l_rect);
     }
 
-    bool SpriteSheet::SetAnimation(AnimationType l_name, const bool& l_play, const bool& l_loop)
-    {
-        auto itr = m_animations.find(l_name);
-
-        if (itr == m_animations.end())
-        { 
-            return false; 
-        }
-
-        if (itr->second == m_animationCurrent)
-        { 
-            return false; 
-        }
-
-        if (m_animationCurrent)
-        {
-             m_animationCurrent->Stop(); 
-        }
-        
-        m_animationCurrent = itr->second;
-        m_animationCurrent->SetLooping(l_loop);
-
-        if(l_play)
-        { 
-            m_animationCurrent->Play(); 
-        }
-        
-        m_animationCurrent->CropSprite();
-        m_current_type = itr->first;
-
-        return true;
-    }
-
     void SpriteSheet::Update(const float& l_dT)
     {
         m_animationCurrent->Update(l_dT);
@@ -99,80 +66,6 @@ namespace Engine
         return m_direction;
     }
 
-    void to_json(json& j, const FrameInfo& p)
-    {
-        j=json{
-            {"type", p.type},
-            {"frame_time",p.frame_time},
-            {"rects",p.rects},
-            {"start_frame",p.start_frame},
-            {"end_frame",p.end_frame},
-            {"origins",p.origins},
-        };
-    }
-
-    void from_json(const json& j, FrameInfo& p)
-    {
-        j.at("type").get_to(p.type);
-        j.at("frame_time").get_to(p.frame_time);
-        j.at("rects").get_to(p.rects);
-        j.at("start_frame").get_to(p.start_frame);
-        j.at("end_frame").get_to(p.end_frame);
-        j.at("origins").get_to(p.origins);
-    }
-
-    bool SpriteSheet::LoadSheet(const std::string& l_file, int texture_id)
-    {
-        m_sprite = std::make_shared<sf::Sprite>(Configuration::textures.get(Configuration::Textures(texture_id)));
-        std::ifstream frames;
-        frames.open(l_file);
-
-        if (!frames.is_open())
-        { 
-            std::cout << "! Failed loading "<<l_file<<"." << std::endl; 
-            return false; 
-        }
-
-	    json jf = json::parse(frames);
-        std::vector<FrameInfo> frame_infos;
-        frame_infos = jf;
-
-        for (auto &&frame : frame_infos)
-        {
-            std::shared_ptr<Anim_Base> animation = std::make_shared<Anim_Directional>(*this);
-            animation->m_frameTime = frame.frame_time;
-            animation->m_frameStart = frame.start_frame;
-            animation->m_frameEnd = frame.end_frame;
-            
-            for (auto &&rect : frame.rects)
-            {
-                sf::IntRect frame_rect({rect[0],rect[1]},{rect[2]-rect[0],rect[3]-rect[1]});
-                animation->rects.emplace_back(frame_rect);
-            }
-
-            for (auto &&origin : frame.origins)
-            {
-                animation->origins.push_back(origin);
-            }
-            
-
-            m_animations.emplace(AnimationType(frame.type),animation);
-
-            if (m_animationCurrent)
-            { 
-                continue; 
-            }
-
-            SetAnimation(AnimationType(frame.type), true, true);
-            // m_animationCurrent = animation;
-            // m_animationCurrent->Play();
-        }
-
-
-        frames.close();
-        return true;
-    }
-
     std::shared_ptr<Anim_Base> SpriteSheet::GetCurrentAnim()
     {
         return m_animationCurrent;
@@ -181,11 +74,6 @@ namespace Engine
     void SpriteSheet::SetSpriteScale(const sf::Vector2f& scale)
     {
         m_sprite->setScale(scale);
-    }
-
-    AnimationType SpriteSheet::get_current_type() const
-    {
-        return m_current_type;
     }
 
     void SpriteSheet::set_sprite_origin(const sf::Vector2f& l_origin)
