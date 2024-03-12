@@ -103,13 +103,11 @@ namespace Engine
     
     sf::Vector2i Anim_Base::get_current_sprite_size() const
     {
-        return rects[m_frameCurrent].getSize();
+        return m_rects[m_frameCurrent].getSize();
     }
 
-    std::string Anim_Base::get_name() const
+    size_t Anim_Base::rects_count() const
     {
-        return m_name;
+        return m_rects.size();
     }
-
-
 } // namespace Engine

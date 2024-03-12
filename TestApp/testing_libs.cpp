@@ -16,6 +16,7 @@
 #include "Animations/AnimatedSprite.hpp"
 #include "Animations/SpriteSheetTemplate.hpp"
 #include "Animations/AnimationTypes.hpp"
+#include "Animations/Anim_Directional.hpp"
 
 #include <nlohmann/json.hpp>
 using nlohmann::json;
@@ -236,11 +237,13 @@ namespace Test
 		sf::Vector2u window_size{800,600};
 		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
 
-		Engine::SpriteSheetTemplate<Engine::AnimationType> sprite_sheet;
+		Engine::SpriteSheetTemplate<Engine::KnightAnimations> sprite_sheet;
 
-		sprite_sheet.LoadSheet("media/Json/SnakeLogan_Animations.json", 3);
-		sprite_sheet.SetAnimation(Engine::AnimationType::Running);
+		sprite_sheet.LoadSheet<Engine::Anim_Directional>("media/Animations/Knight_Animations.json", Engine::Configuration::Textures::Knigth);
+		sprite_sheet.SetAnimation(Engine::KnightAnimations::Idle);
 		sprite_sheet.GetCurrentAnim()->Play();
+		sprite_sheet.GetCurrentAnim()->SetLooping(true);
+		sprite_sheet.SetSpriteScale({3.f,3.f});
 		sprite_sheet.SetSpritePosition({100.f,100.f});
 
 		sf::Clock clock;

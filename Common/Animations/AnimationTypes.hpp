@@ -1,21 +1,17 @@
 #pragma once
 
+#include <string_view>
+
 namespace Engine
 {
-    enum class AnimationType
+    enum class KnightAnimations
     {
         None = -1,
         Idle,
-        Running,
-        Throwing,
-        Firing,
-        Siting,
-        SitFiring,
-        Jumping,
-        JumpFiring,
-        Death,
-        Climbing,
-        Attacking,
+        Walk,
+        Jump,
+        Attack,
         Hurt,
+        Death,
     };
 } // namespace Engine

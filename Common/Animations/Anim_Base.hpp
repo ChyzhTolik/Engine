@@ -36,7 +36,7 @@ namespace Engine
         void SetStartFrame(Frame l_frame);
 	    void SetEndFrame(Frame l_frame);
         sf::Vector2i get_current_sprite_size() const;
-        std::string get_name() const;
+        size_t rects_count() const;
 
     protected:        
         virtual void FrameStep() = 0;
@@ -44,7 +44,7 @@ namespace Engine
         Frame m_frameCurrent;
         Frame m_frameStart;
         Frame m_frameEnd;
-        std::vector<sf::IntRect> rects;
+        std::vector<sf::IntRect> m_rects;
         std::vector<float> origins;
         int m_frameActionStart; // Frame when a specific "action" begins
         int m_frameActionEnd; // Frame when a specific "action" ends
@@ -52,7 +52,6 @@ namespace Engine
         float m_elapsedTime;
         bool m_loop;
         bool m_playing;
-        std::string m_name;
         SpriteSheet& m_spriteSheet;
     };
     

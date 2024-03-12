@@ -1,7 +1,10 @@
 #pragma once
 
 #include "SpriteSheet.hpp"
-#include "Anim_Directional.hpp"
+#include "nlohmann/json.hpp"
+#include <fstream>
+
+using nlohmann::json;
 
 namespace Engine
 {
@@ -24,7 +27,9 @@ namespace Engine
         ~SpriteSheetTemplate();
         T get_current_type() const;
         bool SetAnimation(T l_name, const bool& l_play = false, const bool& l_loop = false);
-        bool LoadSheet(const std::string& l_file, int texture_id);
+
+        template<class Animation>
+        bool LoadSheet(const std::string& l_file, Configuration::Textures texture_id);
         void test_json();
     private:
         std::unordered_map<T,std::shared_ptr<Anim_Base>> m_animations;
@@ -101,14 +106,15 @@ namespace Engine
     }
 
     template<typename T>
-    bool SpriteSheetTemplate<T>::LoadSheet(const std::string& l_file, int texture_id)
+    template<class Animation>
+    bool SpriteSheetTemplate<T>::LoadSheet(const std::string& l_file, Configuration::Textures texture_id)
     {
         m_sprite = std::make_shared<sf::Sprite>(Configuration::textures.get(Configuration::Textures(texture_id)));
         std::ifstream frames;
         frames.open(l_file);
 
         if (!frames.is_open())
-        { 
+        {
             std::cout << "! Failed loading "<<l_file<<"." << std::endl; 
             return false; 
         }
@@ -119,7 +125,7 @@ namespace Engine
 
         for (auto &&frame : frame_infos)
         {
-            std::shared_ptr<Anim_Base> animation = std::make_shared<Anim_Directional>(*this);
+            std::shared_ptr<Anim_Base> animation = std::make_shared<Animation>(*this);
             animation->m_frameTime = frame.frame_time;
             animation->m_frameStart = frame.start_frame;
             animation->m_frameEnd = frame.end_frame;
@@ -127,7 +133,7 @@ namespace Engine
             for (auto &&rect : frame.rects)
             {
                 sf::IntRect frame_rect({rect[0],rect[1]},{rect[2]-rect[0],rect[3]-rect[1]});
-                animation->rects.emplace_back(frame_rect);
+                animation->m_rects.emplace_back(frame_rect);
             }
 
             for (auto &&origin : frame.origins)
@@ -143,8 +149,8 @@ namespace Engine
             }
 
             SetAnimation(T(frame.type), true, true);
-            // m_animationCurrent = animation;
-            // m_animationCurrent->Play();
+            m_animationCurrent = animation;
+            m_animationCurrent->Play();
         }
 
         return true;

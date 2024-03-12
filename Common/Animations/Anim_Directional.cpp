@@ -6,10 +6,10 @@ namespace Engine
 {
     void Anim_Directional::CropSprite()
     {
-        sf::IntRect& rect = rects[m_frameCurrent];
+        sf::IntRect& rect = m_rects[m_frameCurrent];
         Direction direction = m_spriteSheet.GetDirection();    
 
-        m_spriteSheet.CropSprite(m_spriteSheet.GetDirection() == Direction::Right ? rects[m_frameCurrent] : invert_horizontal(rects[m_frameCurrent]));
+        m_spriteSheet.CropSprite(m_spriteSheet.GetDirection() == Direction::Right ? m_rects[m_frameCurrent] : invert_horizontal(m_rects[m_frameCurrent]));
 
         if (!origins.empty())
         {
@@ -21,7 +21,7 @@ namespace Engine
             }
             else
             {
-                sf::Vector2f left_origin = {abs(rects[m_frameCurrent].width)-origin.x, 0.f};
+                sf::Vector2f left_origin = {abs(m_rects[m_frameCurrent].width)-origin.x, 0.f};
                 m_spriteSheet.set_sprite_origin(left_origin);
             }
         }
