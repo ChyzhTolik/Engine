@@ -30,8 +30,10 @@ namespace Engine
         virtual void load_from_file(const std::string& file_name) override;
         std::shared_ptr<TileTemplate<TileType>> get_tile(TileType id) const;
         virtual uint32_t count() const override;
+        virtual sf::Vector2u get_tile_size() override;
     private:
-        std::unordered_map<TileType, std::shared_ptr<TileTemplate<TileType>>> m_set;
+        std::unordered_map<TileType, std::shared_ptr<TileTemplate<TileType>>> m_tiles_map;
+        sf::Vector2u m_tile_size;
     };
     
     template<typename TileType>
@@ -47,7 +49,7 @@ namespace Engine
     template<typename TileType>
     uint32_t TileSetTemplate<TileType>::count() const
     {
-        return m_set.size();
+        return m_tiles_map.size();
     }
 
     template<typename TileType>
@@ -114,25 +116,33 @@ namespace Engine
 	    json jf = json::parse(tiles);
         TileSetInfo<TileType> set_info;
         set_info = jf;
-        m_set.clear();
+        m_tiles_map.clear();
 
         for (auto &&info : set_info.tiles)
         {
             std::shared_ptr<TileTemplate<TileType>> tile = std::make_shared<TileTemplate<TileType>>(info, set_info.texture_id);
-            m_set.emplace(info.type, std::move(tile));
-        }
+            m_tiles_map.emplace(info.type, std::move(tile));
+
+            m_tile_size = sf::Vector2u(static_cast<unsigned int>(tile->get_size().x),static_cast<unsigned int>(tile->get_size().y));
+        }        
     }
 
     template<typename TileType>
     std::shared_ptr<TileTemplate<TileType>> TileSetTemplate<TileType>::get_tile(TileType id) const
     {
-        if (m_set.find(id) != m_set.end())
+        if (m_tiles_map.find(id) != m_tiles_map.end())
         {
-            return m_set.at(id);
+            return m_tiles_map.at(id);
         }
         else
         {
             return nullptr;
         }
+    }
+
+    template<typename TileType>
+    sf::Vector2u TileSetTemplate<TileType>::get_tile_size()
+    {
+        return m_tile_size;
     }
 } // namespace Engine

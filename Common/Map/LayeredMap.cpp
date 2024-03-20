@@ -154,4 +154,39 @@ namespace Engine
     {
         return m_layers.size();
     }
+
+    sf::Vector2u LayeredMap::get_map_size() const
+    {
+        return sf::Vector2u(m_map_info.m_maxMapSize.width, m_map_info.m_maxMapSize.height);
+    }
+
+    sf::Vector2u LayeredMap::get_tile_size() const
+    {
+        return m_main_layer->get_tile_size();
+    }
+
+    float LayeredMap::get_gravity() const
+    {
+        return m_map_info.m_mapGravity;
+    }
+
+    sf::Vector2f LayeredMap::get_default_friction() const
+    {
+        return m_default_friction;
+    }
+
+    std::shared_ptr<Tile> LayeredMap::get_tile(int32_t layer, const sf::Vector2i& coords) const
+    {
+        return m_layers.at(layer)->get_tile_at(coords);
+    }
+
+    sf::Vector2i LayeredMap::get_warp_coords() const
+    {
+        return m_warp_coords;
+    }
+
+    void LayeredMap::load_next_map()
+    {
+
+    }
 } // namespace Engine

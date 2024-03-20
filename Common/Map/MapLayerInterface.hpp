@@ -2,6 +2,8 @@
 
 #include <string>
 #include <memory>
+#include <SFML/Graphics.hpp>
+#include "Tile.hpp"
 
 namespace Engine
 {
@@ -10,8 +12,8 @@ namespace Engine
     public:
         virtual ~MapLayerInterface(){}
         void virtual load_from_file(const std::string& file_name) = 0;
-        // void virtual set_tile_set(std::shared_ptr<TileSetTemplate<TileType>> tile_set) = 0;
         void virtual draw() = 0;
-        // uint32_t count() const;
+        virtual sf::Vector2u get_tile_size() const = 0;
+        virtual std::shared_ptr<Tile> get_tile_at(const sf::Vector2i& coords) = 0;
     };    
 } // namespace Engine

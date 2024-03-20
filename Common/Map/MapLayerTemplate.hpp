@@ -26,6 +26,9 @@ namespace Engine
         void set_tile_set(std::shared_ptr<TileSetTemplate<TileType>> tile_set);
         void draw() override;
         uint32_t count() const;
+        sf::Vector2u get_tile_size() const override;
+        std::shared_ptr<Tile> get_tile_at(const sf::Vector2i& coords) override;
+
     private:
         Engine::SharedContext&  m_context;
         std::shared_ptr<TileSetTemplate<TileType>> m_tile_set;
@@ -109,5 +112,17 @@ namespace Engine
     uint32_t MapLayerTemplate<TileType>::count() const
     {
         return m_map.size();
+    }
+
+    template<typename TileType>
+    sf::Vector2u MapLayerTemplate<TileType>::get_tile_size() const
+    {
+        return m_tile_set->get_tile_size();
+    }
+
+    template<typename TileType>
+    std::shared_ptr<Tile> MapLayerTemplate<TileType>::get_tile_at(const sf::Vector2i& coords)
+    {
+        auto tile = m_map.at(coords);
     }
 } // namespace Engine

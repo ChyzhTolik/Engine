@@ -2,7 +2,9 @@
 
 #include "SpriteSheet.hpp"
 #include "nlohmann/json.hpp"
+#include <Configuration.hpp>
 #include <fstream>
+#include <iostream>
 
 using nlohmann::json;
 

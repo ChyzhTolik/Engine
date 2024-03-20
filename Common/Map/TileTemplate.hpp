@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Configuration.hpp"
+#include "Tile.hpp"
 
 namespace Engine
 {
@@ -16,7 +17,7 @@ namespace Engine
     };
 
     template<typename TileType = uint32_t>
-    class TileTemplate : public sf::Sprite
+    class TileTemplate : public sf::Sprite, Tile
     {
         public:
         TileTemplate(const TileInfo<TileType>& tile_info, Configuration::Textures texture_id);
@@ -27,10 +28,10 @@ namespace Engine
         TileType get_type() const;
         void set_type(TileType type);
 
-        sf::Vector2f get_friction() const;
-        void set_friction(const sf::Vector2f& friction);
-        sf::Vector2i get_size() const;
-        bool is_deadly() const;
+        sf::Vector2f get_friction() const override;
+        void set_friction(const sf::Vector2f& friction) override;
+        sf::Vector2i get_size() const override;
+        bool is_deadly() const override;
     private:
         TileInfo<TileType> m_tile_info;
     };

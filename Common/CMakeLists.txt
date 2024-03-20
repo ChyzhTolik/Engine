@@ -20,6 +20,7 @@ set(HEADERS
     CommonHeaders/Vector2i_hash.hpp
     CommonHeaders/SharedContext.hpp
     CommonHeaders/MapStructs.hpp
+    CommonHeaders/Direction.hpp
 
     Map/IsoTiles.hpp
     Map/KnightTiles.hpp
@@ -31,15 +32,22 @@ set(HEADERS
     Map/MapLayerInterface.hpp
     Map/LayeredMap.hpp
     Map/MapLayerFactory.hpp
+    Map/Tile.hpp
 
     Animations/SpriteSheet.hpp
     Animations/Anim_Base.hpp
-    Animations/Direction.hpp
     Animations/AnimatedSprite.hpp
     Animations/Animation.hpp
     Animations/Anim_Directional.hpp
     Animations/SpriteSheetTemplate.hpp
     Animations/AnimationTypes.hpp
+
+    Entities/Character.hpp 
+    Entities/Enemy.hpp 
+    Entities/EntityBase.hpp 
+    Entities/EntityManager.hpp 
+    Entities/Player.hpp
+    Entities/EntityActions.hpp
 )
 set(SOURCES 
     Configuration/Configuration.cpp
@@ -59,6 +67,12 @@ set(SOURCES
     Animations/AnimatedSprite.cpp
     Animations/Animation.cpp
     Animations/Anim_Directional.cpp
+
+    Entities/Character.cpp 
+    Entities/Enemy.cpp 
+    Entities/EntityBase.cpp 
+    Entities/EntityManager.cpp 
+    Entities/Player.cpp 
 )
 add_library(${PROJECT_NAME} SHARED ${HEADERS} ${SOURCES})
 
@@ -84,3 +98,4 @@ target_include_directories(${PROJECT_NAME} PUBLIC Window)
 target_include_directories(${PROJECT_NAME} PUBLIC StateManager)
 target_include_directories(${PROJECT_NAME} PUBLIC CommonHeaders)
 target_include_directories(${PROJECT_NAME} PUBLIC Map)
+target_include_directories(${PROJECT_NAME} PUBLIC Animations)

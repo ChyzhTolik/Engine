@@ -52,10 +52,20 @@ namespace Engine
         void load_from_file(const std::string& file_name);
         void draw();
         size_t layers_count() const;
+        sf::Vector2u get_map_size() const;
+        sf::Vector2u get_tile_size() const;
+        float get_gravity() const;
+        sf::Vector2f get_default_friction() const;
+        std::shared_ptr<Tile> get_tile(int32_t layer, const sf::Vector2i& coords) const;
+        sf::Vector2i get_warp_coords() const;
+        void load_next_map();
     private:
         Engine::SharedContext&  m_context;
         MapAdditionalInfo m_map_info;
         std::map<int16_t, std::shared_ptr<MapLayerInterface>> m_layers;
+        std::shared_ptr<MapLayerInterface> m_main_layer;
+        sf::Vector2f m_default_friction;
+        sf::Vector2i m_warp_coords;
     };
     
 } // namespace NewMap
