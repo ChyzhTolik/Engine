@@ -117,12 +117,14 @@ namespace Engine
     template<typename TileType>
     sf::Vector2u MapLayerTemplate<TileType>::get_tile_size() const
     {
-        return m_tile_set->get_tile_size();
+        return static_cast<sf::Vector2u>(m_tile_set->get_tile_size());
     }
 
     template<typename TileType>
     std::shared_ptr<Tile> MapLayerTemplate<TileType>::get_tile_at(const sf::Vector2i& coords)
     {
-        auto tile = m_map.at(coords);
+        std::shared_ptr<TileTemplate<TileType>> tile = m_map.at(coords);
+
+        return std::dynamic_pointer_cast<Tile>(tile);
     }
 } // namespace Engine

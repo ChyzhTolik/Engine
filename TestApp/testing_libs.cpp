@@ -17,6 +17,8 @@
 #include "Animations/SpriteSheetTemplate.hpp"
 #include "Animations/AnimationTypes.hpp"
 #include "Animations/Anim_Directional.hpp"
+#include "Entities/Character.hpp"
+#include "SharedContext.hpp"
 
 #include <nlohmann/json.hpp>
 using nlohmann::json;
@@ -271,5 +273,24 @@ namespace Test
 				window->EndDraw();
 			}
 		}
+	}
+
+	void test_character()
+	{
+		Engine::Configuration::Initialize();
+
+		// Engine::Character char;
+	}
+
+	void test_entity_manager()
+	{
+		Engine::Configuration::Initialize();
+		sf::Vector2u window_size{800,600};
+		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
+
+		Engine::SharedContext context;
+		context.m_wind = window;
+
+		// Engine::EntityManager(context);
 	}
 } // namespace Test

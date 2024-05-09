@@ -9,6 +9,7 @@ set(SOURCES
     StateManagerTests/StateManagerTests.cpp
     MapTests/MapTests.cpp
     AnimationsTests/AnimationsTests.cpp
+    EntitiesTests/EntitiesTests.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
@@ -24,6 +25,7 @@ add_test(
 )
 
 file(COPY ${CMAKE_SOURCE_DIR}/media DESTINATION ${CMAKE_BINARY_DIR}/Tests/)
+file(COPY ${CMAKE_SOURCE_DIR}/media DESTINATION ${CMAKE_BINARY_DIR}/)
 
 add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory

@@ -17,13 +17,11 @@ namespace Engine
     };
 
     template<typename TileType = uint32_t>
-    class TileTemplate : public sf::Sprite, Tile
+    class TileTemplate : public sf::Sprite, public Tile
     {
         public:
         TileTemplate(const TileInfo<TileType>& tile_info, Configuration::Textures texture_id);
         ~TileTemplate();
-
-        TileInfo<TileType> get_tile_info() const;
 
         TileType get_type() const;
         void set_type(TileType type);
@@ -59,12 +57,6 @@ namespace Engine
     void TileTemplate<TileType>::set_type(TileType type)
     {
         m_tile_info.type = type;
-    }
-
-    template<typename TileType>
-    TileInfo<TileType> TileTemplate<TileType>::get_tile_info() const
-    {
-        return m_tile_info;
     }
 
     template<typename TileType>

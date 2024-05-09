@@ -10,9 +10,8 @@ using nlohmann::json;
 
 namespace Engine
 {
-    EntityManager::EntityManager(SharedContext& l_context, unsigned int l_maxEntities):
+    EntityManager::EntityManager(SharedContext& l_context):
         m_context(l_context),
-        m_maxEntities(l_maxEntities), 
         m_idCounter(0)
     {
         LoadEnemyTypes("media/Json/EnemyList.json");

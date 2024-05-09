@@ -33,7 +33,7 @@ namespace Engine
     class EntityManager
     {
     public:
-        EntityManager(SharedContext& l_context, unsigned int l_maxEntities);
+        EntityManager(SharedContext& l_context);
         ~EntityManager();
         int Add(const EntityType& l_type, const std::string& l_name = "");
         std::shared_ptr<EntityBase> Find(unsigned int l_id);
@@ -56,7 +56,6 @@ namespace Engine
         EntityFactory m_entityFactory;
         SharedContext& m_context;
         unsigned int m_idCounter;
-        unsigned int m_maxEntities;
         std::vector<unsigned int> m_entitiesToRemove;
     };
 

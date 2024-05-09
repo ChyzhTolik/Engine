@@ -17,6 +17,7 @@ namespace Engine
     struct TileSetInfo
     {
         Configuration::Textures texture_id;
+        sf::Vector2i tile_size;
         std::vector<TileInfo<TileType>> tiles;
     };
 
@@ -28,12 +29,12 @@ namespace Engine
         ~TileSetTemplate();
 
         virtual void load_from_file(const std::string& file_name) override;
-        std::shared_ptr<TileTemplate<TileType>> get_tile(TileType id) const;
         virtual uint32_t count() const override;
-        virtual sf::Vector2u get_tile_size() override;
+        virtual sf::Vector2i get_tile_size() override;
+        std::shared_ptr<TileTemplate<TileType>> get_tile(TileType id) const;
     private:
         std::unordered_map<TileType, std::shared_ptr<TileTemplate<TileType>>> m_tiles_map;
-        sf::Vector2u m_tile_size;
+        sf::Vector2i m_tile_size;
     };
     
     template<typename TileType>
@@ -57,8 +58,7 @@ namespace Engine
     {
         j = json
         { 
-            {"coords", {p.coords.x, p.coords.y}}, 
-            {"size", {p.size.x,p.size.y}}, 
+            {"coords", {p.coords.x, p.coords.y}},
             {"friction", {p.friction.x, p.friction.y}},
             {"type", p.type},
             {"is_deadly", p.is_deadly}
@@ -76,9 +76,6 @@ namespace Engine
         j.at("coords").get_to(int_array);
         p.coords = sf::Vector2i(int_array[0],int_array[1]);
 
-        j.at("size").get_to(int_array);
-        p.size = sf::Vector2i(int_array[0],int_array[1]);
-
         j.at("type").get_to(p.type );
 
         j.at("is_deadly").get_to(p.is_deadly);
@@ -90,6 +87,7 @@ namespace Engine
         j = json
         {
             {"tiles_file_id", p.texture_id},
+            {"size", {p.tile_size.x, p.tile_size.y}},
             {"tiles", p.tiles}
         };
     }
@@ -100,7 +98,18 @@ namespace Engine
         std::vector<uint32_t> tile_ids;
 
         j.at("tiles_file_id").get_to(p.texture_id);
-        j.at("tiles").get_to(p.tiles);        
+
+        int int_array[2];
+        j.at("size").get_to(int_array);
+        p.tile_size = sf::Vector2i(int_array[0],int_array[1]);
+
+        j.at("tiles").get_to(p.tiles);
+
+        for (size_t i = 0; i < p.tiles.size(); i++)
+        {
+            p.tiles[i].size = p.tile_size;
+        }
+        
     }
 
     template<typename TileType>
@@ -117,14 +126,13 @@ namespace Engine
         TileSetInfo<TileType> set_info;
         set_info = jf;
         m_tiles_map.clear();
+        m_tile_size = set_info.tile_size;
 
         for (auto &&info : set_info.tiles)
         {
             std::shared_ptr<TileTemplate<TileType>> tile = std::make_shared<TileTemplate<TileType>>(info, set_info.texture_id);
             m_tiles_map.emplace(info.type, std::move(tile));
-
-            m_tile_size = sf::Vector2u(static_cast<unsigned int>(tile->get_size().x),static_cast<unsigned int>(tile->get_size().y));
-        }        
+        }
     }
 
     template<typename TileType>
@@ -141,7 +149,7 @@ namespace Engine
     }
 
     template<typename TileType>
-    sf::Vector2u TileSetTemplate<TileType>::get_tile_size()
+    sf::Vector2i TileSetTemplate<TileType>::get_tile_size()
     {
         return m_tile_size;
     }

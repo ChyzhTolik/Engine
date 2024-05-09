@@ -72,7 +72,8 @@ set(SOURCES
     Entities/Enemy.cpp 
     Entities/EntityBase.cpp 
     Entities/EntityManager.cpp 
-    Entities/Player.cpp 
+    Entities/Player.cpp
+    Entities/EntityActions.cpp
 )
 add_library(${PROJECT_NAME} SHARED ${HEADERS} ${SOURCES})
 

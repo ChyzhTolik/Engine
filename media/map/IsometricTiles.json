@@ -1,32 +1,28 @@
 {
     "tiles_file_id" : 9,
-
+    "size" : [32, 32],
     "tiles":
     [
         {
             "coords" : [0,0],
-            "size" : [32, 32],
             "friction": [0.9, 0],
             "type": 0,
             "is_deadly": false
         },
         {
             "coords" : [32,0],
-            "size" : [32, 32],
             "friction": [0.9, 0],
             "type": 1,
             "is_deadly": false
         },
         {
             "coords" : [64,0],
-            "size" : [32, 32],
             "friction": [0.9, 0],
             "type": 2,
             "is_deadly": false
         },
         {
             "coords" : [96,0],
-            "size" : [32, 32],
             "friction": [0.9, 0],
             "type": 3,
             "is_deadly": false
@@ -34,7 +30,6 @@
         ,
         {
             "coords" : [96,228],
-            "size" : [32, 32],
             "friction": [0.9, 0],
             "type": 4,
             "is_deadly": false

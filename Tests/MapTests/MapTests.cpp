@@ -25,8 +25,6 @@ TEST(MapTests, TileTemplateTests)
     Engine::TileInfo<Engine::KnightTiles> temp_tile_info{Engine::KnightTiles::Brick, false,{0.2f,0.f},{32,0},{32,32}};
 	Engine::TileTemplate<Engine::KnightTiles> temp_tile(temp_tile_info, Engine::Configuration::Textures::TilesEngine);
 
-    EXPECT_EQ(temp_tile.get_tile_info(), temp_tile_info);
-
     EXPECT_EQ(temp_tile.get_size(), temp_tile_info.size);
 
     EXPECT_EQ(temp_tile.get_friction(), temp_tile_info.friction);
@@ -48,13 +46,18 @@ TEST(MapTest, TileSetTemplateTests)
     j = temp_tile_info;
 
     Engine::TileInfo<Engine::KnightTiles> new_tile_info = j;
+    new_tile_info.size = temp_tile_info.size;
 
-    EXPECT_EQ(new_tile_info, temp_tile_info);
+    EXPECT_EQ(new_tile_info.coords, temp_tile_info.coords);
+    EXPECT_EQ(new_tile_info.friction, temp_tile_info.friction);
+    EXPECT_EQ(new_tile_info.is_deadly, temp_tile_info.is_deadly);
+    EXPECT_EQ(new_tile_info.type, temp_tile_info.type);
 
     auto type = new_tile_info.type;
     Engine::TileTemplate<Engine::KnightTiles> temp_tile(temp_tile_info, Engine::Configuration::Textures::TilesEngine);
 
     Engine::TileSetInfo<Engine::KnightTiles> tile_set_info;
+    tile_set_info.tile_size = sf::Vector2i(32,32);
     tile_set_info.texture_id=Engine::Configuration::Textures::TilesEngine;
     tile_set_info.tiles.push_back(temp_tile_info);
     tile_set_info.tiles.push_back(new_tile_info);
@@ -69,7 +72,7 @@ TEST(MapTest, TileSetTemplateTests)
     EXPECT_NE(tile_set_info.tiles, new_tile_set_info.tiles);
 
     Engine::TileSetTemplate<Engine::KnightTiles> tile_set;
-    tile_set.load_from_file("media/Json/IsometricTiles.json");
+    tile_set.load_from_file("media/map/IsometricTiles.json");
     EXPECT_EQ(tile_set.count(), 5);
 
     const auto tile = tile_set.get_tile(Engine::KnightTiles::Brick);
@@ -78,7 +81,7 @@ TEST(MapTest, TileSetTemplateTests)
     EXPECT_EQ(tile->getTextureRect().getPosition(), sf::Vector2i(96,0));
 
     Engine::TileSetTemplate<std::string> tile_set_string;
-    tile_set_string.load_from_file("media/Json/IsometricTiles_string.json");
+    tile_set_string.load_from_file("media/map/IsometricTiles_string.json");
     EXPECT_EQ(tile_set.count(), 5);
 
     const auto tile_string = tile_set_string.get_tile("GrassJungle");
@@ -99,6 +102,19 @@ TEST_F(MapTestsFixture, MapLayerTemplateTests)
     layer.load_from_file("media/map/map_layer1.json");
 
     EXPECT_EQ(layer.count(), 12);
+
+    auto tile = layer.get_tile_at({0,2});
+    EXPECT_EQ(tile->get_friction(), sf::Vector2f(0.9f,0.f));
+    EXPECT_EQ(tile->get_size(), sf::Vector2i(32,32));
+    EXPECT_EQ(tile->is_deadly(), false);
+
+    // {
+    //     "coords" : [32,0],
+    //     "size" : [32, 32],
+    //     "friction": [0.9, 0],
+    //     "type": 1,
+    //     "is_deadly": false
+    // },
 }
 
 TEST_F(MapTestsFixture, LayeredMapTests)

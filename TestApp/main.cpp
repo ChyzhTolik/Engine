@@ -5,5 +5,5 @@
 int main()
 {
     std::cout<<"Hi"<<std::endl;
-    Test::test_animation2();
+    Test::test_entity_manager();
 }

@@ -12,7 +12,7 @@ namespace Engine
 
         virtual void load_from_file(const std::string& file_name) = 0;
         virtual uint32_t count() const = 0;
-        virtual sf::Vector2u get_tile_size()  = 0;
+        virtual sf::Vector2i get_tile_size()  = 0;
     };
     
 } // namespace Engine
