@@ -18,6 +18,7 @@
 #include "Animations/AnimationTypes.hpp"
 #include "Animations/Anim_Directional.hpp"
 #include "Entities/Character.hpp"
+#include "Entities/Player.hpp"
 #include "SharedContext.hpp"
 
 #include <nlohmann/json.hpp>
@@ -291,6 +292,35 @@ namespace Test
 		Engine::SharedContext context;
 		context.m_wind = window;
 
-		// Engine::EntityManager(context);
+		std::shared_ptr<Engine::LayeredMap> map = std::make_shared<Engine::LayeredMap>(context);
+		map->load_from_file("media/map/GameMap.json");
+		context.m_game_map = map;
+
+		Engine::EntityManager entity_manager(context);
+
+		Engine::Player player(entity_manager);
+
+		sf::Clock clock;
+		sf::Time timeSinceLastUpdate = sf::Time::Zero;
+		sf::Time TimePerFrame = sf::seconds(1.f/60);
+		while (!window->IsDone())
+		{
+			window->Update();
+			bool repaint = false;
+			timeSinceLastUpdate += clock.restart();
+
+			while (timeSinceLastUpdate > TimePerFrame)
+			{
+				timeSinceLastUpdate -= TimePerFrame;
+				repaint = true;
+			}
+
+			if(repaint)
+			{
+				window->BeginDraw();
+				// window->Draw();
+				window->EndDraw();
+			}
+		}
 	}
 } // namespace Test

@@ -81,6 +81,7 @@ namespace Engine
             {"Layers",p.layers},
             {"TileSets",p.tile_sets},
             {"FolderPath",p.jsons_path},
+            {"main_layer_position",p.main_layer_position},
         };
     }
 
@@ -103,12 +104,10 @@ namespace Engine
         p.friction = sf::Vector2f(coords_f[0],coords_f[1]);
 
         j.at("EnemyPositions").get_to(p.enemy_positions);
-
         j.at("Layers").get_to(p.layers);
-
         j.at("TileSets").get_to(p.tile_sets);
-
         j.at("FolderPath").get_to(p.jsons_path);
+        j.at("main_layer_position").get_to(p.main_layer_position);
     }
 
     void LayeredMap::load_from_file(const std::string& file_name)
@@ -139,7 +138,11 @@ namespace Engine
             }
 
             m_layers[layer_info.position] = layer;
-        }        
+        }
+
+        m_main_layer = m_layers.at(m_map_info.main_layer_position);
+        m_default_friction = m_map_info.friction;
+        m_warp_coords = m_map_info.warp;
     }
 
     void LayeredMap::draw()
@@ -180,7 +183,7 @@ namespace Engine
         return m_layers.at(layer)->get_tile_at(coords);
     }
 
-    sf::Vector2i LayeredMap::get_warp_coords() const
+    sf::Vector2u LayeredMap::get_warp_coords() const
     {
         return m_warp_coords;
     }

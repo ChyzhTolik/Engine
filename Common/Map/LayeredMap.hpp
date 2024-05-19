@@ -42,6 +42,7 @@ namespace Engine
         std::vector<MapTileSetInfo> tile_sets;
         std::vector<MapLayerInfo> layers;
         std::string jsons_path;
+        int main_layer_position;
     };
 
     class LayeredMap
@@ -57,7 +58,7 @@ namespace Engine
         float get_gravity() const;
         sf::Vector2f get_default_friction() const;
         std::shared_ptr<Tile> get_tile(int32_t layer, const sf::Vector2i& coords) const;
-        sf::Vector2i get_warp_coords() const;
+        sf::Vector2u get_warp_coords() const;
         void load_next_map();
     private:
         Engine::SharedContext&  m_context;
@@ -65,7 +66,7 @@ namespace Engine
         std::map<int16_t, std::shared_ptr<MapLayerInterface>> m_layers;
         std::shared_ptr<MapLayerInterface> m_main_layer;
         sf::Vector2f m_default_friction;
-        sf::Vector2i m_warp_coords;
+        sf::Vector2u m_warp_coords;
     };
     
 } // namespace NewMap

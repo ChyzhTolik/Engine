@@ -5,5 +5,6 @@
 int main()
 {
     std::cout<<"Hi"<<std::endl;
-    Test::test_entity_manager();
+    // Test::test_entity_manager();
+    Test::test_map();
 }

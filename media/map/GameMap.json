@@ -1,5 +1,6 @@
 {
     "FolderPath" : "media/map/",
+    "main_layer_position" : 1,
     "TileSets":
     [
         {
@@ -32,12 +33,7 @@
         }
     ],
     "Friction":[0.0,0.5],
-    "Gravity":0.6000000238418579,
-    "LayersFiles":
-    [
-        "map_layer1.json",
-        "map_layer2.json"
-    ],
+    "Gravity":0.6,
     "MapSize":
     {
         "width" : 200,

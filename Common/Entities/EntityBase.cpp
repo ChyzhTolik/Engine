@@ -259,7 +259,7 @@ namespace Engine
                 CollisionElement e(area, tile, tileBounds);
                 m_collisions.emplace_back(e);
 
-                if(gameMap->get_warp_coords() == sf::Vector2i(x,y) && m_type == EntityType::Player)
+                if(gameMap->get_warp_coords() == sf::Vector2u(x,y) && m_type == EntityType::Player)
                 {
                     gameMap->load_next_map();
                 }

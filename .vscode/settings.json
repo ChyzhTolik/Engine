@@ -65,7 +65,9 @@
         "bitset": "cpp",
         "variant": "cpp",
         "csignal": "cpp",
-        "hash_map": "cpp"
+        "hash_map": "cpp",
+        "regex": "cpp",
+        "shared_mutex": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

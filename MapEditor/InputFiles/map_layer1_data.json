@@ -1,0 +1,14 @@
+{
+    "layer":"map_layer1.json",
+    "files":
+    [
+        {
+            "type":1,
+            "file_name":"InputFiles/layer1.txt"
+        },
+        {
+            "type":2,
+            "file_name":"InputFiles/layer2.txt"
+        }
+    ]
+}
