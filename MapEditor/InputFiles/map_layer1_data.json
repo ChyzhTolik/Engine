@@ -3,12 +3,40 @@
     "files":
     [
         {
+            "type":0,
+            "file_name":"InputFiles/type1.txt"
+        },
+        {
             "type":1,
-            "file_name":"InputFiles/layer1.txt"
+            "file_name":"InputFiles/type2.txt"
         },
         {
             "type":2,
-            "file_name":"InputFiles/layer2.txt"
+            "file_name":"InputFiles/type3.txt"
+        },
+        {
+            "type":3,
+            "file_name":"InputFiles/type4.txt"
+        },
+        {
+            "type":4,
+            "file_name":"InputFiles/type5.txt"
+        },
+        {
+            "type":5,
+            "file_name":"InputFiles/type6.txt"
+        },
+        {
+            "type":6,
+            "file_name":"InputFiles/type7.txt"
+        },
+        {
+            "type":7,
+            "file_name":"InputFiles/type8.txt"
+        },
+        {
+            "type":8,
+            "file_name":"InputFiles/type9.txt"
         }
     ]
 }

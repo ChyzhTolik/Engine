@@ -12,7 +12,7 @@
     ],
     "TileSets":
     [
-        "IsometricTiles.json"
+        "KnightTiles.json"
     ],
     "EnemyPositions" : 
     [

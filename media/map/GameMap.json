@@ -1,6 +1,6 @@
 {
     "FolderPath" : "media/map/",
-    "main_layer_position" : 1,
+    "main_layer_position" : 0,
     "TileSets":
     [
         {
@@ -15,14 +15,9 @@
     "Layers":
     [
         {
-            "TileSet" : "IsoTileSet",
+            "TileSet" : "KnightTileSet",
             "Position" : 0,
             "file" : "map_layer1.json"
-        },
-        {
-            "TileSet" : "KnightTileSet",
-            "Position" : 1,
-            "file" : "map_layer2.json"
         }
     ],
     "EnemyPositions":
@@ -36,10 +31,10 @@
     "Gravity":0.6,
     "MapSize":
     {
-        "width" : 200,
-        "height" : 100
+        "width" : 23,
+        "height" : 15
     },
     "NextMap":"empty",
-    "PlayerStartPos":[23.0,23.0],
+    "PlayerStartPos":[2,10],
     "Warp":[0,1]
 }
