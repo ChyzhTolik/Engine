@@ -20,6 +20,7 @@
 #include "Entities/Character.hpp"
 #include "Entities/Player.hpp"
 #include "SharedContext.hpp"
+#include "InfoBox/InfoBox.hpp"
 
 #include <nlohmann/json.hpp>
 using nlohmann::json;
@@ -289,20 +290,32 @@ namespace Test
 		sf::Vector2u window_size{800,600};
 		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
 
+		std::shared_ptr<Engine::InfoBox> infobox = std::make_shared<Engine::InfoBox>();
+		infobox->Setup(10,10,300,{320,0});
+
 		Engine::SharedContext context;
 		context.m_wind = window;
+		context.m_eventManager = window->GetEventManager();
+		context.m_info_box = infobox;
 
 		std::shared_ptr<Engine::LayeredMap> map = std::make_shared<Engine::LayeredMap>(context);
 		map->load_from_file("media/map/GameMap.json");
 		context.m_game_map = map;
 
 		Engine::EntityManager entity_manager(context);
+		std::shared_ptr<Engine::StateManager> state_manager = std::make_shared<Engine::StateManager>(context);
+		state_manager->SwitchTo(Engine::StateType::Game);
 
-		Engine::Player player(entity_manager);
+		entity_manager.Add(Engine::EntityType::Player, "Knight");
+		auto entity = entity_manager.Find("Knight");
+		std::shared_ptr<Engine::Player> player = std::dynamic_pointer_cast<Engine::Player>(entity);
+		player->SetPosition({32,32});
+		player->AddVelocity(0.f,200.0f);
 
 		sf::Clock clock;
 		sf::Time timeSinceLastUpdate = sf::Time::Zero;
 		sf::Time TimePerFrame = sf::seconds(1.f/60);
+
 		while (!window->IsDone())
 		{
 			window->Update();
@@ -311,16 +324,22 @@ namespace Test
 
 			while (timeSinceLastUpdate > TimePerFrame)
 			{
+				infobox->Clear();
 				timeSinceLastUpdate -= TimePerFrame;
 				repaint = true;
+				entity_manager.Update(TimePerFrame.asSeconds());
 			}
 
 			if(repaint)
 			{
 				window->BeginDraw();
-				// window->Draw();
+				map->draw();
+				infobox->Render(window->GetRenderWindow());
+				entity_manager.Draw();
 				window->EndDraw();
 			}
 		}
+
+		
 	}
 } // namespace Test

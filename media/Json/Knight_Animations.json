@@ -28,6 +28,7 @@
         224, 0, 255, 31
       ]
     ],
+    "origins" : [],
     "start_frame":0,
     "end_frame":7
   },
@@ -54,6 +55,7 @@
         160, 64, 191, 95
       ]
     ],
+    "origins" : [],
     "start_frame":0,
     "end_frame":5
   },
@@ -74,6 +76,7 @@
         96, 128, 127, 159
       ]
     ],
+    "origins" : [],
     "start_frame":0,
     "end_frame":3
   },
@@ -97,6 +100,7 @@
         128, 192, 159, 223
       ]
     ],
+    "origins" : [],
     "start_frame":0,
     "end_frame":4
   },
@@ -132,6 +136,7 @@
         256, 320, 287, 351
       ]
     ],
+    "origins" : [],
     "start_frame":0,
     "end_frame":8
   },
@@ -149,6 +154,7 @@
         64, 256, 95, 287
       ]
     ],
+    "origins" : [],
     "start_frame":0,
     "end_frame":2
   }

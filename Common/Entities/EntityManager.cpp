@@ -10,7 +10,7 @@ using nlohmann::json;
 
 namespace Engine
 {
-    EntityManager::EntityManager(SharedContext& l_context):
+    EntityManager:: EntityManager(SharedContext& l_context):
         m_context(l_context),
         m_idCounter(0)
     {

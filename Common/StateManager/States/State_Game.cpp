@@ -68,7 +68,7 @@ namespace Engine
 
     void State_Game::ClickAction::execute(EventDetails& l_details)
     {
-       
+        
     }
 
     State_Game::PauseAction::PauseAction(State_Game& state) : m_state(state)

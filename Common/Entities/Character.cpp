@@ -273,4 +273,9 @@ namespace Engine
         }
         
     }
+
+    SpriteSheetTemplate<KnightAnimations>& Character::get_sprite_steet()
+    {
+        return m_spriteSheet;
+    }
 } // namespace Engine

@@ -60,6 +60,7 @@ namespace Engine
         std::shared_ptr<Tile> get_tile(int32_t layer, const sf::Vector2i& coords) const;
         sf::Vector2u get_warp_coords() const;
         void load_next_map();
+        int get_main_layer_index() const;
     private:
         Engine::SharedContext&  m_context;
         MapAdditionalInfo m_map_info;

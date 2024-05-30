@@ -13,7 +13,8 @@ namespace Engine
         m_type(EntityType::Base), m_referenceTile(nullptr),
         m_state(EntityState::Idle), m_id(0),
         m_collidingOnX(false), m_collidingOnY(false),
-        m_direction(Direction::Right)
+        m_direction(Direction::Right),
+        m_layer(l_entityMgr.GetContext().m_game_map->get_main_layer_index())
     {
 
     }
@@ -183,9 +184,11 @@ namespace Engine
 
     void EntityBase::Update(float l_dT)
     {
+        m_entityManager.GetContext().m_info_box->Add("Entity Update " + std::to_string(time(NULL)));
         auto map = m_entityManager.GetContext().m_game_map;
         float gravity = map->get_gravity();
         Accelerate(0,gravity);
+        m_entityManager.GetContext().m_info_box->Add("Gravity=" +std::to_string(gravity) + " " + std::to_string(time(NULL)));
         AddVelocity(m_acceleration.x * l_dT, m_acceleration.y * l_dT);
         SetAcceleration(0.0f, 0.0f);
         sf::Vector2f frictionValue;
@@ -208,6 +211,10 @@ namespace Engine
         float friction_y = (m_speed.y * frictionValue.y) * l_dT;
         ApplyFriction(friction_x, friction_y);
         sf::Vector2f deltaPos = m_velocity * l_dT;
+        m_entityManager.GetContext().m_info_box->Add("l_dT=" + std::to_string(l_dT) + " "+std::to_string(time(NULL)));
+        m_entityManager.GetContext().m_info_box->Add("Delta=" + std::to_string(deltaPos.x) + "," + std::to_string(deltaPos.y) + " " +std::to_string(time(NULL)));
+        m_entityManager.GetContext().m_info_box->Add("Velocity=" + std::to_string(m_velocity.x) + "," + std::to_string(m_velocity.y) + " " +std::to_string(time(NULL)));
+        
         Move(deltaPos.x, deltaPos.y);
         m_collidingOnX = false;
         m_collidingOnY = false;

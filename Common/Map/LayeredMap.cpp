@@ -192,4 +192,9 @@ namespace Engine
     {
 
     }
+
+    int LayeredMap::get_main_layer_index() const
+    {
+        return m_map_info.main_layer_position;
+    }
 } // namespace Engine

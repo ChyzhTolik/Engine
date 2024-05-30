@@ -7,7 +7,7 @@ namespace Engine
     Player::Player(EntityManager& l_entityMgr)
     : Character(l_entityMgr)
     {
-        Load("media/Json/Snake_Char.json");
+        Load("media/Json/Knight_Char.json");
         m_type = EntityType::Player;
         std::shared_ptr<EventManager> events = m_entityManager.GetContext().m_eventManager;
         

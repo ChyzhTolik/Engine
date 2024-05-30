@@ -33,6 +33,7 @@ namespace Engine
         virtual void OnEntityCollision(EntityBase& l_collider, bool l_attack) = 0;
         virtual void Update(float l_dT);
         void Draw(sf::RenderWindow& l_wind);
+        SpriteSheetTemplate<KnightAnimations>& get_sprite_steet();
 
     protected:
         virtual void UpdateAABB(Direction direction) override;

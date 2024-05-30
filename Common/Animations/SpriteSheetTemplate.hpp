@@ -32,7 +32,6 @@ namespace Engine
 
         template<class Animation>
         bool LoadSheet(const std::string& l_file, Configuration::Textures texture_id);
-        void test_json();
     private:
         std::unordered_map<T,std::shared_ptr<Anim_Base>> m_animations;
         T m_current_type;
@@ -162,11 +161,5 @@ namespace Engine
     T SpriteSheetTemplate<T>::get_current_type() const
     {
         return m_current_type;
-    }
-
-    template<typename T>
-    void SpriteSheetTemplate<T>::test_json()
-    {
-        
     }
 } // namespace Engine

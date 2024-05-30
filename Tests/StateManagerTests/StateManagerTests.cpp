@@ -15,8 +15,6 @@ TEST(StateManagerTest, TestHasStates)
     state_manager.SwitchTo(Engine::StateType::Intro);
     EXPECT_EQ(state_manager.HasState(Engine::StateType::Intro), true);
 
-    // const auto& state = state_manager.get_state(Engine::StateType::Intro);
-
     Engine::EventDetails details("Intro_Continue");   
     std::this_thread::sleep_for(std::chrono::milliseconds(200));
     context.m_eventManager->execute_action(Engine::StateType::Intro, "Intro_Continue", details);
