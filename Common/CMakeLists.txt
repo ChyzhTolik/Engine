@@ -54,6 +54,7 @@ set(HEADERS
     Components/PositionComponent.hpp
     Components/MovableComponent.hpp
     Components/StateComponent.hpp
+    Components/ControllerComponent.hpp
 
     EntitiesManager/EntitiesManager.hpp
 )
@@ -88,6 +89,7 @@ set(SOURCES
     Components/PositionComponent.cpp
     Components/MovableComponent.cpp
     Components/StateComponent.cpp
+    Components/ControllerComponent.cpp
 
     EntitiesManager/EntitiesManager.cpp
 )

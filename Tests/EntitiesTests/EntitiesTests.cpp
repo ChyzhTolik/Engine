@@ -4,6 +4,7 @@
 #include <Components/PositionComponent.hpp>
 #include <Components/MovableComponent.hpp>
 #include <Components/StateComponent.hpp>
+#include <Components/ControllerComponent.hpp>
 
 TEST(EntitiesManagerTests, TestAddEntity)
 {
@@ -79,4 +80,7 @@ TEST(EntitiesManagerTests, TestAddEntityFromFile)
 
     auto state_component = entities_manager.get_component<Engine::StateComponent>(id, Engine::ComponentType::State);
     EXPECT_EQ(state_component->get_state(), Engine::EntityState::Hurt);
+
+    auto controller_component = entities_manager.get_component<Engine::ControllerComponent>(id, Engine::ComponentType::Controller);
+    EXPECT_EQ(controller_component->get_type(), Engine::ComponentType::Controller);
 }

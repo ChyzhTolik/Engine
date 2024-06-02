@@ -48,6 +48,5 @@ namespace Engine
         MovableComponentCreator();
         virtual ~MovableComponentCreator(){};
         virtual std::shared_ptr<Component> create() override;
-    protected:
     };
 } // namespace Engine

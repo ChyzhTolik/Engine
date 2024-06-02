@@ -2,7 +2,7 @@
     "EntityInfo":
     {
       "name": "Knight",
-      "components":"101100"
+      "components":"101110"
     },
     "Position": 
     {
@@ -18,5 +18,9 @@
     "State":
     {
       "state":3
+    },
+    "Controller":
+    {
+
     }
 }

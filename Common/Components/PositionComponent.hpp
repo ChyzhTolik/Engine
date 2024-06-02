@@ -43,7 +43,6 @@ namespace Engine
         PositionComponentCreator();
         virtual ~PositionComponentCreator(){};
         virtual std::shared_ptr<Component> create() override;
-    protected:
     };
     
 } // namespace Engine

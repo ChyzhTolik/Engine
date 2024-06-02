@@ -37,7 +37,6 @@ namespace Engine
         StateComponentCreator();
         virtual ~StateComponentCreator(){};
         virtual std::shared_ptr<Component> create() override;
-    protected:
     };
 
     class StateComponentTestHelper

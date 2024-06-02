@@ -3,6 +3,7 @@
 #include "PositionComponent.hpp"
 #include "MovableComponent.hpp"
 #include "StateComponent.hpp"
+#include "ControllerComponent.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -28,6 +29,7 @@ namespace Engine
         add_component_creator<PositionComponentCreator>(ComponentType::Position);
         add_component_creator<MovableComponentCreator>(ComponentType::Movable);
         add_component_creator<StateComponentCreator>(ComponentType::State);
+        add_component_creator<ControllerComponentCreator>(ComponentType::Controller);
     }
     
     EntitiesManager::~EntitiesManager()
