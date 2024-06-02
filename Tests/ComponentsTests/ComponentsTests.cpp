@@ -2,6 +2,7 @@
 
 #include <Components/PositionComponent.hpp>
 #include <Components/MovableComponent.hpp>
+#include <Components/StateComponent.hpp>
 
 TEST(ComponentsTests, PositioinComponentTests)
 {
@@ -74,4 +75,19 @@ TEST(ComponentsTests, MovableComponentTests)
 
     mov_component.apply_friction({-330.f,0.f});
     EXPECT_EQ(mov_component.get_velocity(), sf::Vector2f(0.f,70.f));
+}
+
+TEST(ComponentsTests, StateComponentTests)
+{
+    Engine::StateComponent state_component;
+
+    Engine::StateInfo state_info{Engine::EntityState::Attacking};
+    json jey;
+    jey = Engine::StateComponentTestHelper::get_json(state_info);
+
+    state_component.read_in(jey);
+    EXPECT_EQ(state_component.get_state(), Engine::EntityState::Attacking);
+
+    state_component.set_state(Engine::EntityState::Idle);
+    EXPECT_EQ(state_component.get_state(), Engine::EntityState::Idle);
 }

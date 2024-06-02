@@ -3,6 +3,7 @@
 #include <EntitiesManager/EntitiesManager.hpp>
 #include <Components/PositionComponent.hpp>
 #include <Components/MovableComponent.hpp>
+#include <Components/StateComponent.hpp>
 
 TEST(EntitiesManagerTests, TestAddEntity)
 {
@@ -75,4 +76,7 @@ TEST(EntitiesManagerTests, TestAddEntityFromFile)
     EXPECT_EQ(mov_component->get_direction(), Engine::Direction::Up);
     EXPECT_EQ(mov_component->get_max_velocity(), 1000.f);
     EXPECT_EQ(mov_component->get_speed(), sf::Vector2f(100.f,100.f));
+
+    auto state_component = entities_manager.get_component<Engine::StateComponent>(id, Engine::ComponentType::State);
+    EXPECT_EQ(state_component->get_state(), Engine::EntityState::Hurt);
 }

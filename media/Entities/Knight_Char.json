@@ -2,7 +2,7 @@
     "EntityInfo":
     {
       "name": "Knight",
-      "components":"100100"
+      "components":"101100"
     },
     "Position": 
     {
@@ -14,5 +14,9 @@
       "speed":[100,100],
       "velocity_max":1000,
       "direction":2
+    },
+    "State":
+    {
+      "state":3
     }
 }
