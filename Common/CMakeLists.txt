@@ -49,6 +49,13 @@ set(HEADERS
     Entities/Player.hpp
     Entities/EntityActions.hpp
     InfoBox/InfoBox.hpp
+
+    Components/Component.hpp
+    Components/PositionComponent.hpp
+    Components/MovableComponent.hpp
+    Components/StateComponent.hpp
+
+    EntitiesManager/EntitiesManager.hpp
 )
 set(SOURCES 
     Configuration/Configuration.cpp
@@ -76,6 +83,13 @@ set(SOURCES
     Entities/Player.cpp
     Entities/EntityActions.cpp
     InfoBox/InfoBox.cpp
+
+    Components/Component.cpp
+    Components/PositionComponent.cpp
+    Components/MovableComponent.cpp
+    Components/StateComponent.cpp
+
+    EntitiesManager/EntitiesManager.cpp
 )
 add_library(${PROJECT_NAME} SHARED ${HEADERS} ${SOURCES})
 
@@ -103,3 +117,5 @@ target_include_directories(${PROJECT_NAME} PUBLIC CommonHeaders)
 target_include_directories(${PROJECT_NAME} PUBLIC Map)
 target_include_directories(${PROJECT_NAME} PUBLIC Animations)
 target_include_directories(${PROJECT_NAME} PUBLIC InfoBox)
+target_include_directories(${PROJECT_NAME} PUBLIC Components)
+target_include_directories(${PROJECT_NAME} PUBLIC EntitiesManager)

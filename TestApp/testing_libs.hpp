@@ -12,4 +12,6 @@ namespace Test
     void test_animation2();
     void test_character();
     void test_entity_manager();
+    void test_components();
+    void test_new_entities();
 } // namespace Test

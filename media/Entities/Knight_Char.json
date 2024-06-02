@@ -1,0 +1,18 @@
+{
+    "EntityInfo":
+    {
+      "name": "Knight",
+      "components":"100100"
+    },
+    "Position": 
+    {
+      "position":[12,1],
+      "elevation":3
+    },
+    "Movable": 
+    {
+      "speed":[100,100],
+      "velocity_max":1000,
+      "direction":2
+    }
+}
