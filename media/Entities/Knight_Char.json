@@ -1,0 +1,36 @@
+{
+    "EntityInfo":
+    {
+      "name": "Knight",
+      "components":"111111"
+    },
+    "Position": 
+    {
+      "position":[12,1],
+      "elevation":3
+    },
+    "Movable": 
+    {
+      "speed":[100,100],
+      "velocity_max":1000,
+      "direction":2
+    },
+    "State":
+    {
+      "state":3
+    },
+    "Controller":
+    {
+
+    },
+    "SpriteSheet":
+    {
+      "file_name":"media/Animations/Knight_Animations.json"
+    },
+    "Collidable":
+    {
+      "bounding_box":[32,32],
+      "offset":[10,20],
+      "origin":1
+    }
+}

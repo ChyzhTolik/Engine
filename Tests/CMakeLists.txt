@@ -10,6 +10,7 @@ set(SOURCES
     MapTests/MapTests.cpp
     AnimationsTests/AnimationsTests.cpp
     EntitiesTests/EntitiesTests.cpp
+    ComponentsTests/ComponentsTests.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

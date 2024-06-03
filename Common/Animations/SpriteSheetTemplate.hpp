@@ -31,7 +31,7 @@ namespace Engine
         bool SetAnimation(T l_name, const bool& l_play = false, const bool& l_loop = false);
 
         template<class Animation>
-        bool LoadSheet(const std::string& l_file, Configuration::Textures texture_id);
+        bool load_sheet(const std::string& l_file, Configuration::Textures texture_id);
     private:
         std::unordered_map<T,std::shared_ptr<Anim_Base>> m_animations;
         T m_current_type;
@@ -108,7 +108,7 @@ namespace Engine
 
     template<typename T>
     template<class Animation>
-    bool SpriteSheetTemplate<T>::LoadSheet(const std::string& l_file, Configuration::Textures texture_id)
+    bool SpriteSheetTemplate<T>::load_sheet(const std::string& l_file, Configuration::Textures texture_id)
     {
         m_sprite = std::make_shared<sf::Sprite>(Configuration::textures.get(Configuration::Textures(texture_id)));
         std::ifstream frames;

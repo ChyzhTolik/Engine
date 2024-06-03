@@ -22,6 +22,9 @@
 #include "SharedContext.hpp"
 #include "InfoBox/InfoBox.hpp"
 
+#include "Components/PositionComponent.hpp"
+#include "EntitiesManager/EntitiesManager.hpp"
+
 #include <nlohmann/json.hpp>
 using nlohmann::json;
 
@@ -243,7 +246,7 @@ namespace Test
 
 		Engine::SpriteSheetTemplate<Engine::KnightAnimations> sprite_sheet;
 
-		sprite_sheet.LoadSheet<Engine::Anim_Directional>("media/Animations/Knight_Animations.json", Engine::Configuration::Textures::Knigth);
+		sprite_sheet.load_sheet<Engine::Anim_Directional>("media/Animations/Knight_Animations.json", Engine::Configuration::Textures::Knigth);
 		sprite_sheet.SetAnimation(Engine::KnightAnimations::None);
 		sprite_sheet.GetCurrentAnim()->Play();
 		sprite_sheet.GetCurrentAnim()->SetLooping(true);
@@ -341,5 +344,25 @@ namespace Test
 		}
 
 		
+	}
+
+	void test_components()
+	{
+		Engine::PositionComponent pos_comp;
+		Engine::PositionInfo pos_info{{1.3f,2.5f},6};
+
+		json jey;
+		jey = Engine::PosComponentTestHelper::get_json(pos_info);
+
+		std::cout<<jey.dump(4)<<std::endl;
+	}
+
+	void test_new_entities()
+	{
+		std::shared_ptr<Engine::SystemManager> system_manager = std::make_shared<Engine::SystemManager>();
+		Engine::EntitiesManager entities_manager(system_manager);
+		Engine::ComponentBitSet mask;
+		mask.set(static_cast<size_t>(Engine::ComponentType::Position));
+		entities_manager.add_entity(mask);
 	}
 } // namespace Test
