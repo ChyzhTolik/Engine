@@ -112,7 +112,7 @@ namespace Engine
         m_attackAABB.width = char_info.DamageBox.width;
         m_attackAABB.height = char_info.DamageBox.height;
         std::string file_full_path = "media/Json/" + char_info.Animations;
-        m_spriteSheet.LoadSheet<Anim_Directional>(file_full_path, Configuration::Textures(char_info.Spritesheet));
+        m_spriteSheet.load_sheet<Anim_Directional>(file_full_path, Configuration::Textures(char_info.Spritesheet));
         SetSize(char_info.BoundingBox.x, char_info.BoundingBox.y);
         m_speed = char_info.Speed;
         m_jumpVelocity = char_info.JumpVelocity;

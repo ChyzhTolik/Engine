@@ -86,6 +86,13 @@ namespace Engine
             return c->get_type() == component_type;
         });
 
-        return (component != container.end() ? std::dynamic_pointer_cast<T>(*component) : nullptr);
+        if (component == container.end())
+        {
+            return nullptr;
+        }
+        
+        std::shared_ptr<T> result = std::dynamic_pointer_cast<T>(*component);
+        return result;
+        // return (component != container.end() ? std::dynamic_pointer_cast<T>(*component) : nullptr);
     }
 } // namespace Engine

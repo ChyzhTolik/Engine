@@ -21,7 +21,7 @@ namespace Engine
     {
     public:
         Component(ComponentType type);
-        ~Component();
+        virtual ~Component();
 
         ComponentType get_type() const;
         virtual void read_in(json data) = 0;

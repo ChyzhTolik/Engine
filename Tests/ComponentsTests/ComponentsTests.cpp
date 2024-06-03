@@ -3,6 +3,10 @@
 #include <Components/PositionComponent.hpp>
 #include <Components/MovableComponent.hpp>
 #include <Components/StateComponent.hpp>
+#include <Components/SpriteSheetComponent.hpp>
+#include <Animations/Anim_Directional.hpp>
+
+#include <AnimationTypes.hpp>
 
 TEST(ComponentsTests, PositioinComponentTests)
 {
@@ -90,4 +94,27 @@ TEST(ComponentsTests, StateComponentTests)
 
     state_component.set_state(Engine::EntityState::Idle);
     EXPECT_EQ(state_component.get_state(), Engine::EntityState::Idle);
+}
+
+TEST(ComponentsTests, SpriteSheetComponentTests)
+{
+    Engine::Configuration::Initialize();
+
+    Engine::SpriteSheetComponent<Engine::KnightAnimations> sprite_sheet_component;
+
+    Engine::SpriteSheetInfo sheet_info{"media/Animations/Knight_Animations.json"};
+    json jey;
+    jey = Engine::SpriteSheetComponentTestHelper::get_json(sheet_info);
+
+    sprite_sheet_component.read_in(jey);
+    sprite_sheet_component.create<Engine::Anim_Directional>(Engine::Configuration::Textures::Knigth);
+
+    sprite_sheet_component.get_sprite_sheet()->load_sheet<Engine::Anim_Directional>("media/Animations/Knight_Animations.json", 
+        Engine::Configuration::Textures::Knigth);
+    sprite_sheet_component.get_sprite_sheet()->SetAnimation(Engine::KnightAnimations::Idle);
+    sprite_sheet_component.get_sprite_sheet()->GetCurrentAnim()->Play();
+    sprite_sheet_component.get_sprite_sheet()->GetCurrentAnim()->SetLooping(true);
+    auto current_animation = sprite_sheet_component.get_sprite_sheet()->GetCurrentAnim();
+    EXPECT_EQ(current_animation->is_playing(), true);
+    EXPECT_EQ(current_animation->rects_count(), 8);
 }

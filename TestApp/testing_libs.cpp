@@ -246,7 +246,7 @@ namespace Test
 
 		Engine::SpriteSheetTemplate<Engine::KnightAnimations> sprite_sheet;
 
-		sprite_sheet.LoadSheet<Engine::Anim_Directional>("media/Animations/Knight_Animations.json", Engine::Configuration::Textures::Knigth);
+		sprite_sheet.load_sheet<Engine::Anim_Directional>("media/Animations/Knight_Animations.json", Engine::Configuration::Textures::Knigth);
 		sprite_sheet.SetAnimation(Engine::KnightAnimations::None);
 		sprite_sheet.GetCurrentAnim()->Play();
 		sprite_sheet.GetCurrentAnim()->SetLooping(true);

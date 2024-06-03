@@ -67,7 +67,8 @@
         "csignal": "cpp",
         "hash_map": "cpp",
         "regex": "cpp",
-        "shared_mutex": "cpp"
+        "shared_mutex": "cpp",
+        "*.tpp": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

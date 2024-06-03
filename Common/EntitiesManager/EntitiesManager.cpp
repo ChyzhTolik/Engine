@@ -4,6 +4,7 @@
 #include "MovableComponent.hpp"
 #include "StateComponent.hpp"
 #include "ControllerComponent.hpp"
+#include "SpriteSheetComponent.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -30,6 +31,7 @@ namespace Engine
         add_component_creator<MovableComponentCreator>(ComponentType::Movable);
         add_component_creator<StateComponentCreator>(ComponentType::State);
         add_component_creator<ControllerComponentCreator>(ComponentType::Controller);
+        add_component_creator<SpriteSheetComponentCreator<KnightAnimations>>(ComponentType::SpriteSheet);
     }
     
     EntitiesManager::~EntitiesManager()

@@ -49,7 +49,7 @@ TEST_F(AnimationTestsFixture, TestSpritesheet)
     std::shared_ptr<Engine::SpriteSheetTemplate<Engine::KnightAnimations>> sprite_sheet = 
         std::make_shared<Engine::SpriteSheetTemplate<Engine::KnightAnimations>>();
 
-    sprite_sheet->LoadSheet<Engine::Anim_Directional>("media/Animations/Knight_Animations.json", Engine::Configuration::Textures::Knigth);
+    sprite_sheet->load_sheet<Engine::Anim_Directional>("media/Animations/Knight_Animations.json", Engine::Configuration::Textures::Knigth);
     sprite_sheet->SetAnimation(Engine::KnightAnimations::Idle);
     sprite_sheet->GetCurrentAnim()->Play();
     sprite_sheet->GetCurrentAnim()->SetLooping(true);
