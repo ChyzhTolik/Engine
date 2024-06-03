@@ -56,6 +56,7 @@ set(HEADERS
     Components/StateComponent.hpp
     Components/ControllerComponent.hpp
     Components/SpriteSheetComponent.hpp
+    Components/CollidableComponent.hpp
 
     EntitiesManager/EntitiesManager.hpp
 )
@@ -92,6 +93,7 @@ set(SOURCES
     Components/StateComponent.cpp
     Components/ControllerComponent.cpp
     Components/SpriteSheetComponent.cpp
+    Components/CollidableComponent.cpp
 
     EntitiesManager/EntitiesManager.cpp
 )

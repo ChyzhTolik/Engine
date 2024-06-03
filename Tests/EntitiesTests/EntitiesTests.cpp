@@ -8,6 +8,7 @@
 #include <Components/SpriteSheetComponent.hpp>
 #include <Animations/AnimationTypes.hpp>
 #include <Animations/Anim_Directional.hpp>
+#include <Components/CollidableComponent.hpp>
 
 TEST(EntitiesManagerTests, TestAddEntity)
 {
@@ -98,4 +99,11 @@ TEST(EntitiesManagerTests, TestAddEntityFromFile)
     auto current_animation = sprite_sheet_component->get_sprite_sheet()->GetCurrentAnim();
     EXPECT_EQ(current_animation->is_playing(), true);
     EXPECT_EQ(current_animation->rects_count(), 8);
+
+    auto collidable_component = entities_manager.get_component<Engine::CollidableComponent>(id, Engine::ComponentType::Collidable);
+    EXPECT_EQ(collidable_component->get_colliding_on_x(), false);
+    EXPECT_EQ(collidable_component->get_colliding_on_y(), false);
+    EXPECT_EQ(collidable_component->get_offset(), sf::Vector2f(10.f,20.f));
+    EXPECT_EQ(collidable_component->get_origin(), Engine::Origin::AbsCenter);
+    EXPECT_EQ(collidable_component->get_box_size(), sf::Vector2f(32.f,32.f));
 }

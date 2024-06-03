@@ -5,6 +5,7 @@
 #include <Components/StateComponent.hpp>
 #include <Components/SpriteSheetComponent.hpp>
 #include <Animations/Anim_Directional.hpp>
+#include <Components/CollidableComponent.hpp>
 
 #include <AnimationTypes.hpp>
 
@@ -117,4 +118,42 @@ TEST(ComponentsTests, SpriteSheetComponentTests)
     auto current_animation = sprite_sheet_component.get_sprite_sheet()->GetCurrentAnim();
     EXPECT_EQ(current_animation->is_playing(), true);
     EXPECT_EQ(current_animation->rects_count(), 8);
+}
+
+TEST(ComponentsTests, CollidableComponentTests)
+{
+    Engine::CollidableComponent collidable_component;
+
+    Engine::CollidableInfo collidable_info{{{},{32.f,32.f}},{5.f,10.f},Engine::Origin::TopLeft};
+    json jey;
+    jey = Engine::CollidableComponentTestHelper::get_json(collidable_info);
+
+    collidable_component.read_in(jey);
+    
+    EXPECT_EQ(collidable_component.get_colliding_on_x(), false);
+    EXPECT_EQ(collidable_component.get_colliding_on_y(), false);
+    EXPECT_EQ(collidable_component.get_offset(), sf::Vector2f(5.f,10.f));
+    EXPECT_EQ(collidable_component.get_origin(), Engine::Origin::TopLeft);
+    EXPECT_EQ(collidable_component.get_box_size(), sf::Vector2f(32.f,32.f));
+
+    collidable_component.collide_on_x();
+    collidable_component.collide_on_y();
+    collidable_component.set_origin(Engine::Origin::AbsCenter);
+    collidable_component.set_size({40.f,40.f});
+    collidable_component.set_position({100.f,100.f});
+
+
+    EXPECT_EQ(collidable_component.get_colliding_on_x(), true);
+    EXPECT_EQ(collidable_component.get_colliding_on_y(), true);
+    EXPECT_EQ(collidable_component.get_origin(), Engine::Origin::AbsCenter);
+    EXPECT_EQ(collidable_component.get_box_size(), sf::Vector2f(40.f,40.f));
+    EXPECT_EQ(collidable_component.get_position(), sf::Vector2f(85.f,90.f));
+
+    collidable_component.set_origin(Engine::Origin::MidBottom);
+    collidable_component.set_position({100.f,100.f});
+    EXPECT_EQ(collidable_component.get_position(), sf::Vector2f(85.f,70.f));
+
+    collidable_component.set_origin(Engine::Origin::TopLeft);
+    collidable_component.set_position({100.f,100.f});
+    EXPECT_EQ(collidable_component.get_position(), sf::Vector2f(105.f,110.f));
 }
