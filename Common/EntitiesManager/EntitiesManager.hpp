@@ -19,11 +19,7 @@ namespace Engine
         std::string components;
     };
 
-    class SystemManager
-    {
-        public:
-        SystemManager(){}
-    };
+    class SystemManager;
 
     class EntitiesManager
     {

@@ -45,7 +45,7 @@ namespace Engine
     {
     public:
         virtual ~Observer(){}
-        virtual void Notify(const Message& l_message) = 0;
+        virtual void notify(const Message& l_message) = 0;
     };
 
     using ObserverContainer = std::vector<std::shared_ptr<Observer>>;
@@ -96,7 +96,7 @@ namespace Engine
 
         void Broadcast(const Message& l_msg)
         {
-            for(auto& itr : m_observers){ itr->Notify(l_msg); }
+            for(auto& itr : m_observers){ itr->notify(l_msg); }
         }
     private:
         ObserverContainer m_observers;

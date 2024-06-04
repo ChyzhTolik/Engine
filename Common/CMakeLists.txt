@@ -59,6 +59,17 @@ set(HEADERS
     Components/CollidableComponent.hpp
 
     EntitiesManager/EntitiesManager.hpp
+
+    Systems/SystemManager.hpp
+    Systems/EventQueue.hpp
+    Systems/System.hpp
+    Systems/Observer.hpp
+    Systems/Message.hpp
+    Systems/Communicator.hpp
+    Systems/MessageHandler.hpp
+    Systems/EntityMessage.hpp
+    Systems/EntityEvent.hpp
+
 )
 set(SOURCES 
     Configuration/Configuration.cpp
@@ -95,6 +106,13 @@ set(SOURCES
     Components/SpriteSheetComponent.cpp
     Components/CollidableComponent.cpp
 
+    Systems/SystemManager.cpp
+    Systems/EventQueue.cpp
+    Systems/System.cpp
+    Systems/Communicator.cpp
+    Systems/MessageHandler.cpp
+
+
     EntitiesManager/EntitiesManager.cpp
 )
 add_library(${PROJECT_NAME} SHARED ${HEADERS} ${SOURCES})
@@ -125,3 +143,4 @@ target_include_directories(${PROJECT_NAME} PUBLIC Animations)
 target_include_directories(${PROJECT_NAME} PUBLIC InfoBox)
 target_include_directories(${PROJECT_NAME} PUBLIC Components)
 target_include_directories(${PROJECT_NAME} PUBLIC EntitiesManager)
+target_include_directories(${PROJECT_NAME} PUBLIC Systems)

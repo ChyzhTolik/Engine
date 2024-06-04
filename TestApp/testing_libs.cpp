@@ -24,6 +24,7 @@
 
 #include "Components/PositionComponent.hpp"
 #include "EntitiesManager/EntitiesManager.hpp"
+#include "SystemManager.hpp"
 
 #include <nlohmann/json.hpp>
 using nlohmann::json;

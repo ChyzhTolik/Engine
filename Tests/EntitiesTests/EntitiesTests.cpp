@@ -9,6 +9,7 @@
 #include <Animations/AnimationTypes.hpp>
 #include <Animations/Anim_Directional.hpp>
 #include <Components/CollidableComponent.hpp>
+#include <Systems/SystemManager.hpp>
 
 TEST(EntitiesManagerTests, TestAddEntity)
 {
