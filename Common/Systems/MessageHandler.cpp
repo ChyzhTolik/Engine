@@ -12,7 +12,7 @@ namespace Engine
 
     bool MessageHandler::subscribe(EntityMessage message_type, std::shared_ptr<Observer> observer)
     {
-        return m_communicators.at(message_type).add_observer(observer);
+        return m_communicators[message_type].add_observer(observer);
     }
 
     bool MessageHandler::unsubscribe(EntityMessage message_type, std::shared_ptr<Observer> observer)

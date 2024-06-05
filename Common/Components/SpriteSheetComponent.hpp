@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Component.hpp"
+#include "DrawableComponentInterface.hpp"
 #include "SpriteSheetTemplate.hpp"
 #include "Anim_Directional.hpp"
 #include "AnimationTypes.hpp"
@@ -13,7 +13,7 @@ namespace Engine
     };
 
     template<typename T>
-    class SpriteSheetComponent : public Component
+    class SpriteSheetComponent : public DrawableComponentInterface
     {
     public:
         SpriteSheetComponent();
@@ -24,10 +24,11 @@ namespace Engine
         template<class Animation>
         void create(Configuration::Textures id, const std::string& file_name = "");
         
-        void update_position(const sf::Vector2f& l_vec);
-        const sf::Vector2i& get_size();
-        void draw(sf::RenderWindow& l_wind);
+        void update_position(const sf::Vector2f& l_vec) override;
+        const sf::Vector2i get_size() override;
+        void draw(sf::RenderWindow& l_wind) override;
         void read_in(json data) override;
+        void update(float time) override;
     private:
         std::shared_ptr<SpriteSheetTemplate<T>> m_sprite_sheet;
         SpriteSheetInfo m_sprite_sheet_info;

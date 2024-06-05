@@ -9,7 +9,7 @@ namespace Engine
     class Communicator
     {
     public:
-        Communicator(/* args */);
+        Communicator(/* args */)= default;
         ~Communicator();
 
         bool add_observer(std::shared_ptr<Observer> observer);

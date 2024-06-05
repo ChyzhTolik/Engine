@@ -4,10 +4,6 @@
 
 namespace Engine
 {
-    Communicator::Communicator(/* args */)
-    {
-    }
-    
     Communicator::~Communicator()
     {
     }

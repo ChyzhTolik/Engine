@@ -1,22 +1,12 @@
 #pragma once
 
+#include "ComponentType.hpp"
 #include <nlohmann/json.hpp>
 
 using nlohmann::json;
 
 namespace Engine
 {
-    enum class ComponentType
-    {
-        Position,
-        SpriteSheet,
-        State,
-        Movable,
-        Controller,
-        Collidable,
-        All
-    };
-
     class Component
     {
     public:

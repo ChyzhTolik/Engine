@@ -1,10 +1,22 @@
 #include "SystemManager.hpp"
 #include "EntitiesManager.hpp"
+#include "RendererSystem.hpp"
 
 namespace Engine
 {
-    SystemManager::SystemManager(/* args */) : m_entity_manager{nullptr}
+    SystemManager::SystemManager(/* args */) : m_entity_manager{nullptr}, m_message_handler{std::make_shared<MessageHandler>()}
     {
+
+    }
+
+    void SystemManager::fill_systems()
+    {
+        m_systems[SystemType::Renderer] = std::make_shared<RendererSystem>(shared_from_this());
+
+        for (auto &&system : m_systems)
+        {
+            system.second->subscribe();
+        }
         
     }
     
@@ -13,7 +25,7 @@ namespace Engine
         purge_systems();
     }
 
-    void SystemManager::set_entity_manager(std::shared_ptr<EntityMahager> entity_manager)
+    void SystemManager::set_entity_manager(std::shared_ptr<EntitiesManager> entity_manager)
     {
         if (!m_entity_manager)
         {
@@ -21,7 +33,7 @@ namespace Engine
         }        
     }
 
-    std::shared_ptr<EntityMahager> SystemManager::get_entity_manager()
+    std::shared_ptr<EntitiesManager> SystemManager::get_entity_manager()
     {
         return m_entity_manager;
     }
@@ -74,11 +86,11 @@ namespace Engine
             return;
         }
 
-        // auto system_renderer = itr->second;
-        // system_renderer->render(window, elevation);
+        std::shared_ptr<RendererSystem> system_renderer = std::dynamic_pointer_cast<RendererSystem>(itr->second);
+        system_renderer->render(window, elevation);
     }
 
-    void SystemManager::entity_modified(EntityId entity, const SystemBitSet& mask)
+    void SystemManager::entity_modified(EntityId entity, const ComponentBitSet& mask)
     {
         for (auto &&system_itr : m_systems)
         {

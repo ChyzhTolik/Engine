@@ -6,6 +6,7 @@
 #include "ControllerComponent.hpp"
 #include "SpriteSheetComponent.hpp"
 #include "CollidableComponent.hpp"
+#include "SystemManager.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -59,8 +60,9 @@ namespace Engine
             }
         }
         // Notifying the system manager of a modified entity.
-        // m_system_manager->EntityModified(entity,l_mask);
-        // m_system_manager->AddEvent(entity,(EventID)EntityEvent::Spawned);
+        m_system_manager->entity_modified(entity_id,mask);
+        m_system_manager->add_event(entity_id,EntityEvent::Spawned);
+
         return entity_id;
     }
 
@@ -92,7 +94,7 @@ namespace Engine
         itr->second.first.set(static_cast<size_t>(component_type));
         result = true;
         // Notifying the system manager of a modified entity.
-        // m_systems->EntityModified(l_entity,itr->second.first);
+        m_system_manager->entity_modified(id,itr->second.first);
         return result;
     }
 
@@ -149,7 +151,7 @@ namespace Engine
 
         result = true;
         // Notifying the system manager of a modified entity.
-        // m_systems->EntityModified(l_entity,itr->second.first);
+        m_system_manager->entity_modified(id,itr->second.first);
         return result;
     }
 

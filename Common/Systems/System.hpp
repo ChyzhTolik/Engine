@@ -6,6 +6,7 @@
 
 #include "Observer.hpp"
 #include "EntityEvent.hpp"
+#include "ComponentType.hpp"
 
 namespace Engine
 {
@@ -20,8 +21,7 @@ namespace Engine
         All,
     };
 
-    using SystemBitSet = std::bitset<static_cast<size_t>(SystemType::All)>;
-    using Requirements = std::vector<SystemBitSet>;
+    using Requirements = std::vector<ComponentBitSet>;
     using EntityId = uint32_t;
 
     class SystemManager;
@@ -38,11 +38,12 @@ namespace Engine
 
         SystemType get_type() const;
 
-        bool fits_requirements(const SystemBitSet& mask);
+        bool fits_requirements(const ComponentBitSet& mask);
         void purge();
 
         virtual void update(float time) = 0;
         virtual void handle_event(EntityId entity, EntityEvent event) = 0;
+        virtual void subscribe() = 0;
     protected:
         SystemType m_type;
         std::shared_ptr<SystemManager> m_system_manager;

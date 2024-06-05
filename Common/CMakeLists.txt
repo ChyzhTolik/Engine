@@ -21,6 +21,7 @@ set(HEADERS
     CommonHeaders/SharedContext.hpp
     CommonHeaders/MapStructs.hpp
     CommonHeaders/Direction.hpp
+    CommonHeaders/ComponentType.hpp
 
     Map/IsoTiles.hpp
     Map/KnightTiles.hpp
@@ -55,6 +56,7 @@ set(HEADERS
     Components/MovableComponent.hpp
     Components/StateComponent.hpp
     Components/ControllerComponent.hpp
+    Components/DrawableComponentInterface.hpp
     Components/SpriteSheetComponent.hpp
     Components/CollidableComponent.hpp
 
@@ -69,6 +71,7 @@ set(HEADERS
     Systems/MessageHandler.hpp
     Systems/EntityMessage.hpp
     Systems/EntityEvent.hpp
+    Systems/RendererSystem.hpp
 
 )
 set(SOURCES 
@@ -111,7 +114,7 @@ set(SOURCES
     Systems/System.cpp
     Systems/Communicator.cpp
     Systems/MessageHandler.cpp
-
+    Systems/RendererSystem.cpp
 
     EntitiesManager/EntitiesManager.cpp
 )

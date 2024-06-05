@@ -10,5 +10,6 @@ int main()
     // Test::test_map();
     // Test::test_states();
     // Test::test_components();
-    Test::test_new_entities();
+    // Test::test_new_entities();
+    Test::test_systems();
 }

@@ -54,11 +54,12 @@ namespace Engine
         m_entities.clear();
     }
 
-    bool System::fits_requirements(const SystemBitSet& mask)
+    bool System::fits_requirements(const ComponentBitSet& mask)
     {
-        return std::find_if(m_required_components.begin(),m_required_components.end(),[&mask](const SystemBitSet& bitset)
+        return std::find_if(m_required_components.begin(),m_required_components.end(),[&mask](const ComponentBitSet& bitset)
         {
-            return mask == bitset;
+            ComponentBitSet m = mask & bitset;
+            return m.any();
         })!= m_required_components.end();
     }
 } // namespace Engine

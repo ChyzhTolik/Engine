@@ -7,6 +7,6 @@ namespace Engine
     class Observer{
     public:
         virtual ~Observer(){}
-        virtual void notify(const Message& l_message) = 0;
+        virtual void notify(const Message& message) = 0;
     };
 } // namespace Engine

@@ -1,33 +1,5 @@
 #include "testing_libs.hpp"
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include <memory>
-
-#include "Configuration/Configuration.hpp"
-#include "Window/Window.hpp"
-#include "Game.hpp"
-#include "Map/TileTemplate.hpp"
-#include "Map/TileSetTemplate.hpp"
-#include "Map/KnightTiles.hpp"
-#include "Map/IsoTiles.hpp"
-#include "Map/MapLayerTemplate.hpp"
-#include "Map/LayeredMap.hpp"
-
-#include "Animations/AnimatedSprite.hpp"
-#include "Animations/SpriteSheetTemplate.hpp"
-#include "Animations/AnimationTypes.hpp"
-#include "Animations/Anim_Directional.hpp"
-#include "Entities/Character.hpp"
-#include "Entities/Player.hpp"
-#include "SharedContext.hpp"
-#include "InfoBox/InfoBox.hpp"
-
-#include "Components/PositionComponent.hpp"
-#include "EntitiesManager/EntitiesManager.hpp"
-#include "SystemManager.hpp"
-
-#include <nlohmann/json.hpp>
-using nlohmann::json;
+#include "test_headers.hpp"
 
 
 namespace Test
@@ -365,5 +337,51 @@ namespace Test
 		Engine::ComponentBitSet mask;
 		mask.set(static_cast<size_t>(Engine::ComponentType::Position));
 		entities_manager.add_entity(mask);
+	}
+
+	void test_systems()
+	{
+		Engine::Configuration::Initialize();
+		sf::Vector2u window_size{800,600};
+		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
+
+		std::shared_ptr<Engine::SystemManager> system_manager = std::make_shared<Engine::SystemManager>();
+		system_manager->fill_systems();
+		std::shared_ptr<Engine::EntitiesManager> entities_manager = std::make_shared<Engine::EntitiesManager>(system_manager);
+		auto id = entities_manager->add_entity("media/Entities/Knight_Char.json");
+
+		system_manager->set_entity_manager(entities_manager);
+		auto sprite_sheet_component = 
+        entities_manager->get_component<Engine::SpriteSheetComponent<Engine::KnightAnimations>>(id, Engine::ComponentType::SpriteSheet);
+		sprite_sheet_component->create<Engine::Anim_Directional>(Engine::Configuration::Textures::Knigth);
+		sprite_sheet_component->get_sprite_sheet()->SetAnimation(Engine::KnightAnimations::Idle);
+		sprite_sheet_component->get_sprite_sheet()->GetCurrentAnim()->Play();
+		sprite_sheet_component->get_sprite_sheet()->GetCurrentAnim()->SetLooping(true);
+		sprite_sheet_component->get_sprite_sheet()->SetDirection(Engine::Direction::Right);
+		sf::Clock clock;
+		sf::Time timeSinceLastUpdate = sf::Time::Zero;
+		sf::Time TimePerFrame = sf::seconds(1.f/30);
+
+		while (!window->IsDone())
+		{
+			window->Update();
+			bool repaint = false;
+			timeSinceLastUpdate += clock.restart();
+
+			while (timeSinceLastUpdate > TimePerFrame)
+			{
+				timeSinceLastUpdate -= TimePerFrame;
+				repaint = true;
+				system_manager->update(TimePerFrame.asSeconds());
+				sprite_sheet_component->get_sprite_sheet()->Update(TimePerFrame.asSeconds());
+			}
+
+			if(repaint)
+			{
+				window->BeginDraw();
+				system_manager->draw(window,0);
+				window->EndDraw();
+			}
+		}
 	}
 } // namespace Test
