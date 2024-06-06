@@ -352,7 +352,7 @@ namespace Test
 
 		system_manager->set_entity_manager(entities_manager);
 		auto sprite_sheet_component = 
-        entities_manager->get_component<Engine::SpriteSheetComponent<Engine::KnightAnimations>>(id, Engine::ComponentType::SpriteSheet);
+        	entities_manager->get_component<Engine::SpriteSheetComponent<Engine::KnightAnimations>>(id, Engine::ComponentType::SpriteSheet);
 		sprite_sheet_component->create<Engine::Anim_Directional>(Engine::Configuration::Textures::Knigth);
 		sprite_sheet_component->get_sprite_sheet()->SetAnimation(Engine::KnightAnimations::Idle);
 		sprite_sheet_component->get_sprite_sheet()->GetCurrentAnim()->Play();
@@ -373,7 +373,6 @@ namespace Test
 				timeSinceLastUpdate -= TimePerFrame;
 				repaint = true;
 				system_manager->update(TimePerFrame.asSeconds());
-				sprite_sheet_component->get_sprite_sheet()->Update(TimePerFrame.asSeconds());
 			}
 
 			if(repaint)

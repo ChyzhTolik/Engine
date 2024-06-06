@@ -75,8 +75,8 @@ TEST(EntitiesManagerTests, TestAddEntityFromFile)
     EXPECT_EQ(entities_manager.count(),1);
 
     auto pos_component = entities_manager.get_component<Engine::PositionComponent>(id, Engine::ComponentType::Position);
-    EXPECT_EQ(pos_component->get_position(),sf::Vector2f(12.f,1.f));
-    EXPECT_EQ(pos_component->get_elevation(),3);
+    EXPECT_EQ(pos_component->get_position(),sf::Vector2f(100.f,100.f));
+    EXPECT_EQ(pos_component->get_elevation(),0);
 
     auto mov_component = entities_manager.get_component<Engine::MovableComponent>(id, Engine::ComponentType::Movable);
     EXPECT_EQ(mov_component->get_direction(), Engine::Direction::Up);

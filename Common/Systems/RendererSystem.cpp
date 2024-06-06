@@ -75,7 +75,7 @@ namespace Engine
             switch (entity_message)
             {
             case EntityMessage::Direction_Changed:
-                set_sprite_sheet_direction(message.m_receiver, Direction(std::get<uint32_t>(message.m_data)));
+                set_sprite_sheet_direction(message.m_receiver, std::get<Direction>(message.m_data));
                 break;
             
             default:
