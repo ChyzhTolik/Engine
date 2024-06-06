@@ -11,26 +11,25 @@
 class SystemsTestsFixture : public ::testing::Test
 {
 protected:
+    std::shared_ptr<Engine::SystemManager> system_manager;
+    std::shared_ptr<Engine::EntitiesManager> entities_manager;
+    Engine::EntityId id;
+
 	void SetUp()
 	{
-		std::shared_ptr<Engine::SystemManager> system_manager = std::make_shared<Engine::SystemManager>();
+		system_manager = std::make_shared<Engine::SystemManager>();
         system_manager->fill_systems();
-        std::shared_ptr<Engine::EntitiesManager> entities_manager = std::make_shared<Engine::EntitiesManager>(system_manager);
+        entities_manager = std::make_shared<Engine::EntitiesManager>(system_manager);
 
-        auto id = entities_manager->add_entity("media/Entities/Knight_Char.json");
+        id = entities_manager->add_entity("media/Entities/Knight_Char.json");
 	}
 	void TearDown()
 	{
 	}
 };
 
-TEST(SystemsTests, RendererSystemUpdateTest)
+TEST_F(SystemsTestsFixture, RendererSystemUpdateTest)
 {
-    std::shared_ptr<Engine::SystemManager> system_manager = std::make_shared<Engine::SystemManager>();
-    system_manager->fill_systems();
-    std::shared_ptr<Engine::EntitiesManager> entities_manager = std::make_shared<Engine::EntitiesManager>(system_manager);
-
-    auto id = entities_manager->add_entity("media/Entities/Knight_Char.json");
     EXPECT_EQ(entities_manager->count(),1);
 
     system_manager->set_entity_manager(entities_manager);
@@ -49,15 +48,8 @@ TEST(SystemsTests, RendererSystemUpdateTest)
     EXPECT_EQ(new_pos, sf::Vector2f(200.f,200.f));
 }
 
-TEST(SystemsTests, RendererSystemNotifyTest)
+TEST_F(SystemsTestsFixture, RendererSystemNotifyTest)
 {
-    std::shared_ptr<Engine::SystemManager> system_manager = std::make_shared<Engine::SystemManager>();
-    system_manager->fill_systems();
-    std::shared_ptr<Engine::EntitiesManager> entities_manager = std::make_shared<Engine::EntitiesManager>(system_manager);
-
-    auto id = entities_manager->add_entity("media/Entities/Knight_Char.json");
-    EXPECT_EQ(entities_manager->count(),1);
-
     system_manager->set_entity_manager(entities_manager);
     auto sprite_sheet_component = 
         entities_manager->get_component<Engine::SpriteSheetComponent<Engine::KnightAnimations>>(id, Engine::ComponentType::SpriteSheet);
