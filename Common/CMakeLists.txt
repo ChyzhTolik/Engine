@@ -22,6 +22,7 @@ set(HEADERS
     CommonHeaders/MapStructs.hpp
     CommonHeaders/Direction.hpp
     CommonHeaders/ComponentType.hpp
+    CommonHeaders/EntityState.hpp
 
     Map/IsoTiles.hpp
     Map/KnightTiles.hpp
@@ -73,6 +74,7 @@ set(HEADERS
     Systems/EntityEvent.hpp
     Systems/RendererSystem.hpp
     Systems/MovementSystem.hpp
+    Systems/StateSystem.hpp
 
 )
 set(SOURCES 
@@ -117,6 +119,7 @@ set(SOURCES
     Systems/MessageHandler.cpp
     Systems/RendererSystem.cpp
     Systems/MovementSystem.cpp
+    Systems/StateSystem.cpp
 
     EntitiesManager/EntitiesManager.cpp
 )

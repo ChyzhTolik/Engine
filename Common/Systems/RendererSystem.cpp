@@ -62,8 +62,7 @@ namespace Engine
         )
         {
             sort_drawables();
-        }
-        
+        }        
     }
 
     void RendererSystem::notify(const Message& message)

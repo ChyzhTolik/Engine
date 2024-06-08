@@ -2,6 +2,7 @@
 #include "EntitiesManager.hpp"
 #include "RendererSystem.hpp"
 #include "MovementSystem.hpp"
+#include "StateSystem.hpp"
 
 namespace Engine
 {
@@ -14,6 +15,7 @@ namespace Engine
     {
         m_systems[SystemType::Renderer] = std::make_shared<RendererSystem>(shared_from_this());
         m_systems[SystemType::Movement] = std::make_shared<MovementSystem>(shared_from_this());
+        m_systems[SystemType::State] = std::make_shared<StateSystem>(shared_from_this());
 
         for (auto &&system : m_systems)
         {
