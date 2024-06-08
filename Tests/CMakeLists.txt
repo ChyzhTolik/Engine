@@ -15,6 +15,7 @@ set(SOURCES
     SystemsTests/RendererSystemTests.cpp
     SystemsTests/MovementSystemTests.cpp
     SystemsTests/StateSystemTests.cpp
+    SystemsTests/ControllerSystemTests.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

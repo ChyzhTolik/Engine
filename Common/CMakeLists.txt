@@ -75,6 +75,7 @@ set(HEADERS
     Systems/RendererSystem.hpp
     Systems/MovementSystem.hpp
     Systems/StateSystem.hpp
+    Systems/ControllerSystem.hpp
 
 )
 set(SOURCES 
@@ -120,6 +121,7 @@ set(SOURCES
     Systems/RendererSystem.cpp
     Systems/MovementSystem.cpp
     Systems/StateSystem.cpp
+    Systems/ControllerSystem.cpp
 
     EntitiesManager/EntitiesManager.cpp
 )
