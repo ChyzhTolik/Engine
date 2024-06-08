@@ -354,7 +354,7 @@ namespace Test
 		auto sprite_sheet_component = 
         	entities_manager->get_component<Engine::SpriteSheetComponent<Engine::KnightAnimations>>(id, Engine::ComponentType::SpriteSheet);
 		sprite_sheet_component->create<Engine::Anim_Directional>(Engine::Configuration::Textures::Knigth);
-		sprite_sheet_component->get_sprite_sheet()->SetAnimation(Engine::KnightAnimations::Idle);
+		std::dynamic_pointer_cast<Engine::SpriteSheetTemplate<Engine::KnightAnimations>>(sprite_sheet_component->get_sprite_sheet())->SetAnimation(Engine::KnightAnimations::Idle);
 		sprite_sheet_component->get_sprite_sheet()->GetCurrentAnim()->Play();
 		sprite_sheet_component->get_sprite_sheet()->GetCurrentAnim()->SetLooping(true);
 		sprite_sheet_component->get_sprite_sheet()->SetDirection(Engine::Direction::Right);

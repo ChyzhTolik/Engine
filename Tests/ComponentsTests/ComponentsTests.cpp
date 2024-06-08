@@ -109,10 +109,8 @@ TEST(ComponentsTests, SpriteSheetComponentTests)
 
     sprite_sheet_component.read_in(jey);
     sprite_sheet_component.create<Engine::Anim_Directional>(Engine::Configuration::Textures::Knigth);
-
-    sprite_sheet_component.get_sprite_sheet()->load_sheet<Engine::Anim_Directional>("media/Animations/Knight_Animations.json", 
-        Engine::Configuration::Textures::Knigth);
-    sprite_sheet_component.get_sprite_sheet()->SetAnimation(Engine::KnightAnimations::Idle);
+    auto sprite_sheet = std::dynamic_pointer_cast<Engine::SpriteSheetTemplate<Engine::KnightAnimations>>(sprite_sheet_component.get_sprite_sheet());
+    sprite_sheet->SetAnimation(Engine::KnightAnimations::Idle);
     sprite_sheet_component.get_sprite_sheet()->GetCurrentAnim()->Play();
     sprite_sheet_component.get_sprite_sheet()->GetCurrentAnim()->SetLooping(true);
     auto current_animation = sprite_sheet_component.get_sprite_sheet()->GetCurrentAnim();

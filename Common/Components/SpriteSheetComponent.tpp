@@ -17,7 +17,7 @@ SpriteSheetComponent<T>::SpriteSheetComponent() : DrawableComponentInterface(Com
 };
 
 template<typename T>
-auto SpriteSheetComponent<T>::get_sprite_sheet()
+std::shared_ptr<SpriteSheet> SpriteSheetComponent<T>::get_sprite_sheet()
 {
     return m_sprite_sheet;
 }

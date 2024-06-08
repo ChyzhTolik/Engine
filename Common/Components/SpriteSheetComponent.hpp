@@ -19,7 +19,7 @@ namespace Engine
         SpriteSheetComponent();
         virtual ~SpriteSheetComponent(){}
 
-        auto get_sprite_sheet();
+        std::shared_ptr<SpriteSheet> get_sprite_sheet() override;
 
         template<class Animation>
         void create(Configuration::Textures id, const std::string& file_name = "");

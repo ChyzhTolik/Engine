@@ -76,6 +76,7 @@ set(HEADERS
     Systems/MovementSystem.hpp
     Systems/StateSystem.hpp
     Systems/ControllerSystem.hpp
+    Systems/SpriteSheetSystem.hpp
 
 )
 set(SOURCES 
@@ -122,6 +123,7 @@ set(SOURCES
     Systems/MovementSystem.cpp
     Systems/StateSystem.cpp
     Systems/ControllerSystem.cpp
+    Systems/SpriteSheetSystem.cpp
 
     EntitiesManager/EntitiesManager.cpp
 )

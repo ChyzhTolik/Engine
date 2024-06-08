@@ -4,6 +4,7 @@
 #include "MovementSystem.hpp"
 #include "StateSystem.hpp"
 #include "ControllerSystem.hpp"
+#include "SpriteSheetSystem.hpp"
 
 namespace Engine
 {
@@ -22,8 +23,7 @@ namespace Engine
         for (auto &&system : m_systems)
         {
             system.second->subscribe();
-        }
-        
+        }        
     }
     
     SystemManager::~SystemManager()
