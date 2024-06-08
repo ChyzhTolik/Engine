@@ -4,7 +4,7 @@
 #include <EntitiesManager/EntitiesManager.hpp>
 #include <Systems/RendererSystem.hpp>
 
-TEST(SystemManagerTests, PositioinComponentTests)
+TEST(SystemManagerTests, PositionComponentTests)
 {
     std::shared_ptr<Engine::SystemManager>system_manager = std::make_shared<Engine::SystemManager>();
 
@@ -16,7 +16,5 @@ TEST(SystemManagerTests, PositioinComponentTests)
     system_manager->set_entity_manager(entities_manager);
 
     system_manager->add_event(id, Engine::EntityEvent::Moving_Right);
-    auto renderer_system = system_manager->get_system<Engine::RendererSystem>(Engine::SystemType::Renderer);
-
-    
+    auto renderer_system = system_manager->get_system<Engine::RendererSystem>(Engine::SystemType::Renderer);    
 }

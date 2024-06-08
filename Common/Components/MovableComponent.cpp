@@ -151,4 +151,19 @@ namespace Engine
     {
         return m_acceleration;
     }
+
+    void MovableComponent::set_acceleration(const sf::Vector2f& acceleration)
+    {
+        m_acceleration = acceleration;
+    }
+
+    void MovableComponent::set_velocity(const sf::Vector2f& velocity)
+    {
+        m_velocity = velocity;
+    }
+
+    void MovableComponent::set_direction(Direction direction)
+    {
+        m_movable_info.direction = direction;
+    }
 } // namespace Engine

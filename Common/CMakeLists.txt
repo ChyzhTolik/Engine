@@ -72,6 +72,7 @@ set(HEADERS
     Systems/EntityMessage.hpp
     Systems/EntityEvent.hpp
     Systems/RendererSystem.hpp
+    Systems/MovementSystem.hpp
 
 )
 set(SOURCES 
@@ -115,6 +116,7 @@ set(SOURCES
     Systems/Communicator.cpp
     Systems/MessageHandler.cpp
     Systems/RendererSystem.cpp
+    Systems/MovementSystem.cpp
 
     EntitiesManager/EntitiesManager.cpp
 )

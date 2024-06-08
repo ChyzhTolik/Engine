@@ -13,6 +13,7 @@ set(SOURCES
     ComponentsTests/ComponentsTests.cpp
     SystemsTests/SystemManagerTests.cpp
     SystemsTests/RendererSystemTests.cpp
+    SystemsTests/MovementSystemTests.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
