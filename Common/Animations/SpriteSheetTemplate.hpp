@@ -3,6 +3,7 @@
 #include "SpriteSheet.hpp"
 #include "nlohmann/json.hpp"
 #include <Configuration.hpp>
+#include <AnimationsToBoolConverter.hpp>
 #include <fstream>
 #include <iostream>
 
@@ -130,6 +131,8 @@ namespace Engine
             animation->m_frameTime = frame.frame_time;
             animation->m_frameStart = frame.start_frame;
             animation->m_frameEnd = frame.end_frame;
+            animation->m_is_attack = AnimationsToBoolConverter::is_attack(frame.type);
+            animation->m_is_death = AnimationsToBoolConverter::is_death(frame.type);
             
             for (auto &&rect : frame.rects)
             {

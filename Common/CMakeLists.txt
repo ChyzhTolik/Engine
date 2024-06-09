@@ -23,6 +23,8 @@ set(HEADERS
     CommonHeaders/Direction.hpp
     CommonHeaders/ComponentType.hpp
     CommonHeaders/EntityState.hpp
+    CommonHeaders/AnimationTypes.hpp
+    CommonHeaders/AnimationsToStateConverter.hpp
 
     Map/IsoTiles.hpp
     Map/KnightTiles.hpp
@@ -42,7 +44,6 @@ set(HEADERS
     Animations/Animation.hpp
     Animations/Anim_Directional.hpp
     Animations/SpriteSheetTemplate.hpp
-    Animations/AnimationTypes.hpp
 
     Entities/Character.hpp 
     Entities/Enemy.hpp 
@@ -126,6 +127,9 @@ set(SOURCES
     Systems/SpriteSheetSystem.cpp
 
     EntitiesManager/EntitiesManager.cpp
+
+    CommonHeaders/AnimationsToBoolConverter.cpp
+    CommonHeaders/AnimationsToStateConverter.cpp
 )
 add_library(${PROJECT_NAME} SHARED ${HEADERS} ${SOURCES})
 

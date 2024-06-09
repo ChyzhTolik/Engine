@@ -39,11 +39,28 @@ namespace Engine
 
             auto animation = sprite_sheet->GetCurrentAnim();
 
-            if (animation->)
+            if (animation->is_attack())
             {
-                /* code */
+                if (!sprite_sheet->GetCurrentAnim()->is_playing())                
+                {
+                    Message message(EntityMessage::Switch_State);
+                    message.m_receiver = entity;
+                    message.m_data = EntityState::Idle;
+                    m_system_manager->get_message_handler()->dispatch(message);
+                }
+                else if (sprite_sheet->GetCurrentAnim()->IsInAction())
+                {   
+                    Message message(EntityMessage::Attack_Action);
+                    message.m_sender = entity;
+                    m_system_manager->get_message_handler()->dispatch(message);
+                }
             }
-            
+            else if (animation->is_death()&&!sprite_sheet->GetCurrentAnim()->is_playing()) 
+            {
+                Message message(EntityMessage::Dead);
+                message.m_receiver = entity;
+                m_system_manager->get_message_handler()->dispatch(message);
+            }
         }
     }
 
@@ -54,7 +71,56 @@ namespace Engine
     
     void SpriteSheetSystem::notify(const Message& message)
     {
-        
+        if (has_entity(message.m_receiver))
+        {
+            if (m_callbacks.find(message.m_receiver)==m_callbacks.end())
+            {
+                return;
+            }          
+
+            switch (message.m_type)
+            {
+            case EntityMessage::State_Changed:
+                {
+                    EntityState state = std::get<EntityState>(message.m_data);
+                    switch (state)
+                    {
+                    case EntityState::Idle:
+                        m_callbacks.at(message.m_receiver)(state, true, true);
+                        break;
+                    
+                    case EntityState::Walking:
+                        m_callbacks.at(message.m_receiver)(state, true, true);
+                        break;
+
+                    case EntityState::Attacking:
+                        m_callbacks.at(message.m_receiver)(state, true,false);
+
+                    case EntityState::Hurt:
+                        break;
+
+                    case EntityState::Dying:
+                        m_callbacks.at(message.m_receiver)(state, true,false);
+                        break;
+
+                    case EntityState::Jumping:
+                        m_callbacks.at(message.m_receiver)(state, true,false);
+                        break;
+
+                    default:
+                        break;
+                    }
+                }
+                break;
+            
+            default:
+                break;
+            }
+        }
     }
     
+    void SpriteSheetSystem::set_change_animation_callback(EntityId id, ChangeAnimationCallback callback)
+    {
+        m_callbacks[id] = callback;
+    }
 } // namespace Engine

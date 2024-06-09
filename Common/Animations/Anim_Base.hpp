@@ -37,6 +37,8 @@ namespace Engine
 	    void SetEndFrame(Frame l_frame);
         sf::Vector2i get_current_sprite_size() const;
         size_t rects_count() const;
+        bool is_attack() const;
+        bool is_death() const;
 
     protected:        
         virtual void FrameStep() = 0;
@@ -53,6 +55,8 @@ namespace Engine
         bool m_loop;
         bool m_playing;
         SpriteSheet& m_spriteSheet;
+        bool m_is_attack{false};
+        bool m_is_death{false};
     };
     
 } // namespace Engine

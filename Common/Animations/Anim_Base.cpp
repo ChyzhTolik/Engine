@@ -110,4 +110,15 @@ namespace Engine
     {
         return m_rects.size();
     }
+
+    bool Anim_Base::is_attack() const
+    {
+        return m_is_attack;
+    }
+
+    bool Anim_Base::is_death() const
+    {
+        return m_is_death;
+    }
+
 } // namespace Engine

@@ -15,4 +15,5 @@ namespace Test
     void test_components();
     void test_new_entities();
     void test_systems();
+    void test_converter();
 } // namespace Test

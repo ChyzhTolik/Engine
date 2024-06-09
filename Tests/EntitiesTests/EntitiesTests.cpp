@@ -6,7 +6,7 @@
 #include <Components/StateComponent.hpp>
 #include <Components/ControllerComponent.hpp>
 #include <Components/SpriteSheetComponent.hpp>
-#include <Animations/AnimationTypes.hpp>
+#include <CommonHeaders/AnimationTypes.hpp>
 #include <Animations/Anim_Directional.hpp>
 #include <Components/CollidableComponent.hpp>
 #include <Systems/SystemManager.hpp>

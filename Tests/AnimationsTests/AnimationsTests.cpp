@@ -4,7 +4,7 @@
 #include <Animations/AnimatedSprite.hpp>
 #include <Configuration/Configuration.hpp>
 #include <Animations/SpriteSheetTemplate.hpp>
-#include <Animations/AnimationTypes.hpp>
+#include <CommonHeaders/AnimationTypes.hpp>
 #include <Animations/Anim_Directional.hpp>
 
 class AnimationTestsFixture : public ::testing::Test

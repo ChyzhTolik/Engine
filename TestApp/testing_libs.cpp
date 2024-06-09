@@ -225,6 +225,7 @@ namespace Test
 		sprite_sheet.GetCurrentAnim()->SetLooping(true);
 		sprite_sheet.SetSpriteScale({3.f,3.f});
 		sprite_sheet.SetSpritePosition({100.f,100.f});
+		sprite_sheet.SetAnimation(Engine::AnimationsToStateConverter::convert(Engine::EntityState::Attacking));
 
 		sf::Clock clock;
 		sf::Time timeSinceLastUpdate = sf::Time::Zero;
@@ -382,5 +383,16 @@ namespace Test
 				window->EndDraw();
 			}
 		}
+	}
+
+	void test_converter()
+	{
+		Engine::EntityState state {Engine::EntityState::Attacking};
+
+		Engine::KnightAnimations animation = Engine::AnimationsToStateConverter::convert(state);
+		
+		state = Engine::EntityState::Dying;
+		animation = Engine::AnimationsToStateConverter::convert(state);
+
 	}
 } // namespace Test
