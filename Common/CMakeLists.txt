@@ -65,19 +65,20 @@ set(HEADERS
     EntitiesManager/EntitiesManager.hpp
 
     Systems/SystemManager.hpp
-    Systems/EventQueue.hpp
+    Systems/Utility/EventQueue.hpp
     Systems/System.hpp
-    Systems/Observer.hpp
-    Systems/Message.hpp
-    Systems/Communicator.hpp
-    Systems/MessageHandler.hpp
-    Systems/EntityMessage.hpp
-    Systems/EntityEvent.hpp
+    Systems/Utility/Observer.hpp
+    Systems/Utility/Message.hpp
+    Systems/Utility/Communicator.hpp
+    Systems/Utility/MessageHandler.hpp
+    Systems/Enums/EntityMessage.hpp
+    Systems/Enums/EntityEvent.hpp
     Systems/RendererSystem.hpp
     Systems/MovementSystem.hpp
     Systems/StateSystem.hpp
     Systems/ControllerSystem.hpp
     Systems/SpriteSheetSystem.hpp
+    Systems/CollisionSystem.hpp
 
 )
 set(SOURCES 
@@ -116,15 +117,16 @@ set(SOURCES
     Components/CollidableComponent.cpp
 
     Systems/SystemManager.cpp
-    Systems/EventQueue.cpp
+    Systems/Utility/EventQueue.cpp
     Systems/System.cpp
-    Systems/Communicator.cpp
-    Systems/MessageHandler.cpp
+    Systems/Utility/Communicator.cpp
+    Systems/Utility/MessageHandler.cpp
     Systems/RendererSystem.cpp
     Systems/MovementSystem.cpp
     Systems/StateSystem.cpp
     Systems/ControllerSystem.cpp
     Systems/SpriteSheetSystem.cpp
+    Systems/CollisionSystem.cpp
 
     EntitiesManager/EntitiesManager.cpp
 

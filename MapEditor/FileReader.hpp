@@ -49,7 +49,7 @@ namespace MapEditor
         j = json
         {
             {"file_name", p.file_name},
-            {"type", p.type}
+            {"type", p.type},
         };
     }
 
@@ -83,7 +83,7 @@ namespace MapEditor
         j = json
         {
             {"layer", p.layer_file_name},
-            {"files", p.files}
+            {"files", p.files},
         };
     }
 
@@ -112,7 +112,6 @@ namespace MapEditor
         for (auto &&layer_data : map_layer_info.files)
         {
             read_file(layer_data.file_name);
-
 
             for (auto &&coord : m_coords)
             {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <unordered_map>
-#include "EntityMessage.hpp"
+#include "Enums/EntityMessage.hpp"
 #include "Communicator.hpp"
 #include <memory>
 

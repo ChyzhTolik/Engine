@@ -57,7 +57,8 @@ namespace Engine
         j = json{ 
             {"TileSet", p.tile_set_name}, 
             {"file", p.file},
-            {"Position", p.position}
+            {"Position", p.position},
+            {"Solid", p.is_solid}
         };
     }
 
@@ -66,6 +67,7 @@ namespace Engine
         j.at("TileSet").get_to(p.tile_set_name);
         j.at("file").get_to(p.file);
         j.at("Position").get_to(p.position);
+        j.at("Solid").get_to(p.is_solid);
     }
 
     void to_json(json& j, const MapAdditionalInfo& p) {
@@ -137,6 +139,8 @@ namespace Engine
                 layer->load_from_file(m_map_info.jsons_path + layer_info.file);
             }
 
+            layer->set_is_solid(layer_info.is_solid);
+
             m_layers[layer_info.position] = layer;
         }
 
@@ -196,5 +200,10 @@ namespace Engine
     int LayeredMap::get_main_layer_index() const
     {
         return m_map_info.main_layer_position;
+    }
+
+    bool LayeredMap::is_solid(int32_t layer) const
+    {
+        return m_layers.at(layer)->is_solid();
     }
 } // namespace Engine

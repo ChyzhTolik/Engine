@@ -17,7 +17,8 @@
         {
             "TileSet" : "KnightTileSet",
             "Position" : 0,
-            "file" : "map_layer1.json"
+            "file" : "map_layer1.json",
+            "Solid" : true
         }
     ],
     "EnemyPositions":

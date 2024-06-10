@@ -2,7 +2,7 @@
 
 #include <queue>
 #include <cstdint>
-#include "EntityEvent.hpp"
+#include "Enums/EntityEvent.hpp"
 
 namespace Engine
 {

@@ -22,6 +22,7 @@ namespace Engine
         std::string tile_set_name;
         std::string file;
         int16_t position;
+        bool is_solid;
     };
 
     struct EnemyPositionInfo
@@ -61,6 +62,7 @@ namespace Engine
         sf::Vector2u get_warp_coords() const;
         void load_next_map();
         int get_main_layer_index() const;
+        bool is_solid(int32_t layer) const;
     private:
         Engine::SharedContext&  m_context;
         MapAdditionalInfo m_map_info;

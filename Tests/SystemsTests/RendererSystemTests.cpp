@@ -6,7 +6,7 @@
 #include <AnimationTypes.hpp>
 #include <Components/SpriteSheetComponent.hpp>
 #include <Components/PositionComponent.hpp>
-#include <Systems/Message.hpp>
+#include <Systems/Utility/Message.hpp>
 
 class SystemsTestsFixture : public ::testing::Test
 {

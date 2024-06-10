@@ -28,11 +28,14 @@ namespace Engine
         uint32_t count() const;
         sf::Vector2u get_tile_size() const override;
         std::shared_ptr<Tile> get_tile_at(const sf::Vector2i& coords) override;
+        virtual bool is_solid() const override;
+        virtual void set_is_solid(bool solid) override;
 
     private:
         Engine::SharedContext&  m_context;
         std::shared_ptr<TileSetTemplate<TileType>> m_tile_set;
         std::unordered_map<sf::Vector2i,std::shared_ptr<TileTemplate<TileType>>,Common::Vector2i_hash> m_map;
+        bool m_is_solid;
     };
     
     template<typename TileType>
@@ -133,5 +136,17 @@ namespace Engine
         std::shared_ptr<TileTemplate<TileType>> tile = m_map.at(coords);
 
         return std::dynamic_pointer_cast<Tile>(tile);
+    }
+
+    template<typename TileType>
+    bool MapLayerTemplate<TileType>::is_solid() const
+    {
+        return m_is_solid;
+    }
+
+    template<typename TileType>
+    void MapLayerTemplate<TileType>::set_is_solid(bool solid)
+    {
+        m_is_solid = solid;
     }
 } // namespace Engine

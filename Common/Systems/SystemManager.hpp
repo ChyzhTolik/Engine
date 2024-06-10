@@ -2,8 +2,8 @@
 
 #include <unordered_map>
 #include "System.hpp"
-#include "EventQueue.hpp"
-#include "MessageHandler.hpp"
+#include "Utility/EventQueue.hpp"
+#include "Utility/MessageHandler.hpp"
 #include "Window.hpp"
 
 namespace Engine

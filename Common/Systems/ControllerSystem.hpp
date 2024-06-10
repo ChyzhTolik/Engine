@@ -10,7 +10,7 @@ namespace Engine
         ControllerSystem(std::shared_ptr<SystemManager> system_manager);
         ~ControllerSystem();
 
-        void subscribe();
+        void subscribe() override;
 
         void update(float time) override;
         void handle_event(EntityId entity, EntityEvent event) override;

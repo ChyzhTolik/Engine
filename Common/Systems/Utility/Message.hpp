@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <variant>
 #include <SFML/Graphics.hpp>
-#include "EntityMessage.hpp"
+#include "Enums/EntityMessage.hpp"
 #include "Direction.hpp"
 #include "EntityState.hpp"
 

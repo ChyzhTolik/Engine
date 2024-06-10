@@ -22,7 +22,7 @@ namespace Engine
         ~MovementSystem();
 
         void set_map(std::shared_ptr<LayeredMap> map);
-        void subscribe();
+        void subscribe() override;
 
         void update(float time) override;
         void handle_event(EntityId entity, EntityEvent event) override;

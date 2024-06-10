@@ -4,8 +4,8 @@
 #include <vector>
 #include <memory>
 
-#include "Observer.hpp"
-#include "EntityEvent.hpp"
+#include "Utility/Observer.hpp"
+#include "Enums/EntityEvent.hpp"
 #include "ComponentType.hpp"
 
 namespace Engine

@@ -134,4 +134,9 @@ namespace Engine
     {
         return {m_collidable_info.bounding_box.left,m_collidable_info.bounding_box.top};
     }
+
+    sf::FloatRect CollidableComponent::get_bounding_box() const
+    {
+        return m_collidable_info.bounding_box;
+    }
 } // namespace Engine
