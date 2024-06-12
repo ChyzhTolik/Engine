@@ -9,15 +9,6 @@ namespace Engine
 {
     class Game
     {
-    private:
-        std::shared_ptr<Window> m_window;
-        sf::Clock m_clock;
-	    sf::Time m_elapsed;
-        sf::Time m_time_per_frame;
-        bool m_repaint = false;
-        StateManager m_state_manager;
-        SharedContext m_context;
-
     public:
         Game();
         ~Game();
@@ -31,6 +22,16 @@ namespace Engine
         void handle_input();
         void update();
         void render();
+
+    private:
+        std::shared_ptr<Window> m_window;
+        sf::Clock m_clock;
+	    sf::Time m_elapsed;
+        sf::Time m_time_per_frame;
+        bool m_repaint = false;
+        StateManager m_state_manager;
+        SharedContext m_context;
+        
     };    
 } // namespace Engine
 

@@ -1,18 +1,10 @@
 #pragma once
 
 #include "Component.hpp"
+#include "EntityState.hpp"
 
 namespace Engine
 {
-    enum class EntityState
-    { 
-        Idle,
-        Walking,
-        Attacking,
-        Hurt,
-        Dying
-    };
-
     struct StateInfo
     {
         EntityState state;

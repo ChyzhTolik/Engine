@@ -39,6 +39,8 @@ namespace Engine
         sf::Vector2f get_box_size() const;
         Origin get_origin() const;
         sf::Vector2f get_position() const;
+        sf::FloatRect get_bounding_box() const;
+        void set_offset(const sf::Vector2f& offset);
 
     private:
         CollidableInfo m_collidable_info;

@@ -11,6 +11,12 @@ set(SOURCES
     AnimationsTests/AnimationsTests.cpp
     EntitiesTests/EntitiesTests.cpp
     ComponentsTests/ComponentsTests.cpp
+    SystemsTests/SystemManagerTests.cpp
+    SystemsTests/RendererSystemTests.cpp
+    SystemsTests/MovementSystemTests.cpp
+    SystemsTests/StateSystemTests.cpp
+    SystemsTests/ControllerSystemTests.cpp
+    SystemsTests/SpriteSheetSystemTests.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

@@ -30,6 +30,10 @@ namespace Engine
         sf::Vector2f get_speed() const;
         sf::Vector2f get_velocity() const;
         sf::Vector2f get_acceleration() const;
+        void set_acceleration(const sf::Vector2f& acceleration);
+        void set_velocity(const sf::Vector2f& velocity);
+        void set_direction(Direction direction);
+        void set_speed(const sf::Vector2f speed);
     private:
         MovableInfo m_movable_info;
         sf::Vector2f m_velocity;

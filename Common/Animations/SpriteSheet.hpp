@@ -35,7 +35,6 @@ namespace Engine
         std::shared_ptr<sf::Sprite> m_sprite;
         sf::Vector2f m_spriteScale;
         Direction m_direction;
-        std::string m_animType;
         std::shared_ptr<Anim_Base> m_animationCurrent;
 
     private:

@@ -21,6 +21,10 @@ set(HEADERS
     CommonHeaders/SharedContext.hpp
     CommonHeaders/MapStructs.hpp
     CommonHeaders/Direction.hpp
+    CommonHeaders/ComponentType.hpp
+    CommonHeaders/EntityState.hpp
+    CommonHeaders/AnimationTypes.hpp
+    CommonHeaders/AnimationsToStateConverter.hpp
 
     Map/IsoTiles.hpp
     Map/KnightTiles.hpp
@@ -40,7 +44,6 @@ set(HEADERS
     Animations/Animation.hpp
     Animations/Anim_Directional.hpp
     Animations/SpriteSheetTemplate.hpp
-    Animations/AnimationTypes.hpp
 
     Entities/Character.hpp 
     Entities/Enemy.hpp 
@@ -55,10 +58,28 @@ set(HEADERS
     Components/MovableComponent.hpp
     Components/StateComponent.hpp
     Components/ControllerComponent.hpp
+    Components/DrawableComponentInterface.hpp
     Components/SpriteSheetComponent.hpp
     Components/CollidableComponent.hpp
 
     EntitiesManager/EntitiesManager.hpp
+
+    Systems/SystemManager.hpp
+    Systems/Utility/EventQueue.hpp
+    Systems/System.hpp
+    Systems/Utility/Observer.hpp
+    Systems/Utility/Message.hpp
+    Systems/Utility/Communicator.hpp
+    Systems/Utility/MessageHandler.hpp
+    Systems/Enums/EntityMessage.hpp
+    Systems/Enums/EntityEvent.hpp
+    Systems/RendererSystem.hpp
+    Systems/MovementSystem.hpp
+    Systems/StateSystem.hpp
+    Systems/ControllerSystem.hpp
+    Systems/SpriteSheetSystem.hpp
+    Systems/CollisionSystem.hpp
+
 )
 set(SOURCES 
     Configuration/Configuration.cpp
@@ -95,7 +116,22 @@ set(SOURCES
     Components/SpriteSheetComponent.cpp
     Components/CollidableComponent.cpp
 
+    Systems/SystemManager.cpp
+    Systems/Utility/EventQueue.cpp
+    Systems/System.cpp
+    Systems/Utility/Communicator.cpp
+    Systems/Utility/MessageHandler.cpp
+    Systems/RendererSystem.cpp
+    Systems/MovementSystem.cpp
+    Systems/StateSystem.cpp
+    Systems/ControllerSystem.cpp
+    Systems/SpriteSheetSystem.cpp
+    Systems/CollisionSystem.cpp
+
     EntitiesManager/EntitiesManager.cpp
+
+    CommonHeaders/AnimationsToBoolConverter.cpp
+    CommonHeaders/AnimationsToStateConverter.cpp
 )
 add_library(${PROJECT_NAME} SHARED ${HEADERS} ${SOURCES})
 
@@ -125,3 +161,4 @@ target_include_directories(${PROJECT_NAME} PUBLIC Animations)
 target_include_directories(${PROJECT_NAME} PUBLIC InfoBox)
 target_include_directories(${PROJECT_NAME} PUBLIC Components)
 target_include_directories(${PROJECT_NAME} PUBLIC EntitiesManager)
+target_include_directories(${PROJECT_NAME} PUBLIC Systems)

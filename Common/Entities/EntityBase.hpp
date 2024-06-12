@@ -4,15 +4,11 @@
 #include <memory>
 #include <Direction.hpp>
 #include <Tile.hpp>
+#include "EntityState.hpp"
 
 namespace Engine
 {
     enum class EntityType{ Base, Enemy, Player };
-
-    enum class EntityState
-    {
-        Idle, Walking, Jumping, Attacking, Hurt, Dying
-    };
 
     struct CollisionElement
     {

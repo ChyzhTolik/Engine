@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <unordered_map>
-#include <bitset>
 #include <vector>
 
 #include <Component.hpp>
@@ -10,8 +9,7 @@
 namespace Engine
 {
     using EntityId = uint32_t;
-    using ComponentContainer = std::vector<std::shared_ptr<Component>>;
-    using ComponentBitSet = std::bitset<static_cast<size_t>(ComponentType::All)>;
+    using ComponentContainer = std::vector<std::shared_ptr<Component>>;    
 
     struct EntityInfo
     {
@@ -19,11 +17,7 @@ namespace Engine
         std::string components;
     };
 
-    class SystemManager
-    {
-        public:
-        SystemManager(){}
-    };
+    class SystemManager;
 
     class EntitiesManager
     {

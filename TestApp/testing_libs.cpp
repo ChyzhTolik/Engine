@@ -1,32 +1,5 @@
 #include "testing_libs.hpp"
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include <memory>
-
-#include "Configuration/Configuration.hpp"
-#include "Window/Window.hpp"
-#include "Game.hpp"
-#include "Map/TileTemplate.hpp"
-#include "Map/TileSetTemplate.hpp"
-#include "Map/KnightTiles.hpp"
-#include "Map/IsoTiles.hpp"
-#include "Map/MapLayerTemplate.hpp"
-#include "Map/LayeredMap.hpp"
-
-#include "Animations/AnimatedSprite.hpp"
-#include "Animations/SpriteSheetTemplate.hpp"
-#include "Animations/AnimationTypes.hpp"
-#include "Animations/Anim_Directional.hpp"
-#include "Entities/Character.hpp"
-#include "Entities/Player.hpp"
-#include "SharedContext.hpp"
-#include "InfoBox/InfoBox.hpp"
-
-#include "Components/PositionComponent.hpp"
-#include "EntitiesManager/EntitiesManager.hpp"
-
-#include <nlohmann/json.hpp>
-using nlohmann::json;
+#include "test_headers.hpp"
 
 
 namespace Test
@@ -252,6 +225,7 @@ namespace Test
 		sprite_sheet.GetCurrentAnim()->SetLooping(true);
 		sprite_sheet.SetSpriteScale({3.f,3.f});
 		sprite_sheet.SetSpritePosition({100.f,100.f});
+		sprite_sheet.SetAnimation(Engine::AnimationsToStateConverter::convert(Engine::EntityState::Attacking));
 
 		sf::Clock clock;
 		sf::Time timeSinceLastUpdate = sf::Time::Zero;
@@ -364,5 +338,129 @@ namespace Test
 		Engine::ComponentBitSet mask;
 		mask.set(static_cast<size_t>(Engine::ComponentType::Position));
 		entities_manager.add_entity(mask);
+	}
+
+	void test_systems()
+	{
+		Engine::Configuration::Initialize();
+		sf::Vector2u window_size{800,600};
+		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
+
+		Engine::SharedContext context;
+		context.m_wind = window;
+		context.m_eventManager = window->GetEventManager();
+
+		std::shared_ptr<Engine::InfoBox> infobox = std::make_shared<Engine::InfoBox>();
+		infobox->Setup(10,10,300,{320,0});
+		context.m_info_box = infobox;
+
+		std::shared_ptr<Engine::SystemManager> system_manager = std::make_shared<Engine::SystemManager>();
+		system_manager->fill_systems();
+		std::shared_ptr<Engine::EntitiesManager> entities_manager = std::make_shared<Engine::EntitiesManager>(system_manager);
+		auto id = entities_manager->add_entity("media/Entities/Knight_Char.json");
+		system_manager->set_entity_manager(entities_manager);
+		system_manager->set_infobox(infobox);
+
+		auto sprite_sheet_component = 
+        	entities_manager->get_component<Engine::SpriteSheetComponent<Engine::KnightAnimations>>(id, Engine::ComponentType::SpriteSheet);
+		sprite_sheet_component->create<Engine::Anim_Directional>(Engine::Configuration::Textures::Knigth);
+		auto sprite_sheet = std::dynamic_pointer_cast<Engine::SpriteSheetTemplate<Engine::KnightAnimations>>(sprite_sheet_component->get_sprite_sheet());
+		sprite_sheet->SetAnimation(Engine::KnightAnimations::Idle);
+		sprite_sheet->GetCurrentAnim()->Play();
+		sprite_sheet->GetCurrentAnim()->SetLooping(true);
+		sprite_sheet->SetDirection(Engine::Direction::Right);
+
+		context.m_system_manager = system_manager;
+		context.m_entities_manager = entities_manager;
+
+		auto map = std::make_shared<Engine::LayeredMap>(context);
+        map->load_from_file("media/map/GameMap.json");
+		context.m_game_map = map;
+
+		std::shared_ptr<Engine::StateManager> state_manager = std::make_shared<Engine::StateManager>(context);
+		state_manager->SwitchTo(Engine::StateType::Game);
+
+		auto movement_component =
+			entities_manager->get_component<Engine::MovableComponent>(id, Engine::ComponentType::Movable);
+
+		auto position_component =
+			entities_manager->get_component<Engine::PositionComponent>(id, Engine::ComponentType::Position);
+
+		auto controller_component =
+			entities_manager->get_component<Engine::ControllerComponent>(id, Engine::ComponentType::Controller);
+
+		auto state_component =
+			entities_manager->get_component<Engine::StateComponent>(id, Engine::ComponentType::State);
+
+		auto collidable_component =
+			entities_manager->get_component<Engine::CollidableComponent>(id, Engine::ComponentType::Collidable);
+
+		auto renderer_system = system_manager->get_system<Engine::RendererSystem>(Engine::SystemType::Renderer);
+		auto movement_system = system_manager->get_system<Engine::MovementSystem>(Engine::SystemType::Movement);
+		auto collidable_system = system_manager->get_system<Engine::CollisionSystem>(Engine::SystemType::Collision);
+		auto controller_system = system_manager->get_system<Engine::ControllerSystem>(Engine::SystemType::Control);
+		auto state_system = system_manager->get_system<Engine::StateSystem>(Engine::SystemType::State);
+		auto sprite_sheet_system = system_manager->get_system<Engine::SpriteSheetSystem>(Engine::SystemType::SheetAnimation);
+
+		movement_system->set_map(map);
+		collidable_system->set_map(map);
+
+		collidable_component->set_origin(Engine::Origin::TopLeft);
+		collidable_component->set_offset({0.f,0.f});
+		
+		movement_component->add_velocity({0.f, 200.f});
+		movement_component->set_acceleration({10.f,10.f});
+		movement_component->set_speed({10.f,10.f});
+		position_component->set_position({192.f,100.f});
+
+		Engine::SpriteSheetTemplate<Engine::KnightAnimations> sprite_sheet2;
+
+		sprite_sheet2.load_sheet<Engine::Anim_Directional>("media/Animations/Knight_Animations.json", Engine::Configuration::Textures::Knigth);
+		sprite_sheet2.SetAnimation(Engine::KnightAnimations::None);
+		sprite_sheet2.GetCurrentAnim()->Play();
+		sprite_sheet2.GetCurrentAnim()->SetLooping(true);
+		sprite_sheet2.SetSpritePosition({300.f,100.f});
+		sprite_sheet2.SetAnimation(Engine::AnimationsToStateConverter::convert(Engine::EntityState::Idle));
+
+		sf::Clock clock;
+		sf::Time timeSinceLastUpdate = sf::Time::Zero;
+		sf::Time TimePerFrame = sf::seconds(1.f/30);
+
+		while (!window->IsDone())
+		{
+			window->Update();
+			bool repaint = false;
+			timeSinceLastUpdate += clock.restart();
+
+			while (timeSinceLastUpdate > TimePerFrame)
+			{
+				infobox->Clear();
+				timeSinceLastUpdate -= TimePerFrame;
+				repaint = true;
+				system_manager->update(TimePerFrame.asSeconds());
+				sprite_sheet2.Update(TimePerFrame.asSeconds());
+			}
+
+			if(repaint)
+			{
+				window->BeginDraw();
+				system_manager->draw(window,0);
+				infobox->Render(window->GetRenderWindow());
+				map->draw();
+				sprite_sheet2.Draw(window->GetRenderWindow());
+				window->EndDraw();
+			}
+		}
+	}
+
+	void test_converter()
+	{
+		Engine::EntityState state {Engine::EntityState::Attacking};
+
+		Engine::KnightAnimations animation = Engine::AnimationsToStateConverter::convert(state);
+		
+		state = Engine::EntityState::Dying;
+		animation = Engine::AnimationsToStateConverter::convert(state);
+
 	}
 } // namespace Test

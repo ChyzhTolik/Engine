@@ -11,13 +11,13 @@ SpriteSheetComponentCreator<T>::SpriteSheetComponentCreator()
 }
 
 template<typename T>
-SpriteSheetComponent<T>::SpriteSheetComponent() : Component(ComponentType::SpriteSheet), m_sprite_sheet{nullptr}
+SpriteSheetComponent<T>::SpriteSheetComponent() : DrawableComponentInterface(ComponentType::SpriteSheet), m_sprite_sheet{nullptr}
 {
 
 };
 
 template<typename T>
-auto SpriteSheetComponent<T>::get_sprite_sheet()
+std::shared_ptr<SpriteSheet> SpriteSheetComponent<T>::get_sprite_sheet()
 {
     return m_sprite_sheet;
 }
@@ -43,7 +43,7 @@ void SpriteSheetComponent<T>::update_position(const sf::Vector2f& l_vec)
 }
 
 template<typename T>
-const sf::Vector2i& SpriteSheetComponent<T>::get_size()
+const sf::Vector2i SpriteSheetComponent<T>::get_size()
 {
     return m_sprite_sheet->GetSpriteSize();
 }
@@ -58,4 +58,10 @@ template<typename T>
 void SpriteSheetComponent<T>::read_in(json data)
 {
     m_sprite_sheet_info = SpriteSheetComponentTestHelper::get_from_json(data);
+}
+
+template<typename T>
+void SpriteSheetComponent<T>::update(float time)
+{
+    m_sprite_sheet->Update(time);
 }

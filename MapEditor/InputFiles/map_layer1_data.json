@@ -1,5 +1,6 @@
 {
     "layer":"map_layer1.json",
+    "Solid" : true,
     "files":
     [
         {

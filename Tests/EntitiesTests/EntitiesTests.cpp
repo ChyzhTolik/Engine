@@ -6,9 +6,10 @@
 #include <Components/StateComponent.hpp>
 #include <Components/ControllerComponent.hpp>
 #include <Components/SpriteSheetComponent.hpp>
-#include <Animations/AnimationTypes.hpp>
+#include <CommonHeaders/AnimationTypes.hpp>
 #include <Animations/Anim_Directional.hpp>
 #include <Components/CollidableComponent.hpp>
+#include <Systems/SystemManager.hpp>
 
 TEST(EntitiesManagerTests, TestAddEntity)
 {
@@ -74,8 +75,8 @@ TEST(EntitiesManagerTests, TestAddEntityFromFile)
     EXPECT_EQ(entities_manager.count(),1);
 
     auto pos_component = entities_manager.get_component<Engine::PositionComponent>(id, Engine::ComponentType::Position);
-    EXPECT_EQ(pos_component->get_position(),sf::Vector2f(12.f,1.f));
-    EXPECT_EQ(pos_component->get_elevation(),3);
+    EXPECT_EQ(pos_component->get_position(),sf::Vector2f(100.f,100.f));
+    EXPECT_EQ(pos_component->get_elevation(),0);
 
     auto mov_component = entities_manager.get_component<Engine::MovableComponent>(id, Engine::ComponentType::Movable);
     EXPECT_EQ(mov_component->get_direction(), Engine::Direction::Up);
@@ -91,9 +92,7 @@ TEST(EntitiesManagerTests, TestAddEntityFromFile)
     auto sprite_sheet_component = 
         entities_manager.get_component<Engine::SpriteSheetComponent<Engine::KnightAnimations>>(id, Engine::ComponentType::SpriteSheet);
     sprite_sheet_component->create<Engine::Anim_Directional>(Engine::Configuration::Textures::Knigth);
-    sprite_sheet_component->get_sprite_sheet()->load_sheet<Engine::Anim_Directional>("media/Animations/Knight_Animations.json", 
-        Engine::Configuration::Textures::Knigth);
-    sprite_sheet_component->get_sprite_sheet()->SetAnimation(Engine::KnightAnimations::Idle);
+    std::dynamic_pointer_cast<Engine::SpriteSheetTemplate<Engine::KnightAnimations>>(sprite_sheet_component->get_sprite_sheet())->SetAnimation(Engine::KnightAnimations::Idle);
     sprite_sheet_component->get_sprite_sheet()->GetCurrentAnim()->Play();
     sprite_sheet_component->get_sprite_sheet()->GetCurrentAnim()->SetLooping(true);
     auto current_animation = sprite_sheet_component->get_sprite_sheet()->GetCurrentAnim();
