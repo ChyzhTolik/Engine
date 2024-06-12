@@ -139,4 +139,9 @@ namespace Engine
     {
         return m_collidable_info.bounding_box;
     }
+
+    void CollidableComponent::set_offset(const sf::Vector2f& offset)
+    {
+        m_collidable_info.offset = offset;
+    }
 } // namespace Engine

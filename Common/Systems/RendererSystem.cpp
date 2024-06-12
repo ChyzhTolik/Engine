@@ -47,7 +47,6 @@ namespace Engine
             }
 
             drawable_component->update_position(position_component->get_position());
-            drawable_component->update(time);
         }
     }
 

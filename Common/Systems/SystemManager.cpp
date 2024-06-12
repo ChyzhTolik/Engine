@@ -143,4 +143,14 @@ namespace Engine
     {
         m_systems.clear();
     }
+
+    void SystemManager::set_infobox(std::shared_ptr<InfoBox> infobox)
+    {
+        m_infobox = infobox;
+    }
+
+    std::shared_ptr<InfoBox> SystemManager::get_infobox()
+    {
+        return m_infobox;
+    }
 } // namespace Engine

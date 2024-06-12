@@ -37,6 +37,8 @@ namespace Engine
             auto sprite_sheet = drawable_component->get_sprite_sheet();
             sprite_sheet->Update(time);
 
+            m_system_manager->get_infobox()->Add("Time:"+std::to_string(time));
+
             auto animation = sprite_sheet->GetCurrentAnim();
 
             if (animation->is_attack())

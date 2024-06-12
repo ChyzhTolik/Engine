@@ -9,7 +9,7 @@
 
 namespace Engine
 {
-    struct CollisionElement
+    struct CollisionInfo
     {
         float area;
         std::shared_ptr<Tile> tile_info;

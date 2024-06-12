@@ -5,6 +5,7 @@
 #include "Utility/EventQueue.hpp"
 #include "Utility/MessageHandler.hpp"
 #include "Window.hpp"
+#include "InfoBox.hpp"
 
 namespace Engine
 {
@@ -32,6 +33,9 @@ namespace Engine
         void purge_entities();
         void purge_systems();
 
+        void set_infobox(std::shared_ptr<InfoBox> infobox);
+        std::shared_ptr<InfoBox> get_infobox();
+
         template<typename T>
         std::shared_ptr<T> get_system(SystemType system_type);
     private:
@@ -39,6 +43,7 @@ namespace Engine
         std::shared_ptr<EntitiesManager> m_entity_manager;
         std::unordered_map<EntityId, EventQueue> m_events;
         std::shared_ptr<MessageHandler> m_message_handler;
+        std::shared_ptr<InfoBox> m_infobox;
     };
     
     template<typename T>

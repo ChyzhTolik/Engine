@@ -24,10 +24,21 @@
 #include "InfoBox/InfoBox.hpp"
 #include "EntityState.hpp"
 
+#include "Components/CollidableComponent.hpp"
+#include "Components/ControllerComponent.hpp"
+#include "Components/MovableComponent.hpp"
 #include "Components/PositionComponent.hpp"
+#include "Components/SpriteSheetComponent.hpp"
+#include "Components/StateComponent.hpp"
+
 #include "EntitiesManager/EntitiesManager.hpp"
 #include "SystemManager.hpp"
-#include "SpriteSheetComponent.hpp"
+#include "RendererSystem.hpp"
+#include "MovementSystem.hpp"
+#include "StateSystem.hpp"
+#include "ControllerSystem.hpp"
+#include "SpriteSheetSystem.hpp"
+#include "CollisionSystem.hpp"
 #include "CommonHeaders/AnimationsToStateConverter.hpp"
 
 #include <nlohmann/json.hpp>

@@ -45,6 +45,11 @@ namespace Engine
             collidable_component->set_position(position_component->get_position());
             collidable_component->resset_collision_flags();
 
+            m_system_manager->get_infobox()->Add("Bounding box left="+std::to_string(collidable_component->get_bounding_box().left)+
+                ", top="+std::to_string(collidable_component->get_bounding_box().top));
+            m_system_manager->get_infobox()->Add("Bounding box width="+std::to_string(collidable_component->get_bounding_box().width)+
+                ", height="+std::to_string(collidable_component->get_bounding_box().height));
+
             check_out_of_bounds(position_component, collidable_component);
             map_collisions(entity, position_component, collidable_component);
         }
@@ -78,13 +83,15 @@ namespace Engine
     void CollisionSystem::map_collisions(EntityId entity, std::shared_ptr<PositionComponent> position, std::shared_ptr<CollidableComponent> collidable)
     {
         auto tile_size = m_map->get_tile_size();
-        std::vector<CollisionElement> collisions;
+        std::vector<CollisionInfo> collisions;
         auto entity_rect = collidable->get_bounding_box();
 
         uint32_t from_x = floor(entity_rect.left / m_map->get_tile_size().x);
         uint32_t to_x = floor((entity_rect.left + entity_rect.width) / m_map->get_tile_size().x);
         uint32_t from_y = floor(entity_rect.top / m_map->get_tile_size().y);
         uint32_t to_y = floor((entity_rect.top + entity_rect.height) / m_map->get_tile_size().y);
+
+        m_system_manager->get_infobox()->Add("Tile: "+std::to_string(from_x)+","+std::to_string(from_y));
 
         for (uint32_t x = from_x; x<= to_x; x++)
         {
@@ -106,9 +113,14 @@ namespace Engine
                 sf::FloatRect tile_rect(sf::Vector2f(x*m_map->get_tile_size().x, y*m_map->get_tile_size().y),static_cast<sf::Vector2f>(m_map->get_tile_size()));
                 
                 auto intersection = entity_rect.findIntersection(tile_rect);
+                if (!intersection.has_value())
+                {
+                    continue;
+                }
+                
                 float square = intersection.value().width*intersection.value().height;
 
-                CollisionElement element = {square, tile, tile_rect};
+                CollisionInfo element = {square, tile, tile_rect};
                 collisions.emplace_back(element);
                 break;
             }
@@ -119,7 +131,7 @@ namespace Engine
             return;
         }
 
-        std::sort(collisions.begin(),collisions.end(),[](CollisionElement& l1, CollisionElement& l2)
+        std::sort(collisions.begin(),collisions.end(),[](CollisionInfo& l1, CollisionInfo& l2)
         {
             return l1.area > l2.area;
         });

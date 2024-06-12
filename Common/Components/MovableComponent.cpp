@@ -166,4 +166,9 @@ namespace Engine
     {
         m_movable_info.direction = direction;
     }
+
+    void MovableComponent::set_speed(const sf::Vector2f speed)
+    {
+        m_movable_info.speed = speed;
+    }
 } // namespace Engine

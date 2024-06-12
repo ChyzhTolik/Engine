@@ -39,7 +39,8 @@ namespace Engine
         m_background_sprite.setScale({3.125f,4.17f});
         std::shared_ptr<EventManager> evMgr = m_stateMgr.GetContext().m_eventManager;
         evMgr->add_action(StateType::Game,"Key_P",std::make_unique<PauseAction>(*this));
-        evMgr->add_action(StateType::Game,"Right",std::make_unique<ClickAction>(*this));
+        evMgr->add_action(StateType::Game,"Player_MoveRight",std::make_unique<MoveAction>(*this));
+        evMgr->add_action(StateType::Game,"Player_MoveLeft",std::make_unique<MoveAction>(*this));
     }
 
     void State_Game::OnDestroy()
@@ -71,6 +72,36 @@ namespace Engine
         
     }
 
+    State_Game::MoveAction::MoveAction(State_Game& state) : m_state(state)
+    {
+
+    }
+
+    void State_Game::MoveAction::execute(EventDetails& l_details)
+    {
+        Message msg(EntityMessage::Move);
+        if (l_details.m_name == "Player_MoveLeft")
+        {
+            msg.m_data = Direction::Left;
+        } 
+        else if (l_details.m_name == "Player_MoveRight")
+        {
+            msg.m_data = Direction::Right;
+        } 
+        else if (l_details.m_name == "Player_MoveUp")
+        {
+            msg.m_data = Direction::Up;
+        } 
+        else if (l_details.m_name == "Player_MoveDown")
+        {
+            msg.m_data = Direction::Down;
+        }
+
+        msg.m_receiver = m_state.get_player_id();
+
+        m_state.GetStateManager().GetContext().m_system_manager->get_message_handler()->dispatch(msg);
+    }
+
     State_Game::PauseAction::PauseAction(State_Game& state) : m_state(state)
     {
         
@@ -87,5 +118,15 @@ namespace Engine
     void State_Game::UpdateCamera()
     {
         
+    }
+
+    void State_Game::set_player_id(const uint32_t id)
+    {
+        m_player = id;
+    }
+
+    uint32_t State_Game::get_player_id() const
+    {
+        return m_player;
     }
 } // namespace Engine

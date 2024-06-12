@@ -2,6 +2,7 @@
 #include "SystemManager.hpp"
 #include "EntitiesManager.hpp"
 #include "LayeredMap.hpp"
+#include <string>
 
 namespace Engine
 {
@@ -44,6 +45,9 @@ namespace Engine
 
             movement_step(time, movable_component, position_component);
             position_component->move_by(movable_component->get_velocity()*time);
+            std::string position_text = "Position =("+std::to_string(position_component->get_position().x)+","
+                +std::to_string(position_component->get_position().y)+".";
+            m_system_manager->get_infobox()->Add(position_text);
         }
     }
 
