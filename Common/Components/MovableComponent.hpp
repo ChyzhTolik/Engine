@@ -24,6 +24,7 @@ namespace Engine
         void apply_friction(const sf::Vector2f& friction);
         void accelerate(const sf::Vector2f& acceleration);
         void move(Direction direction);
+        void jump();
 
         float get_max_velocity() const;
         Direction get_direction() const;

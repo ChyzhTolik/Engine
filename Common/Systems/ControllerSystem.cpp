@@ -44,6 +44,10 @@ namespace Engine
         case EntityEvent::Moving_Down:
             move_entity(entity,Direction::Down);
             break;
+
+        case EntityEvent::Jumping:
+            jump_entity(entity);
+            break;
         
         default:
             break;
@@ -55,6 +59,13 @@ namespace Engine
         auto movable_component = m_system_manager->get_entity_manager()->get_component<MovableComponent>(entity, ComponentType::Movable);
 
         movable_component->move(direction);
+    }
+
+    void ControllerSystem::jump_entity(EntityId entity)
+    {
+        auto movable_component = m_system_manager->get_entity_manager()->get_component<MovableComponent>(entity, ComponentType::Movable);
+
+        movable_component->jump();
     }
 
     void ControllerSystem::update(float time)

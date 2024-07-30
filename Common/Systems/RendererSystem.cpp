@@ -57,7 +57,8 @@ namespace Engine
             event == EntityEvent::Moving_Up ||
             event == EntityEvent::Moving_Down ||
             event == EntityEvent::Elevation_Change ||
-            event == EntityEvent::Spawned
+            event == EntityEvent::Spawned ||
+            event == EntityEvent::Jumping
         )
         {
             sort_drawables();

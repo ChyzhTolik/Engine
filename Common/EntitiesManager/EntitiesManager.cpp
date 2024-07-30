@@ -239,4 +239,17 @@ namespace Engine
 
         return entity_id;
     }
+
+    void EntitiesManager::set_player_id(const uint32_t id)
+    {
+        m_player_id = id;
+    }
+
+
+    uint32_t EntitiesManager::get_player_id() const
+    {
+        return m_player_id;
+    }
+
+
 } // namespace Engine

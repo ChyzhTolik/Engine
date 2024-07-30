@@ -41,12 +41,15 @@ namespace Engine
         evMgr->add_action(StateType::Game,"Key_P",std::make_unique<PauseAction>(*this));
         evMgr->add_action(StateType::Game,"Player_MoveRight",std::make_unique<MoveAction>(*this));
         evMgr->add_action(StateType::Game,"Player_MoveLeft",std::make_unique<MoveAction>(*this));
+        evMgr->add_action(StateType::Game,"Player_Attack",std::make_unique<AttackAction>(*this));
+        evMgr->add_action(StateType::Game,"Player_Die",std::make_unique<DieAction>(*this));
+        evMgr->add_action(StateType::Game,"Player_Jump",std::make_unique<JumpAction>(*this));
+        evMgr->add_action(StateType::Game,"Player_Type",std::make_unique<TypeAction>(*this));
     }
 
     void State_Game::OnDestroy()
     {
         std::shared_ptr<EventManager> evMgr = m_stateMgr.GetContext().m_eventManager;
-        evMgr->remove_action(StateType::Game,"Key_Escape");
         evMgr->remove_action(StateType::Game,"Key_P");
     }
 
@@ -97,7 +100,7 @@ namespace Engine
             msg.m_data = Direction::Down;
         }
 
-        msg.m_receiver = m_state.get_player_id();
+        msg.m_receiver = m_state.GetStateManager().GetContext().m_entities_manager->get_player_id();
 
         m_state.GetStateManager().GetContext().m_system_manager->get_message_handler()->dispatch(msg);
     }
@@ -120,13 +123,60 @@ namespace Engine
         
     }
 
-    void State_Game::set_player_id(const uint32_t id)
+    State_Game::AttackAction::AttackAction(State_Game& state) : m_state(state)
     {
-        m_player = id;
+        
     }
 
-    uint32_t State_Game::get_player_id() const
+    void State_Game::AttackAction::execute(EventDetails& l_details)
     {
-        return m_player;
+        Message msg(EntityMessage::State_Changed);
+
+        msg.m_receiver = m_state.GetStateManager().GetContext().m_entities_manager->get_player_id();
+        msg.m_data = EntityState::Attacking;
+
+        m_state.GetStateManager().GetContext().m_system_manager->get_message_handler()->dispatch(msg);
     }
-} // namespace Engine
+
+    State_Game::DieAction::DieAction(State_Game& state) : m_state(state)
+    {
+        
+    }
+
+    void State_Game::DieAction::execute(EventDetails& l_details)
+    {
+        Message msg(EntityMessage::State_Changed);
+
+        msg.m_receiver = m_state.GetStateManager().GetContext().m_entities_manager->get_player_id();
+        msg.m_data = EntityState::Dying;
+
+        m_state.GetStateManager().GetContext().m_system_manager->get_message_handler()->dispatch(msg);
+    }
+
+    State_Game::JumpAction::JumpAction(State_Game& state) : m_state(state)
+    {
+        
+    }
+
+    void State_Game::JumpAction::execute(EventDetails& l_details)
+    {
+        Message msg(EntityMessage::Jump_Action);
+
+        msg.m_receiver = m_state.GetStateManager().GetContext().m_entities_manager->get_player_id();
+        msg.m_data = EntityState::Jumping;
+
+        m_state.GetStateManager().GetContext().m_system_manager->get_message_handler()->dispatch(msg);
+    }
+
+    State_Game::TypeAction::TypeAction(State_Game& state) : m_state(state)
+    {
+        
+    }
+
+    void State_Game::TypeAction::execute(EventDetails& l_details)
+    {
+        auto info_box = m_state.GetStateManager().GetContext().m_info_box;
+
+        info_box->Add("Hello");
+    }
+} // namespace Engine 

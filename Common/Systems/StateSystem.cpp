@@ -18,6 +18,7 @@ namespace Engine
     {
         m_system_manager->get_message_handler()->subscribe(EntityMessage::Move, shared_from_this());
         m_system_manager->get_message_handler()->subscribe(EntityMessage::Switch_State, shared_from_this());
+        m_system_manager->get_message_handler()->subscribe(EntityMessage::Jump_Action, shared_from_this());
     }
 
     StateSystem::~StateSystem()
@@ -99,7 +100,15 @@ namespace Engine
 
             case EntityMessage::Switch_State:
                 change_state(message.m_receiver, std::get<EntityState>(message.m_data), false);
-                break;;
+                break;
+
+            case EntityMessage::Jump_Action:
+                {
+                    EntityEvent event = EntityEvent::Jumping;
+                    m_system_manager->add_event(message.m_receiver, event);
+                    change_state(message.m_receiver, EntityState::Jumping, false);
+                }
+                break;
             
             default:
                 break;

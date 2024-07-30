@@ -358,6 +358,7 @@ namespace Test
 		system_manager->fill_systems();
 		std::shared_ptr<Engine::EntitiesManager> entities_manager = std::make_shared<Engine::EntitiesManager>(system_manager);
 		auto id = entities_manager->add_entity("media/Entities/Knight_Char.json");
+		entities_manager->set_player_id(id);
 		system_manager->set_entity_manager(entities_manager);
 		system_manager->set_infobox(infobox);
 
@@ -374,11 +375,12 @@ namespace Test
 		context.m_entities_manager = entities_manager;
 
 		auto map = std::make_shared<Engine::LayeredMap>(context);
-        map->load_from_file("media/map/GameMap.json");
+        map->load_from_file("media/map/GameMap2.json");
 		context.m_game_map = map;
 
 		std::shared_ptr<Engine::StateManager> state_manager = std::make_shared<Engine::StateManager>(context);
 		state_manager->SwitchTo(Engine::StateType::Game);
+		
 
 		auto movement_component =
 			entities_manager->get_component<Engine::MovableComponent>(id, Engine::ComponentType::Movable);
@@ -402,15 +404,22 @@ namespace Test
 		auto state_system = system_manager->get_system<Engine::StateSystem>(Engine::SystemType::State);
 		auto sprite_sheet_system = system_manager->get_system<Engine::SpriteSheetSystem>(Engine::SystemType::SheetAnimation);
 
+		Engine::ChangeAnimationCallback callback = [sprite_sheet](Engine::EntityState state, bool play, bool loop)
+        {
+            sprite_sheet->SetAnimation(Engine::AnimationsToStateConverter::convert(state), play, loop);
+        };
+
+        sprite_sheet_system->set_change_animation_callback(id, callback);
+
 		movement_system->set_map(map);
 		collidable_system->set_map(map);
 
 		collidable_component->set_origin(Engine::Origin::TopLeft);
 		collidable_component->set_offset({0.f,0.f});
 		
-		movement_component->add_velocity({0.f, 200.f});
-		movement_component->set_acceleration({10.f,10.f});
-		movement_component->set_speed({10.f,10.f});
+		// movement_component->accelerate({0.f,map->get_gravity()});
+		// movement_component->set_acceleration({10.f,10.f});
+		// movement_component->set_speed({1024.f, 128.f});
 		position_component->set_position({192.f,100.f});
 
 		Engine::SpriteSheetTemplate<Engine::KnightAnimations> sprite_sheet2;
@@ -424,7 +433,7 @@ namespace Test
 
 		sf::Clock clock;
 		sf::Time timeSinceLastUpdate = sf::Time::Zero;
-		sf::Time TimePerFrame = sf::seconds(1.f/30);
+		sf::Time TimePerFrame = sf::seconds(1.f/60);
 
 		while (!window->IsDone())
 		{

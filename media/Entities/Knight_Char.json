@@ -11,8 +11,8 @@
     },
     "Movable": 
     {
-      "speed":[100,100],
-      "velocity_max":1000,
+      "speed":[1024, 1024],
+      "velocity_max":200,
       "direction":2
     },
     "State":

@@ -38,6 +38,8 @@ namespace Engine
         std::shared_ptr<T> get_component(EntityId id, ComponentType component_type);
 
         void clear();
+        void set_player_id(const uint32_t id);
+        uint32_t get_player_id() const;
 
     private:
 
@@ -49,6 +51,7 @@ namespace Engine
         std::unordered_map<EntityId,std::pair<ComponentBitSet,ComponentContainer>> m_entities_map;
         std::unordered_map<ComponentType, std::unique_ptr<ComponentCreator>> m_component_factory;
         static const std::vector<std::string> m_component_names;
+        uint32_t m_player_id;
     };
 
     template<typename T, typename ...Args>

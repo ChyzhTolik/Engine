@@ -48,5 +48,15 @@
         "code": 39,
         "name": "Player_Attack",
         "type": 5
+    },
+    {
+        "code": 16,
+        "name": "Player_Die",
+        "type": 5
+    },
+    {
+        "code": 17,
+        "name": "Player_Type",
+        "type": 5
     }
 ]

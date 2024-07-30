@@ -37,7 +37,7 @@ namespace Engine
         bool HasState(const StateType& l_type);
         void SwitchTo(const StateType& l_type);
         void Remove(const StateType& l_type);
-        
+                
     private:
         // Methods.
         void CreateState(const StateType& l_type);

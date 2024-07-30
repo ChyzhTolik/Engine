@@ -13,10 +13,6 @@ namespace Engine
     {
     }
 
-        // float velocity_max;
-        // sf::Vector2f speed;
-        // Direction direction;
-
     void to_json(json& j, const MovableInfo& p) 
     {
         j=json{
@@ -108,6 +104,11 @@ namespace Engine
         }
 
         m_movable_info.direction = direction;
+    }
+
+    void MovableComponent::jump()
+    {
+        m_acceleration.y -= m_movable_info.speed.y;
     }
 
     json MovComponentTestHelper::get_json(const MovableInfo& input)

@@ -27,7 +27,7 @@ protected:
         context.m_system_manager = system_manager;
 
         map = std::make_shared<Engine::LayeredMap>(context);
-        map->load_from_file("media/map/GameMap.json");
+        map->load_from_file("media/map/GameMapTest.json");
 
         movement_system = system_manager->get_system<Engine::MovementSystem>(Engine::SystemType::Movement);
         movement_system->set_map(map);
