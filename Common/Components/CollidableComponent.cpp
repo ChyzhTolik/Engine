@@ -95,9 +95,9 @@ namespace Engine
 
     }
 
-    std::shared_ptr<Component> CollidableComponentCreator::create()
+    std::unique_ptr<Component> CollidableComponentCreator::create()
     {
-        return std::make_shared<CollidableComponent>();
+        return std::make_unique<CollidableComponent>();
     }
 
     bool CollidableComponent::get_colliding_on_x() const

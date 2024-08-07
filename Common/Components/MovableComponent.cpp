@@ -106,11 +106,6 @@ namespace Engine
         m_movable_info.direction = direction;
     }
 
-    void MovableComponent::jump()
-    {
-        m_acceleration.y -= m_movable_info.speed.y;
-    }
-
     json MovComponentTestHelper::get_json(const MovableInfo& input)
     {
         json result;
@@ -123,9 +118,9 @@ namespace Engine
 
     }
 
-    std::shared_ptr<Component> MovableComponentCreator::create()
+    std::unique_ptr<Component> MovableComponentCreator::create()
     {
-        return std::make_shared<MovableComponent>();
+        return std::make_unique<MovableComponent>();
     }
 
     float MovableComponent::get_max_velocity() const

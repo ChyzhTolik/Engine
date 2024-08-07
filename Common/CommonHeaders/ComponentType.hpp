@@ -12,6 +12,7 @@ namespace Engine
         Movable,
         Controller,
         Collidable,
+        Jump,
         All
     };
 

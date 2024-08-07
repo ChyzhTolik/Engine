@@ -61,6 +61,7 @@ set(HEADERS
     Components/DrawableComponentInterface.hpp
     Components/SpriteSheetComponent.hpp
     Components/CollidableComponent.hpp
+    Components/JumpComponent.hpp
 
     EntitiesManager/EntitiesManager.hpp
 
@@ -79,6 +80,7 @@ set(HEADERS
     Systems/ControllerSystem.hpp
     Systems/SpriteSheetSystem.hpp
     Systems/CollisionSystem.hpp
+    Systems/JumpSystem.hpp
 
 )
 set(SOURCES 
@@ -115,6 +117,7 @@ set(SOURCES
     Components/ControllerComponent.cpp
     Components/SpriteSheetComponent.cpp
     Components/CollidableComponent.cpp
+    Components/JumpComponent.cpp
 
     Systems/SystemManager.cpp
     Systems/Utility/EventQueue.cpp
@@ -127,6 +130,7 @@ set(SOURCES
     Systems/ControllerSystem.cpp
     Systems/SpriteSheetSystem.cpp
     Systems/CollisionSystem.cpp
+    Systems/JumpSystem.cpp
 
     EntitiesManager/EntitiesManager.cpp
 

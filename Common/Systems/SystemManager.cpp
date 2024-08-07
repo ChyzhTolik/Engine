@@ -6,6 +6,7 @@
 #include "ControllerSystem.hpp"
 #include "SpriteSheetSystem.hpp"
 #include "CollisionSystem.hpp"
+#include "JumpSystem.hpp"
 
 namespace Engine
 {
@@ -22,6 +23,7 @@ namespace Engine
         m_systems[SystemType::Control] = std::make_shared<ControllerSystem>(shared_from_this());
         m_systems[SystemType::SheetAnimation] = std::make_shared<SpriteSheetSystem>(shared_from_this());
         m_systems[SystemType::Collision] = std::make_shared<CollisionSystem>(shared_from_this());
+        m_systems[SystemType::Jump] = std::make_shared<JumpSystem>(shared_from_this());
 
         for (auto &&system : m_systems)
         {

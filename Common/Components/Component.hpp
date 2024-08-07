@@ -24,7 +24,7 @@ namespace Engine
     public:
         ComponentCreator();
         virtual ~ComponentCreator(){};
-        virtual std::shared_ptr<Component> create() = 0;
+        virtual std::unique_ptr<Component> create() = 0;
     protected:
     };
 } // namespace Engine

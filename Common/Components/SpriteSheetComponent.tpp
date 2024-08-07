@@ -1,7 +1,7 @@
 template<typename T>
-std::shared_ptr<Component> SpriteSheetComponentCreator<T>::create()
+std::unique_ptr<Component> SpriteSheetComponentCreator<T>::create()
 {
-    return std::make_shared<SpriteSheetComponent<T>>();
+    return std::make_unique<SpriteSheetComponent<T>>();
 }
 
 template<typename T>

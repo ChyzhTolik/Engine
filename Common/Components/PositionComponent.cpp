@@ -76,9 +76,9 @@ namespace Engine
 
     }
 
-    std::shared_ptr<Component> PositionComponentCreator::create()
+    std::unique_ptr<Component> PositionComponentCreator::create()
     {
-        return std::make_shared<PositionComponent>();
+        return std::make_unique<PositionComponent>();
     }
 
 } // namespace Engine

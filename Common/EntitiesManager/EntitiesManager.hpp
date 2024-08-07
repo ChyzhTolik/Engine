@@ -78,7 +78,7 @@ namespace Engine
         std::vector<std::shared_ptr<Component>>& container = itr->second.second;
 
         auto component = std::find_if(container.begin(),container.end(),
-        [&component_type](std::shared_ptr<Component> c)
+        [&component_type](const std::shared_ptr<Component>& c)
         {
             return c->get_type() == component_type;
         });
@@ -90,6 +90,5 @@ namespace Engine
         
         std::shared_ptr<T> result = std::dynamic_pointer_cast<T>(*component);
         return result;
-        // return (component != container.end() ? std::dynamic_pointer_cast<T>(*component) : nullptr);
     }
 } // namespace Engine

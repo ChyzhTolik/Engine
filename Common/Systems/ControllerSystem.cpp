@@ -3,6 +3,7 @@
 #include "SystemManager.hpp"
 #include "MovableComponent.hpp"
 #include "EntitiesManager.hpp"
+#include "JumpComponent.hpp"
 
 namespace Engine
 {
@@ -63,9 +64,9 @@ namespace Engine
 
     void ControllerSystem::jump_entity(EntityId entity)
     {
-        auto movable_component = m_system_manager->get_entity_manager()->get_component<MovableComponent>(entity, ComponentType::Movable);
+        auto jump_component = m_system_manager->get_entity_manager()->get_component<JumpComponent>(entity, ComponentType::Movable);
 
-        movable_component->jump();
+        jump_component->jump();
     }
 
     void ControllerSystem::update(float time)

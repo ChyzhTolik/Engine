@@ -24,7 +24,6 @@ namespace Engine
         void apply_friction(const sf::Vector2f& friction);
         void accelerate(const sf::Vector2f& acceleration);
         void move(Direction direction);
-        void jump();
 
         float get_max_velocity() const;
         Direction get_direction() const;
@@ -52,6 +51,6 @@ namespace Engine
     public:
         MovableComponentCreator();
         virtual ~MovableComponentCreator(){};
-        virtual std::shared_ptr<Component> create() override;
+        virtual std::unique_ptr<Component> create() override;
     };
 } // namespace Engine
