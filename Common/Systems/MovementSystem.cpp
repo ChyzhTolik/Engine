@@ -18,7 +18,6 @@ namespace Engine
     void MovementSystem::subscribe()
     {
         m_system_manager->get_message_handler()->subscribe(EntityMessage::Is_Moving, shared_from_this());
-        m_system_manager->get_message_handler()->subscribe(EntityMessage::State_Changed, shared_from_this());
     }
     
     MovementSystem::~MovementSystem()
@@ -179,22 +178,6 @@ namespace Engine
                 }
                 
                 m_system_manager->add_event(message.m_receiver, EntityEvent::Became_Idle);
-            }
-            break;
-
-        case EntityMessage::State_Changed:
-            {
-                if (std::get<EntityState>(message.m_data) == EntityState::Jumping)
-                {
-                    if (!has_entity(message.m_receiver))
-                    {
-                        return;
-                    }
-
-                    auto movable = entity_manager->get_component<MovableComponent>(message.m_receiver,ComponentType::Movable);
-                    
-                    movable->add_velocity({0.f,-5500.f});
-                }
             }
             break;
         

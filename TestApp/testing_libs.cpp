@@ -344,7 +344,7 @@ namespace Test
 	{
 		Engine::Configuration::Initialize();
 		sf::Vector2u window_size{800,600};
-		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Test Window", window_size);
+		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Knight Game", window_size);
 
 		Engine::SharedContext context;
 		context.m_wind = window;
@@ -397,12 +397,16 @@ namespace Test
 		auto collidable_component =
 			entities_manager->get_component<Engine::CollidableComponent>(id, Engine::ComponentType::Collidable);
 
+		auto jump_component =
+			entities_manager->get_component<Engine::JumpComponent>(id, Engine::ComponentType::Jump);
+
 		auto renderer_system = system_manager->get_system<Engine::RendererSystem>(Engine::SystemType::Renderer);
 		auto movement_system = system_manager->get_system<Engine::MovementSystem>(Engine::SystemType::Movement);
 		auto collidable_system = system_manager->get_system<Engine::CollisionSystem>(Engine::SystemType::Collision);
 		auto controller_system = system_manager->get_system<Engine::ControllerSystem>(Engine::SystemType::Control);
 		auto state_system = system_manager->get_system<Engine::StateSystem>(Engine::SystemType::State);
 		auto sprite_sheet_system = system_manager->get_system<Engine::SpriteSheetSystem>(Engine::SystemType::SheetAnimation);
+		auto jump_system = system_manager->get_system<Engine::JumpSystem>(Engine::SystemType::Jump);
 
 		Engine::ChangeAnimationCallback callback = [sprite_sheet](Engine::EntityState state, bool play, bool loop)
         {
@@ -413,6 +417,7 @@ namespace Test
 
 		movement_system->set_map(map);
 		collidable_system->set_map(map);
+		jump_system->set_map(map);
 
 		collidable_component->set_origin(Engine::Origin::TopLeft);
 		collidable_component->set_offset({0.f,0.f});

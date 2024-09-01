@@ -1,10 +1,12 @@
 #pragma once
 
 #include "System.hpp"
-#include "PositionComponent.hpp"
+#include "JumpComponent.hpp"
 
 namespace Engine
 {
+    class LayeredMap;
+
     class JumpSystem : public System, public std::enable_shared_from_this<JumpSystem>
     {
     public:
@@ -16,7 +18,10 @@ namespace Engine
         void update(float time) override;
         void handle_event(EntityId entity, EntityEvent event) override;
         void notify(const Message& message) override;
-        void jump();
+        void jump_step(float time, std::shared_ptr<JumpComponent> jump_component);
+        void set_map(std::shared_ptr<LayeredMap> map);
+
     private:
+        std::shared_ptr<LayeredMap> m_map;
     };
 } // namespace Engine

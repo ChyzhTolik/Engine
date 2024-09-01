@@ -56,7 +56,7 @@ namespace Engine
 
     void SystemManager::add_event(const EntityId& entity, const EntityEvent& event)
     {
-        m_events[entity].add_event(event);
+        m_event_queues[entity].add_event(event);
     }
 
     void SystemManager::update(float time)
@@ -71,17 +71,17 @@ namespace Engine
 
     void SystemManager::handle_events()
     {
-        for (auto &&event : m_events)
+        for (auto &&event : m_event_queues)
         {
-            EntityEvent id = EntityEvent::Became_Idle;
+            EntityEvent entity_event = EntityEvent::Became_Idle;
 
-            while (event.second.process_event(id))
+            while (event.second.process_event(entity_event))
             {
                 for (auto &&system : m_systems)
                 {
                     if (system.second->has_entity(event.first))
                     {
-                        system.second->handle_event(event.first, id);
+                        system.second->handle_event(event.first, entity_event);
                     }
                 }
             }

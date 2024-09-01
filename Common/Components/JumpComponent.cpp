@@ -13,13 +13,15 @@ namespace Engine
     void to_json(json& j, const JumpInfo& p) 
     {
         j=json{
-            {"jump_acceleration", p.jump_acceleration}
+            {"jump_speed", p.jump_speed},
+            {"max_jump_velocity", p.max_jump_velocity}
         };
     }
 
     void from_json(const json& j, JumpInfo& p) 
     {
-        j.at("jump_acceleration").get_to(p.jump_acceleration);
+        j.at("jump_speed").get_to(p.jump_speed);
+        j.at("max_jump_velocity").get_to(p.max_jump_velocity);
     }
 
     std::unique_ptr<Component> JumpComponentCreator::create()
@@ -34,6 +36,16 @@ namespace Engine
 
     void JumpComponent::jump()
     {
+        m_jump_acceleration+=m_jump_info.jump_speed;
+    }
 
+    float JumpComponent::get_jump_velocity() const
+    {
+        return m_jump_velocity;
+    }
+
+    void JumpComponent::apply_gravity(float gravity)
+    {
+        m_jump_acceleration-=gravity;
     }
 } // namespace Engine

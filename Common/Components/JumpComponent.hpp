@@ -7,7 +7,8 @@ namespace Engine
 {
     struct JumpInfo
     {
-        float jump_acceleration;
+        float jump_speed;
+        float max_jump_velocity;
     };
     
 
@@ -19,8 +20,12 @@ namespace Engine
 
         void read_in(json data) override;
         void jump();
+        float get_jump_velocity() const;
+        void apply_gravity(float gravity);
     private:
         JumpInfo m_jump_info;
+        float m_jump_velocity;
+        float m_jump_acceleration;
     };
     
     class JumpComponentCreator : public ComponentCreator

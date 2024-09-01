@@ -64,7 +64,7 @@ namespace Engine
 
     void ControllerSystem::jump_entity(EntityId entity)
     {
-        auto jump_component = m_system_manager->get_entity_manager()->get_component<JumpComponent>(entity, ComponentType::Movable);
+        auto jump_component = m_system_manager->get_entity_manager()->get_component<JumpComponent>(entity, ComponentType::Jump);
 
         jump_component->jump();
     }
