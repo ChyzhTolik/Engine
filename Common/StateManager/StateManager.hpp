@@ -37,6 +37,7 @@ namespace Engine
         bool HasState(const StateType& l_type);
         void SwitchTo(const StateType& l_type);
         void Remove(const StateType& l_type);
+        void set_game_callback(std::function<void()> callback);
                 
     private:
         // Methods.

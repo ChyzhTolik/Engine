@@ -19,6 +19,7 @@ namespace Engine
     {
     private:
         sf::Sprite m_background_sprite;
+        std::function<void()> m_callback;
         void UpdateCamera();
 
         class PauseAction : public ActionFunctinoid
@@ -96,6 +97,9 @@ namespace Engine
 
         virtual void Update(const sf::Time& l_time) override;
         virtual void Draw() override;
+
+        void set_callback(std::function<void()> callback) override;
+        void execute_callback();
     };
     
 } // namespace Engine

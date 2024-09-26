@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+#include <functional>
+
 namespace Engine
 {
     class StateManager;
@@ -20,6 +22,8 @@ namespace Engine
 
         virtual void Update(const sf::Time& l_time) = 0;
         virtual void Draw() = 0;
+
+        virtual void set_callback(std::function<void()> callback);
 
         void SetTransparent(const bool& l_transparent)
         { 

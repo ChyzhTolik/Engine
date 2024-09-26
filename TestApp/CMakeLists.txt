@@ -4,7 +4,11 @@ set(CMAKE_CXX_STANDARD 17)
 
 project(TestApp)
 
-set(SOURCES main.cpp testing_libs.cpp)
+set(SOURCES 
+    main.cpp 
+    testing_libs.cpp
+    TestClasses/Hero.cpp
+)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 

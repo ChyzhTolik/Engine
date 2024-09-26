@@ -198,4 +198,17 @@ namespace Engine
 			}
 		}
 	}
+
+	void StateManager::set_game_callback(std::function<void()> callback)
+	{
+		auto it = std::find_if(m_states.begin(),m_states.end(),[](std::pair<StateType, std::unique_ptr<BaseState>>& state_pair){
+			return state_pair.first == StateType::Game;
+		});
+
+		if (it!=m_states.end())
+		{
+			it->second->set_callback(callback);
+		}
+		
+	}
 } // namespace Engine

@@ -43,5 +43,7 @@
 #include "JumpSystem.hpp"
 #include "CommonHeaders/AnimationsToStateConverter.hpp"
 
+#include "TestClasses/Hero.hpp"
+
 #include <nlohmann/json.hpp>
 using nlohmann::json;

@@ -35,7 +35,7 @@
     },
     "Jump":
     {
-      "jump_speed":1024000,
+      "jump_speed":10240000,
       "max_jump_velocity":200
     }
 }

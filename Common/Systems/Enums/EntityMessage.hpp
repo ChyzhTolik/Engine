@@ -11,6 +11,7 @@ namespace Engine
         Switch_State, 
         Attack_Action, 
         Dead,
-        Jump_Action,
+        Jump,
+        Is_Jumping
     };
 } // namespace Engine

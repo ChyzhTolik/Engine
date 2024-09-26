@@ -477,4 +477,58 @@ namespace Test
 		animation = Engine::AnimationsToStateConverter::convert(state);
 
 	}
+
+	void test_jumping()
+	{
+		Engine::Configuration::Initialize();
+		sf::Vector2u window_size{800,600};
+		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Knight Game", window_size);
+
+		Engine::SharedContext context;
+		context.m_wind = window;
+		context.m_eventManager = window->GetEventManager();
+
+		auto map = std::make_shared<Engine::LayeredMap>(context);
+        map->load_from_file("media/map/GameMap2.json");
+		context.m_game_map = map;
+
+		std::shared_ptr<Engine::StateManager> state_manager = std::make_shared<Engine::StateManager>(context);
+		state_manager->SwitchTo(Engine::StateType::Game);
+
+		sf::Texture hero_texture;
+		auto res = hero_texture.loadFromFile("/home/achyzh/Projects/Engine/media/img/Hero Knight/Sprites/HeroKnight/Idle/HeroKnight_Idle_0.png");
+
+		auto hero = std::make_unique<Test::Hero>(hero_texture);
+		hero->init({300.f,300.f},200.f);
+
+		state_manager->set_game_callback([&hero]{
+			hero->jump(500.f);
+		});
+
+		sf::Clock clock;
+		sf::Time timeSinceLastUpdate = sf::Time::Zero;
+		sf::Time TimePerFrame = sf::seconds(1.f/60);
+
+		while (!window->IsDone())
+		{
+			window->Update();
+			bool repaint = false;
+			timeSinceLastUpdate += clock.restart();
+
+			while (timeSinceLastUpdate > TimePerFrame)
+			{
+				timeSinceLastUpdate -= TimePerFrame;
+				hero->update(TimePerFrame.asSeconds());
+				repaint = true;
+			}
+
+			if(repaint)
+			{
+				window->BeginDraw();
+				map->draw();
+				window->Draw(hero->get_sprite());
+				window->EndDraw();
+			}
+		}
+	}
 } // namespace Test
