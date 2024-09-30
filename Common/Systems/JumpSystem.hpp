@@ -18,10 +18,12 @@ namespace Engine
         void update(float time) override;
         void handle_event(EntityId entity, EntityEvent event) override;
         void notify(const Message& message) override;
-        void jump_step(float time, std::shared_ptr<JumpComponent> jump_component);
+        void apply_gravity(float time, std::shared_ptr<JumpComponent> jump_component);
         void set_map(std::shared_ptr<LayeredMap> map);
 
     private:
         std::shared_ptr<LayeredMap> m_map;
+        const float m_gravity = 9.8f;
+        float m_jump_velocity;
     };
 } // namespace Engine

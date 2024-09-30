@@ -35,7 +35,7 @@
     },
     "Jump":
     {
-      "jump_speed":10240000,
-      "max_jump_velocity":200
+      "mass":200,
+      "jump_force":600
     }
 }

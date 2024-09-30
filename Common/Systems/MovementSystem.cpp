@@ -2,6 +2,7 @@
 #include "SystemManager.hpp"
 #include "EntitiesManager.hpp"
 #include "LayeredMap.hpp"
+#include "JumpComponent.hpp"
 #include <string>
 
 namespace Engine
@@ -18,6 +19,7 @@ namespace Engine
     void MovementSystem::subscribe()
     {
         m_system_manager->get_message_handler()->subscribe(EntityMessage::Is_Moving, shared_from_this());
+        m_system_manager->get_message_handler()->subscribe(EntityMessage::Is_Jumping, shared_from_this());
     }
     
     MovementSystem::~MovementSystem()
@@ -47,22 +49,22 @@ namespace Engine
             position_component->move_by(movable_component->get_velocity()*time);
             
             // info box
-            std::string position_text = "Position =("+std::to_string(position_component->get_position().x)+","
-                +std::to_string(position_component->get_position().y)+".";
-            m_system_manager->get_infobox()->Add(position_text);
+            // std::string position_text = "Position =("+std::to_string(position_component->get_position().x)+","
+            //     +std::to_string(position_component->get_position().y)+".";
+            // m_system_manager->get_infobox()->Add(position_text);
 
-            auto speed = movable_component->get_speed();
-            auto acc = movable_component->get_acceleration();
-            auto velo = movable_component->get_velocity();
+            // auto speed = movable_component->get_speed();
+            // auto acc = movable_component->get_acceleration();
+            // auto velo = movable_component->get_velocity();
 
-            std::string speed_text = "Speed ("+std::to_string(speed.x)+","+std::to_string(speed.y)+")";
-            m_system_manager->get_infobox()->Add(speed_text);
+            // std::string speed_text = "Speed ("+std::to_string(speed.x)+","+std::to_string(speed.y)+")";
+            // m_system_manager->get_infobox()->Add(speed_text);
 
-            // std::string acc_text = "Acceleration ("+std::to_string(acc.x)+","+std::to_string(acc.y)+")";
-            // m_system_manager->get_infobox()->Add(acc_text);
+            // // std::string acc_text = "Acceleration ("+std::to_string(acc.x)+","+std::to_string(acc.y)+")";
+            // // m_system_manager->get_infobox()->Add(acc_text);
 
-            std::string velo_text = "Velocity ("+std::to_string(velo.x)+","+std::to_string(velo.y)+")";
-            m_system_manager->get_infobox()->Add(velo_text);
+            // std::string velo_text = "Velocity ("+std::to_string(velo.x)+","+std::to_string(velo.y)+")";
+            // m_system_manager->get_infobox()->Add(velo_text);
         }
     }
 
@@ -73,7 +75,7 @@ namespace Engine
 
         sf::Vector2f friction(movable->get_speed().x*coefficient.x, movable->get_speed().y*coefficient.y);
 
-        movable->accelerate({0.f,m_map->get_gravity()});
+        // movable->accelerate({0.f,m_map->get_gravity()});
 
         auto acc = movable->get_acceleration();
         std::string acc_text = "Acceleration ("+std::to_string(acc.x)+","+std::to_string(acc.y)+")";
@@ -165,6 +167,7 @@ namespace Engine
         switch (message_type)
         {
         case EntityMessage::Is_Moving:
+        case EntityMessage::Is_Jumping:
             {
                 if (!has_entity(message.m_receiver))
                 {
@@ -172,7 +175,8 @@ namespace Engine
                 }
                 
                 auto movable = entity_manager->get_component<MovableComponent>(message.m_receiver,ComponentType::Movable);
-                if (movable->get_velocity()!=sf::Vector2f{0.f,0.f})
+                auto jump_component = entity_manager->get_component<JumpComponent>(message.m_receiver,ComponentType::Jump);
+                if (movable->get_velocity()!=sf::Vector2f{0.f,0.f} || jump_component->get_jump_velocity()!=0.f)
                 {
                     return;
                 }

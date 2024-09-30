@@ -45,10 +45,10 @@ namespace Engine
             collidable_component->set_position(position_component->get_position());
             collidable_component->resset_collision_flags();
 
-            m_system_manager->get_infobox()->Add("Bounding box left="+std::to_string(collidable_component->get_bounding_box().left)+
-                ", top="+std::to_string(collidable_component->get_bounding_box().top));
-            m_system_manager->get_infobox()->Add("Bounding box width="+std::to_string(collidable_component->get_bounding_box().width)+
-                ", height="+std::to_string(collidable_component->get_bounding_box().height));
+            // m_system_manager->get_infobox()->Add("Bounding box left="+std::to_string(collidable_component->get_bounding_box().left)+
+            //     ", top="+std::to_string(collidable_component->get_bounding_box().top));
+            // m_system_manager->get_infobox()->Add("Bounding box width="+std::to_string(collidable_component->get_bounding_box().width)+
+            //     ", height="+std::to_string(collidable_component->get_bounding_box().height));
 
             check_out_of_bounds(position_component, collidable_component);
             map_collisions(entity, position_component, collidable_component);

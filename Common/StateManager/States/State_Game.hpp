@@ -12,7 +12,6 @@ namespace Engine
         virtual std::unique_ptr<BaseState> create() override;
     private:
         const sf::Texture& m_texture;
-        std::shared_ptr<sf::Sprite> m_sprite;
     };
 
     class State_Game : public BaseState

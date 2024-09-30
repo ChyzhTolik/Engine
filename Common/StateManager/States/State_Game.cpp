@@ -160,12 +160,12 @@ namespace Engine
 
     void State_Game::JumpAction::execute(EventDetails& l_details)
     {
-        m_state.execute_callback();
-        // Message msg(EntityMessage::Jump);
+        // m_state.execute_callback();
+        Message msg(EntityMessage::Jump);
 
-        // msg.m_receiver = m_state.GetStateManager().GetContext().m_entities_manager->get_player_id();
+        msg.m_receiver = m_state.GetStateManager().GetContext().m_entities_manager->get_player_id();
 
-        // m_state.GetStateManager().GetContext().m_system_manager->get_message_handler()->dispatch(msg);
+        m_state.GetStateManager().GetContext().m_system_manager->get_message_handler()->dispatch(msg);
     }
 
     State_Game::TypeAction::TypeAction(State_Game& state) : m_state(state)
@@ -187,6 +187,13 @@ namespace Engine
 
     void State_Game::execute_callback()
     {
-        m_callback();
+        if (m_callback)
+        {
+            m_callback();
+        }
+        else
+        {
+            // no callback
+        }
     }
 } // namespace Engine 
