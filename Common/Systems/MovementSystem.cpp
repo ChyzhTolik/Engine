@@ -2,7 +2,6 @@
 #include "SystemManager.hpp"
 #include "EntitiesManager.hpp"
 #include "LayeredMap.hpp"
-#include "JumpComponent.hpp"
 #include <string>
 
 namespace Engine
@@ -19,7 +18,6 @@ namespace Engine
     void MovementSystem::subscribe()
     {
         m_system_manager->get_message_handler()->subscribe(EntityMessage::Is_Moving, shared_from_this());
-        m_system_manager->get_message_handler()->subscribe(EntityMessage::Is_Jumping, shared_from_this());
     }
     
     MovementSystem::~MovementSystem()
@@ -167,7 +165,6 @@ namespace Engine
         switch (message_type)
         {
         case EntityMessage::Is_Moving:
-        case EntityMessage::Is_Jumping:
             {
                 if (!has_entity(message.m_receiver))
                 {
@@ -175,8 +172,7 @@ namespace Engine
                 }
                 
                 auto movable = entity_manager->get_component<MovableComponent>(message.m_receiver,ComponentType::Movable);
-                auto jump_component = entity_manager->get_component<JumpComponent>(message.m_receiver,ComponentType::Jump);
-                if (movable->get_velocity()!=sf::Vector2f{0.f,0.f} || jump_component->get_jump_velocity()!=0.f)
+                if (movable->get_velocity()!=sf::Vector2f{0.f,0.f})
                 {
                     return;
                 }

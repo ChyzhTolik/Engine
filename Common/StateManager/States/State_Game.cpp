@@ -44,7 +44,7 @@ namespace Engine
         evMgr->add_action(StateType::Game,"Player_Attack",std::make_unique<AttackAction>(*this));
         evMgr->add_action(StateType::Game,"Player_Die",std::make_unique<DieAction>(*this));
         evMgr->add_action(StateType::Game,"Player_Jump",std::make_unique<JumpAction>(*this));
-        evMgr->add_action(StateType::Game,"Player_Type",std::make_unique<TypeAction>(*this));
+        evMgr->add_action(StateType::Game,"Player_Restart",std::make_unique<RestartAction>(*this));
     }
 
     void State_Game::OnDestroy()
@@ -168,16 +168,14 @@ namespace Engine
         m_state.GetStateManager().GetContext().m_system_manager->get_message_handler()->dispatch(msg);
     }
 
-    State_Game::TypeAction::TypeAction(State_Game& state) : m_state(state)
+    State_Game::RestartAction::RestartAction(State_Game& state) : m_state(state)
     {
         
     }
 
-    void State_Game::TypeAction::execute(EventDetails& l_details)
+    void State_Game::RestartAction::execute(EventDetails& l_details)
     {
-        auto info_box = m_state.GetStateManager().GetContext().m_info_box;
-
-        info_box->Add("Hello");
+        m_state.execute_callback();
     }
 
     void State_Game::set_callback(std::function<void()> callback)

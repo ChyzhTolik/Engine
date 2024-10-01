@@ -54,8 +54,16 @@ namespace Engine
             auto entity_manager = m_system_manager->get_entity_manager();
             auto jump_component = entity_manager->get_component<JumpComponent>(entity,ComponentType::Jump);
             jump_component->set_grounded(true);
+            jump_component->set_jump_velocity(0.f);
         }
             break;
+
+        case EntityEvent::Falling:
+        {
+            auto entity_manager = m_system_manager->get_entity_manager();
+            auto jump_component = entity_manager->get_component<JumpComponent>(entity,ComponentType::Jump);
+            jump_component->set_grounded(false);
+        }
         
         default:
             break;

@@ -421,6 +421,10 @@ namespace Test
 
 		collidable_component->set_origin(Engine::Origin::TopLeft);
 		collidable_component->set_offset({0.f,0.f});
+
+		state_manager->set_game_callback([&position_component]{
+			position_component->set_position({160.f,64.f});
+		});
 		
 		// movement_component->accelerate({0.f,map->get_gravity()});
 		// movement_component->set_acceleration({10.f,10.f});

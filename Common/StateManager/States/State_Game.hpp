@@ -75,10 +75,10 @@ namespace Engine
             State_Game& m_state;
         };
 
-        class TypeAction : public ActionFunctinoid
+        class RestartAction : public ActionFunctinoid
         {
         public:
-            TypeAction(State_Game& state);
+            RestartAction(State_Game& state);
             virtual void execute(EventDetails& l_details) override;
         private:
             State_Game& m_state;

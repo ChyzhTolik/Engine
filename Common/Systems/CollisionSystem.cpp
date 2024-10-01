@@ -128,7 +128,9 @@ namespace Engine
         
         if (collisions.empty())
         {
-            return;
+            collidable->resset_collision_flags();
+            m_system_manager->add_event(entity, EntityEvent::Falling);
+            return;            
         }
 
         std::sort(collisions.begin(),collisions.end(),[](CollisionInfo& l1, CollisionInfo& l2)

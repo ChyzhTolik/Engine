@@ -56,7 +56,7 @@
     },
     {
         "code": 17,
-        "name": "Player_Type",
+        "name": "Player_Restart",
         "type": 5
     }
 ]
