@@ -52,8 +52,7 @@ namespace Engine
 
             check_out_of_bounds(position_component, collidable_component);
             map_collisions(entity, position_component, collidable_component);
-        }
-        
+        }        
     }
 
     void CollisionSystem::check_out_of_bounds(std::shared_ptr<PositionComponent> position, std::shared_ptr<CollidableComponent> collidable)
@@ -128,8 +127,6 @@ namespace Engine
         
         if (collisions.empty())
         {
-            collidable->resset_collision_flags();
-            m_system_manager->add_event(entity, EntityEvent::Falling);
             return;            
         }
 

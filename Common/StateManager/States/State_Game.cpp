@@ -17,7 +17,7 @@ namespace Engine
     }
 
     State_Game::State_Game(StateManager& l_stateManager, const sf::Texture& l_textrue):
-        BaseState(l_stateManager), m_background_sprite(l_textrue)
+        BaseState(l_stateManager), m_background_sprite(l_textrue),m_callback{[]{}}
     {
         
     }
@@ -160,7 +160,6 @@ namespace Engine
 
     void State_Game::JumpAction::execute(EventDetails& l_details)
     {
-        // m_state.execute_callback();
         Message msg(EntityMessage::Jump);
 
         msg.m_receiver = m_state.GetStateManager().GetContext().m_entities_manager->get_player_id();
@@ -188,10 +187,6 @@ namespace Engine
         if (m_callback)
         {
             m_callback();
-        }
-        else
-        {
-            // no callback
         }
     }
 } // namespace Engine 

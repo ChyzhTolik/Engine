@@ -31,7 +31,9 @@ namespace Engine
         void notify(const Message& message) override;
     private:
         void check_out_of_bounds(std::shared_ptr<PositionComponent> position, std::shared_ptr<CollidableComponent> collidable);
-        void map_collisions(EntityId entity, std::shared_ptr<PositionComponent> position, std::shared_ptr<CollidableComponent> collidable);
+        void map_collisions(EntityId entity, 
+            std::shared_ptr<PositionComponent> position, 
+            std::shared_ptr<CollidableComponent> collidable);
         void entity_collisions();
 
         std::shared_ptr<LayeredMap> m_map;

@@ -408,7 +408,7 @@ namespace Test
 		auto sprite_sheet_system = system_manager->get_system<Engine::SpriteSheetSystem>(Engine::SystemType::SheetAnimation);
 		auto jump_system = system_manager->get_system<Engine::JumpSystem>(Engine::SystemType::Jump);
 
-		Engine::ChangeAnimationCallback callback = [sprite_sheet](Engine::EntityState state, bool play, bool loop)
+		Engine::ChangeAnimationCallback callback = [&sprite_sheet](Engine::EntityState state, bool play, bool loop)
         {
             sprite_sheet->SetAnimation(Engine::AnimationsToStateConverter::convert(state), play, loop);
         };

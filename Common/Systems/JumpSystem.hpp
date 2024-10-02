@@ -2,6 +2,8 @@
 
 #include "System.hpp"
 #include "JumpComponent.hpp"
+#include "PositionComponent.hpp"
+#include "CollidableComponent.hpp"
 
 namespace Engine
 {
@@ -22,6 +24,9 @@ namespace Engine
         void set_map(std::shared_ptr<LayeredMap> map);
 
     private:
+        void check_no_tile_below(EntityId entity, 
+            std::shared_ptr<PositionComponent> position_component, 
+            std::shared_ptr<CollidableComponent> collidable);
         std::shared_ptr<LayeredMap> m_map;
         const float m_gravity = 9.8f;
         float m_jump_velocity;

@@ -12,6 +12,7 @@ namespace Engine
         Attack_Action, 
         Dead,
         Jump,
-        Is_Jumping
+        Is_Jumping,
+        Fall
     };
 } // namespace Engine

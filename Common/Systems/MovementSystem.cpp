@@ -172,6 +172,12 @@ namespace Engine
                 }
                 
                 auto movable = entity_manager->get_component<MovableComponent>(message.m_receiver,ComponentType::Movable);
+
+                if (!movable)
+                {
+                    return;
+                }                
+
                 if (movable->get_velocity()!=sf::Vector2f{0.f,0.f})
                 {
                     return;

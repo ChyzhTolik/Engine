@@ -2,7 +2,6 @@
 #include "SystemManager.hpp"
 #include "EntitiesManager.hpp"
 #include "LayeredMap.hpp"
-#include "PositionComponent.hpp"
 
 namespace Engine
 {
@@ -11,6 +10,7 @@ namespace Engine
         ComponentBitSet mask;
         mask.set(static_cast<size_t>(ComponentType::Position));
         mask.set(static_cast<size_t>(ComponentType::Jump));
+        mask.set(static_cast<size_t>(ComponentType::Collidable));
 
         m_required_components.push_back(mask);
     }
@@ -38,6 +38,9 @@ namespace Engine
             pos.y -= m_jump_velocity*time;
             position_component->set_position(pos);
 
+            auto collidable_component = entities_manager->get_component<CollidableComponent>(entity, ComponentType::Collidable);
+            check_no_tile_below(entity,position_component, collidable_component);
+
             std::string position_text = "Position =("+std::to_string(position_component->get_position().x)+","
                 +std::to_string(position_component->get_position().y)+".";
             m_system_manager->get_infobox()->Add(position_text);
@@ -53,8 +56,9 @@ namespace Engine
         {
             auto entity_manager = m_system_manager->get_entity_manager();
             auto jump_component = entity_manager->get_component<JumpComponent>(entity,ComponentType::Jump);
+            
             jump_component->set_grounded(true);
-            jump_component->set_jump_velocity(0.f);
+            m_system_manager->add_event(entity, EntityEvent::Became_Idle);
         }
             break;
 
@@ -64,6 +68,7 @@ namespace Engine
             auto jump_component = entity_manager->get_component<JumpComponent>(entity,ComponentType::Jump);
             jump_component->set_grounded(false);
         }
+            break;
         
         default:
             break;
@@ -77,22 +82,6 @@ namespace Engine
 
         switch (message_type)
         {
-            case EntityMessage::Is_Jumping:
-            {
-                if (!has_entity(message.m_receiver))
-                {
-                    return;
-                }
-                
-                auto jump_component = entity_manager->get_component<JumpComponent>(message.m_receiver,ComponentType::Jump);
-                if (!jump_component->is_grounded())
-                {
-                    return;
-                }
-                
-                m_system_manager->add_event(message.m_receiver, EntityEvent::Became_Idle);
-            }
-            break;
         
         default:
             break;
@@ -116,5 +105,42 @@ namespace Engine
     void JumpSystem::set_map(std::shared_ptr<LayeredMap> map)
     {
         m_map = map;
+    }
+
+    void JumpSystem::check_no_tile_below(EntityId entity, std::shared_ptr<PositionComponent> position_component, std::shared_ptr<CollidableComponent> collidable)
+    {
+        auto entities_manager = m_system_manager->get_entity_manager();
+        auto jump_component = entities_manager->get_component<JumpComponent>(entity, ComponentType::Jump);
+        if (!jump_component->is_grounded())
+        {
+            return;
+        }
+
+        auto tile_size = m_map->get_tile_size();
+        auto entity_rect = collidable->get_bounding_box();
+        uint32_t from_x = floor(entity_rect.left / m_map->get_tile_size().x);
+        uint32_t to_x = floor((entity_rect.left + entity_rect.width) / m_map->get_tile_size().x);
+        uint32_t y = floor(entity_rect.top / m_map->get_tile_size().y);
+
+        for (auto x = from_x; x <= to_x; x++)
+        {
+            auto tile = m_map->get_tile(position_component->get_elevation(), {static_cast<int>(x), static_cast<int>(y + 1)});
+            if (!tile)
+            {
+                continue;
+            }
+            else
+            {
+                return;
+            }
+        }
+        
+        jump_component->set_grounded(false);
+
+        Message msg(EntityMessage::Fall);
+
+        msg.m_receiver = entity;
+
+        m_system_manager->get_message_handler()->dispatch(msg);
     }
 } // namespace Engine
