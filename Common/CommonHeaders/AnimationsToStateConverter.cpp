@@ -30,6 +30,10 @@ namespace Engine
             return KnightAnimations::Jump;
             break;
         
+        case EntityState::Falling:
+            return KnightAnimations::Falling;
+            break;
+        
         default:
             break;
         }

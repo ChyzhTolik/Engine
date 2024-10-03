@@ -138,7 +138,7 @@ namespace Engine
                         return;
                     }
 
-                    change_state(message.m_receiver, EntityState::Jumping, false);
+                    change_state(message.m_receiver, EntityState::Falling, false);
                 }
                 break;
             

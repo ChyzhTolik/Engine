@@ -121,6 +121,10 @@ namespace Engine
                         m_callbacks.at(message.m_receiver)(state, true,false);
                         break;
 
+                    case EntityState::Falling:
+                        m_callbacks.at(message.m_receiver)(state, true,false);
+                        break;
+
                     default:
                         break;
                     }
