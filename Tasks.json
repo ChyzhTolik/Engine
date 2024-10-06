@@ -1,0 +1,9 @@
+{
+    "issues":
+    [
+        {
+            "task":"Move event hagling to the separate thread",
+            "status":"in progress"
+        }
+    ]
+}

@@ -17,6 +17,7 @@ namespace Engine
         void notify(const Message& message) override;
     private:
         void move_entity(EntityId entity, Direction direction);
+        void jump_entity(EntityId entity);
     };
     
     

@@ -42,9 +42,9 @@ namespace Engine
 
     }
 
-    std::shared_ptr<Component> StateComponentCreator::create()
+    std::unique_ptr<Component> StateComponentCreator::create()
     {
-        return std::make_shared<StateComponent>();
+        return std::make_unique<StateComponent>();
     }
 
     json StateComponentTestHelper::get_json(const StateInfo& input)

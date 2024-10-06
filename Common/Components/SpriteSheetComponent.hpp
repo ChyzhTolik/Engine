@@ -48,7 +48,7 @@ namespace Engine
         SpriteSheetComponentCreator();
         virtual ~SpriteSheetComponentCreator(){};
 
-        virtual std::shared_ptr<Component> create() override;
+        virtual std::unique_ptr<Component> create() override;
     };
     
     #include "SpriteSheetComponent.tpp"

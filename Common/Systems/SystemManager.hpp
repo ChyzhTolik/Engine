@@ -41,7 +41,7 @@ namespace Engine
     private:
         std::unordered_map<SystemType, std::shared_ptr<System>> m_systems;
         std::shared_ptr<EntitiesManager> m_entity_manager;
-        std::unordered_map<EntityId, EventQueue> m_events;
+        std::unordered_map<EntityId, EventQueue> m_event_queues;
         std::shared_ptr<MessageHandler> m_message_handler;
         std::shared_ptr<InfoBox> m_infobox;
     };

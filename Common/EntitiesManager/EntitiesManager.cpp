@@ -6,6 +6,7 @@
 #include "ControllerComponent.hpp"
 #include "SpriteSheetComponent.hpp"
 #include "CollidableComponent.hpp"
+#include "JumpComponent.hpp"
 #include "SystemManager.hpp"
 
 #include <fstream>
@@ -25,6 +26,7 @@ namespace Engine
         "Movable",
         "Controller",
         "Collidable",
+        "Jump"
     };
 
     EntitiesManager::EntitiesManager(std::shared_ptr<SystemManager> system_manager) : m_system_manager(system_manager), m_counter{0}
@@ -35,6 +37,7 @@ namespace Engine
         add_component_creator<ControllerComponentCreator>(ComponentType::Controller);
         add_component_creator<SpriteSheetComponentCreator<KnightAnimations>>(ComponentType::SpriteSheet);
         add_component_creator<CollidableComponentCreator>(ComponentType::Collidable);
+        add_component_creator<JumpComponentCreator>(ComponentType::Jump);
     }
     
     EntitiesManager::~EntitiesManager()
@@ -239,4 +242,17 @@ namespace Engine
 
         return entity_id;
     }
+
+    void EntitiesManager::set_player_id(const uint32_t id)
+    {
+        m_player_id = id;
+    }
+
+
+    uint32_t EntitiesManager::get_player_id() const
+    {
+        return m_player_id;
+    }
+
+
 } // namespace Engine

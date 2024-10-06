@@ -6,4 +6,9 @@ namespace Engine
     {
         
     };
+
+    void BaseState::set_callback(std::function<void()> callback)
+    {
+        throw std::runtime_error("impossible");
+    }
 } // namespace Engine

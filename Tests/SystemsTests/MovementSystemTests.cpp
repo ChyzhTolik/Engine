@@ -26,15 +26,21 @@ protected:
         context.m_entities_manager = entities_manager;
         context.m_system_manager = system_manager;
 
+        std::shared_ptr<Engine::InfoBox> infobox = std::make_shared<Engine::InfoBox>();
+		infobox->Setup(10,10,300,{320,0});
+		context.m_info_box = infobox;
+
+        system_manager->set_infobox(infobox);
+
         map = std::make_shared<Engine::LayeredMap>(context);
-        map->load_from_file("media/map/GameMap.json");
+        map->load_from_file("media/map/GameMapTest.json");
 
         movement_system = system_manager->get_system<Engine::MovementSystem>(Engine::SystemType::Movement);
         movement_system->set_map(map);
 
         id = entities_manager->add_entity("media/Entities/Knight_Char.json");
         movable_component = entities_manager->get_component<Engine::MovableComponent>(id, Engine::ComponentType::Movable);
-        movable_component->set_acceleration({50.f, 100.f});
+        movable_component->accelerate({50.f, 100.f});
 
         sprite_sheet_component = 
             entities_manager->get_component<Engine::SpriteSheetComponent<Engine::KnightAnimations>>(id, Engine::ComponentType::SpriteSheet);

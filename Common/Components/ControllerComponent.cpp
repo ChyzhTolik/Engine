@@ -20,8 +20,8 @@ namespace Engine
 
     }
 
-    std::shared_ptr<Component> ControllerComponentCreator::create()
+    std::unique_ptr<Component> ControllerComponentCreator::create()
     {
-        return std::make_shared<ControllerComponent>();
+        return std::make_unique<ControllerComponent>();
     }
 } // namespace Engine

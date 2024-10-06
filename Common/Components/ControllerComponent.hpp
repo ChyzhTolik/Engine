@@ -20,6 +20,6 @@ namespace Engine
     public:
         ControllerComponentCreator();
         virtual ~ControllerComponentCreator(){};
-        virtual std::shared_ptr<Component> create() override;
+        virtual std::unique_ptr<Component> create() override;
     };
 } // namespace Engine

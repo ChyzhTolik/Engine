@@ -57,7 +57,8 @@ namespace Engine
             event == EntityEvent::Moving_Up ||
             event == EntityEvent::Moving_Down ||
             event == EntityEvent::Elevation_Change ||
-            event == EntityEvent::Spawned
+            event == EntityEvent::Spawned ||
+            event == EntityEvent::Jumping
         )
         {
             sort_drawables();
@@ -72,7 +73,7 @@ namespace Engine
 
             switch (entity_message)
             {
-            case EntityMessage::Direction_Changed:
+            case EntityMessage::Direction_Changed:                
                 set_sprite_sheet_direction(message.m_receiver, std::get<Direction>(message.m_data));
                 break;
             

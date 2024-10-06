@@ -13,5 +13,6 @@ namespace Engine
         Attack,
         Hurt,
         Death,
+        Falling
     };
 } // namespace Engine

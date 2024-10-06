@@ -17,7 +17,7 @@
         {
             "TileSet" : "KnightTileSet",
             "Position" : 0,
-            "file" : "map_layer1.json",
+            "file" : "map_layer1Test.json",
             "Solid" : true
         }
     ],
@@ -29,7 +29,7 @@
         }
     ],
     "Friction":[0.0,0.5],
-    "Gravity":0.6,
+    "Gravity":520,
     "MapSize":
     {
         "width" : 23,

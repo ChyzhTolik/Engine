@@ -18,6 +18,7 @@ namespace Engine
         Control,
         State,
         SheetAnimation,
+        Jump,
         All,
     };
 

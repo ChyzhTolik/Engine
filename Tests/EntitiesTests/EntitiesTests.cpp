@@ -80,7 +80,7 @@ TEST(EntitiesManagerTests, TestAddEntityFromFile)
 
     auto mov_component = entities_manager.get_component<Engine::MovableComponent>(id, Engine::ComponentType::Movable);
     EXPECT_EQ(mov_component->get_direction(), Engine::Direction::Up);
-    EXPECT_EQ(mov_component->get_max_velocity(), 1000.f);
+    EXPECT_EQ(mov_component->get_max_velocity(), 200.f);
     EXPECT_EQ(mov_component->get_speed(), sf::Vector2f(100.f,100.f));
 
     auto state_component = entities_manager.get_component<Engine::StateComponent>(id, Engine::ComponentType::State);

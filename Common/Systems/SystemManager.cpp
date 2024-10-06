@@ -6,6 +6,7 @@
 #include "ControllerSystem.hpp"
 #include "SpriteSheetSystem.hpp"
 #include "CollisionSystem.hpp"
+#include "JumpSystem.hpp"
 
 namespace Engine
 {
@@ -22,6 +23,7 @@ namespace Engine
         m_systems[SystemType::Control] = std::make_shared<ControllerSystem>(shared_from_this());
         m_systems[SystemType::SheetAnimation] = std::make_shared<SpriteSheetSystem>(shared_from_this());
         m_systems[SystemType::Collision] = std::make_shared<CollisionSystem>(shared_from_this());
+        m_systems[SystemType::Jump] = std::make_shared<JumpSystem>(shared_from_this());
 
         for (auto &&system : m_systems)
         {
@@ -54,7 +56,7 @@ namespace Engine
 
     void SystemManager::add_event(const EntityId& entity, const EntityEvent& event)
     {
-        m_events[entity].add_event(event);
+        m_event_queues[entity].add_event(event);
     }
 
     void SystemManager::update(float time)
@@ -69,17 +71,17 @@ namespace Engine
 
     void SystemManager::handle_events()
     {
-        for (auto &&event : m_events)
+        for (auto &&event : m_event_queues)
         {
-            EntityEvent id = EntityEvent::Became_Idle;
+            EntityEvent entity_event = EntityEvent::Became_Idle;
 
-            while (event.second.process_event(id))
+            while (event.second.process_event(entity_event))
             {
                 for (auto &&system : m_systems)
                 {
                     if (system.second->has_entity(event.first))
                     {
-                        system.second->handle_event(event.first, id);
+                        system.second->handle_event(event.first, entity_event);
                     }
                 }
             }

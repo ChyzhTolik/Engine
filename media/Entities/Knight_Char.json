@@ -2,7 +2,7 @@
     "EntityInfo":
     {
       "name": "Knight",
-      "components":"111111"
+      "components":"1111111"
     },
     "Position": 
     {
@@ -11,8 +11,8 @@
     },
     "Movable": 
     {
-      "speed":[100,100],
-      "velocity_max":1000,
+      "speed":[1024, 1024],
+      "velocity_max":200,
       "direction":2
     },
     "State":
@@ -32,5 +32,10 @@
       "bounding_box":[32,32],
       "offset":[10,20],
       "origin":1
+    },
+    "Jump":
+    {
+      "mass":100,
+      "jump_force":800
     }
 }

@@ -43,6 +43,7 @@ namespace Engine
 
             if (animation->is_attack())
             {
+                m_system_manager->get_infobox()->Add("Attack animation");
                 if (!sprite_sheet->GetCurrentAnim()->is_playing())                
                 {
                     Message message(EntityMessage::Switch_State);
@@ -57,11 +58,21 @@ namespace Engine
                     m_system_manager->get_message_handler()->dispatch(message);
                 }
             }
-            else if (animation->is_death()&&!sprite_sheet->GetCurrentAnim()->is_playing()) 
+            else if (animation->is_death())
             {
-                Message message(EntityMessage::Dead);
-                message.m_receiver = entity;
-                m_system_manager->get_message_handler()->dispatch(message);
+                if (!sprite_sheet->GetCurrentAnim()->is_playing())
+                {
+                    Message message(EntityMessage::Switch_State);
+                    message.m_receiver = entity;
+                    message.m_data = EntityState::Idle;
+                    m_system_manager->get_message_handler()->dispatch(message);
+                }
+                else
+                {
+                    Message message(EntityMessage::Dead);
+                    message.m_receiver = entity;
+                    m_system_manager->get_message_handler()->dispatch(message);    
+                }
             }
         }
     }
@@ -97,6 +108,7 @@ namespace Engine
 
                     case EntityState::Attacking:
                         m_callbacks.at(message.m_receiver)(state, true,false);
+                        break;
 
                     case EntityState::Hurt:
                         break;
@@ -106,6 +118,10 @@ namespace Engine
                         break;
 
                     case EntityState::Jumping:
+                        m_callbacks.at(message.m_receiver)(state, true,false);
+                        break;
+
+                    case EntityState::Falling:
                         m_callbacks.at(message.m_receiver)(state, true,false);
                         break;
 

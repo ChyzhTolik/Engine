@@ -12,13 +12,13 @@ namespace Engine
         virtual std::unique_ptr<BaseState> create() override;
     private:
         const sf::Texture& m_texture;
-        std::shared_ptr<sf::Sprite> m_sprite;
     };
 
     class State_Game : public BaseState
     {
     private:
         sf::Sprite m_background_sprite;
+        std::function<void()> m_callback;
         void UpdateCamera();
 
         class PauseAction : public ActionFunctinoid
@@ -48,6 +48,42 @@ namespace Engine
             State_Game& m_state;
         };
 
+        class AttackAction : public ActionFunctinoid
+        {
+        public:
+            AttackAction(State_Game& state);
+            virtual void execute(EventDetails& l_details) override;
+        private:
+            State_Game& m_state;
+        };
+
+        class DieAction : public ActionFunctinoid
+        {
+        public:
+            DieAction(State_Game& state);
+            virtual void execute(EventDetails& l_details) override;
+        private:
+            State_Game& m_state;
+        };
+
+        class JumpAction : public ActionFunctinoid
+        {
+        public:
+            JumpAction(State_Game& state);
+            virtual void execute(EventDetails& l_details) override;
+        private:
+            State_Game& m_state;
+        };
+
+        class RestartAction : public ActionFunctinoid
+        {
+        public:
+            RestartAction(State_Game& state);
+            virtual void execute(EventDetails& l_details) override;
+        private:
+            State_Game& m_state;
+        };
+
     public:
         State_Game(StateManager& l_stateManager, const sf::Texture& l_textrue);
         ~State_Game();
@@ -61,10 +97,8 @@ namespace Engine
         virtual void Update(const sf::Time& l_time) override;
         virtual void Draw() override;
 
-        void set_player_id(const uint32_t id);
-        uint32_t get_player_id() const;
-    private:
-        uint32_t m_player;
+        void set_callback(std::function<void()> callback) override;
+        void execute_callback();
     };
     
 } // namespace Engine

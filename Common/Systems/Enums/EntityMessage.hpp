@@ -10,6 +10,9 @@ namespace Engine
         Direction_Changed,
         Switch_State, 
         Attack_Action, 
-        Dead
+        Dead,
+        Jump,
+        Is_Jumping,
+        Fall
     };
 } // namespace Engine

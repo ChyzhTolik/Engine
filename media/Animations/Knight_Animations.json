@@ -81,6 +81,18 @@
     "end_frame":3
   },
   {
+    "type": 6,
+    "frame_time": 0.2,
+    "rects": [
+      [
+        96, 128, 127, 159
+      ]
+    ],
+    "origins" : [],
+    "start_frame":0,
+    "end_frame":0
+  },
+  {
     "type": 3,
     "frame_time": 0.08,
     "rects": [

@@ -30,6 +30,7 @@
 #include "Components/PositionComponent.hpp"
 #include "Components/SpriteSheetComponent.hpp"
 #include "Components/StateComponent.hpp"
+#include "Components/JumpComponent.hpp"
 
 #include "EntitiesManager/EntitiesManager.hpp"
 #include "SystemManager.hpp"
@@ -39,7 +40,10 @@
 #include "ControllerSystem.hpp"
 #include "SpriteSheetSystem.hpp"
 #include "CollisionSystem.hpp"
+#include "JumpSystem.hpp"
 #include "CommonHeaders/AnimationsToStateConverter.hpp"
+
+#include "TestClasses/Hero.hpp"
 
 #include <nlohmann/json.hpp>
 using nlohmann::json;

@@ -14,6 +14,8 @@ namespace Engine
         Moving_Down,
         Elevation_Change, 
         Became_Idle, 
-        Began_Moving
+        Began_Moving,
+        Jumping,
+        Falling,
     };
 } // namespace Engige

@@ -9,6 +9,7 @@ namespace Engine
         Attacking,
         Hurt,
         Dying,
-        Jumping
+        Jumping,
+        Falling
     };
 } // namespace Engine

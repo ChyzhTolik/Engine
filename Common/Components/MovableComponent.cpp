@@ -13,10 +13,6 @@ namespace Engine
     {
     }
 
-        // float velocity_max;
-        // sf::Vector2f speed;
-        // Direction direction;
-
     void to_json(json& j, const MovableInfo& p) 
     {
         j=json{
@@ -122,9 +118,9 @@ namespace Engine
 
     }
 
-    std::shared_ptr<Component> MovableComponentCreator::create()
+    std::unique_ptr<Component> MovableComponentCreator::create()
     {
-        return std::make_shared<MovableComponent>();
+        return std::make_unique<MovableComponent>();
     }
 
     float MovableComponent::get_max_velocity() const

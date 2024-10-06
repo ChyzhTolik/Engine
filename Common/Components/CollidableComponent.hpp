@@ -59,6 +59,6 @@ namespace Engine
     public:
         CollidableComponentCreator();
         virtual ~CollidableComponentCreator(){};
-        virtual std::shared_ptr<Component> create() override;
+        virtual std::unique_ptr<Component> create() override;
     };
 } // namespace Engine

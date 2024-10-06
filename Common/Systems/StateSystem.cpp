@@ -18,6 +18,8 @@ namespace Engine
     {
         m_system_manager->get_message_handler()->subscribe(EntityMessage::Move, shared_from_this());
         m_system_manager->get_message_handler()->subscribe(EntityMessage::Switch_State, shared_from_this());
+        m_system_manager->get_message_handler()->subscribe(EntityMessage::Jump, shared_from_this());
+        m_system_manager->get_message_handler()->subscribe(EntityMessage::Fall, shared_from_this());
     }
 
     StateSystem::~StateSystem()
@@ -38,7 +40,15 @@ namespace Engine
                 Message message(EntityMessage::Is_Moving);
                 message.m_receiver = entity;
                 m_system_manager->get_message_handler()->dispatch(message);
-            }            
+            }
+
+            if (state_component->get_state() == EntityState::Jumping)
+            {
+                Message message(EntityMessage::Is_Jumping);
+                message.m_receiver = entity;
+                m_system_manager->get_message_handler()->dispatch(message);
+            }
+            
         }
     }
 
@@ -93,13 +103,44 @@ namespace Engine
 
                     m_system_manager->add_event(message.m_receiver, event);
 
-                    change_state(message.m_receiver, EntityState::Walking, false);
+                    if (state_component->get_state() == EntityState::Idle)
+                    {
+                        change_state(message.m_receiver, EntityState::Walking, false);
+                    }
                 }
                 break;
 
             case EntityMessage::Switch_State:
                 change_state(message.m_receiver, std::get<EntityState>(message.m_data), false);
-                break;;
+                break;
+
+            case EntityMessage::Jump:
+                {
+                    auto state_component = m_system_manager->get_entity_manager()->get_component<StateComponent>(message.m_receiver,ComponentType::State);
+
+                    if (state_component->get_state() == EntityState::Jumping || state_component->get_state() == EntityState::Dying)
+                    {
+                        return;
+                    }
+
+                    EntityEvent event = EntityEvent::Jumping;
+                    m_system_manager->add_event(message.m_receiver, event);
+                    change_state(message.m_receiver, EntityState::Jumping, false);
+                }
+                break;
+            
+            case EntityMessage::Fall:
+                {
+                    auto state_component = m_system_manager->get_entity_manager()->get_component<StateComponent>(message.m_receiver,ComponentType::State);
+
+                    if (state_component->get_state() == EntityState::Jumping || state_component->get_state() == EntityState::Dying)
+                    {
+                        return;
+                    }
+
+                    change_state(message.m_receiver, EntityState::Falling, false);
+                }
+                break;
             
             default:
                 break;
