@@ -2,6 +2,7 @@
 #include "SystemManager.hpp"
 #include "EntitiesManager.hpp"
 #include "LayeredMap.hpp"
+#include "MovableComponent.hpp"
 
 namespace Engine
 {
@@ -39,7 +40,17 @@ namespace Engine
             position_component->set_position(pos);
 
             auto collidable_component = entities_manager->get_component<CollidableComponent>(entity, ComponentType::Collidable);
-            check_no_tile_below(entity,position_component, collidable_component);
+
+            if (!have_tile_above_or_below(entity,position_component, collidable_component).below)
+            {
+                if (jump_component->is_grounded())
+                {
+                    jump_component->set_grounded(false);
+                    Message msg(EntityMessage::Fall);
+                    msg.m_receiver = entity;
+                    m_system_manager->get_message_handler()->dispatch(msg);
+                }                
+            }            
 
             std::string position_text = "Position =("+std::to_string(position_component->get_position().x)+","
                 +std::to_string(position_component->get_position().y)+".";
@@ -54,11 +65,17 @@ namespace Engine
         {
         case EntityEvent::Colliding_Y:
         {
-            auto entity_manager = m_system_manager->get_entity_manager();
-            auto jump_component = entity_manager->get_component<JumpComponent>(entity,ComponentType::Jump);
-            
-            jump_component->set_grounded(true);
-            m_system_manager->add_event(entity, EntityEvent::Became_Idle);
+            auto entity_manager = m_system_manager->get_entity_manager();            
+
+            auto position_component = entity_manager->get_component<PositionComponent>(entity, ComponentType::Position);
+            auto collidable_component = entity_manager->get_component<CollidableComponent>(entity, ComponentType::Collidable);
+            const auto is_colliding_y = check_collision_with_wall_during_jump_or_fall(entity);
+            if (is_colliding_y)
+            {
+                auto jump_component = entity_manager->get_component<JumpComponent>(entity,ComponentType::Jump);
+                jump_component->set_grounded(true);
+                m_system_manager->add_event(entity, EntityEvent::Became_Idle);
+            }
         }
             break;
 
@@ -107,13 +124,17 @@ namespace Engine
         m_map = map;
     }
 
-    void JumpSystem::check_no_tile_below(EntityId entity, std::shared_ptr<PositionComponent> position_component, std::shared_ptr<CollidableComponent> collidable)
+    JumpSystem::NoTileVertically JumpSystem::have_tile_above_or_below(EntityId entity, 
+        std::shared_ptr<PositionComponent> position_component, 
+        std::shared_ptr<CollidableComponent> collidable)
     {
+        NoTileVertically result{false,false};
         auto entities_manager = m_system_manager->get_entity_manager();
         auto jump_component = entities_manager->get_component<JumpComponent>(entity, ComponentType::Jump);
         if (!jump_component->is_grounded())
         {
-            return;
+            result = {false,true};
+            return result;
         }
 
         auto tile_size = m_map->get_tile_size();
@@ -122,7 +143,7 @@ namespace Engine
         uint32_t to_x = floor((entity_rect.left + entity_rect.width) / m_map->get_tile_size().x);
         uint32_t y = floor(entity_rect.top / m_map->get_tile_size().y);
 
-        for (auto x = from_x; x <= to_x; x++)
+        for (auto x = from_x; x <= to_x - 1; x++)
         {
             auto tile = m_map->get_tile(position_component->get_elevation(), {static_cast<int>(x), static_cast<int>(y + 1)});
             if (!tile)
@@ -130,17 +151,68 @@ namespace Engine
                 continue;
             }
             else
+            {          
+                result.below = true;
+            }
+        }
+
+        for (auto x = from_x; x <= to_x - 1; x++)
+        {
+            auto tile = m_map->get_tile(position_component->get_elevation(), {static_cast<int>(x), static_cast<int>(y - 1)});
+            if (!tile)
             {
-                return;
+                continue;
+            }
+            else
+            {          
+                result.above = true;
             }
         }
         
-        jump_component->set_grounded(false);
+        return result;
+    }
 
-        Message msg(EntityMessage::Fall);
+    bool JumpSystem::check_collision_with_wall_during_jump_or_fall(EntityId entity)
+    {
+        auto entities_manager = m_system_manager->get_entity_manager();
+        auto jump_component = entities_manager->get_component<JumpComponent>(entity, ComponentType::Jump);
 
-        msg.m_receiver = entity;
+        if (jump_component->is_grounded())
+        {
+            return false;
+        }
 
-        m_system_manager->get_message_handler()->dispatch(msg);
+        auto collidable = entities_manager->get_component<CollidableComponent>(entity, ComponentType::Collidable);
+        const auto tile_size = m_map->get_tile_size();
+        const auto entity_rect = collidable->get_bounding_box();
+        const uint32_t from_x = floor(entity_rect.left / m_map->get_tile_size().x);
+        const uint32_t to_x = floor((entity_rect.left + entity_rect.width) / m_map->get_tile_size().x);
+        const uint32_t y = floor(entity_rect.top / m_map->get_tile_size().y);
+
+        auto move_component = entities_manager->get_component<MovableComponent>(entity, ComponentType::Movable);
+        auto direction = move_component->get_direction();
+        
+        uint32_t x{from_x};
+
+        if (direction==Direction::Left)
+        {
+            x = to_x;
+        }
+
+        auto position_component = entities_manager->get_component<PositionComponent>(entity, ComponentType::Position);
+        auto tile = m_map->get_tile(position_component->get_elevation(), {static_cast<int>(x), static_cast<int>(y + 1)});
+
+        if (tile)
+        {
+            return true;
+        }
+
+        tile = m_map->get_tile(position_component->get_elevation(), {static_cast<int>(x), static_cast<int>(y - 1)});
+        if (tile)
+        {
+            return true;
+        }
+
+        return false;
     }
 } // namespace Engine

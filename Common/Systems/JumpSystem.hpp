@@ -24,9 +24,17 @@ namespace Engine
         void set_map(std::shared_ptr<LayeredMap> map);
 
     private:
-        void check_no_tile_below(EntityId entity, 
+        struct NoTileVertically
+        {
+            bool above{false};
+            bool below{false};
+        };
+
+        NoTileVertically have_tile_above_or_below(EntityId entity, 
             std::shared_ptr<PositionComponent> position_component, 
             std::shared_ptr<CollidableComponent> collidable);
+
+        bool check_collision_with_wall_during_jump_or_fall(EntityId entity);
         std::shared_ptr<LayeredMap> m_map;
         const float m_gravity = 9.8f;
         float m_jump_velocity;

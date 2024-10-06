@@ -2,20 +2,8 @@
     "issues":
     [
         {
-            "task":"Fix double jump",
-            "status":"fixed"
-        },
-        {
-            "task":"Fix moving animation while jumping",
-            "status":"fixed"
-        },
-        {
-            "task":"Fix not falling when no tiles below",
-            "status":"fixed"
-        },
-        {
-            "task":"Fix not jumping animation when falling",
-            "status":"fixed"
+            "task":"Move event hagling to the separate thread",
+            "status":"in progress"
         }
     ]
 }
