@@ -1,6 +1,10 @@
 #pragma once
 
 #include <unordered_map>
+#include <thread>
+#include <condition_variable>
+#include <mutex>
+
 #include "System.hpp"
 #include "Utility/EventQueue.hpp"
 #include "Utility/MessageHandler.hpp"
@@ -24,7 +28,6 @@ namespace Engine
 
         void add_event(const EntityId& entity, const EntityEvent& event);
         void update(float time);
-        void handle_events();
         void draw(std::shared_ptr<Window> window, u_int16_t elevation);
 
         void entity_modified(EntityId entity, const ComponentBitSet& mask);
@@ -39,11 +42,18 @@ namespace Engine
         template<typename T>
         std::shared_ptr<T> get_system(SystemType system_type);
     private:
+        void handle_events_async();
+        void handle_events();
+
         std::unordered_map<SystemType, std::shared_ptr<System>> m_systems;
         std::shared_ptr<EntitiesManager> m_entity_manager;
         std::unordered_map<EntityId, EventQueue> m_event_queues;
         std::shared_ptr<MessageHandler> m_message_handler;
         std::shared_ptr<InfoBox> m_infobox;
+        std::thread m_event_handler_thread;
+        std::condition_variable m_cond_var;
+        std::mutex m_mutex;
+        bool m_stop;
     };
     
     template<typename T>
