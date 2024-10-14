@@ -78,14 +78,6 @@ namespace Engine
             }
         }
             break;
-
-        case EntityEvent::Falling:
-        {
-            auto entity_manager = m_system_manager->get_entity_manager();
-            auto jump_component = entity_manager->get_component<JumpComponent>(entity,ComponentType::Jump);
-            jump_component->set_grounded(false);
-        }
-            break;
         
         default:
             break;
@@ -143,7 +135,7 @@ namespace Engine
         uint32_t to_x = floor((entity_rect.left + entity_rect.width) / m_map->get_tile_size().x);
         uint32_t y = floor(entity_rect.top / m_map->get_tile_size().y);
 
-        for (auto x = from_x; x <= to_x - 1; x++)
+        for (auto x = from_x; x <= to_x; x++)
         {
             auto tile = m_map->get_tile(position_component->get_elevation(), {static_cast<int>(x), static_cast<int>(y + 1)});
             if (!tile)
@@ -156,7 +148,7 @@ namespace Engine
             }
         }
 
-        for (auto x = from_x; x <= to_x - 1; x++)
+        for (auto x = from_x; x <= to_x; x++)
         {
             auto tile = m_map->get_tile(position_component->get_elevation(), {static_cast<int>(x), static_cast<int>(y - 1)});
             if (!tile)

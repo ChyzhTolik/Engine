@@ -118,7 +118,9 @@ namespace Engine
                 {
                     auto state_component = m_system_manager->get_entity_manager()->get_component<StateComponent>(message.m_receiver,ComponentType::State);
 
-                    if (state_component->get_state() == EntityState::Jumping || state_component->get_state() == EntityState::Dying)
+                    if (state_component->get_state() == EntityState::Jumping 
+                        || state_component->get_state() == EntityState::Dying
+                        || state_component->get_state() == EntityState::Falling)
                     {
                         return;
                     }
