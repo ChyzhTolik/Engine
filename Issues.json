@@ -19,7 +19,15 @@
         },
         {
             "task":"Fix stacking on wall while jumping",
-            "status":"not fixed"
+            "status":"fixed"
+        },
+        {
+            "task":"Fix jumping while falling",
+            "status":"fixed"
+        },
+        {
+            "task":"Fix falling when going left",
+            "status":"fixed"
         }
     ]
 }
