@@ -3,6 +3,22 @@
     [
         {
             "task":"Move event hagling to the separate thread",
+            "status":"done"
+        },
+        {
+            "task":"Add bigger map and background picture",
+            "status":"in progress"
+        },
+        {
+            "task":"Add transfer to another map",
+            "status":"in progress"
+        },
+        {
+            "task":"Add another layer to the map",
+            "status":"in progress"
+        },
+        {
+            "task":"Add enemies",
             "status":"in progress"
         }
     ]
