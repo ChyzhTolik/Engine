@@ -443,7 +443,7 @@ namespace Test
 		sf::Clock clock;
 		sf::Time timeSinceLastUpdate = sf::Time::Zero;
 		sf::Time TimePerFrame = sf::seconds(1.f/60);
-
+		std::cout<<"thread id"<<std::this_thread::get_id()<<std::endl;
 		while (!window->IsDone())
 		{
 			window->Update();

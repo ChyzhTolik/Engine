@@ -19,7 +19,4 @@ namespace Engine
     private:
         std::vector<std::shared_ptr<Observer>> m_observers;
     };
-    
-    
-    
 } // namespace Engine

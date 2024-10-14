@@ -12,7 +12,7 @@ namespace Engine
 {
     SystemManager::SystemManager(/* args */) : m_entity_manager{nullptr}, m_message_handler{std::make_shared<MessageHandler>()}
     {
-
+        m_event_handler_thread = std::thread(&SystemManager::handle_events_async, this);
     }
 
     void SystemManager::fill_systems()
@@ -34,6 +34,14 @@ namespace Engine
     SystemManager::~SystemManager()
     {
         purge_systems();
+
+        {
+            std::unique_lock lock(m_mutex);
+            m_stop = true;
+        }
+        
+        m_cond_var.notify_all();
+        m_event_handler_thread.join();
     }
 
     void SystemManager::set_entity_manager(std::shared_ptr<EntitiesManager> entity_manager)
@@ -57,6 +65,7 @@ namespace Engine
     void SystemManager::add_event(const EntityId& entity, const EntityEvent& event)
     {
         m_event_queues[entity].add_event(event);
+        m_cond_var.notify_all();
     }
 
     void SystemManager::update(float time)
@@ -66,7 +75,7 @@ namespace Engine
             itr.second->update(time);
         }
 
-        handle_events();        
+        // handle_events();
     }
 
     void SystemManager::handle_events()
@@ -154,5 +163,29 @@ namespace Engine
     std::shared_ptr<InfoBox> SystemManager::get_infobox()
     {
         return m_infobox;
+    }
+
+    void SystemManager::handle_events_async()
+    {
+        std::unique_lock lock { m_mutex, std::defer_lock };
+        // Start processing loop.
+        while (true)
+        {
+            lock.lock();
+            // Wait for a notification.
+
+            if (!m_stop)
+            {
+                m_cond_var.wait(lock);
+            }
+            else
+            {
+                handle_events();
+                break;
+            }
+            
+            handle_events();
+            lock.unlock();
+        }
     }
 } // namespace Engine
