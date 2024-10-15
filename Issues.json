@@ -36,7 +36,7 @@
         ,
         {
             "task":"Fix not grounding properly after jump on the edge",
-            "status":"not fixed"
+            "status":"fixed"
         }
     ]
 }
