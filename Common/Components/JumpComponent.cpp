@@ -37,7 +37,7 @@ namespace Engine
     void JumpComponent::jump()
     {
         m_jump_velocity = m_jump_info.jump_force;
-        m_grounded = false;
+        set_grounded(false);
     }
 
     float JumpComponent::get_jump_velocity() const

@@ -1,6 +1,7 @@
 #include "CollisionSystem.hpp"
 #include "SystemManager.hpp"
 #include "EntitiesManager.hpp"
+#include <deque>
 
 namespace Engine
 {
@@ -82,7 +83,7 @@ namespace Engine
     void CollisionSystem::map_collisions(EntityId entity, std::shared_ptr<PositionComponent> position, std::shared_ptr<CollidableComponent> collidable)
     {
         auto tile_size = m_map->get_tile_size();
-        std::vector<CollisionInfo> collisions;
+        std::deque<CollisionInfo> collisions;
         auto entity_rect = collidable->get_bounding_box();
 
         uint32_t from_x = floor(entity_rect.left / m_map->get_tile_size().x);
@@ -90,7 +91,7 @@ namespace Engine
         uint32_t from_y = floor(entity_rect.top / m_map->get_tile_size().y);
         uint32_t to_y = floor((entity_rect.top + entity_rect.height) / m_map->get_tile_size().y);
 
-        m_system_manager->get_infobox()->Add("Tile: "+std::to_string(from_x)+","+std::to_string(from_y));
+        // m_system_manager->get_infobox()->Add("Tile: "+std::to_string(from_x)+","+std::to_string(from_y));
 
         for (uint32_t x = from_x; x<= to_x; x++)
         {
@@ -147,9 +148,13 @@ namespace Engine
             float x_diff = entity_rect.left + entity_rect.width/2 - (collision.tile_bounds.left + collision.tile_bounds.width/2);
             float y_diff = entity_rect.top + entity_rect.height/2 - (collision.tile_bounds.top + collision.tile_bounds.height/2);
 
+            m_system_manager->get_infobox()->Add("x_diff="+std::to_string(x_diff));
+            m_system_manager->get_infobox()->Add("y_diff="+std::to_string(y_diff));
+
             float resolve = 0;
 
             if (std::abs(x_diff) > std::abs(y_diff))
+            // if (std::abs(x_diff) > 0)
             {
                 if (x_diff>0)
                 {
