@@ -77,7 +77,7 @@ namespace Engine
 
         auto acc = movable->get_acceleration();
         std::string acc_text = "Acceleration ("+std::to_string(acc.x)+","+std::to_string(acc.y)+")";
-        m_system_manager->get_infobox()->Add(acc_text);
+        // m_system_manager->get_infobox()->Add(acc_text);
 
         movable->add_velocity(movable->get_acceleration()*time);
         movable->set_acceleration({0.f,0.f});

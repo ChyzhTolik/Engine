@@ -205,6 +205,24 @@ namespace Engine
             return true;
         }
 
+        if (m_jump_velocity<=0)
+        {
+            if (direction==Direction::Left)
+            {
+                x = from_x;
+            }
+            else
+            {
+                x = to_x;
+            }
+            tile = m_map->get_tile(position_component->get_elevation(), {static_cast<int>(x), static_cast<int>(y + 1)});
+            if (tile)
+            {
+                return true;
+            }
+        }
+        
+
         return false;
     }
 } // namespace Engine
