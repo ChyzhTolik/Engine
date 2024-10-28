@@ -462,6 +462,7 @@ namespace Test
 			if(repaint)
 			{
 				window->BeginDraw();
+				state_manager->Draw();
 				system_manager->draw(window,0);
 				infobox->Render(window->GetRenderWindow());
 				map->draw();
