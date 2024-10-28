@@ -54,8 +54,8 @@ namespace Engine
 
             std::string position_text = "Position =("+std::to_string(position_component->get_position().x)+","
                 +std::to_string(position_component->get_position().y)+".";
-            m_system_manager->get_infobox()->Add(position_text);
-            m_system_manager->get_infobox()->Add("Velocity=" + std::to_string(m_jump_velocity));
+            // m_system_manager->get_infobox()->Add(position_text);
+            // m_system_manager->get_infobox()->Add("Velocity=" + std::to_string(m_jump_velocity));
         }
     }
 
