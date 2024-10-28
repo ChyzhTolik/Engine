@@ -1,3 +1,6 @@
 [submodule "external/googletest"]
 	path = external/googletest
 	url = https://github.com/ChyzhTolik/googletest_fork.git
+[submodule "external/spdlog_fork"]
+	path = external/spdlog_fork
+	url = https://github.com/ChyzhTolik/spdlog_fork.git

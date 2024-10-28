@@ -17,4 +17,5 @@ namespace Test
     void test_systems();
     void test_converter();
     void test_jumping();
+    void test_spdlog();
 } // namespace Test

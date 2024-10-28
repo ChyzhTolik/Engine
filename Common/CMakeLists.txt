@@ -85,6 +85,8 @@ set(HEADERS
 )
 set(SOURCES 
     Configuration/Configuration.cpp
+
+    CommonHeaders/SharedContext.cpp
     Window/Window.cpp
     Window/EventManager.cpp
     StateManager/States/BaseState.cpp
@@ -140,6 +142,7 @@ set(SOURCES
 add_library(${PROJECT_NAME} SHARED ${HEADERS} ${SOURCES})
 
 set (INCLUDES ${CMAKE_SOURCE_DIR}/external/include)
+set (SPDLOG ${CMAKE_SOURCE_DIR}/external/spdlog/include)
 
 if(UNIX)
     set(UNIX_LIBS ${CMAKE_SOURCE_DIR}/external/UNIX)
@@ -156,6 +159,7 @@ if(UNIX)
 endif(UNIX)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDES})
+target_include_directories(${PROJECT_NAME} PUBLIC ${SPDLOG})
 target_include_directories(${PROJECT_NAME} PUBLIC Configuration)
 target_include_directories(${PROJECT_NAME} PUBLIC Window)
 target_include_directories(${PROJECT_NAME} PUBLIC StateManager)

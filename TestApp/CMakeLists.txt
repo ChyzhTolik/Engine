@@ -12,9 +12,13 @@ set(SOURCES
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
+set (SPDLOG ${CMAKE_SOURCE_DIR}/external/spdlog/include)
+
 target_link_libraries(${PROJECT_NAME} Common)
 target_link_libraries(${PROJECT_NAME} Game)
+target_link_libraries(${PROJECT_NAME} spdlog::spdlog_header_only)
 
+target_include_directories(${PROJECT_NAME} PUBLIC ${SPDLOG})
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/Common)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/Game)
 

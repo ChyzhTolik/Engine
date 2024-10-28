@@ -92,6 +92,8 @@ namespace Engine
         uint32_t to_y = floor((entity_rect.top + entity_rect.height) / m_map->get_tile_size().y);
 
         m_system_manager->get_infobox()->Add("Tile: "+std::to_string(from_x)+","+std::to_string(from_y));
+        auto logger = m_system_manager->get_logger();
+        logger->info("Tile: {}, {}", std::to_string(from_x), std::to_string(from_y));
 
         for (uint32_t x = from_x; x<= to_x; x++)
         {

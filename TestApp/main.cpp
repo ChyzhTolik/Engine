@@ -14,4 +14,5 @@ int main()
     Test::test_systems();
     // Test::test_converter();
     // Test::test_jumping();
+    // Test::test_spdlog();
 }
