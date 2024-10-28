@@ -343,7 +343,7 @@ namespace Test
 	void test_systems()
 	{
 		Engine::Configuration::Initialize();
-		sf::Vector2u window_size{800,600};
+		sf::Vector2u window_size{900,640};
 		std::shared_ptr<Engine::Window> window = std::make_shared<Engine::Window>("Knight Game", window_size);
 
 		Engine::SharedContext context;
@@ -375,7 +375,7 @@ namespace Test
 		context.m_entities_manager = entities_manager;
 
 		auto map = std::make_shared<Engine::LayeredMap>(context);
-        map->load_from_file("media/map/GameMap2.json");
+        map->load_from_file("media/map/GameMap1Level.json");
 		context.m_game_map = map;
 
 		std::shared_ptr<Engine::StateManager> state_manager = std::make_shared<Engine::StateManager>(context);
@@ -456,16 +456,17 @@ namespace Test
 				timeSinceLastUpdate -= TimePerFrame;
 				repaint = true;
 				system_manager->update(TimePerFrame.asSeconds());
-				sprite_sheet2.Update(TimePerFrame.asSeconds());
+				// sprite_sheet2.Update(TimePerFrame.asSeconds());
 			}
 
 			if(repaint)
 			{
 				window->BeginDraw();
+				state_manager->Draw();
 				system_manager->draw(window,0);
 				infobox->Render(window->GetRenderWindow());
 				map->draw();
-				sprite_sheet2.Draw(window->GetRenderWindow());
+				// sprite_sheet2.Draw(window->GetRenderWindow());
 				window->EndDraw();
 			}
 		}

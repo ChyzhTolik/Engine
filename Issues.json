@@ -19,7 +19,24 @@
         },
         {
             "task":"Fix stacking on wall while jumping",
+            "status":"fixed"
+        },
+        {
+            "task":"Fix jumping while falling",
+            "status":"fixed"
+        },
+        {
+            "task":"Fix falling when going left",
+            "status":"fixed"
+        },
+        {
+            "task":"Fix going through the wall during the jump",
             "status":"not fixed"
+        }
+        ,
+        {
+            "task":"Fix not grounding properly after jump on the edge",
+            "status":"fixed"
         }
     ]
 }

@@ -37,13 +37,13 @@ namespace Engine
             auto sprite_sheet = drawable_component->get_sprite_sheet();
             sprite_sheet->Update(time);
 
-            m_system_manager->get_infobox()->Add("Time:"+std::to_string(time));
+            // m_system_manager->get_infobox()->Add("Time:"+std::to_string(time));
 
             auto animation = sprite_sheet->GetCurrentAnim();
 
             if (animation->is_attack())
             {
-                m_system_manager->get_infobox()->Add("Attack animation");
+                // m_system_manager->get_infobox()->Add("Attack animation");
                 if (!sprite_sheet->GetCurrentAnim()->is_playing())                
                 {
                     Message message(EntityMessage::Switch_State);

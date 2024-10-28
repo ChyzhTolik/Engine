@@ -1,6 +1,7 @@
 #include "CollisionSystem.hpp"
 #include "SystemManager.hpp"
 #include "EntitiesManager.hpp"
+#include <deque>
 
 namespace Engine
 {
@@ -82,7 +83,7 @@ namespace Engine
     void CollisionSystem::map_collisions(EntityId entity, std::shared_ptr<PositionComponent> position, std::shared_ptr<CollidableComponent> collidable)
     {
         auto tile_size = m_map->get_tile_size();
-        std::vector<CollisionInfo> collisions;
+        std::deque<CollisionInfo> collisions;
         auto entity_rect = collidable->get_bounding_box();
 
         uint32_t from_x = floor(entity_rect.left / m_map->get_tile_size().x);
@@ -102,14 +103,14 @@ namespace Engine
                 {
                     continue;
                 }
-                
 
                 if (!m_map->is_solid(position->get_elevation()))
                 {
                     continue;
                 }
 
-                sf::FloatRect tile_rect(sf::Vector2f(x*m_map->get_tile_size().x, y*m_map->get_tile_size().y),static_cast<sf::Vector2f>(m_map->get_tile_size()));
+                sf::FloatRect tile_rect(sf::Vector2f(x*m_map->get_tile_size().x, y*m_map->get_tile_size().y),
+                    static_cast<sf::Vector2f>(m_map->get_tile_size()));
                 
                 auto intersection = entity_rect.findIntersection(tile_rect);
                 if (!intersection.has_value())
@@ -124,6 +125,7 @@ namespace Engine
                 break;
             }
         }
+        m_system_manager->get_infobox()->Add("collisions ="+std::to_string(collisions.size()));
         
         if (collisions.empty())
         {
@@ -134,6 +136,12 @@ namespace Engine
         {
             return l1.area > l2.area;
         });
+
+        if (collisions.size()==2)
+        {
+            m_system_manager->get_infobox()->Add("collisions ="+std::to_string(collisions.size()));
+        }
+        
         
         for (auto &&collision : collisions)
         {

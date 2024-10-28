@@ -25,7 +25,7 @@ namespace Engine
 	{
 		textures.load(Textures::Player, "media/Player/Ship.png");
 		textures.load(Textures::Tiles, "media/Player/tiles.png");
-		textures.load(Textures::Background, "media/img/bg2.png");
+		textures.load(Textures::Background, "media/img/background.jpg");
 		textures.load(Textures::Biomenace, "media/SpriteSheets/BiomenaceSheet.gif");
 		textures.load(Textures::Intro, "media/img/intro.png");
 		textures.load(Textures::Mushroom, "media/img/Mushroom.png");

@@ -54,8 +54,8 @@ namespace Engine
 
             std::string position_text = "Position =("+std::to_string(position_component->get_position().x)+","
                 +std::to_string(position_component->get_position().y)+".";
-            m_system_manager->get_infobox()->Add(position_text);
-            m_system_manager->get_infobox()->Add("Velocity=" + std::to_string(m_jump_velocity));
+            // m_system_manager->get_infobox()->Add(position_text);
+            // m_system_manager->get_infobox()->Add("Velocity=" + std::to_string(m_jump_velocity));
         }
     }
 
@@ -76,14 +76,6 @@ namespace Engine
                 jump_component->set_grounded(true);
                 m_system_manager->add_event(entity, EntityEvent::Became_Idle);
             }
-        }
-            break;
-
-        case EntityEvent::Falling:
-        {
-            auto entity_manager = m_system_manager->get_entity_manager();
-            auto jump_component = entity_manager->get_component<JumpComponent>(entity,ComponentType::Jump);
-            jump_component->set_grounded(false);
         }
             break;
         
@@ -143,7 +135,7 @@ namespace Engine
         uint32_t to_x = floor((entity_rect.left + entity_rect.width) / m_map->get_tile_size().x);
         uint32_t y = floor(entity_rect.top / m_map->get_tile_size().y);
 
-        for (auto x = from_x; x <= to_x - 1; x++)
+        for (auto x = from_x; x <= to_x; x++)
         {
             auto tile = m_map->get_tile(position_component->get_elevation(), {static_cast<int>(x), static_cast<int>(y + 1)});
             if (!tile)
@@ -156,7 +148,7 @@ namespace Engine
             }
         }
 
-        for (auto x = from_x; x <= to_x - 1; x++)
+        for (auto x = from_x; x <= to_x; x++)
         {
             auto tile = m_map->get_tile(position_component->get_elevation(), {static_cast<int>(x), static_cast<int>(y - 1)});
             if (!tile)
@@ -212,6 +204,24 @@ namespace Engine
         {
             return true;
         }
+
+        if (m_jump_velocity<=0)
+        {
+            if (direction==Direction::Left)
+            {
+                x = from_x;
+            }
+            else
+            {
+                x = to_x;
+            }
+            tile = m_map->get_tile(position_component->get_elevation(), {static_cast<int>(x), static_cast<int>(y + 1)});
+            if (tile)
+            {
+                return true;
+            }
+        }
+        
 
         return false;
     }

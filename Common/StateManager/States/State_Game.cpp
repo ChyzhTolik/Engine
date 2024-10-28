@@ -36,7 +36,14 @@ namespace Engine
 				m_background_sprite.getTextureRect().top + m_background_sprite.getTexture()->getSize().y / 2.f
 			}
 		);
-        m_background_sprite.setScale({3.125f,4.17f});
+
+        auto texture_size = m_background_sprite.getTextureRect().getSize();
+        auto window_size = m_stateMgr.GetContext().m_wind->GetWindowSize();
+
+        sf::Vector2f ratio = {1.f*window_size.x/texture_size.x, 1.f*window_size.y/texture_size.y};
+
+        m_background_sprite.setScale(ratio);
+        m_background_sprite.setPosition({window_size.x/2.0f, window_size.y/2.0f});
         std::shared_ptr<EventManager> evMgr = m_stateMgr.GetContext().m_eventManager;
         evMgr->add_action(StateType::Game,"Key_P",std::make_unique<PauseAction>(*this));
         evMgr->add_action(StateType::Game,"Player_MoveRight",std::make_unique<MoveAction>(*this));
@@ -62,7 +69,7 @@ namespace Engine
     void State_Game::Draw()
     {
         sf::Sprite sprite(Engine::Configuration::textures.get(Engine::Configuration::Textures::Background));
-		m_stateMgr.GetContext().m_wind->Draw(sprite);
+		m_stateMgr.GetContext().m_wind->Draw(m_background_sprite);
     }
 
     State_Game::ClickAction::ClickAction(State_Game& state) : m_state(state)

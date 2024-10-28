@@ -20,6 +20,10 @@
         {
             "task":"Add enemies",
             "status":"in progress"
+        },
+        {
+            "task":"Add separate media files for Tests",
+            "status":"in progress"
         }
     ]
 }

@@ -6,7 +6,7 @@ include(CTest)
 enable_testing()
 
 add_subdirectory(external)
-add_subdirectory(Tests)
+# add_subdirectory(Tests)
 add_subdirectory(Common)
 add_subdirectory(TestApp)
 add_subdirectory(Game)

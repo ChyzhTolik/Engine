@@ -17,7 +17,7 @@
         {
             "TileSet" : "KnightTileSet",
             "Position" : 0,
-            "file" : "map_layer1Test.json",
+            "file" : "map_layer1Level1.json",
             "Solid" : true
         }
     ],
@@ -32,8 +32,8 @@
     "Gravity":512,
     "MapSize":
     {
-        "width" : 23,
-        "height" : 15
+        "width" : 41,
+        "height" : 20
     },
     "NextMap":"empty",
     "PlayerStartPos":[2,10],
