@@ -7,21 +7,15 @@
 #include "SystemManager.hpp"
 #include "EntitiesManager.hpp"
 
+#include "spdlog/spdlog.h"
+
 namespace Engine
 {
     class LayeredMap;
 
     struct SharedContext
     {
-        SharedContext()
-            :m_wind(nullptr)
-            ,m_eventManager(nullptr)
-            ,m_game_map(nullptr)
-            ,m_system_manager(nullptr)
-            ,m_entities_manager(nullptr)
-        {
-
-        }
+        SharedContext();
             
         std::shared_ptr<Window> m_wind;
         std::shared_ptr<EventManager> m_eventManager;
@@ -29,6 +23,7 @@ namespace Engine
         std::shared_ptr<InfoBox> m_info_box;
         std::shared_ptr<SystemManager> m_system_manager;
         std::shared_ptr<EntitiesManager> m_entities_manager;
+        std::shared_ptr<spdlog::logger> m_log_file;
     };
 }// namespace Engine
 

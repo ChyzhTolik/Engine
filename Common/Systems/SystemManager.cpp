@@ -188,4 +188,14 @@ namespace Engine
             lock.unlock();
         }
     }
+
+    void SystemManager::set_logger(std::shared_ptr<spdlog::logger> log_file)
+    {
+        m_log_file = log_file;
+    }
+
+    std::shared_ptr<spdlog::logger> SystemManager::get_logger()
+    {
+        return m_log_file;
+    }
 } // namespace Engine

@@ -361,6 +361,7 @@ namespace Test
 		entities_manager->set_player_id(id);
 		system_manager->set_entity_manager(entities_manager);
 		system_manager->set_infobox(infobox);
+		system_manager->set_logger(context.m_log_file);
 
 		auto sprite_sheet_component = 
         	entities_manager->get_component<Engine::SpriteSheetComponent<Engine::KnightAnimations>>(id, Engine::ComponentType::SpriteSheet);
@@ -535,5 +536,23 @@ namespace Test
 				window->EndDraw();
 			}
 		}
+	}
+
+	void test_spdlog()
+	{
+		// Default thread pool settings can be modified *before* creating the async logger:
+		// spdlog::init_thread_pool(32768, 1); // queue with max 32k items 1 backing thread.
+		auto async_file =
+			spdlog::basic_logger_mt<spdlog::async_factory>("async_file_logger", "logs/async_log.txt");
+		// alternatively:
+		// auto async_file =
+		// spdlog::create_async<spdlog::sinks::basic_file_sink_mt>("async_file_logger",
+		// "logs/async_log.txt");
+
+		for (int i = 1; i < 101; ++i) {
+			async_file->info("Async message #{}", i);
+		}
+
+		std::vector<int> vec = {1, 2, 3};
 	}
 } // namespace Test

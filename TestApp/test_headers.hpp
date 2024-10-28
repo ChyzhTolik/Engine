@@ -45,5 +45,11 @@
 
 #include "TestClasses/Hero.hpp"
 
+#include "spdlog/spdlog.h"
+#include "spdlog/cfg/env.h"   // support for loading levels from the environment variable
+#include "spdlog/fmt/ostr.h"
+#include "spdlog/async.h"
+#include "spdlog/sinks/basic_file_sink.h"
+
 #include <nlohmann/json.hpp>
 using nlohmann::json;

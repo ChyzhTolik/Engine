@@ -10,6 +10,7 @@
 #include "Utility/MessageHandler.hpp"
 #include "Window.hpp"
 #include "InfoBox.hpp"
+#include "spdlog/spdlog.h"
 
 namespace Engine
 {
@@ -39,6 +40,9 @@ namespace Engine
         void set_infobox(std::shared_ptr<InfoBox> infobox);
         std::shared_ptr<InfoBox> get_infobox();
 
+        void set_logger(std::shared_ptr<spdlog::logger> log_file);
+        std::shared_ptr<spdlog::logger> get_logger();
+
         template<typename T>
         std::shared_ptr<T> get_system(SystemType system_type);
     private:
@@ -50,6 +54,8 @@ namespace Engine
         std::unordered_map<EntityId, EventQueue> m_event_queues;
         std::shared_ptr<MessageHandler> m_message_handler;
         std::shared_ptr<InfoBox> m_infobox;
+        std::shared_ptr<spdlog::logger> m_log_file;
+
         std::thread m_event_handler_thread;
         std::condition_variable m_cond_var;
         std::mutex m_mutex;
