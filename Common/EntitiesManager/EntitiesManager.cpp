@@ -202,15 +202,15 @@ namespace Engine
     EntityId EntitiesManager::add_entity(std::string_view file_name)
     {
         EntityId entity_id;
-        std::fstream map_file{static_cast<std::string>(file_name)};
+        std::fstream entity_file{static_cast<std::string>(file_name)};
 
-        if (!map_file.good())
+        if (!entity_file.good())
         { 
             std::cout << "! Failed loading " << file_name << "." << std::endl; 
             return -1; 
         }
 
-        json jf = json::parse(map_file);
+        json jf = json::parse(entity_file);
 
         EntityInfo entity_info = jf.at("EntityInfo");
         std::reverse(entity_info.components.begin(),entity_info.components.end());

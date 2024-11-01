@@ -114,7 +114,11 @@ namespace Engine
         switch (event)
         {
         case EntityEvent::Colliding_X:
-            stop_entity(entity,Axis::x);
+            {
+                auto logger = m_system_manager->get_logger();
+                logger->info("Colliding_X");
+                stop_entity(entity,Axis::x);
+            }
             break;
 
         case EntityEvent::Colliding_Y:

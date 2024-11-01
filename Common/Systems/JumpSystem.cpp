@@ -65,6 +65,8 @@ namespace Engine
         {
         case EntityEvent::Colliding_Y:
         {
+            auto logger = m_system_manager->get_logger();
+            logger->info("Colliding_Y");
             auto entity_manager = m_system_manager->get_entity_manager();            
 
             auto position_component = entity_manager->get_component<PositionComponent>(entity, ComponentType::Position);
