@@ -19,6 +19,7 @@ namespace Engine
         State,
         SheetAnimation,
         Jump,
+        JumpCollision,
         All,
     };
 
@@ -36,8 +37,6 @@ namespace Engine
         bool add_entity(EntityId id);
         bool has_entity(EntityId id);
         bool remove_entity(EntityId id);
-
-        SystemType get_type() const;
 
         bool fits_requirements(const ComponentBitSet& mask);
         void purge();

@@ -27,7 +27,31 @@
         },
         {
             "task":"Add spdlog",
-            "status":"in progress"
+            "status":"done"
+        },
+        {
+            "task":"Add moving on map with static background",
+            "status":"in progres"
+        },
+        {
+            "task":"Check rule of three",
+            "status":"in progres"
+        },
+        {
+            "task":"Remove shared_ptr in system manager",
+            "status":"in progres"
+        },
+        {
+            "task":"Add thread pool for events",
+            "status":"in progres"
+        },
+        {
+            "task":"replace dynamic_pointer_cast with static_cast",
+            "status":"in progres"
+        },
+        {
+            "task":"Remove Entities folder",
+            "status":"in progres"
         }
     ]
 }

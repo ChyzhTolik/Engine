@@ -46,11 +46,6 @@ namespace Engine
             collidable_component->set_position(position_component->get_position());
             collidable_component->resset_collision_flags();
 
-            // m_system_manager->get_infobox()->Add("Bounding box left="+std::to_string(collidable_component->get_bounding_box().left)+
-            //     ", top="+std::to_string(collidable_component->get_bounding_box().top));
-            // m_system_manager->get_infobox()->Add("Bounding box width="+std::to_string(collidable_component->get_bounding_box().width)+
-            //     ", height="+std::to_string(collidable_component->get_bounding_box().height));
-
             check_out_of_bounds(position_component, collidable_component);
             map_collisions(entity, position_component, collidable_component);
         }        
@@ -124,7 +119,6 @@ namespace Engine
 
                 CollisionInfo element = {square, tile, tile_rect};
                 collisions.emplace_back(element);
-                break;
             }
         }
         m_system_manager->get_infobox()->Add("collisions ="+std::to_string(collisions.size()));
@@ -138,13 +132,9 @@ namespace Engine
         {
             return l1.area > l2.area;
         });
+        
+        logger->info("collision size: {}", collisions.size());
 
-        if (collisions.size()==2)
-        {
-            m_system_manager->get_infobox()->Add("collisions ="+std::to_string(collisions.size()));
-        }
-        
-        
         for (auto &&collision : collisions)
         {
             entity_rect = collidable->get_bounding_box();
@@ -156,6 +146,11 @@ namespace Engine
             
             float x_diff = entity_rect.left + entity_rect.width/2 - (collision.tile_bounds.left + collision.tile_bounds.width/2);
             float y_diff = entity_rect.top + entity_rect.height/2 - (collision.tile_bounds.top + collision.tile_bounds.height/2);
+            logger->info("entity_rect: left={}, top = {}, width = {}, height = {}", 
+                entity_rect.left, entity_rect.top, entity_rect.width, entity_rect.height);
+            logger->info("collision.tile_bounds: left={}, top = {}, width = {}, height = {}", 
+                collision.tile_bounds.left, collision.tile_bounds.top, collision.tile_bounds.width, collision.tile_bounds.height);
+            logger->info("collisions: x_diff={}, y_diff = {}", x_diff, y_diff);
 
             float resolve = 0;
 
@@ -169,6 +164,8 @@ namespace Engine
                 {
                     resolve = -(entity_rect.left + entity_rect.width - collision.tile_bounds.left); 
                 }
+
+                logger->info("std::abs(x_diff) > std::abs(y_diff) resolve = {}", resolve);
                 
                 position->move_by({resolve, 0.f});
                 collidable->set_position(position->get_position());
@@ -186,6 +183,8 @@ namespace Engine
                 {
                     resolve = -(entity_rect.top + entity_rect.height - collision.tile_bounds.top); 
                 }
+
+                logger->info("std::abs(x_diff) < std::abs(y_diff) resolve = {}", resolve);
                 
                 position->move_by({0.f, resolve});
                 collidable->set_position(position->get_position());

@@ -48,7 +48,6 @@ namespace Engine
                 message.m_receiver = entity;
                 m_system_manager->get_message_handler()->dispatch(message);
             }
-            
         }
     }
 
@@ -128,6 +127,7 @@ namespace Engine
                     EntityEvent event = EntityEvent::Jumping;
                     m_system_manager->add_event(message.m_receiver, event);
                     change_state(message.m_receiver, EntityState::Jumping, false);
+                    m_system_manager->get_logger()->info("Jumped");
                 }
                 break;
             
